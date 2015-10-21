@@ -1,0 +1,9 @@
+# Created by https://www.gitignore.io/api/phoenix
+
+### phoenix ###
+# Phoenix: a web framework for Elixir
+_build/
+deps/
+node_modules/
+priv/
+

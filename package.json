@@ -1,0 +1,30 @@
+{
+  "name": "opencov",
+  "version": "0.1.0",
+  "description": "Open sourced coverage tool",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Perez <daniel@claudetech.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-loader": "^5.3.2",
+    "babel-runtime": "^5.8.25",
+    "css-loader": "^0.20.2",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "file-loader": "^0.8.4",
+    "jade": "^1.11.0",
+    "jade-loader": "^0.7.1",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.12.2"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.5",
+    "riot": "^2.2.4"
+  }
+}
