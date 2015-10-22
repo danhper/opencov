@@ -1,0 +1,28 @@
+<h2>Show build</h2>
+
+<ul>
+
+  <li>
+    <strong>Number:</strong>
+    <%= @build.number %>
+  </li>
+
+  <li>
+    <strong>Project:</strong>
+    <%= @build.project_id %>
+  </li>
+
+  <li>
+    <strong>Coverage:</strong>
+    <%= @build.coverage %>
+  </li>
+
+  <li>
+    <strong>Variation:</strong>
+    <%= @build.variation %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: build_path(@conn, :edit, @build) %>
+<%= link "Back", to: build_path(@conn, :index) %>

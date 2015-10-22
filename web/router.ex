@@ -19,5 +19,8 @@ defmodule Opencov.Router do
     get "/", PageController, :index
 
     resources "/projects", ProjectController
+    resources "/builds", BuildController
+    resources "/jobs", JobController
+    resources "/files", FileController
   end
 end

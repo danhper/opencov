@@ -1,0 +1,6 @@
+<h2>New file</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: file_path(@conn, :create) %>
+
+<%= link "Back", to: file_path(@conn, :index) %>

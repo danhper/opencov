@@ -1,0 +1,71 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+      <ul>
+        <%= for {attr, message} <- f.errors do %>
+          <li><%= humanize(attr) %> <%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :build_id, "Build", class: "control-label" %>
+    <%= number_input f, :build_id, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :commit_sha, "Commit sha", class: "control-label" %>
+    <%= text_input f, :commit_sha, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :author_name, "Author name", class: "control-label" %>
+    <%= text_input f, :author_name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :author_email, "Author email", class: "control-label" %>
+    <%= text_input f, :author_email, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :commit_message, "Commit message", class: "control-label" %>
+    <%= textarea f, :commit_message, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :branch, "Branch", class: "control-label" %>
+    <%= text_input f, :branch, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :coverage, "Coverage", class: "control-label" %>
+    <%= number_input f, :coverage, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :old_coverage, "Old coverage", class: "control-label" %>
+    <%= number_input f, :old_coverage, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :run_at, "Run at", class: "control-label" %>
+    <%= datetime_select f, :run_at, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :files_count, "Files count", class: "control-label" %>
+    <%= number_input f, :files_count, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :number, "Number", class: "control-label" %>
+    <%= number_input f, :number, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
