@@ -20,11 +20,15 @@
     "jade": "^1.11.0",
     "jade-loader": "^0.7.1",
     "style-loader": "^0.13.0",
+    "stylus-loader": "^1.4.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.2"
   },
   "dependencies": {
     "bootstrap": "^3.3.5",
+    "highlight.js": "^8.9.1",
+    "jquery": "^2.1.4",
+    "lodash": "^3.10.1",
     "riot": "^2.2.4"
   }
 }

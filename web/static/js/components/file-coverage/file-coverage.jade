@@ -1,3 +1,14 @@
-table
+table.table.source
   caption { file.name }
-
+  tbody
+    tr(
+      each="{ line, i in coverageInfo }"
+      class="{covered: line[1] > 0, missed: line[1] === 0}"
+    )
+      td.num { i + 1 }
+      td.code
+        pre
+         raw(html="{ line[0] }")
+      td.hits
+        span.hits-number(if="{ line[1] > 0 }") { line[1] }
+        span.missed-sign(if="{ line[1] === 0 }") ✗

@@ -1,0 +1,39 @@
+file-coverage
+  .table.source
+    caption
+      padding-left 4em
+    tbody
+      background-color #fafaf0
+      border-radius 5px
+      tr
+        height 1.5em
+        &.covered
+          background-color rgba(95,151,68,0.2)
+        &.missed
+          background-color rgba(185,73,71,0.3)
+        td
+          border-top none
+          margin 0
+          padding 0 0.5em
+          vertical-align middle
+          &.num
+            padding 0 0 0 0.5em
+            font-size 0.8em
+            border-right 1px solid #ccc
+          &.code
+            pre
+              background-color inherit
+              padding 0
+              border none
+              margin 0
+          &.hits
+            font-size 0.8em
+            text-align right
+            span
+              border-radius 5px
+              padding 0 0.5em
+              &.hits-number
+                background-color rgba(95,151,68,0.4)
+              &.missed-sign
+                background-color rgba(185,73,71,0.5)
+

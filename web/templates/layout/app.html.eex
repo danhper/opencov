@@ -7,25 +7,36 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Phoenix!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <title>Opencov</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/js/vendor.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/js/app.css") %>">
   </head>
 
   <body>
-    <div class="container" role="main">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-        </ul>
-        <span class="logo"></span>
+
+  <div class="container-fluid">
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Opencov</a>
+        </div>
       </div>
+    </nav>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <% if get_flash(@conn, :info) do %>
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <% end %>
+      <% if get_flash(@conn, :error) do %>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <% end %>
 
-      <%= @inner %>
+      <div class="container">
+       <%= @inner %>
+      </div>
+    </div>
 
     </div> <!-- /container -->
+    <script src="<%= static_path(@conn, "/js/vendor.bundle.js") %>"></script>
     <script src="<%= static_path(@conn, "/js/bundle.js") %>"></script>
   </body>
 </html>
