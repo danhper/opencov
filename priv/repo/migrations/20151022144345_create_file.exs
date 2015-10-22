@@ -8,12 +8,14 @@ defmodule Opencov.Repo.Migrations.CreateFile do
       add :source, :text, null: false
       add :coverage_lines, :text, null: false
       add :coverage, :float, null: false
-      add :old_coverage, :float
+      add :previous_coverage, :float
+      add :previous_file_id, :integer
 
       timestamps
     end
 
     create index(:files, [:job_id])
     create unique_index(:files, [:job_id, :name])
+    create index(:files, [:previous_file_id])
   end
 end

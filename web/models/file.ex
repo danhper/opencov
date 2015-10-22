@@ -2,17 +2,18 @@ defmodule Opencov.File do
   use Opencov.Web, :model
 
   schema "files" do
-    field :job_id, :integer
     field :name, :string
     field :source, :string
     field :coverage, :float
     field :coverage_lines, :string
     field :old_coverage, :float
 
+    belongs_to :job, Opencov.Job
+
     timestamps
   end
 
-  @required_fields ~w(job_id name source coverage coverage old_coverage)
+  @required_fields ~w(job_id name source coverage_lines)
   @optional_fields ~w()
 
   @doc """

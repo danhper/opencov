@@ -2,7 +2,6 @@ defmodule Opencov.Job do
   use Opencov.Web, :model
 
   schema "jobs" do
-    field :build_id, :integer
     field :commit_sha, :string
     field :author_name, :string
     field :author_email, :string
@@ -14,11 +13,14 @@ defmodule Opencov.Job do
     field :files_count, :integer
     field :number, :integer
 
+    has_one :build, Opencov.Build
+    has_many :files, Opencov.File
+
     timestamps
   end
 
-  @required_fields ~w(build_id commit_sha author_name author_email commit_message branch coverage old_coverage run_at files_count number)
-  @optional_fields ~w()
+  @required_fields ~w(build_id coverage number)
+  @optional_fields ~w(run_at commit_sha author_name author_email commit_message branch)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
