@@ -1,0 +1,30 @@
+<h2>Listing projects</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Token</th>
+      <th>Current coverage</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for project <- @projects do %>
+    <tr>
+      <td><%= project.name %></td>
+      <td><%= project.token %></td>
+      <td><%= project.current_coverage %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: project_path(@conn, :show, project), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: project_path(@conn, :edit, project), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New project", to: project_path(@conn, :new) %>

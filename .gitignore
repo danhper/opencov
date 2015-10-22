@@ -5,5 +5,5 @@
 _build/
 deps/
 node_modules/
-priv/
+priv/static/
 
