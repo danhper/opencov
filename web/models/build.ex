@@ -54,4 +54,17 @@ defmodule Opencov.Build do
       limit: 1
     )
   end
+
+  def for_project(project) do
+    build = Opencov.Repo.one(
+      from b in Opencov.Build,
+      select: b,
+      where: b.completed == false
+    )
+    if build do
+      build
+    else
+      Ecto.Model.build(project, :builds)
+    end
+  end
 end

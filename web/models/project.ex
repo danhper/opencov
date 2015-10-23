@@ -7,6 +7,8 @@ defmodule Opencov.Project do
     field :current_coverage, :float
     field :base_url, :string
 
+    has_many :builds, Opencov.Build
+
     timestamps
   end
 
