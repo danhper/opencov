@@ -27,11 +27,6 @@
     <%= @file.coverage %>
   </li>
 
-  <li>
-    <strong>Old coverage:</strong>
-    <%= @file.old_coverage %>
-  </li>
-
 </ul>
 
 <%= link "Edit", to: file_path(@conn, :edit, @file) %>

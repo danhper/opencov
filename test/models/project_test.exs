@@ -3,7 +3,7 @@ defmodule Opencov.ProjectTest do
 
   alias Opencov.Project
 
-  @valid_attrs %{current_coverage: "120.5", name: "some content", token: "some content"}
+  @valid_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

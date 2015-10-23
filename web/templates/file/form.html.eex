@@ -26,21 +26,6 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :coverage, "Coverage", class: "control-label" %>
-    <%= textarea f, :coverage, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :coverage, "Coverage", class: "control-label" %>
-    <%= number_input f, :coverage, step: "any", class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :old_coverage, "Old coverage", class: "control-label" %>
-    <%= number_input f, :old_coverage, step: "any", class: "form-control" %>
-  </div>
-
-  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

@@ -17,11 +17,6 @@
     <%= @build.coverage %>
   </li>
 
-  <li>
-    <strong>Variation:</strong>
-    <%= @build.variation %>
-  </li>
-
 </ul>
 
 <%= link "Edit", to: build_path(@conn, :edit, @build) %>

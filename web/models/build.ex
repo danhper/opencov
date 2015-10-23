@@ -22,12 +22,6 @@ defmodule Opencov.Build do
   before_insert :set_build_started_at
   before_insert :set_previous_values
 
-  @doc """
-  Creates a changeset based on the `model` and `params`.
-
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
-  """
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
@@ -42,15 +36,12 @@ defmodule Opencov.Build do
   end
 
   defp set_previous_values(changeset) do
-    previous_build = get_change(changeset, :previous_build)
-    unless previous_build do
-      previous_build = search_build_before(get_change(changeset, :number))
-      if previous_build, do: changeset = put_change(changeset, :previous_build_id, previous_build.id)
-    end
-    if !previous_build or get_change(changeset, :previous_coverage) do
-      changeset
+    build_number = get_change(changeset, :number)
+    if build_number, do: previous_build = search_build_before(build_number)
+    if previous_build do
+      change(changeset, %{previous_build_id: previous_build.id, previous_coverage: previous_build.coverage})
     else
-      put_change(changeset, :previous_coverage, previous_build.coverage)
+      changeset
     end
   end
 

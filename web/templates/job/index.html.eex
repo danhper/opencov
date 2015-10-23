@@ -10,7 +10,6 @@
       <th>Commit message</th>
       <th>Branch</th>
       <th>Coverage</th>
-      <th>Old coverage</th>
       <th>Run at</th>
       <th>Files count</th>
       <th>Number</th>
@@ -28,7 +27,6 @@
       <td><%= job.commit_message %></td>
       <td><%= job.branch %></td>
       <td><%= job.coverage %></td>
-      <td><%= job.old_coverage %></td>
       <td><%= job.run_at %></td>
       <td><%= job.files_count %></td>
       <td><%= job.number %></td>

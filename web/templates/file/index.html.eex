@@ -7,8 +7,6 @@
       <th>Name</th>
       <th>Source</th>
       <th>Coverage</th>
-      <th>Coverage</th>
-      <th>Old coverage</th>
 
       <th></th>
     </tr>
@@ -20,8 +18,6 @@
       <td><%= file.name %></td>
       <td><%= file.source %></td>
       <td><%= file.coverage %></td>
-      <td><%= file.coverage %></td>
-      <td><%= file.old_coverage %></td>
 
       <td class="text-right">
         <%= link "Show", to: file_path(@conn, :show, file), class: "btn btn-default btn-xs" %>

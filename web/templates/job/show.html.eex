@@ -38,11 +38,6 @@
   </li>
 
   <li>
-    <strong>Old coverage:</strong>
-    <%= @job.old_coverage %>
-  </li>
-
-  <li>
     <strong>Run at:</strong>
     <%= @job.run_at %>
   </li>

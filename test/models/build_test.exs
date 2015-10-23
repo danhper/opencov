@@ -3,7 +3,7 @@ defmodule Opencov.BuildTest do
 
   alias Opencov.Build
 
-  @valid_attrs %{coverage: "120.5", number: 42, project_id: 42, variation: "120.5"}
+  @valid_attrs %{coverage: 120.5, number: 42, project_id: 42}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

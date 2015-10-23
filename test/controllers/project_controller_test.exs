@@ -2,8 +2,8 @@ defmodule Opencov.ProjectControllerTest do
   use Opencov.ConnCase
 
   alias Opencov.Project
-  @valid_attrs %{current_coverage: "120.5", name: "some content", token: "some content"}
-  @invalid_attrs %{}
+  @valid_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
+  @invalid_attrs %{name: nil}
 
   setup do
     conn = conn()

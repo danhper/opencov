@@ -2,8 +2,8 @@ defmodule Opencov.JobControllerTest do
   use Opencov.ConnCase
 
   alias Opencov.Job
-  @valid_attrs %{author_email: "some content", author_name: "some content", branch: "some content", build_id: 42, commit_message: "some content", commit_sha: "some content", coverage: 42, files_count: 42, number: 42, old_coverage: 42, run_at: "2010-04-17 14:00:00"}
-  @invalid_attrs %{}
+  @valid_attrs %{build_id: 42, coverage: 42, number: 42}
+  @invalid_attrs %{build_id: nil}
 
   setup do
     conn = conn()
@@ -32,7 +32,7 @@ defmodule Opencov.JobControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    job = Repo.insert! %Job{}
+    job = Repo.insert! Job.changeset(%Job{}, @valid_attrs)
     conn = get conn, job_path(conn, :show, job)
     assert html_response(conn, 200) =~ "Show job"
   end
@@ -44,26 +44,26 @@ defmodule Opencov.JobControllerTest do
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
-    job = Repo.insert! %Job{}
+    job = Repo.insert! Job.changeset(%Job{}, @valid_attrs)
     conn = get conn, job_path(conn, :edit, job)
     assert html_response(conn, 200) =~ "Edit job"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    job = Repo.insert! %Job{}
+    job = Repo.insert! Job.changeset(%Job{}, @valid_attrs)
     conn = put conn, job_path(conn, :update, job), job: @valid_attrs
     assert redirected_to(conn) == job_path(conn, :show, job)
     assert Repo.get_by(Job, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    job = Repo.insert! %Job{}
+    job = Repo.insert! Job.changeset(%Job{}, @valid_attrs)
     conn = put conn, job_path(conn, :update, job), job: @invalid_attrs
     assert html_response(conn, 200) =~ "Edit job"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    job = Repo.insert! %Job{}
+    job = Repo.insert! Job.changeset(%Job{}, @valid_attrs)
     conn = delete conn, job_path(conn, :delete, job)
     assert redirected_to(conn) == job_path(conn, :index)
     refute Repo.get(Job, job.id)

@@ -2,8 +2,9 @@ defmodule Opencov.FileControllerTest do
   use Opencov.ConnCase
 
   alias Opencov.File
-  @valid_attrs %{coverage: "120.5", job_id: 42, name: "some content", old_coverage: "120.5", source: "some content"}
-  @invalid_attrs %{}
+
+  @valid_attrs %{name: "some content", source: "some content", coverage_lines: [], job_id: 30}
+  @invalid_attrs %{job_id: nil}
 
   setup do
     conn = conn()
@@ -32,7 +33,7 @@ defmodule Opencov.FileControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    file = Repo.insert! %File{}
+    file = Repo.insert! File.changeset(%File{}, @valid_attrs)
     conn = get conn, file_path(conn, :show, file)
     assert html_response(conn, 200) =~ "Show file"
   end
@@ -44,26 +45,26 @@ defmodule Opencov.FileControllerTest do
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
-    file = Repo.insert! %File{}
+    file = Repo.insert! File.changeset(%File{}, @valid_attrs)
     conn = get conn, file_path(conn, :edit, file)
     assert html_response(conn, 200) =~ "Edit file"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    file = Repo.insert! %File{}
+    file = Repo.insert! Map.merge(%File{}, @valid_attrs)
     conn = put conn, file_path(conn, :update, file), file: @valid_attrs
     assert redirected_to(conn) == file_path(conn, :show, file)
     assert Repo.get_by(File, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    file = Repo.insert! %File{}
+    file = Repo.insert! File.changeset(%File{}, @valid_attrs)
     conn = put conn, file_path(conn, :update, file), file: @invalid_attrs
     assert html_response(conn, 200) =~ "Edit file"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    file = Repo.insert! %File{}
+    file = Repo.insert! File.changeset(%File{}, @valid_attrs)
     conn = delete conn, file_path(conn, :delete, file)
     assert redirected_to(conn) == file_path(conn, :index)
     refute Repo.get(File, file.id)

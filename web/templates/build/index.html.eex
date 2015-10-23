@@ -6,7 +6,6 @@
       <th>Number</th>
       <th>Project</th>
       <th>Coverage</th>
-      <th>Variation</th>
 
       <th></th>
     </tr>
@@ -17,7 +16,6 @@
       <td><%= build.number %></td>
       <td><%= build.project_id %></td>
       <td><%= build.coverage %></td>
-      <td><%= build.variation %></td>
 
       <td class="text-right">
         <%= link "Show", to: build_path(@conn, :show, build), class: "btn btn-default btn-xs" %>
