@@ -1,3 +1,5 @@
+// jscs:disable
+// jshint:ignore
 module.exports = {
   "source_files": [
     {
