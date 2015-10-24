@@ -59,7 +59,7 @@ defmodule Opencov.Build do
     build = Opencov.Repo.one(
       from b in Opencov.Build,
       select: b,
-      where: b.completed == false
+      where: b.completed == false and b.project_id == ^project.id
     )
     if build do
       build

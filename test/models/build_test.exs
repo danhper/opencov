@@ -22,6 +22,8 @@ defmodule Opencov.BuildTest do
 
   test "for_project when no build exist" do
     project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
+    changeset = Changeset.change(Build.changeset(%Build{}, @valid_attrs), completed: false)
+    Opencov.Repo.insert! changeset
     build = Build.for_project(project)
     assert build.id == nil
   end
