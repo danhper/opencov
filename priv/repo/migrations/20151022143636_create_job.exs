@@ -6,16 +6,6 @@ defmodule Opencov.Repo.Migrations.CreateJob do
       add :build_id, :integer, null: false
       add :number, :integer, null: false
       add :coverage, :float, null: false
-
-      add :service_job_id, :string
-      add :service_job_pull_request, :string
-
-      add :commit_sha, :string
-      add :author_name, :string
-      add :author_email, :string
-      add :commit_message, :text
-      add :branch, :string
-
       add :previous_coverage, :float
       add :previous_job_id, :integer
 

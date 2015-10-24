@@ -8,31 +8,6 @@
   </li>
 
   <li>
-    <strong>Commit sha:</strong>
-    <%= @job.commit_sha %>
-  </li>
-
-  <li>
-    <strong>Author name:</strong>
-    <%= @job.author_name %>
-  </li>
-
-  <li>
-    <strong>Author email:</strong>
-    <%= @job.author_email %>
-  </li>
-
-  <li>
-    <strong>Commit message:</strong>
-    <%= @job.commit_message %>
-  </li>
-
-  <li>
-    <strong>Branch:</strong>
-    <%= @job.branch %>
-  </li>
-
-  <li>
     <strong>Coverage:</strong>
     <%= @job.coverage %>
   </li>

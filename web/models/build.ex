@@ -9,6 +9,12 @@ defmodule Opencov.Build do
     field :previous_coverage, :float
     field :build_started_at, Ecto.DateTime
 
+    field :commit_sha, :string
+    field :author_name, :string
+    field :author_email, :string
+    field :commit_message, :string
+    field :branch, :string
+
     belongs_to :project, Opencov.Project
     has_many :jobs, Opencov.Job
     has_one :previous_build, Opencov.Build, foreign_key: :previous_build_id
