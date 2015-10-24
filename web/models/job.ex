@@ -21,4 +21,19 @@ defmodule Opencov.Job do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  # defp compute_number(model) do
+  #   Opencov.Repo.one(
+  #     from b in Opencov.Job,
+  #     select: b,
+  #     where: b.build_id == ^number,
+  #     order_by: [desc: b.number],
+  #     limit: 1
+  #   )
+  # end
+  #
+  def compute_coverage(model) do
+    lines = Enum.flat_map model.files, &(&1.coverage_lines)
+    Opencov.File.compute_coverage(lines)
+  end
 end

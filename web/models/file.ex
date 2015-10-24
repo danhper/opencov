@@ -29,7 +29,7 @@ defmodule Opencov.File do
     end
   end
 
-  defp compute_coverage(lines) do
+  def compute_coverage(lines) do
     relevant_count = relevant_lines_count(lines)
     if relevant_count == 0, do: 0.0, else: covered_lines_count(lines) * 100 / relevant_count
   end

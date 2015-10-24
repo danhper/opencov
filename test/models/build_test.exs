@@ -20,6 +20,21 @@ defmodule Opencov.BuildTest do
     refute changeset.valid?
   end
 
+  test "previous_build when no previous build" do
+    build = Opencov.Repo.insert! Build.changeset(%Build{}, @valid_attrs)
+    assert build.previous_build_id == nil
+    assert build.previous_coverage == nil
+  end
+
+  test "previous_build when previous build exists" do
+    changeset = Build.changeset(%Build{}, @valid_attrs)
+    previous_build = Opencov.Repo.insert! Build.changeset(%Build{}, @valid_attrs)
+    build = Opencov.Repo.insert! Changeset.change(changeset, number: 44)
+    assert build.previous_build_id == previous_build.id
+    assert build.previous_coverage == previous_build.coverage
+  end
+
+
   test "for_project when no build exist" do
     project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
     changeset = Changeset.change(Build.changeset(%Build{}, @valid_attrs), completed: false)
