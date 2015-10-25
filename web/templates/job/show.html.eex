@@ -1,0 +1,33 @@
+<h2>Show job</h2>
+
+<ul>
+
+  <li>
+    <strong>Build:</strong>
+    <%= @job.build_id %>
+  </li>
+
+  <li>
+    <strong>Coverage:</strong>
+    <%= @job.coverage %>
+  </li>
+
+  <li>
+    <strong>Run at:</strong>
+    <%= @job.run_at %>
+  </li>
+
+  <li>
+    <strong>Files count:</strong>
+    <%= @job.files_count %>
+  </li>
+
+  <li>
+    <strong>Number:</strong>
+    <%= @job.number %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: job_path(@conn, :edit, @job) %>
+<%= link "Back", to: job_path(@conn, :index) %>

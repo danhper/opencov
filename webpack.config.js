@@ -1,5 +1,6 @@
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var nib = require('nib')
 
 module.exports = {
   entry: {
@@ -36,5 +37,8 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     })
-  ]
+  ],
+  stylus: {
+    use: [nib()]
+  }
 }

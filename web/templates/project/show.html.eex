@@ -1,0 +1,23 @@
+<h2>Show project</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @project.name %>
+  </li>
+
+  <li>
+    <strong>Token:</strong>
+    <%= @project.token %>
+  </li>
+
+  <li>
+    <strong>Current coverage:</strong>
+    <%= @project.current_coverage %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: project_path(@conn, :edit, @project) %>
+<%= link "Back", to: project_path(@conn, :index) %>

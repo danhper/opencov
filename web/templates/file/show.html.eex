@@ -1,0 +1,33 @@
+<h2>Show file</h2>
+
+<ul>
+
+  <li>
+    <strong>Job:</strong>
+    <%= @file.job_id %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @file.name %>
+  </li>
+
+  <li>
+    <strong>Source:</strong>
+    <%= @file.source %>
+  </li>
+
+  <li>
+    <strong>Coverage:</strong>
+    <%= @file.coverage %>
+  </li>
+
+  <li>
+    <strong>Coverage:</strong>
+    <%= @file.coverage %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: file_path(@conn, :edit, @file) %>
+<%= link "Back", to: file_path(@conn, :index) %>
