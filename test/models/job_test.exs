@@ -3,6 +3,7 @@ defmodule Opencov.JobTest do
 
   alias Opencov.Job
   alias Ecto.Changeset
+  alias Ecto.Model
 
   @valid_attrs %{build_id: 42, coverage: 42, number: 42}
   @invalid_attrs %{}
@@ -21,5 +22,14 @@ defmodule Opencov.JobTest do
     previous_job = Opencov.Repo.insert! Job.changeset(%Job{}, @valid_attrs)
     job = Opencov.Repo.insert! Changeset.change(Job.changeset(%Job{}, @valid_attrs), number: nil)
     assert job.number == previous_job.number + 1
+  end
+
+  test "compute_coverage" do
+    job = Opencov.Repo.insert! Job.changeset(%Job{}, @valid_attrs)
+    coverage_lines = [0, 1, nil, 0, 2, 1]
+    file = Opencov.Repo.insert! Model.build(job, :files, name: "a", source: "", coverage_lines: coverage_lines)
+    other_coverage_lines = [0, 0, nil, 0]
+    other_file = Opencov.Repo.insert! Model.build(job, :files, name: "b", source: "", coverage_lines: coverage_lines)
+    IO.puts Job.compute_coverage(job |> Opencov.Repo.preload(:files))
   end
 end

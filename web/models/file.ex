@@ -1,13 +1,15 @@
 defmodule Opencov.File do
   use Opencov.Web, :model
 
+  alias Opencov.Job
+
   schema "files" do
     field :name, :string
     field :source, :string
     field :coverage, :float
     field :coverage_lines, Opencov.Types.JSON
 
-    belongs_to :job, Opencov.Job
+    belongs_to :job, Job
 
     timestamps
   end
