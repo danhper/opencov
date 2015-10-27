@@ -21,8 +21,14 @@ defmodule Opencov.File do
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
+
+  defp normalize_params(%{"coverage" => coverage} = params) when is_list(coverage) do
+    {lines, params} = Dict.pop(params, "coverage")
+    Dict.put(params, "coverage_lines", lines)
+  end
+  defp normalize_params(params), do: params
 
   defp generate_coverage(changeset) do
     lines = get_change(changeset, :coverage_lines)

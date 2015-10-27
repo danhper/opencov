@@ -1,10 +1,12 @@
 defmodule Opencov.Job do
   use Opencov.Web, :model
 
+  alias Ecto.Model
+
   alias Opencov.File
 
   schema "jobs" do
-    field :coverage, :float
+    field :coverage, :float, default: 0.0
     field :run_at, Ecto.DateTime
     field :files_count, :integer
     field :number, :integer
@@ -16,8 +18,8 @@ defmodule Opencov.Job do
     timestamps
   end
 
-  @required_fields ~w(build_id coverage number)
-  @optional_fields ~w()
+  @required_fields ~w(build_id)
+  @optional_fields ~w(run_at number)
 
   before_insert :check_job_number
 
@@ -26,11 +28,11 @@ defmodule Opencov.Job do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def create_from_json!(params) do
-    {source_files, params} = Dict.pop(params, :source_files, [])
-    job = Opencov.Repo.insert! changeset(params)
+  def create_from_json!(build, params) do
+    {source_files, params} = Dict.pop(params, "source_files", [])
+    job = Model.build(build, :jobs) |> changeset(params) |> Opencov.Repo.insert!
     Enum.each source_files, fn file_params ->
-      Dict.put(file_params, :job_id, job.id) |> File.changeset |> Opencov.Repo.insert!
+      Model.build(job, :files) |> File.changeset(file_params) |> Opencov.Repo.insert!
     end
     job |> Opencov.Repo.preload(:files) |> update_coverage
   end

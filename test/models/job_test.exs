@@ -5,6 +5,8 @@ defmodule Opencov.JobTest do
   alias Ecto.Changeset
   alias Ecto.Model
 
+  @build_attrs %{coverage: 120.5, number: 42, project_id: 42}
+
   @valid_attrs %{build_id: 42, coverage: 42, number: 42}
   @invalid_attrs %{}
 
@@ -26,14 +28,18 @@ defmodule Opencov.JobTest do
 
   test "compute_coverage" do
     job = Opencov.Repo.insert! Job.changeset(%Job{}, @valid_attrs)
-    coverage_lines = [0, 1, nil, 0, 2, 1]
-    Opencov.Repo.insert! Model.build(job, :files, name: "a", source: "", coverage_lines: coverage_lines)
-    other_coverage_lines = [0, 0, nil, 0]
-    Opencov.Repo.insert! Model.build(job, :files, name: "b", source: "", coverage_lines: other_coverage_lines)
+    Opencov.Repo.insert! Model.build(job, :files, name: "a", source: "", coverage_lines: [0, 1, nil, 0, 2, 1])
+    Opencov.Repo.insert! Model.build(job, :files, name: "b", source: "", coverage_lines: [0, 0, nil, 0])
     coverage = job |> Opencov.Repo.preload(:files) |> Job.compute_coverage
     assert coverage == 37.5  # (3 / 8 * 100)
   end
 
   test "create_from_json!" do
+    build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, @build_attrs)
+    dummy_coverage = Opencov.Fixtures.dummy_coverage
+    job = Opencov.Job.create_from_json!(build, dummy_coverage)
+    assert job.id != nil
+    assert Enum.count(job.files) == Enum.count(dummy_coverage["source_files"])
+    assert job.coverage > 90
   end
 end
