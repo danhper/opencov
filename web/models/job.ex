@@ -32,7 +32,7 @@ defmodule Opencov.Job do
     Enum.each source_files, fn file_params ->
       Dict.put(file_params, :job_id, job.id) |> File.changeset |> Opencov.Repo.insert!
     end
-    update_coverage(job |> Opencov.Repo.preload(:files))
+    job |> Opencov.Repo.preload(:files) |> update_coverage
   end
 
   defp check_job_number(changeset) do
