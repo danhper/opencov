@@ -19,6 +19,7 @@
     "file-loader": "^0.8.4",
     "jade": "^1.11.0",
     "jade-loader": "^0.7.1",
+    "json-loader": "^0.5.3",
     "style-loader": "^0.13.0",
     "stylus-loader": "^1.4.0",
     "url-loader": "^0.5.6",
