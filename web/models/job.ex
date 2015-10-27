@@ -7,12 +7,14 @@ defmodule Opencov.Job do
 
   schema "jobs" do
     field :coverage, :float, default: 0.0
+    field :previous_job_id, :integer
     field :run_at, Ecto.DateTime
     field :files_count, :integer
     field :number, :integer
     field :previous_coverage, :float
 
     belongs_to :build, Opencov.Build
+    has_one :previous_job, Opencov.Job
     has_many :files, Opencov.File
 
     timestamps
@@ -22,6 +24,7 @@ defmodule Opencov.Job do
   @optional_fields ~w(run_at number)
 
   before_insert :check_job_number
+  before_insert :set_previous_values
 
   def changeset(model, params \\ :empty) do
     model
@@ -56,6 +59,26 @@ defmodule Opencov.Job do
     )
     job_number = if job, do: job.number + 1, else: 1
     put_change(changeset, :number, job_number)
+  end
+
+  defp set_previous_values(changeset) do
+    {build_id, number} = {get_change(changeset, :build_id), get_change(changeset, :number)}
+    previous_build_id = Opencov.Repo.get!(Opencov.Build, build_id).previous_build_id
+    previous_job = search_previous_job(previous_build_id, number)
+    if previous_job do
+      change(changeset, %{previous_job_id: previous_job.id, previous_coverage: previous_job.coverage})
+    else
+      changeset
+    end
+  end
+
+  defp search_previous_job(nil, _), do: nil
+  defp search_previous_job(previous_build_id, number) do
+    Opencov.Repo.one(
+      from j in Opencov.Job,
+      select: j,
+      where: j.build_id == ^previous_build_id and j.number == ^number
+    )
   end
 
   def update_coverage(job) do
