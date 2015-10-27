@@ -5,7 +5,7 @@ defmodule Opencov.Repo.Migrations.CreateJob do
     create table(:jobs) do
       add :build_id, :integer, null: false
       add :number, :integer, null: false
-      add :coverage, :float, null: false
+      add :coverage, :float, null: false, default: 0.0
       add :previous_coverage, :float
       add :previous_job_id, :integer
 

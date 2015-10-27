@@ -33,4 +33,7 @@ defmodule Opencov.JobTest do
     coverage = job |> Opencov.Repo.preload(:files) |> Job.compute_coverage
     assert coverage == 37.5  # (3 / 8 * 100)
   end
+
+  test "create_from_json!" do
+  end
 end

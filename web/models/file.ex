@@ -28,6 +28,8 @@ defmodule Opencov.File do
     lines = get_change(changeset, :coverage_lines)
     if lines do
       put_change(changeset, :coverage, compute_coverage(lines))
+    else
+      changeset
     end
   end
 

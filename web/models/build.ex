@@ -49,6 +49,8 @@ defmodule Opencov.Build do
         nil -> changeset
         build -> change(changeset, %{previous_build_id: build.id, previous_coverage: build.coverage})
       end
+    else
+      changeset
     end
   end
 
