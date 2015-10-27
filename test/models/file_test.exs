@@ -27,4 +27,7 @@ defmodule Opencov.FileTest do
     file = Repo.insert! File.changeset(%File{}, @valid_attrs)
     assert file.coverage == 50
   end
+
+  test "update job coverage" do
+  end
 end

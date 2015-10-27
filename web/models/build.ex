@@ -42,17 +42,16 @@ defmodule Opencov.Build do
   end
 
   defp set_previous_values(changeset) do
-    project_id = get_change(changeset, :project_id)
-    build_number = get_change(changeset, :number)
-    unless is_nil(project_id) or is_nil(build_number) do
-      case search_build_before(project_id, build_number) do
-        nil -> changeset
-        build -> change(changeset, %{previous_build_id: build.id, previous_coverage: build.coverage})
-      end
+    {project_id, number} = {get_change(changeset, :project_id), get_change(changeset, :number)}
+    previous_build = search_previous_build(project_id, number)
+    if previous_build do
+      change(changeset, %{previous_build_id: previous_build.id, previous_coverage: previous_build.coverage})
+    else
+      changeset
     end
   end
 
-  defp search_build_before(project_id, number) do
+  defp search_previous_build(project_id, number) do
     Opencov.Repo.one(
       from b in Opencov.Build,
       select: b,

@@ -21,6 +21,7 @@ module.exports = {
   devtool: 'source-map',
   module: {
     loaders: [
+      {test: /\.json$/, loader: 'json'},
       {test: /\.js$/, loader: 'babel?optional[]=runtime', include: /web\/static\/js/},
       {test: /\.jade$/, loader: 'jade'},
       {test: /\.styl$/, loader: ExtractTextPlugin.extract('style-loader', 'css!stylus')},

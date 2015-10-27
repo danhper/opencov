@@ -6,12 +6,14 @@ import highlight from 'highlight.js'
 
 import './file-coverage.styl'
 
-import dummyCoverage from '../../dummy-coverage'
+import dummyCoverages from '../../../../../test/fixtures/dummy-coverages.json'
 
 const template = require('./file-coverage.jade')()
 
 riot.tag('file-coverage', template, function (opts) {
-  this.file = dummyCoverage
+  // jscs:disable
+  this.file = dummyCoverages[0].source_files[1]
+  // jscs:enable
   let code = highlight.highlightAuto(this.file.source).value
   this.coverageInfo = _.zip(code.split('\n'), this.file.coverage)
 })

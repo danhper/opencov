@@ -34,7 +34,6 @@ defmodule Opencov.BuildTest do
     assert build.previous_coverage == previous_build.coverage
   end
 
-
   test "for_project when no build exist" do
     project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
     changeset = Changeset.change(Build.changeset(%Build{}, @valid_attrs), completed: false)

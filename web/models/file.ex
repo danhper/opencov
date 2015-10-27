@@ -1,13 +1,15 @@
 defmodule Opencov.File do
   use Opencov.Web, :model
 
+  alias Opencov.Job
+
   schema "files" do
     field :name, :string
     field :source, :string
     field :coverage, :float
     field :coverage_lines, Opencov.Types.JSON
 
-    belongs_to :job, Opencov.Job
+    belongs_to :job, Job
 
     timestamps
   end
@@ -19,13 +21,21 @@ defmodule Opencov.File do
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
+
+  defp normalize_params(%{"coverage" => coverage} = params) when is_list(coverage) do
+    {lines, params} = Dict.pop(params, "coverage")
+    Dict.put(params, "coverage_lines", lines)
+  end
+  defp normalize_params(params), do: params
 
   defp generate_coverage(changeset) do
     lines = get_change(changeset, :coverage_lines)
     if lines do
       put_change(changeset, :coverage, compute_coverage(lines))
+    else
+      changeset
     end
   end
 
