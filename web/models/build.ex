@@ -61,16 +61,25 @@ defmodule Opencov.Build do
     )
   end
 
-  def for_project(project) do
-    build = Opencov.Repo.one(
+  def current_for_project(project) do
+    Opencov.Repo.one(
       from b in Opencov.Build,
       select: b,
       where: b.completed == false and b.project_id == ^project.id
     )
-    if build do
-      build
-    else
-      Ecto.Model.build(project, :builds)
+  end
+
+  def new_build(project, params) do
+    git_params = ~w(author_name author_email message id)
+    git_info = params |> Dict.get("git", %{}) |> Dict.get("head", %{}) |> Dict.take git_params
+    params_mapping = %{"id" => "commit_sha", "message" => "commit_message"}
+    git_info = Enum.reduce params_mapping, git_info, fn acc, {old_key, new_key} ->
+      {val, acc} = Dict.pop(acc, old_key)
+      if val, do: Dict.put(acc, new_key, val), else: acc
     end
+    branch = params |> Dict.get("git", %{}) |> Dict.get("branch")
+    if branch, do: git_info = Dict.put(git_info, "branch", branch)
+    params = params |> Dict.delete("git") |> Dict.merge(git_info)
+    Ecto.Model.build(project, :builds, params)
   end
 end

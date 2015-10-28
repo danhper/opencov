@@ -7,3 +7,4 @@ deps/
 node_modules/
 priv/static/
 
+*.dump

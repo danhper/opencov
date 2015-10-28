@@ -34,20 +34,19 @@ defmodule Opencov.BuildTest do
     assert build.previous_coverage == previous_build.coverage
   end
 
-  test "for_project when no build exist" do
+  test "current_for_project when no build exist" do
     project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
     changeset = Changeset.change(Build.changeset(%Build{}, @valid_attrs), completed: false)
     Opencov.Repo.insert! changeset
-    build = Build.for_project(project)
-    assert build.id == nil
+    assert Build.current_for_project(project) == nil
   end
 
-  test "for_project when build exists" do
+  test "current_for_project when build exists" do
     project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
     base_build = Build.changeset(%Build{}, @valid_attrs)
     changeset = Changeset.change(base_build, project_id: project.id, completed: false)
     existing_build = Opencov.Repo.insert! changeset
-    build = Build.for_project(project)
+    build = Build.current_for_project(project)
     assert build.id == existing_build.id
   end
 end
