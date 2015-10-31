@@ -35,6 +35,20 @@ defmodule Opencov.BuildTest do
     assert build.service_job_id == params["service_job_id"]
   end
 
+  test "info_for when no service name and no previous build exists" do
+    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
+    previous_build = Opencov.Repo.insert! Build.changeset(%Build{}, @valid_attrs)
+    info = Build.info_for(project, %{})
+    assert info["build_number"] == 1
+  end
+
+  test "info_for when no service name and previous build exists" do
+    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
+    previous_build = Opencov.Repo.insert! Build.changeset(%Build{}, Dict.merge(@valid_attrs, project_id: project.id))
+    info = Build.info_for(project, %{})
+    assert info["build_number"] == previous_build.build_number + 1
+  end
+
   test "previous_build when no previous build" do
     build = Opencov.Repo.insert! Build.changeset(%Build{}, @valid_attrs)
     assert build.previous_build_id == nil

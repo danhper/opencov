@@ -1,6 +1,8 @@
 defmodule Opencov.Build do
   use Opencov.Web, :model
 
+  import Ecto.Query
+
   schema "builds" do
     field :build_number, :integer
     field :previous_build_id, :integer
@@ -38,12 +40,18 @@ defmodule Opencov.Build do
     |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
 
+  # TODO: fetch build/job numbers from CI APIs
+  # def info_for(_project, %{"service_name" => "travis-ci"}), do: %{"build_number" => 1, "job_number" => 1}
+  def info_for(project, params), do: fallback_info_for(project, params)
+
+  defp fallback_info_for(project, _params) do
+    build = Opencov.Repo.one(query_for_project(project.id) |> order_by_build_number |> first)
+    if build, do: %{"build_number" => build.build_number + 1}, else: %{"build_number" => 1}
+  end
+
   defp set_build_started_at(changeset) do
-    if get_change(changeset, :build_started_at) do
-      changeset
-    else
-      put_change(changeset, :build_started_at, Ecto.DateTime.utc)
-    end
+    if get_change(changeset, :build_started_at), do: changeset,
+    else: put_change(changeset, :build_started_at, Ecto.DateTime.utc)
   end
 
   defp set_previous_values(changeset) do
@@ -57,21 +65,35 @@ defmodule Opencov.Build do
   end
 
   defp search_previous_build(project_id, build_number) do
-    Opencov.Repo.one(
-      from b in Opencov.Build,
-      select: b,
-      where: b.project_id == ^project_id and b.build_number < ^build_number,
-      order_by: [desc: b.build_number],
-      limit: 1
-    )
+    query = query_for_project(project_id)
+              |> where([b], b.build_number < ^build_number)
+              |> order_by_build_number
+              |> first
+    Opencov.Repo.one(query)
   end
 
   def current_for_project(project) do
-    Opencov.Repo.one(
-      from b in Opencov.Build,
-      select: b,
-      where: b.completed == false and b.project_id == ^project.id
-    )
+    Opencov.Repo.one(base_query |> for_project(project.id) |> where([b], not b.completed))
+  end
+
+  def base_query do
+    from b in Opencov.Build, select: b
+  end
+
+  def first(query) do
+    query |> limit([b], 1)
+  end
+
+  def query_for_project(project_id) do
+    base_query |> for_project(project_id)
+  end
+
+  def for_project(query, project_id) do
+    query |> where([b], b.project_id == ^project_id)
+  end
+
+  def order_by_build_number(query) do
+    query |> order_by([b], [desc: b.build_number])
   end
 
   defp normalize_params(params) when is_map(params) do
