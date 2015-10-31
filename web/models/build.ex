@@ -4,7 +4,7 @@ defmodule Opencov.Build do
   schema "builds" do
     field :number, :integer
     field :previous_build_id, :integer
-    field :coverage, :float
+    field :coverage, :float, default: 0.0
     field :completed, :boolean
     field :previous_coverage, :float
     field :build_started_at, Ecto.DateTime
@@ -15,6 +15,10 @@ defmodule Opencov.Build do
     field :commit_message, :string
     field :branch, :string
 
+    field :service_name, :string
+    field :service_job_id, :string
+    field :service_job_pull_request, :string
+
     belongs_to :project, Opencov.Project
     has_many :jobs, Opencov.Job
     has_one :previous_build, Opencov.Build, foreign_key: :previous_build_id
@@ -22,15 +26,16 @@ defmodule Opencov.Build do
     timestamps
   end
 
-  @required_fields ~w(number project_id coverage)
-  @optional_fields ~w()
+  @required_fields ~w(number project_id)
+  @optional_fields ~w(commit_sha commit_message author_name author_email branch
+                      service_name service_job_id service_job_pull_request)
 
   before_insert :set_build_started_at
   before_insert :set_previous_values
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
 
   defp set_build_started_at(changeset) do
@@ -69,17 +74,18 @@ defmodule Opencov.Build do
     )
   end
 
-  def new_build(project, params) do
+  defp normalize_params(params) when is_map(params) do
     git_params = ~w(author_name author_email message id)
     git_info = params |> Dict.get("git", %{}) |> Dict.get("head", %{}) |> Dict.take git_params
     params_mapping = %{"id" => "commit_sha", "message" => "commit_message"}
-    git_info = Enum.reduce params_mapping, git_info, fn acc, {old_key, new_key} ->
+    git_info = Enum.reduce params_mapping, git_info, fn {old_key, new_key}, acc ->
       {val, acc} = Dict.pop(acc, old_key)
       if val, do: Dict.put(acc, new_key, val), else: acc
     end
     branch = params |> Dict.get("git", %{}) |> Dict.get("branch")
     if branch, do: git_info = Dict.put(git_info, "branch", branch)
-    params = params |> Dict.delete("git") |> Dict.merge(git_info)
-    Ecto.Model.build(project, :builds, params)
+    params |> Dict.delete("git") |> Dict.merge(git_info)
   end
+
+  defp normalize_params(params), do: params
 end

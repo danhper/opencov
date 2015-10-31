@@ -7,7 +7,7 @@ defmodule Opencov.BuildTest do
 
   @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
 
-  @valid_attrs %{coverage: 120.5, number: 42, project_id: 42}
+  @valid_attrs %{number: 42, project_id: 42}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
@@ -18,6 +18,21 @@ defmodule Opencov.BuildTest do
   test "changeset with invalid attributes" do
     changeset = Build.changeset(%Build{}, @invalid_attrs)
     refute changeset.valid?
+  end
+
+  test "changeset with real params" do
+    params = Opencov.Fixtures.dummy_coverage
+    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
+    changeset = Build.changeset(Ecto.Model.build(project, :builds, number: 1), params)
+    assert changeset.valid?
+
+    build = Opencov.Repo.insert!(changeset)
+    assert build.id
+    assert build.commit_sha == params["git"]["head"]["id"]
+    assert build.commit_message == params["git"]["head"]["message"]
+    assert build.branch == params["git"]["branch"]
+    assert build.service_name == params["service_name"]
+    assert build.service_job_id == params["service_job_id"]
   end
 
   test "previous_build when no previous build" do
