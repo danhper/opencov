@@ -10,7 +10,7 @@ defmodule Opencov.Job do
     field :previous_job_id, :integer
     field :run_at, Ecto.DateTime
     field :files_count, :integer
-    field :number, :integer
+    field :job_number, :integer
     field :previous_coverage, :float
 
     belongs_to :build, Opencov.Build
@@ -21,7 +21,7 @@ defmodule Opencov.Job do
   end
 
   @required_fields ~w(build_id)
-  @optional_fields ~w(run_at number)
+  @optional_fields ~w(run_at job_number)
 
   before_insert :check_job_number
   before_insert :set_previous_values
@@ -41,7 +41,7 @@ defmodule Opencov.Job do
   end
 
   defp check_job_number(changeset) do
-    if get_change(changeset, :number) do
+    if get_change(changeset, :job_number) do
       changeset
     else
       set_job_number(changeset)
@@ -54,17 +54,17 @@ defmodule Opencov.Job do
       from j in Opencov.Job,
       select: j,
       where: j.build_id == ^build_id,
-      order_by: [desc: j.number],
+      order_by: [desc: j.job_number],
       limit: 1
     )
-    job_number = if job, do: job.number + 1, else: 1
-    put_change(changeset, :number, job_number)
+    job_number = if job, do: job.job_number + 1, else: 1
+    put_change(changeset, :job_number, job_number)
   end
 
   defp set_previous_values(changeset) do
-    {build_id, number} = {get_change(changeset, :build_id), get_change(changeset, :number)}
+    {build_id, job_number} = {get_change(changeset, :build_id), get_change(changeset, :job_number)}
     previous_build_id = Opencov.Repo.get!(Opencov.Build, build_id).previous_build_id
-    previous_job = search_previous_job(previous_build_id, number)
+    previous_job = search_previous_job(previous_build_id, job_number)
     if previous_job do
       change(changeset, %{previous_job_id: previous_job.id, previous_coverage: previous_job.coverage})
     else
@@ -73,11 +73,11 @@ defmodule Opencov.Job do
   end
 
   defp search_previous_job(nil, _), do: nil
-  defp search_previous_job(previous_build_id, number) do
+  defp search_previous_job(previous_build_id, job_number) do
     Opencov.Repo.one(
       from j in Opencov.Job,
       select: j,
-      where: j.build_id == ^previous_build_id and j.number == ^number
+      where: j.build_id == ^previous_build_id and j.job_number == ^job_number
     )
   end
 

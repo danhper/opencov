@@ -24,7 +24,7 @@
 
   <li>
     <strong>Number:</strong>
-    <%= @job.number %>
+    <%= @job.job_number %>
   </li>
 
 </ul>

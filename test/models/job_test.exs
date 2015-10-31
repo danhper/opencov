@@ -5,9 +5,9 @@ defmodule Opencov.JobTest do
   alias Ecto.Changeset
   alias Ecto.Model
 
-  @build_attrs %{coverage: 50.5, number: 42, project_id: 42}
+  @build_attrs %{coverage: 50.5, build_number: 42, project_id: 42}
 
-  @valid_attrs %{coverage: 42, number: 42}
+  @valid_attrs %{coverage: 42, job_number: 42}
   @invalid_attrs %{}
 
   setup do
@@ -28,8 +28,8 @@ defmodule Opencov.JobTest do
 
   test "set_job_number", %{valid_attrs: valid_attrs} do
     previous_job = Opencov.Repo.insert! Job.changeset(%Job{}, valid_attrs)
-    job = Opencov.Repo.insert! Changeset.change(Job.changeset(%Job{}, valid_attrs), number: nil)
-    assert job.number == previous_job.number + 1
+    job = Opencov.Repo.insert! Changeset.change(Job.changeset(%Job{}, valid_attrs), job_number: nil)
+    assert job.job_number == previous_job.job_number + 1
   end
 
   test "compute_coverage", %{valid_attrs: valid_attrs} do
@@ -47,7 +47,7 @@ defmodule Opencov.JobTest do
 
   test "set_previous_values when a previous job exists", %{valid_attrs: valid_attrs} do
     previous_job = Opencov.Repo.insert! Job.changeset(%Job{}, valid_attrs)
-    build_attrs = Dict.put(@build_attrs, :number, Dict.get(@build_attrs, :number) + 1)
+    build_attrs = Dict.put(@build_attrs, :build_number, Dict.get(@build_attrs, :build_number) + 1)
     build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, build_attrs)
     job = Opencov.Repo.insert! Job.changeset(%Job{}, Dict.put(valid_attrs, :build_id, build.id))
     assert job.previous_job_id == previous_job.id

@@ -2,9 +2,9 @@ defmodule Opencov.JobControllerTest do
   use Opencov.ConnCase
 
   alias Opencov.Job
-  @build_attrs %{coverage: 50.4, number: 42, project_id: 42}
+  @build_attrs %{coverage: 50.4, project_id: 42, build_number: 1}
 
-  @valid_attrs %{number: 42}
+  @valid_attrs %{job_number: 42}
   @invalid_attrs %{build_id: nil}
 
   setup do

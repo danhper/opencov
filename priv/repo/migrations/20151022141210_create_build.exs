@@ -3,7 +3,7 @@ defmodule Opencov.Repo.Migrations.CreateBuild do
 
   def change do
     create table(:builds) do
-      add :number, :integer, null: false
+      add :build_number, :integer, null: false
       add :project_id, :integer, null: false
       add :coverage, :float, null: false
       add :previous_coverage, :float
@@ -26,7 +26,7 @@ defmodule Opencov.Repo.Migrations.CreateBuild do
     end
 
     create index(:builds, [:project_id])
-    create unique_index(:builds, [:project_id, :number])
+    create unique_index(:builds, [:project_id, :build_number])
     create index(:builds, [:previous_build_id])
   end
 end

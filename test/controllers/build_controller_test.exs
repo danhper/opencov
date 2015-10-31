@@ -2,7 +2,7 @@ defmodule Opencov.BuildControllerTest do
   use Opencov.ConnCase
 
   alias Opencov.Build
-  @valid_attrs %{number: 42, project_id: 42}
+  @valid_attrs %{build_number: 42, project_id: 42}
   @invalid_attrs %{project_id: nil}
 
   setup do

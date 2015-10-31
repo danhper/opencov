@@ -2,7 +2,7 @@ defmodule Opencov.Build do
   use Opencov.Web, :model
 
   schema "builds" do
-    field :number, :integer
+    field :build_number, :integer
     field :previous_build_id, :integer
     field :coverage, :float, default: 0.0
     field :completed, :boolean
@@ -26,7 +26,7 @@ defmodule Opencov.Build do
     timestamps
   end
 
-  @required_fields ~w(number project_id)
+  @required_fields ~w(build_number project_id)
   @optional_fields ~w(commit_sha commit_message author_name author_email branch
                       service_name service_job_id service_job_pull_request)
 
@@ -47,8 +47,8 @@ defmodule Opencov.Build do
   end
 
   defp set_previous_values(changeset) do
-    {project_id, number} = {get_change(changeset, :project_id), get_change(changeset, :number)}
-    previous_build = search_previous_build(project_id, number)
+    {project_id, build_number} = {get_change(changeset, :project_id), get_change(changeset, :build_number)}
+    previous_build = search_previous_build(project_id, build_number)
     if previous_build do
       change(changeset, %{previous_build_id: previous_build.id, previous_coverage: previous_build.coverage})
     else
@@ -56,12 +56,12 @@ defmodule Opencov.Build do
     end
   end
 
-  defp search_previous_build(project_id, number) do
+  defp search_previous_build(project_id, build_number) do
     Opencov.Repo.one(
       from b in Opencov.Build,
       select: b,
-      where: b.project_id == ^project_id and b.number < ^number,
-      order_by: [desc: b.number],
+      where: b.project_id == ^project_id and b.build_number < ^build_number,
+      order_by: [desc: b.build_number],
       limit: 1
     )
   end
