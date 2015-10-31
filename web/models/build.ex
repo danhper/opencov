@@ -75,17 +75,22 @@ defmodule Opencov.Build do
   end
 
   defp normalize_params(params) when is_map(params) do
-    git_params = ~w(author_name author_email message id)
-    git_info = params |> Dict.get("git", %{}) |> Dict.get("head", %{}) |> Dict.take git_params
-    params_mapping = %{"id" => "commit_sha", "message" => "commit_message"}
-    git_info = Enum.reduce params_mapping, git_info, fn {old_key, new_key}, acc ->
-      {val, acc} = Dict.pop(acc, old_key)
-      if val, do: Dict.put(acc, new_key, val), else: acc
-    end
-    branch = params |> Dict.get("git", %{}) |> Dict.get("branch")
-    if branch, do: git_info = Dict.put(git_info, "branch", branch)
-    params |> Dict.delete("git") |> Dict.merge(git_info)
+    {git_info, params} = Dict.pop(params, "git")
+    Dict.merge(params, git_params(git_info))
   end
-
   defp normalize_params(params), do: params
+
+  defp git_params(%{
+    "branch" => branch,
+    "head" => %{
+      "id" => commit_sha,
+      "author_name" => author_name,
+      "author_email" => author_email,
+      "message" => commit_message
+      }
+    }) do
+      %{"branch" => branch, "commit_sha" => commit_sha, "author_name" => author_name,
+        "author_email" => author_email, "commit_message" => commit_message}
+  end
+  defp git_params(_), do: %{}
 end
