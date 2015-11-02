@@ -115,4 +115,18 @@ defmodule Opencov.Build do
         "author_email" => author_email, "commit_message" => commit_message}
   end
   defp git_params(_), do: %{}
+
+  def get_or_create!(project, params) do
+    if build = current_for_project(project) do
+      build
+    else
+      create_from_json!(project, params)
+    end
+  end
+
+  def create_from_json!(project, params) do
+    params = Dict.merge(params, info_for(project, params))
+    build = Ecto.Model.build(project, :builds)
+    Opencov.Repo.insert! changeset(build, params)
+  end
 end
