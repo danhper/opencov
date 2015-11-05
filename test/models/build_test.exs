@@ -78,9 +78,11 @@ defmodule Opencov.BuildTest do
     assert build.id == existing_build.id
   end
 
-  test "get_or_create!" do
+  test "get_or_create! when build does not exist" do
     project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
-    build = Build.get_or_create!(project, Opencov.Fixtures.dummy_coverage)
+    cov = Opencov.Fixtures.dummy_coverage
+    build = Build.get_or_create!(project, cov)
     assert build.id
+    assert build.commit_sha == cov["git"]["head"]["id"]
   end
 end
