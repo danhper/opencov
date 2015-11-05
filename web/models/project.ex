@@ -38,4 +38,10 @@ defmodule Opencov.Project do
       select: p
     )
   end
+
+  def add_job!(project, params) do
+    build = Opencov.Build.get_or_create!(project, params)
+    job = Opencov.Job.create_from_json!(build, params)
+    {build, job}
+  end
 end
