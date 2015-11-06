@@ -11,6 +11,10 @@ defmodule Opencov.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    scope "/api/v1", as: :api_v1, alias: Api.V1 do
+      resources "/jobs", JobController
+    end
   end
 
   scope "/", Opencov do
