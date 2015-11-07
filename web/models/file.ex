@@ -33,6 +33,15 @@ defmodule Opencov.File do
     |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
 
+  def for_job(job) do
+    Opencov.Repo.all(
+      from f in Opencov.File,
+      select: f,
+      where: f.job_id == ^job.id,
+      order_by: [desc: f.coverage]
+    )
+  end
+
   defp normalize_params(%{"coverage" => coverage} = params) when is_list(coverage) do
     {lines, params} = Dict.pop(params, "coverage")
     Dict.put(params, "coverage_lines", lines)

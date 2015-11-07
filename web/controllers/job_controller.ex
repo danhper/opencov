@@ -29,8 +29,9 @@ defmodule Opencov.JobController do
   end
 
   def show(conn, %{"id" => id}) do
-    job = Repo.get!(Job, id) |> Repo.preload(:files)
-    render(conn, "show.html", job: job)
+    job = Repo.get!(Job, id)
+    files = Opencov.File.for_job(job)
+    render(conn, "show.html", job: job, files: files)
   end
 
   def edit(conn, %{"id" => id}) do

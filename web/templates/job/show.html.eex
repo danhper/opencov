@@ -41,7 +41,7 @@
     </tr>
   </thead>
   <tbody>
-<%= for file <- @job.files do %>
+<%= for file <- @files do %>
     <tr>
       <td><%= file.coverage %></td>
       <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
