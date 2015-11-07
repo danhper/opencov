@@ -4,16 +4,10 @@
   <thead>
     <tr>
       <th>Build</th>
-      <th>Commit sha</th>
-      <th>Author name</th>
-      <th>Author email</th>
-      <th>Commit message</th>
-      <th>Branch</th>
       <th>Coverage</th>
       <th>Run at</th>
       <th>Files count</th>
       <th>Number</th>
-
       <th></th>
     </tr>
   </thead>
@@ -21,15 +15,10 @@
 <%= for job <- @jobs do %>
     <tr>
       <td><%= job.build_id %></td>
-      <td><%= job.commit_sha %></td>
-      <td><%= job.author_name %></td>
-      <td><%= job.author_email %></td>
-      <td><%= job.commit_message %></td>
-      <td><%= job.branch %></td>
       <td><%= job.coverage %></td>
       <td><%= job.run_at %></td>
       <td><%= job.files_count %></td>
-      <td><%= job.number %></td>
+      <td><%= job.job_number %></td>
 
       <td class="text-right">
         <%= link "Show", to: job_path(@conn, :show, job), class: "btn btn-default btn-xs" %>

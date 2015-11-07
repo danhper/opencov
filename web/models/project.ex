@@ -1,6 +1,8 @@
 defmodule Opencov.Project do
   use Opencov.Web, :model
 
+  import Ecto.Query
+
   schema "projects" do
     field :name, :string
     field :token, :string
@@ -32,16 +34,29 @@ defmodule Opencov.Project do
   end
 
   def find_by_token(token) do
-    Opencov.Repo.one(
-      from p in Opencov.Project,
-      where: p.token == ^token,
-      select: p
-    )
+    Opencov.Repo.one(base_query |> with_token(token))
+  end
+
+  def find_by_token!(token) do
+    Opencov.Repo.one!(base_query |> with_token(token))
   end
 
   def add_job!(project, params) do
     build = Opencov.Build.get_or_create!(project, params)
     job = Opencov.Job.create_from_json!(build, params)
     {build, job}
+  end
+
+  defp base_query do
+    from p in Opencov.Project, select: p
+  end
+
+  defp with_token(query, token) do
+    query |> where([p], p.token == ^token)
+  end
+
+  def update_coverage(project) do
+    coverage = Opencov.Build.last_for_project(project).coverage
+    Opencov.Repo.update! %{project | current_coverage: coverage}
   end
 end

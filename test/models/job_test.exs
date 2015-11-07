@@ -5,15 +5,18 @@ defmodule Opencov.JobTest do
   alias Ecto.Changeset
   alias Ecto.Model
 
-  @build_attrs %{coverage: 50.5, build_number: 42, project_id: 42}
+  @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
+  @build_attrs %{coverage: 50.5, build_number: 42}
 
   @valid_attrs %{coverage: 42, job_number: 42}
   @invalid_attrs %{}
 
   setup do
-    build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, @build_attrs)
+    project = Opencov.Repo.insert! Opencov.Project.changeset(%Opencov.Project{}, @project_attrs)
+    build = Opencov.Repo.insert! Opencov.Build.changeset(Model.build(project, :builds), @build_attrs)
     valid_attrs = Dict.put(@valid_attrs, :build_id, build.id)
-    {:ok, valid_attrs: valid_attrs, build: build}
+    build_attrs = Dict.put(@build_attrs, :project_id, project.id)
+    {:ok, valid_attrs: valid_attrs, build_attrs: build_attrs, build: build}
   end
 
   test "changeset with valid attributes", %{valid_attrs: valid_attrs} do
@@ -45,9 +48,9 @@ defmodule Opencov.JobTest do
     assert job.previous_job_id == nil
   end
 
-  test "set_previous_values when a previous job exists", %{valid_attrs: valid_attrs} do
+  test "set_previous_values when a previous job exists", %{valid_attrs: valid_attrs, build_attrs: build_attrs} do
     previous_job = Opencov.Repo.insert! Job.changeset(%Job{}, valid_attrs)
-    build_attrs = Dict.put(@build_attrs, :build_number, Dict.get(@build_attrs, :build_number) + 1)
+    build_attrs = Dict.put(build_attrs, :build_number, Dict.get(build_attrs, :build_number) + 1)
     build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, build_attrs)
     job = Opencov.Repo.insert! Job.changeset(%Job{}, Dict.put(valid_attrs, :build_id, build.id))
     assert job.previous_job_id == previous_job.id
@@ -59,6 +62,7 @@ defmodule Opencov.JobTest do
     job = Opencov.Job.create_from_json!(build, dummy_coverage)
     assert job.id != nil
     assert Enum.count(job.files) == Enum.count(dummy_coverage["source_files"])
+    assert job.files_count == Enum.count(dummy_coverage["source_files"])
     assert job.coverage > 90
   end
 end
