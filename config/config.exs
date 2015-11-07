@@ -14,6 +14,8 @@ config :opencov, Opencov.Endpoint,
   pubsub: [name: Opencov.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :excoveralls, :endpoint, "http://localhost:4000"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
