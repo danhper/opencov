@@ -31,6 +31,7 @@ defmodule Opencov.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:secure_random, "~> 0.2"},
+     {:temp, "~> 0.2.5"},
      {:excoveralls, github: "tuvistavie/excoveralls", branch: "override-coveralls-endpoint", only: :test}
     ]
   end

@@ -20,4 +20,5 @@
   "postgrex": {:hex, :postgrex, "0.9.1"},
   "ranch": {:hex, :ranch, "1.1.0"},
   "secure_random": {:hex, :secure_random, "0.2.0"},
-  "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"}}
+  "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
+  "temp": {:hex, :temp, "0.2.5"}}
