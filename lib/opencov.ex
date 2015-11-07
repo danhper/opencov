@@ -6,6 +6,8 @@ defmodule Opencov do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    Temp.track!
+
     children = [
       # Start the endpoint when the application starts
       supervisor(Opencov.Endpoint, []),

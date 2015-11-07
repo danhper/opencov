@@ -17,7 +17,7 @@ defmodule Opencov.Badge do
   end
 
   defp save_badge(svg) do
-    dir = Temp.mkdir!
+    dir = Temp.mkdir!("opencov")
     {svg_path, png_path} = {Path.join(dir, "coverage.svg"), Path.join(dir, "coverage.png")}
     File.write(svg_path, svg)
     make_png(svg_path, png_path)
