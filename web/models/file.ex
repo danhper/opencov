@@ -1,6 +1,8 @@
 defmodule Opencov.File do
   use Opencov.Web, :model
 
+  import Ecto.Query
+
   defimpl Poison.Encoder, for: Opencov.File do
     def encode(model, opts) do
       model
@@ -16,14 +18,17 @@ defmodule Opencov.File do
     field :name, :string
     field :source, :string
     field :coverage, :float
+    field :previous_file_id, :integer
     field :coverage_lines, Opencov.Types.JSON
 
     belongs_to :job, Job
+    has_one :previous_file, Opencov.File, foreign_key: :previous_file_id
 
     timestamps
   end
 
   before_insert :generate_coverage
+  before_insert :set_previous_file
 
   @required_fields ~w(name source coverage_lines job_id)
   @optional_fields ~w()
@@ -33,13 +38,25 @@ defmodule Opencov.File do
     |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
 
-  def for_job(job) do
-    Opencov.Repo.all(
-      from f in Opencov.File,
-      select: f,
-      where: f.job_id == ^job.id,
-      order_by: [desc: f.coverage]
-    )
+  def for_job(job_id) do
+    unless is_integer(job_id), do: job_id = job_id.id
+    Opencov.Repo.all(base_query |> query_for_job(job_id) |> order_by_coverage)
+  end
+
+  def base_query do
+    from f in Opencov.File, select: f
+  end
+
+  def query_with_name(query, name) do
+    query |> where([f], f.name == ^name)
+  end
+
+  def query_for_job(query, job_id) do
+    query |> where([f], f.job_id == ^job_id)
+  end
+
+  def order_by_coverage(query, order \\ :desc) do
+    query |> order_by([f], [{^order, f.coverage}])
   end
 
   defp normalize_params(%{"coverage" => coverage} = params) when is_list(coverage) do
@@ -54,6 +71,22 @@ defmodule Opencov.File do
       put_change(changeset, :coverage, compute_coverage(lines))
     else
       changeset
+    end
+  end
+
+  defp set_previous_file(changeset) do
+    job = Opencov.Repo.get(Opencov.Job, get_change(changeset, :job_id))
+    if is_nil(job) or is_nil(job.previous_job_id) do
+      changeset
+    else
+      {job_id, name} = {job.previous_job_id, changeset.changes.name}
+      put_change(changeset, :previous_file_id, find_previous_file(job_id, name))
+    end
+  end
+
+  defp find_previous_file(previous_job_id, name) do
+    if file = Opencov.Repo.one(base_query |> query_for_job(previous_job_id) |> query_with_name(name)) do
+      file.id
     end
   end
 

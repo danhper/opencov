@@ -31,11 +31,24 @@ defmodule Opencov.FileTest do
     assert file.coverage == 50
   end
 
+  test "set_previous_file when a previous file exists" do
+    previous_build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, @build_attrs)
+    build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, Dict.put(@build_attrs, :build_number, 43))
+    previous_job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: previous_build.id}, Dict.put(@job_attrs, :job_number, 1))
+    job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: build.id}, Dict.put(@job_attrs, :job_number, 1))
+    assert job.previous_job_id == previous_job.id
+
+    previous_file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, previous_job.id))
+    file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, job.id))
+    Opencov.Repo.get!(File, file.id)
+    assert file.previous_file_id == previous_file.id
+  end
+
   test "for_job" do
     build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{project_id: 1}, @build_attrs)
     job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: build.id}, Dict.put(@job_attrs, :job_number, 1))
     other_job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: build.id}, Dict.put(@job_attrs, :job_number, 2))
-    file = Repo.insert! File.changeset(%File{job_id: job.id}, Dict.put(@valid_attrs, :job_id, job.id))
+    file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, job.id))
     other_file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, other_job.id))
 
     files_ids = File.for_job(job) |> Enum.map(fn f -> f.id end)
