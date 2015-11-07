@@ -9,6 +9,8 @@ config :opencov, Opencov.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :excoveralls, :endpoint, "http://localhost:4000"
+
 # Configure your database
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,
