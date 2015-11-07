@@ -34,6 +34,7 @@ defmodule Opencov.Build do
 
   before_insert :set_build_started_at
   before_insert :set_previous_values
+  after_update :update_project_coverage
 
   def changeset(model, params \\ :empty) do
     model
@@ -74,6 +75,10 @@ defmodule Opencov.Build do
 
   def current_for_project(project) do
     Opencov.Repo.one(base_query |> for_project(project.id) |> where([b], not b.completed))
+  end
+
+  def last_for_project(project) do
+    Opencov.Repo.one(base_query |> for_project(project.id) |> order_by_build_number |> first)
   end
 
   def base_query do
@@ -128,5 +133,23 @@ defmodule Opencov.Build do
     params = Dict.merge(params, info_for(project, params))
     build = Ecto.Model.build(project, :builds)
     Opencov.Repo.insert! changeset(build, params)
+  end
+
+  def update_coverage(build) do
+    Opencov.Repo.update! %{build | coverage: compute_coverage(build)}
+  end
+
+  def compute_coverage(build) do
+    Opencov.Repo.preload(build, :jobs).jobs
+      |> Enum.map(fn j -> j.coverage end)
+      |> Enum.reject(fn n -> is_nil(n) or n == 0 end)
+      |> Enum.min
+  end
+
+  defp update_project_coverage(changeset) do
+    if Dict.has_key?(changeset.changes, :coverage) do
+      Opencov.Project.update_coverage(Opencov.Repo.preload(changeset.model, :project).project)
+    end
+    changeset
   end
 end

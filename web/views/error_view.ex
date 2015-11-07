@@ -5,6 +5,14 @@ defmodule Opencov.ErrorView do
     "Page not found"
   end
 
+  def render("404.json", assigns) do
+    message = case assigns.reason do
+      %Ecto.NoResultsError{} -> "could not find model"
+      _ -> "no such path"
+    end
+    %{error: message}
+  end
+
   def render("500.html", _assigns) do
     "Server internal error"
   end

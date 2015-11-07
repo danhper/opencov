@@ -21,10 +21,12 @@ defmodule Opencov.Job do
   end
 
   @required_fields ~w(build_id)
-  @optional_fields ~w(run_at job_number)
+  @optional_fields ~w(run_at job_number files_count)
 
   before_insert :check_job_number
   before_insert :set_previous_values
+
+  after_update :update_build_coverage
 
   def changeset(model, params \\ :empty) do
     model
@@ -33,6 +35,7 @@ defmodule Opencov.Job do
 
   def create_from_json!(build, params) do
     {source_files, params} = Dict.pop(params, "source_files", [])
+    params = Dict.put(params, "files_count", Enum.count(source_files))
     job = Model.build(build, :jobs) |> changeset(params) |> Opencov.Repo.insert!
     Enum.each source_files, fn file_params ->
       Model.build(job, :files) |> File.changeset(file_params) |> Opencov.Repo.insert!
@@ -83,6 +86,13 @@ defmodule Opencov.Job do
 
   def update_coverage(job) do
     Opencov.Repo.update! %{job | coverage: compute_coverage(job)}
+  end
+
+  defp update_build_coverage(changeset) do
+    if Dict.has_key?(changeset.changes, :coverage) do
+      Opencov.Build.update_coverage(Opencov.Repo.preload(changeset.model, :build).build)
+    end
+    changeset
   end
 
   def compute_coverage(job) do

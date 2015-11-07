@@ -13,7 +13,7 @@
   <tbody>
 <%= for build <- @builds do %>
     <tr>
-      <td><%= build.number %></td>
+      <td><%= build.build_number %></td>
       <td><%= build.project_id %></td>
       <td><%= build.coverage %></td>
 
