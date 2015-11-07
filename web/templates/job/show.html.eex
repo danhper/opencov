@@ -29,5 +29,25 @@
 
 </ul>
 
-<%= link "Edit", to: job_path(@conn, :edit, @job) %>
-<%= link "Back", to: job_path(@conn, :index) %>
+<h2>Files</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Coverage</th>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for file <- @job.files do %>
+    <tr>
+      <td><%= file.coverage %></td>
+      <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "Back", to: build_path(@conn, :show, @job.build_id) %>

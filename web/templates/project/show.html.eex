@@ -19,5 +19,23 @@
 
 </ul>
 
-<%= link "Edit", to: project_path(@conn, :edit, @project) %>
+<h2>Builds</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Coverage</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for build <- @project.builds do %>
+    <tr>
+      <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
+      <td><%= build.coverage %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
 <%= link "Back", to: project_path(@conn, :index) %>

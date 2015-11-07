@@ -16,5 +16,6 @@
   "nonew": true,
   "node": true,
   "strict": true,
-  "asi": true
+  "asi": true,
+  "browser": true
 }

@@ -19,5 +19,27 @@
 
 </ul>
 
-<%= link "Edit", to: build_path(@conn, :edit, @build) %>
-<%= link "Back", to: build_path(@conn, :index) %>
+<h2>Jobs</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Coverage</th>
+      <th>Run at</th>
+      <th>Files count</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for job <- @build.jobs do %>
+    <tr>
+      <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
+      <td><%= job.coverage %></td>
+      <td><%= job.run_at %></td>
+      <td><%= job.files_count %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "Back", to: project_path(@conn, :show, @build.project_id) %>

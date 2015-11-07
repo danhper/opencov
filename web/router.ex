@@ -20,7 +20,7 @@ defmodule Opencov.Router do
   scope "/", Opencov do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", ProjectController, :index
 
     resources "/projects", ProjectController
     resources "/builds", BuildController

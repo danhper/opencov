@@ -13,21 +13,16 @@
   </li>
 
   <li>
-    <strong>Source:</strong>
-    <%= @file.source %>
-  </li>
-
-  <li>
-    <strong>Coverage:</strong>
-    <%= @file.coverage %>
-  </li>
-
-  <li>
     <strong>Coverage:</strong>
     <%= @file.coverage %>
   </li>
 
 </ul>
 
-<%= link "Edit", to: file_path(@conn, :edit, @file) %>
-<%= link "Back", to: file_path(@conn, :index) %>
+<script>
+  window.file = <%= raw @file_json %>;
+</script>
+
+<file-coverage></file-coverage>
+
+<%= link "Back", to: job_path(@conn, :show, @file.job_id) %>

@@ -30,7 +30,8 @@ defmodule Opencov.FileController do
 
   def show(conn, %{"id" => id}) do
     file = Repo.get!(File, id)
-    render(conn, "show.html", file: file)
+    file_json = Poison.encode!(file)
+    render(conn, "show.html", file: file, file_json: file_json)
   end
 
   def edit(conn, %{"id" => id}) do

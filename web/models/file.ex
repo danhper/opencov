@@ -1,6 +1,15 @@
 defmodule Opencov.File do
   use Opencov.Web, :model
 
+  defimpl Poison.Encoder, for: Opencov.File do
+    def encode(model, opts) do
+      model
+        |> Map.take([:name, :source])
+        |> Dict.put(:coverage, model.coverage_lines)
+        |> Poison.Encoder.encode(opts)
+    end
+  end
+
   alias Opencov.Job
 
   schema "files" do
