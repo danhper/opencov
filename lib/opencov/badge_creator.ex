@@ -1,4 +1,4 @@
-defmodule Opencov.Badge do
+defmodule Opencov.BadgeCreator do
   require EEx
 
   # values here are taken from https://github.com/badges/shields
