@@ -9,7 +9,7 @@ defmodule Opencov.BadgeCreator do
   EEx.function_from_file :defp, :template, @template_path, [:coverage, :width, :extra_width, :bg_color]
 
   def make_badge(coverage, options \\ []) do
-    digits_num = coverage |> Integer.to_string |> String.length
+    digits_num = coverage |> round |> Integer.to_string |> String.length
     extra_width = (digits_num - 1) * @extra_width
     width = @base_width + extra_width
     color = badge_color(coverage)
@@ -18,7 +18,7 @@ defmodule Opencov.BadgeCreator do
 
   defp get_image(svg, options) do
     case options[:format] do
-      :svg  -> {:ok, :svg, svg}
+      :svg -> {:ok, :svg, svg}
       format ->
         if is_nil(format), do: format = :png
         transform(svg, format)
