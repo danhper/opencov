@@ -3,13 +3,9 @@ defmodule Opencov.BadgeTest do
 
   alias Opencov.Badge
 
-  setup do
-    on_exit &Temp.cleanup/0
-    {:ok, []}
-  end
-
   test "make_badge creates a new badge" do
-    path = Badge.make_badge(50)
-    assert File.exists?(path)
+    {:ok, format, output} = Badge.make_badge(50, format: :svg)
+    assert format == :svg
+    assert String.contains?(output, "50")
   end
 end
