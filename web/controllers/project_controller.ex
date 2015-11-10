@@ -2,6 +2,7 @@ defmodule Opencov.ProjectController do
   use Opencov.Web, :controller
 
   alias Opencov.Project
+  alias Opencov.Badge
 
   plug :scrub_params, "project" when action in [:create, :update]
 
@@ -63,5 +64,13 @@ defmodule Opencov.ProjectController do
     conn
     |> put_flash(:info, "Project deleted successfully.")
     |> redirect(to: project_path(conn, :index))
+  end
+
+  def badge(conn, %{"project_id" => id, "format" => format}) do
+    project = Repo.get!(Project, id)
+    {:ok, badge} = Badge.get_or_create(project, format)
+    conn
+      |> put_resp_content_type(Plug.MIME.type(format))
+      |> send_resp(200, badge.image)
   end
 end

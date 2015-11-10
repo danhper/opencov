@@ -1,6 +1,8 @@
 defmodule Opencov.ProjectControllerTest do
   use Opencov.ConnCase
 
+  import Mock
+
   alias Opencov.Project
   @valid_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
   @invalid_attrs %{name: nil}
@@ -67,5 +69,24 @@ defmodule Opencov.ProjectControllerTest do
     conn = delete conn, project_path(conn, :delete, project)
     assert redirected_to(conn) == project_path(conn, :index)
     refute Repo.get(Project, project.id)
+  end
+
+  test "get badge", %{conn: conn} do
+    project = Repo.insert! %Project{}
+    conn = get conn, project_badge_path(conn, :badge, project, "svg")
+    assert conn.status == 200
+    assert List.first(get_resp_header(conn, "content-type")) =~ "image/svg+xml"
+    assert conn.resp_body =~ "NA"
+
+    Repo.update! %{project | current_coverage: 80.0}
+
+    conn = get conn, project_badge_path(conn, :badge, project, "svg")
+    assert List.first(get_resp_header(conn, "content-type")) =~ "image/svg+xml"
+    assert conn.resp_body =~ "80"
+
+    with_mock Opencov.BadgeCreator, [make_badge: fn(_, _) -> {:ok, :png, "badge"} end] do
+      conn = get conn, project_badge_path(conn, :badge, project, "png")
+      assert List.first(get_resp_header(conn, "content-type")) =~ "image/png"
+    end
   end
 end
