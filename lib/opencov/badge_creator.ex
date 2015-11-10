@@ -6,14 +6,21 @@ defmodule Opencov.BadgeCreator do
   @extra_width 7
   @template_path Path.join(__DIR__, "templates/badge_template.eex")
 
-  EEx.function_from_file :defp, :template, @template_path, [:coverage, :width, :extra_width, :bg_color]
+  EEx.function_from_file :defp, :template, @template_path, [:coverage_str, :width, :extra_width, :bg_color]
 
   def make_badge(coverage, options \\ []) do
-    digits_num = coverage |> round |> Integer.to_string |> String.length
+    if is_nil(coverage) do
+      coverage_str = "NA"
+      digits_num = 2
+    else
+      coverage = round(coverage)
+      coverage_str = "#{coverage}%"
+      digits_num = coverage |> Integer.to_string |> String.length
+    end
     extra_width = (digits_num - 1) * @extra_width
     width = @base_width + extra_width
     color = badge_color(coverage)
-    template(coverage, width, extra_width, color) |> get_image(options)
+    template(coverage_str, width, extra_width, color) |> get_image(options)
   end
 
   defp get_image(svg, options) do
@@ -26,6 +33,7 @@ defmodule Opencov.BadgeCreator do
   end
 
   def transform(svg, format) do
+    IO.puts("FOOBAR")
     dir = Temp.mkdir!("opencov")
     {svg_path, output_path} = {Path.join(dir, "coverage.svg"), Path.join(dir, "coverage.#{format}")}
     File.write!(svg_path, svg)
@@ -48,11 +56,12 @@ defmodule Opencov.BadgeCreator do
 
   defp badge_color(coverage) do
     color = cond do
-      coverage == 0  -> "red"
-      coverage < 80  -> "yellow"
-      coverage < 90  -> "yellowgreen"
-      coverage < 100 -> "green"
-      true           -> "brightgreen"
+      is_nil(coverage) -> "lightgrey"
+      coverage == 0    -> "red"
+      coverage < 80    -> "yellow"
+      coverage < 90    -> "yellowgreen"
+      coverage < 100   -> "green"
+      true             -> "brightgreen"
     end
     hex_color(color)
   end
@@ -62,4 +71,5 @@ defmodule Opencov.BadgeCreator do
   defp hex_color("yellowgreen"), do: "#a4a61d"
   defp hex_color("green"), do: "#97CA00"
   defp hex_color("brightgreen"), do: "#4c1"
+  defp hex_color("lightgrey"), do: "#9f9f9f"
 end

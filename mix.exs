@@ -32,7 +32,8 @@ defmodule Opencov.Mixfile do
      {:cowboy, "~> 1.0"},
      {:secure_random, "~> 0.2"},
      {:temp, "~> 0.2.5"},
-     {:excoveralls, github: "tuvistavie/excoveralls", branch: "override-coveralls-endpoint", only: :test}
+     {:excoveralls, "~> 0.4.2", only: :test},
+     {:mock, "~> 0.1.1", only: :test}
     ]
   end
 

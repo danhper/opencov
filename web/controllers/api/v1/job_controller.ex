@@ -8,7 +8,6 @@ defmodule Api.V1.JobController do
 
   def create(conn, %{"json_file" => %Plug.Upload{path: filepath}}) do
     json = filepath |> File.read! |> Poison.decode!
-    IO.inspect(json)
     handle_create(conn, json)
   end
 

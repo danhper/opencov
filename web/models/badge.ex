@@ -10,7 +10,7 @@ defmodule Opencov.Badge do
     timestamps
   end
 
-  def get_or_create(project, format) do
+  def get_or_create(project, format \\ Application.get_env(:opencov, :badge_format)) do
     if badge = find(project.id, format) do
       if project.current_coverage == badge.coverage, do: {:ok, badge},
       else: update(project, badge, format)
@@ -29,9 +29,10 @@ defmodule Opencov.Badge do
   end
 
   defp make(project, format, cb) do
+    if is_binary(format), do: format = String.to_atom(format)
     case Opencov.BadgeCreator.make_badge(project.current_coverage, format: format) do
       {:ok, ^format, image} -> {:ok, cb.(image)}
-      e -> e
+      {:error, e} -> {:error, e}
     end
   end
 

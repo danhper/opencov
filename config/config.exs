@@ -14,6 +14,9 @@ config :opencov, Opencov.Endpoint,
   pubsub: [name: Opencov.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :opencov,
+  badge_format: "png"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
