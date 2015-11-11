@@ -66,10 +66,10 @@
       <tr>
         <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
         <td><%= build.branch %></td>
-        <td><%= build.coverage %></td>
+        <td><%= format_coverage(build.coverage) %></td>
         <td><%= build.commit_message %></td>
         <td><%= build.committer_name %></td>
-        <td></td>
+        <td><%= human_time_ago(build.inserted_at) %></td>
         <td><%= build.service_name %></td>
       </tr>
   <% end %>

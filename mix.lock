@@ -1,4 +1,5 @@
 %{"certifi": {:hex, :certifi, "0.1.1"},
+  "combine": {:hex, :combine, "0.5.3"},
   "cowboy": {:hex, :cowboy, "1.0.3"},
   "cowlib": {:hex, :cowlib, "1.0.1"},
   "decimal": {:hex, :decimal, "1.1.0"},
@@ -23,4 +24,7 @@
   "ranch": {:hex, :ranch, "1.1.0"},
   "secure_random": {:hex, :secure_random, "0.2.0"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
-  "temp": {:hex, :temp, "0.2.5"}}
+  "temp": {:hex, :temp, "0.2.5"},
+  "timex": {:hex, :timex, "0.19.5"},
+  "timex_ecto": {:hex, :timex_ecto, "0.5.0"},
+  "tzdata": {:hex, :tzdata, "0.5.4"}}

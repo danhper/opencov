@@ -19,6 +19,7 @@ defmodule Opencov.Web do
   def model do
     quote do
       use Ecto.Model
+      use Timex.Ecto.Timestamps
 
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]

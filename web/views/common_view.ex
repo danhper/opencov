@@ -12,4 +12,9 @@ defmodule Opencov.CommonView do
       true             -> "great"
     end
   end
+
+  def human_time_ago(time) do
+    diff = Timex.Time.sub(Timex.Time.now, Timex.Date.to_timestamp(time))
+    "#{Timex.Format.Time.Formatters.SimpleHumanized.format(diff)} ago"
+  end
 end
