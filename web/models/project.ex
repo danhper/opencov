@@ -19,6 +19,11 @@ defmodule Opencov.Project do
 
   before_insert :generate_token
 
+  def preload_recent_builds(projects) do
+    query = from b in Opencov.Build, where: b.completed, order_by: [desc: b.inserted_at], limit: 10
+    projects |> Opencov.Repo.preload(builds: query)
+  end
+
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)

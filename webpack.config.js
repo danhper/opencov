@@ -1,6 +1,6 @@
-var webpack = require('webpack')
+var webpack           = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var nib = require('nib')
+var nib               = require('nib')
 
 module.exports = {
   entry: {
@@ -9,8 +9,10 @@ module.exports = {
     vendor: [
       'jquery',
       'lodash',
+      'riot',
       'highlight.js',
       'bootstrap',
+      'font-awesome/css/font-awesome.css',
       'highlight.js/styles/solarized_light.css'
     ]
   },
@@ -33,6 +35,10 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('[name].css', {allChunks: true}),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity
+    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
