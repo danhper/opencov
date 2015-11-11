@@ -25,8 +25,8 @@ defmodule Opencov.Router do
     resources "/projects", ProjectController do
       get "/badge.:format", ProjectController, :badge, as: :badge
     end
-    resources "/builds", BuildController
-    resources "/jobs", JobController
-    resources "/files", FileController
+    resources "/builds", BuildController, only: [:show]
+    resources "/jobs", JobController, only: [:show]
+    resources "/files", FileController, only: [:show]
   end
 end

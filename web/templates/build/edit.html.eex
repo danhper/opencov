@@ -1,6 +1,0 @@
-<h2>Edit build</h2>
-
-<%= render "form.html", changeset: @changeset,
-                        action: build_path(@conn, :update, @build) %>
-
-<%= link "Back", to: build_path(@conn, :index) %>
