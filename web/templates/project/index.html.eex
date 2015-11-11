@@ -1,8 +1,8 @@
 <div class="projects-list">
-  <h2 class="clearfix">
-    <span class="title">Your Projects</span>
+  <h2 class="row">
+    <span class="media-body">Your Projects</span>
 
-    <%= link to: project_path(@conn, :new), class: "btn btn-primary add-project" do %>
+    <%= link to: project_path(@conn, :new), class: "btn btn-primary media-right" do %>
       <i class="fa fa-plus-circle"></i>
       Add project
     <% end %>
@@ -15,7 +15,7 @@
           <div class="content">
             <h3><%= link project.name, to: project_path(@conn, :show, project) %></h3>
           </div>
-          <div class="coverage">
+          <div class="coverage <%= coverage_color(project.current_coverage) %>">
             <%= format_coverage(project.current_coverage) %>
           </div>
         </main>

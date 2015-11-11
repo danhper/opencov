@@ -33,7 +33,6 @@ defmodule Opencov.BadgeCreator do
   end
 
   def transform(svg, format) do
-    IO.puts("FOOBAR")
     dir = Temp.mkdir!("opencov")
     {svg_path, output_path} = {Path.join(dir, "coverage.svg"), Path.join(dir, "coverage.#{format}")}
     File.write!(svg_path, svg)

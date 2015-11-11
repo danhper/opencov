@@ -1,0 +1,4 @@
+a(onclick="{ toggleShown }" href="javascript:void(0)")
+  i(class="{ fa: true, 'fa-eye': !shown, 'fa-eye-slash': shown }")
+  input.token(if="{ shown }" value="{ token }" readonly riot-style="width: { computeWidth() }px" name="token-input")
+  span(if="{ !shown }") Show token

@@ -1,41 +1,44 @@
-<h2>Show project</h2>
+<div class="single-project">
+  <h2 class="row">
+    <span class="media-body">
+      <%= @project.name %>
+    </span>
+    <span class="coverage media-right <%= coverage_color(@project.current_coverage) %>">
+      <%= format_coverage(@project.current_coverage) %>
+    </span>
+  </h2>
 
-<ul>
+  <div class="info row">
+    <%= if @project.base_url do %>
+      <div class="col-xs-3">
+        <%= link to: @project.base_url, class: "inline-block" do %>
+          <i class="fa <%= repository_class(@project) %>"></i>
+          View repository
+        <% end %>
+      </div>
+    <% end %>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @project.name %>
-  </li>
+    <div class="token col-xs-4">
+      <project-token token="<%= @project.token %>"></project-token>
+    </div>
+  </div>
 
-  <li>
-    <strong>Token:</strong>
-    <%= @project.token %>
-  </li>
+  <h2>Recent builds</h2>
 
-  <li>
-    <strong>Current coverage:</strong>
-    <%= @project.current_coverage %>
-  </li>
-
-</ul>
-
-<h2>Builds</h2>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Number</th>
-      <th>Coverage</th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for build <- @project.builds do %>
-    <tr>
-      <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
-      <td><%= build.coverage %></td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<%= link "Back", to: project_path(@conn, :index) %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Coverage</th>
+      </tr>
+    </thead>
+    <tbody>
+  <%= for build <- @project.builds do %>
+      <tr>
+        <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
+        <td><%= build.coverage %></td>
+      </tr>
+  <% end %>
+    </tbody>
+  </table>
+</div>

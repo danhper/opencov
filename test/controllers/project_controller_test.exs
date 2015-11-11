@@ -34,9 +34,9 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    project = Repo.insert! %Project{}
+    project = Repo.insert! %Project{name: "name"}
     conn = get conn, project_path(conn, :show, project)
-    assert html_response(conn, 200) =~ "Show project"
+    assert html_response(conn, 200) =~ project.name
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
