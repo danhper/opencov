@@ -7,18 +7,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Opencov</title>
+    <title>OpenCov</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/js/vendor.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/js/theme.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/js/app.css") %>">
   </head>
 
-  <body>
+  <body class="opencov">
 
-  <div class="container-fluid">
-    <nav class="navbar navbar-default">
+  <div class="container-fluid main-container">
+    <nav class="navbar navbar-inverse">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/">Opencov</a>
+          <a class="navbar-brand" href="/">OpenCov</a>
         </div>
       </div>
     </nav>
@@ -36,7 +37,7 @@
     </div>
 
     </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/vendor.bundle.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/bundle.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
