@@ -56,9 +56,6 @@ defmodule Opencov.ProjectController do
 
   def delete(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
     Repo.delete!(project)
 
     conn
