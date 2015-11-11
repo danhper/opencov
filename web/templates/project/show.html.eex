@@ -52,15 +52,25 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Number</th>
+        <th>Build</th>
+        <th>Branch</th>
         <th>Coverage</th>
+        <th>Commit</th>
+        <th>Committer</th>
+        <th>Time</th>
+        <th>Via</th>
       </tr>
     </thead>
     <tbody>
   <%= for build <- @project.builds do %>
       <tr>
         <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
+        <td><%= build.branch %></td>
         <td><%= build.coverage %></td>
+        <td><%= build.commit_message %></td>
+        <td><%= build.committer_name %></td>
+        <td></td>
+        <td><%= build.service_name %></td>
       </tr>
   <% end %>
     </tbody>
