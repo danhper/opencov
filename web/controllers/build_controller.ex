@@ -4,7 +4,7 @@ defmodule Opencov.BuildController do
   alias Opencov.Build
 
   def show(conn, %{"id" => id}) do
-    build = Repo.get!(Build, id) |> Repo.preload(:jobs)
+    build = Repo.get!(Build, id) |> Repo.preload([:jobs, :project])
     render(conn, "show.html", build: build)
   end
 end

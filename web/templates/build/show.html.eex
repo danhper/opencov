@@ -1,45 +1,54 @@
-<h2>Show build</h2>
+<div class="single-build">
+  <h2 class="row breadcrumb">
+    <span class="media-body">
+      <%= link @build.project.name, to: project_path(@conn, :show, @build.project) %>
+      <span class="separator">></span>
+      <span class="build-number">
+        #<%= @build.build_number %>
+      </span>
+    </span>
+    <span class="coverage media-right <%= coverage_color(@build.coverage) %>">
+      <%= format_coverage(@build.coverage) %>
+    </span>
+  </h2>
 
-<ul>
+  <div class="build-changes">
 
-  <li>
-    <strong>Number:</strong>
-    <%= @build.build_number %>
-  </li>
+    <h3>Build changes</h3>
+    <div class="time">
+      Build ran about <%= human_time_ago(@build.inserted_at) %>.
+    </div>
+    <div class="commit-info">
+      <%= if @build.previous_coverage do %>
+      <div class="coverage-diff">
+        <%= coverage_diff(@build.previous_coverage, @build.coverage) %>
+      </div>
+      <% end %>
+    </div>
+  </div>
 
-  <li>
-    <strong>Project:</strong>
-    <%= @build.project_id %>
-  </li>
+  <div class="build-jobs">
+    <h3>Jobs</h3>
 
-  <li>
-    <strong>Coverage:</strong>
-    <%= @build.coverage %>
-  </li>
-
-</ul>
-
-<h2>Jobs</h2>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Number</th>
-      <th>Coverage</th>
-      <th>Run at</th>
-      <th>Files count</th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for job <- @build.jobs do %>
-    <tr>
-      <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
-      <td><%= job.coverage %></td>
-      <td><%= job.run_at %></td>
-      <td><%= job.files_count %></td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<%= link "Back", to: project_path(@conn, :show, @build.project_id) %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Coverage</th>
+          <th>Run at</th>
+          <th>Files count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for job <- @build.jobs do %>
+        <tr>
+          <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
+          <td><%= format_coverage(job.coverage) %></td>
+          <td><%= job.run_at %></td>
+          <td><%= job.files_count %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
