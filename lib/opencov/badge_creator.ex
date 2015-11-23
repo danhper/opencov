@@ -1,7 +1,7 @@
 defmodule Opencov.BadgeCreator do
   require EEx
 
-  # values here are taken from https://github.com/badges/shields
+  # values and SVG are taken from https://github.com/badges/shields
   @base_width 89
   @extra_width 7
   @template_path Path.join(__DIR__, "templates/badge_template.eex")
