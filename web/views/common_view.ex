@@ -26,4 +26,22 @@ defmodule Opencov.CommonView do
       previous < current -> "Coverage has increased by #{formatted_diff}."
     end
   end
+
+  def repository_class(project) do
+    url = project.base_url
+    cond do
+      String.contains?(url, "github.com") -> "fa-github"
+      String.contains?(url, "bitbucket.org") -> "fa-bitbucket"
+      true -> "fa-database"
+    end
+  end
+
+  def commit_link(project, sha) do
+    url = project.base_url
+    cond do
+      String.contains?(url, "bitbucket.org") -> "#{url}/commits/#{sha}"
+      true -> "#{url}/commit/#{sha}"
+    end
+  end
+
 end

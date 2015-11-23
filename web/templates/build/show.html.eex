@@ -14,9 +14,16 @@
 
   <div class="build-changes">
 
-    <h3>Build changes</h3>
-    <div class="time">
-      Build ran about <%= human_time_ago(@build.inserted_at) %>.
+    <h3>Latest change <span class="small">about <%= human_time_ago(@build.inserted_at) %></span></h3>
+    <div class="latest-change">
+      <%= if @build.commit_message do %>
+        <%= @build.commit_message %>
+        <%= if @build.commit_sha  do %>
+          <%= link to: commit_link(@build.project, @build.commit_sha) do %>
+            <i class="fa <%= repository_class(@build.project) %>"></i>
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
     <div class="commit-info">
       <%= if @build.previous_coverage do %>
@@ -35,7 +42,7 @@
         <tr>
           <th>Number</th>
           <th>Coverage</th>
-          <th>Run at</th>
+          <th>Run time</th>
           <th>Files count</th>
         </tr>
       </thead>
@@ -44,7 +51,7 @@
         <tr>
           <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
           <td><%= format_coverage(job.coverage) %></td>
-          <td><%= job.run_at %></td>
+          <td><%= job |> Opencov.JobView.job_time |> human_time_ago %></td>
           <td><%= job.files_count %></td>
         </tr>
         <% end %>
