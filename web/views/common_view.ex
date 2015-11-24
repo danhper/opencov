@@ -43,5 +43,4 @@ defmodule Opencov.CommonView do
       true -> "#{url}/commit/#{sha}"
     end
   end
-
 end

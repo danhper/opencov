@@ -50,7 +50,12 @@
         <%= for job <- @build.jobs do %>
         <tr>
           <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
-          <td><%= format_coverage(job.coverage) %></td>
+          <td>
+            <%= format_coverage(job.coverage) %>
+            <%= if job.previous_coverage do %>
+              <%= render Opencov.SharedView, "coverage_diff.html", diff: job.coverage - job.previous_coverage %>
+            <% end %>
+          </td>
           <td><%= job |> Opencov.JobView.job_time |> human_time_ago %></td>
           <td><%= job.files_count %></td>
         </tr>

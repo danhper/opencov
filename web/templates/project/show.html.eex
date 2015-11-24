@@ -66,7 +66,12 @@
       <tr>
         <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
         <td><%= build.branch %></td>
-        <td><%= format_coverage(build.coverage) %></td>
+        <td>
+          <%= format_coverage(build.coverage) %>
+          <%= if build.previous_coverage do %>
+            <%= render Opencov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
+          <% end %>
+        </td>
         <td><%= build.commit_message %></td>
         <td><%= build.committer_name %></td>
         <td><%= human_time_ago(build.inserted_at) %></td>

@@ -30,7 +30,7 @@ defmodule Opencov.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id) |> Repo.preload(:builds)
+    project = Repo.get!(Project, id) |> Project.preload_recent_builds
     render(conn, "show.html", project: project)
   end
 
