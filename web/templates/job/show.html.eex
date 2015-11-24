@@ -18,6 +18,14 @@
 </h2>
 
 <h2>Files <span class="small">(<%= @job.files_count %>)</span></h2>
+<ul class="nav nav-pills">
+  <li class="<%= unless Dict.get(@conn.params, "filter"), do: "active" %>">
+    <%= link "All", to: job_path(@conn, :show, @job) %>
+  </li>
+  <li class="<%= if Dict.get(@conn.params, "filter") == "changed", do: "active" %>">
+    <%= link "Coverage changed", to: job_path(@conn, :show, @job, filter: "changed") %>
+  </li>
+</ul>
 
 <table class="table">
   <thead>
@@ -31,7 +39,12 @@
   <tbody>
 <%= for file <- @files do %>
     <tr>
-      <td><%= format_coverage(file.coverage) %></td>
+      <td>
+        <%= format_coverage(file.coverage) %>
+        <%= if file.previous_coverage do %>
+          <%= render Opencov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
+        <% end %>
+      </td>
       <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
     </tr>
 <% end %>
