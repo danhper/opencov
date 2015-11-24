@@ -19,6 +19,7 @@ defmodule Opencov.File do
     field :source, :string
     field :coverage, :float
     field :previous_file_id, :integer
+    field :previous_coverage, :float
     field :coverage_lines, Opencov.Types.JSON
 
     belongs_to :job, Job
@@ -80,14 +81,16 @@ defmodule Opencov.File do
       changeset
     else
       {job_id, name} = {job.previous_job_id, changeset.changes.name}
-      put_change(changeset, :previous_file_id, find_previous_file(job_id, name))
+      if file = find_previous_file(job_id, name) do
+        change(changeset, previous_file_id: file.id, previous_coverage: file.coverage)
+      else
+        changeset
+      end
     end
   end
 
   defp find_previous_file(previous_job_id, name) do
-    if file = Opencov.Repo.one(base_query |> query_for_job(previous_job_id) |> query_with_name(name)) do
-      file.id
-    end
+    Opencov.Repo.one(base_query |> query_for_job(previous_job_id) |> query_with_name(name))
   end
 
   def compute_coverage(lines) do

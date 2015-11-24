@@ -42,6 +42,7 @@ defmodule Opencov.FileTest do
     file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, job.id))
     Opencov.Repo.get!(File, file.id)
     assert file.previous_file_id == previous_file.id
+    assert file.previous_coverage == previous_file.coverage
   end
 
   test "for_job" do
