@@ -1,35 +1,23 @@
-<h2>Show job</h2>
 
-<ul>
+<h2 class="row breadcrumb">
+  <span class="media-body">
+    <%= link @job.build.project.name, to: project_path(@conn, :show, @job.build.project) %>
+    <span class="separator">></span>
+    <span class="build-number">
+      <%= link "#{@job.build.build_number}", to: build_path(@conn, :show, @job.build) %>
+    </span>
+    <span class="separator">.</span>
+    <span class="job-number">
+      <%= @job.job_number %>
+    </span>
+  </span>
 
-  <li>
-    <strong>Build:</strong>
-    <%= @job.build_id %>
-  </li>
+  <span class="coverage media-right <%= coverage_color(@job.coverage) %>">
+    <%= format_coverage(@job.coverage) %>
+  </span>
+</h2>
 
-  <li>
-    <strong>Coverage:</strong>
-    <%= @job.coverage %>
-  </li>
-
-  <li>
-    <strong>Run at:</strong>
-    <%= @job.run_at %>
-  </li>
-
-  <li>
-    <strong>Files count:</strong>
-    <%= @job.files_count %>
-  </li>
-
-  <li>
-    <strong>Number:</strong>
-    <%= @job.job_number %>
-  </li>
-
-</ul>
-
-<h2>Files</h2>
+<h2>Files <span class="small">(<%= @job.files_count %>)</span></h2>
 
 <table class="table">
   <thead>
@@ -43,11 +31,9 @@
   <tbody>
 <%= for file <- @files do %>
     <tr>
-      <td><%= file.coverage %></td>
+      <td><%= format_coverage(file.coverage) %></td>
       <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
     </tr>
 <% end %>
   </tbody>
 </table>
-
-<%= link "Back", to: build_path(@conn, :show, @job.build_id) %>

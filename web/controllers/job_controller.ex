@@ -4,7 +4,7 @@ defmodule Opencov.JobController do
   alias Opencov.Job
 
   def show(conn, %{"id" => id}) do
-    job = Repo.get!(Job, id)
+    job = Repo.get!(Job, id) |> Opencov.Repo.preload(build: :project)
     files = Opencov.File.for_job(job)
     render(conn, "show.html", job: job, files: files)
   end
