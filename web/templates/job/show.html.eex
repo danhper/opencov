@@ -50,3 +50,7 @@
 <% end %>
   </tbody>
 </table>
+
+<div class="text-centered">
+  <%= pagination_links @conn, @paginator, [@conn, :show, @job], path: &Opencov.Router.Helpers.job_path/4 %>
+</div>

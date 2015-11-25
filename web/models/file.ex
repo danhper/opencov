@@ -39,9 +39,9 @@ defmodule Opencov.File do
     |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
 
-  def for_job(job_id, filter \\ nil) do
+  def for_job(job_id) do
     unless is_integer(job_id), do: job_id = job_id.id
-    Opencov.Repo.all(base_query |> query_for_job(job_id) |> with_filter(filter) |> order_by_coverage)
+    base_query |> query_for_job(job_id) |> order_by_coverage
   end
 
   def with_filter(query, "changed") do
