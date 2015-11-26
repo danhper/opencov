@@ -5,9 +5,10 @@ defmodule Opencov.JobController do
   alias Opencov.File
 
   def show(conn, %{"id" => id} = params) do
+    filters = Dict.get(params, "filters", [])
     job = Repo.get!(Job, id) |> Opencov.Repo.preload(build: :project)
-    query = File.for_job(job) |> File.with_filter(params["filter"])
+    query = File.for_job(job) |> File.with_filters(filters) |> File.order_by_coverage
     paginator = query |> Opencov.Repo.paginate(params)
-    render(conn, "show.html", job: job, files: paginator.entries, paginator: paginator)
+    render(conn, "show.html", job: job, files: paginator.entries, paginator: paginator, filters: filters)
   end
 end

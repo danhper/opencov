@@ -17,40 +17,54 @@
   </span>
 </h2>
 
-<h2>Files <span class="small">(<%= @job.files_count %>)</span></h2>
-<ul class="nav nav-pills">
-  <li class="<%= unless Dict.get(@conn.params, "filter"), do: "active" %>">
-    <%= link "All", to: job_path(@conn, :show, @job) %>
-  </li>
-  <li class="<%= if Dict.get(@conn.params, "filter") == "changed", do: "active" %>">
-    <%= link "Coverage changed", to: job_path(@conn, :show, @job, filter: "changed") %>
-  </li>
-</ul>
+<div class="files">
+  <h2>Files <span class="small">(<%= @job.files_count %>)</span></h2>
+  <ul class="nav nav-pills">
+    <%= for {k, v} <- Opencov.FileView.filters do %>
+      <%= if Enum.any?(@filters, &(&1 == k)) do %>
+        <li class="active">
+          <%= link v, to: job_path(@conn, :show, @job, filters: @filters -- [k]) %>
+        </li>
+      <%= else %>
+        <li>
+          <%= link v, to: job_path(@conn, :show, @job, filters: [k|@filters]) %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Coverage</th>
-      <th>Name</th>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Coverage</th>
+        <th>Diff</th>
+        <th>Name</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for file <- @files do %>
-    <tr>
-      <td>
-        <%= format_coverage(file.coverage) %>
-        <%= if file.previous_coverage do %>
-          <%= render Opencov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
-        <% end %>
-      </td>
-      <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+  <%= for file <- @files do %>
+      <tr>
+        <td>
+          <%= format_coverage(file.coverage) %>
+        </td>
+        <td>
+          <%= if file.previous_coverage do %>
+            <%= render Opencov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
+          <% end %>
+        </td>
+        <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
+      </tr>
+  <% end %>
+    </tbody>
+  </table>
 
-<div class="text-centered">
-  <%= pagination_links @conn, @paginator, [@conn, :show, @job], path: &Opencov.Router.Helpers.job_path/4 %>
+  <div class="text-centered">
+    <%= pagination_links @conn,
+                         @paginator,
+                         [@conn, :show, @job],
+                         path: &Opencov.Router.Helpers.job_path/4,
+                         filters: @filters %>
+  </div>
 </div>
