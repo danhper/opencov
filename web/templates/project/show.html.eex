@@ -49,12 +49,13 @@
 
   <h2>Recent builds</h2>
 
-  <table class="table">
+  <table class="table builds">
     <thead>
       <tr>
         <th>Build</th>
         <th>Branch</th>
         <th>Coverage</th>
+        <th>Diff</th>
         <th>Commit</th>
         <th>Committer</th>
         <th>Time</th>
@@ -68,6 +69,8 @@
         <td><%= build.branch %></td>
         <td>
           <%= format_coverage(build.coverage) %>
+        </td>
+        <td>
           <%= if build.previous_coverage do %>
             <%= render Opencov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
           <% end %>
