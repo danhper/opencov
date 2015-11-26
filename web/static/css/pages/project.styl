@@ -1,0 +1,49 @@
+.projects-list
+  .projects
+    margin-top 2em
+
+    .project
+      display block
+      list-style-type none
+      border-bottom 1px solid #ccc
+      &:last-child
+        border-bottom none
+
+      display block
+      width 100%
+      height 100%
+      padding 1em
+
+      .content
+        float left
+        h3
+          margin 0.5em 0 1em 0
+
+      .coverage
+        float right
+        margin-right 1em
+        font-size 1.6em
+        line-height 2em
+
+.single-project
+  .info
+    font-size 1.2em
+    padding 1em 2em
+    max-height 3em
+    .token-wrapper
+      padding 0
+    .badges
+      width 100%
+      .badge-list
+        padding 1em
+        margin-bottom 0
+        dd
+          margin-bottom 1em
+          &:last-child
+            margin-bottom 0
+  .builds
+    td, th
+      &:first-child
+        width 50px
+      &:nth-child(3), &:nth-child(4)
+        width 70px

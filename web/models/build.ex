@@ -1,6 +1,9 @@
 defmodule Opencov.Build do
   use Opencov.Web, :model
 
+  @git_defaults %{"branch" => nil, "head" => %{"id" => nil, "committer_name" => nil,
+                                               "committer_email" => nil, "message" => nil }}
+
   import Ecto.Query
 
   schema "builds" do
@@ -12,8 +15,8 @@ defmodule Opencov.Build do
     field :build_started_at, Ecto.DateTime
 
     field :commit_sha, :string
-    field :author_name, :string
-    field :author_email, :string
+    field :committer_name, :string
+    field :committer_email, :string
     field :commit_message, :string
     field :branch, :string
 
@@ -29,7 +32,7 @@ defmodule Opencov.Build do
   end
 
   @required_fields ~w(build_number project_id)
-  @optional_fields ~w(commit_sha commit_message author_name author_email branch
+  @optional_fields ~w(commit_sha commit_message committer_name committer_email branch
                       service_name service_job_id service_job_pull_request)
 
   before_insert :set_build_started_at
@@ -107,19 +110,26 @@ defmodule Opencov.Build do
   end
   defp normalize_params(params), do: params
 
-  defp git_params(%{
-    "branch" => branch,
-    "head" => %{
-      "id" => commit_sha,
-      "author_name" => author_name,
-      "author_email" => author_email,
-      "message" => commit_message
+  defp git_params(nil), do: %{}
+  defp git_params(params) do
+    params = Map.merge(@git_defaults, params)
+    params = Dict.put(params, "head", Map.merge(@git_defaults["head"], params["head"]))
+    %{
+      "branch" => branch,
+      "head" => %{
+        "id" => commit_sha,
+        "committer_name" => committer_name,
+        "committer_email" => committer_email,
+        "message" => commit_message
       }
-    }) do
-      %{"branch" => branch, "commit_sha" => commit_sha, "author_name" => author_name,
-        "author_email" => author_email, "commit_message" => commit_message}
+    } = params
+    result = %{"branch" => branch, "commit_sha" => commit_sha, "committer_name" => committer_name,
+        "committer_email" => committer_email, "commit_message" => commit_message}
+    Enum.map result, fn {k, v} ->
+      unless is_nil(v), do: v = String.strip(v)
+      {k, v}
+    end
   end
-  defp git_params(_), do: %{}
 
   def get_or_create!(project, params) do
     if build = current_for_project(project) do

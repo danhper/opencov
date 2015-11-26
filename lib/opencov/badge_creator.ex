@@ -1,7 +1,7 @@
 defmodule Opencov.BadgeCreator do
   require EEx
 
-  # values here are taken from https://github.com/badges/shields
+  # values and SVG are taken from https://github.com/badges/shields
   @base_width 89
   @extra_width 7
   @template_path Path.join(__DIR__, "templates/badge_template.eex")
@@ -33,7 +33,6 @@ defmodule Opencov.BadgeCreator do
   end
 
   def transform(svg, format) do
-    IO.puts("FOOBAR")
     dir = Temp.mkdir!("opencov")
     {svg_path, output_path} = {Path.join(dir, "coverage.svg"), Path.join(dir, "coverage.#{format}")}
     File.write!(svg_path, svg)

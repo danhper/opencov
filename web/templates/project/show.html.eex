@@ -1,41 +1,86 @@
-<h2>Show project</h2>
+<div class="single-project">
+  <h2 class="row  breadcrumb">
+    <span class="media-body">
+      <%= @project.name %>
+    </span>
+    <span class="coverage media-right <%= coverage_color(@project.current_coverage) %>">
+      <%= format_coverage(@project.current_coverage) %>
+    </span>
+  </h2>
 
-<ul>
+  <div class="info row">
+    <%= if @project.base_url do %>
+      <div class="col-xs-3">
+        <%= link to: @project.base_url, class: "inline-block" do %>
+          <i class="fa <%= repository_class(@project) %>"></i>
+          View repository
+        <% end %>
+      </div>
+    <% end %>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @project.name %>
-  </li>
+    <div class="token-wrapper col-xs-3">
+      <project-token token="<%= @project.token %>"></project-token>
+    </div>
 
-  <li>
-    <strong>Token:</strong>
-    <%= @project.token %>
-  </li>
+    <div class="col-xs-4 dropdown">
+      <a id="badge-trigger" href="javascript:void(0)" data-toggle="dropdown">
+        <img src="<%= project_badge_path(@conn, @project) %>" />
+        Get badge
+      </a>
+      <click-safe class="badges dropdown-menu" aria-labelledby="badge-trigger">
+        <dl class="badge-list">
+          <dt>URL</dt>
+          <dd><selectable text="<%= project_badge_url(@conn, @project) %>" rows="1" /></dd>
+          <dt>Markdown</dt>
+          <dd>
+            <selectable text="[![Coverage Status][<%= project_badge_url(@conn, @project) %>]](<%= project_url(@conn, :show, @project) %>)"/>
+          </dd>
+          <dt>HTML</dt>
+          <dd>
+            <selectable
+              text="<%= "<img src=\"#{project_badge_url(@conn, @project)}\" alt=\"Coverage status\">" %>"
+              rows="3"
+            />
+          </dd>
+        </dl>
+      </click-safe>
+    </div>
+  </div>
 
-  <li>
-    <strong>Current coverage:</strong>
-    <%= @project.current_coverage %>
-  </li>
+  <h2>Recent builds</h2>
 
-</ul>
-
-<h2>Builds</h2>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Number</th>
-      <th>Coverage</th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for build <- @project.builds do %>
-    <tr>
-      <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
-      <td><%= build.coverage %></td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<%= link "Back", to: project_path(@conn, :index) %>
+  <table class="table builds">
+    <thead>
+      <tr>
+        <th>Build</th>
+        <th>Branch</th>
+        <th>Coverage</th>
+        <th>Diff</th>
+        <th>Commit</th>
+        <th>Committer</th>
+        <th>Time</th>
+        <th>Via</th>
+      </tr>
+    </thead>
+    <tbody>
+  <%= for build <- @project.builds do %>
+      <tr>
+        <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
+        <td><%= build.branch %></td>
+        <td>
+          <%= format_coverage(build.coverage) %>
+        </td>
+        <td>
+          <%= if build.previous_coverage do %>
+            <%= render Opencov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
+          <% end %>
+        </td>
+        <td><%= build.commit_message %></td>
+        <td><%= build.committer_name %></td>
+        <td><%= human_time_ago(build.inserted_at) %></td>
+        <td><%= build.service_name %></td>
+      </tr>
+  <% end %>
+    </tbody>
+  </table>
+</div>

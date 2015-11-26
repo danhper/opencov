@@ -1,0 +1,61 @@
+<div class="files">
+  <h3>Files <span class="small">(<%= @paginator.total_entries %>)</span></h3>
+  <ul class="nav nav-pills">
+    <%= for {k, v} <- filters do %>
+      <% order_args = [order_field: elem(@order, 0), order_direction: elem(@order, 1)] %>
+      <%= if Enum.any?(@filters, &(&1 == k)) do %>
+        <li class="active">
+          <%= link v, to: apply(@path_fn, @path_args ++ [[{:filters, @filters -- [k]}|order_args]]) %>
+        </li>
+      <%= else %>
+        <li>
+          <%= link v, to: apply(@path_fn, @path_args ++ [[{:filters, [k|@filters]}|order_args]]) %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <%= for {k, v} <- %{"coverage" => "Coverage", "diff" => "Diff", "name" => "Name"} do %>
+          <% if elem(@order, 0) == k && elem(@order, 1) == "desc", do: order = "asc", else: order = "desc" %>
+        <th>
+          <%= link to: apply(@path_fn, @path_args ++ [[filters: @filters, order_field: k, order_direction: order]]) do %>
+            <span><%= v %></span>
+            <%= if elem(@order, 0) == k do %>
+              <i class="fa fa-sort-<%= elem(@order, 1) %>"></i>
+            <% end %>
+          <% end %>
+        </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+  <%= for file <- @files do %>
+      <tr>
+        <td>
+          <%= format_coverage(file.coverage) %>
+        </td>
+        <td>
+          <%= if file.previous_coverage do %>
+            <%= render Opencov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
+          <% end %>
+        </td>
+        <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
+      </tr>
+  <% end %>
+    </tbody>
+  </table>
+
+  <div class="text-centered">
+    <%= pagination_links @conn,
+                         @paginator,
+                         @path_args,
+                         path: @path_fn,
+                         filters: @filters,
+                         order_field: elem(@order, 0),
+                         order_direction: elem(@order, 1)
+                          %>
+  </div>
+</div>

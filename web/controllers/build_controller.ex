@@ -2,9 +2,12 @@ defmodule Opencov.BuildController do
   use Opencov.Web, :controller
 
   alias Opencov.Build
+  alias Opencov.Helpers.FileControllerHelpers
 
-  def show(conn, %{"id" => id}) do
-    build = Repo.get!(Build, id) |> Repo.preload(:jobs)
-    render(conn, "show.html", build: build)
+  def show(conn, %{"id" => id} = params) do
+    build = Repo.get!(Build, id) |> Repo.preload([:jobs, :project])
+    job_ids = Enum.map build.jobs, &(&1.id)
+    file_params = FileControllerHelpers.files_with_filter(job_ids, params)
+    render(conn, "show.html", [{:build, build}|file_params])
   end
 end

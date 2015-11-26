@@ -18,11 +18,11 @@ defmodule Opencov.File do
     field :name, :string
     field :source, :string
     field :coverage, :float
-    field :previous_file_id, :integer
+    field :previous_coverage, :float
     field :coverage_lines, Opencov.Types.JSON
 
     belongs_to :job, Job
-    has_one :previous_file, Opencov.File, foreign_key: :previous_file_id
+    belongs_to :previous_file, Opencov.File
 
     timestamps
   end
@@ -33,15 +33,48 @@ defmodule Opencov.File do
   @required_fields ~w(name source coverage_lines job_id)
   @optional_fields ~w()
 
+  @allowed_sort_fields ~w(name coverage diff)a
+
   def changeset(model, params \\ :empty) do
     model
     |> cast(normalize_params(params), @required_fields, @optional_fields)
   end
 
-  def for_job(job_id) do
-    unless is_integer(job_id), do: job_id = job_id.id
-    Opencov.Repo.all(base_query |> query_for_job(job_id) |> order_by_coverage)
+  def sort_by(query, param, order) when not is_atom(order), do: sort_by(query, param, String.to_atom(order))
+  def sort_by(query, _, order) when order != :desc and order != :asc, do: query
+  def sort_by(query, param, order) when not is_atom(param), do: sort_by(query, String.to_atom(param), order)
+  def sort_by(query, :diff, order) do
+    query |> order_by([f], [{^order, fragment("abs(? - ?)", f.previous_coverage, f.coverage)}])
   end
+  def sort_by(query, param, order) do
+    if param in @allowed_sort_fields do
+      if __schema__(:type, param) == :string, do: order = if order == :asc, do: :desc, else: :asc
+      query |> order_by([f], [{^order, field(f, ^param)}])
+    else
+      query
+    end
+  end
+
+  def for_job(job), do: for_job(base_query, job)
+
+  def for_job(query, jobs) when is_list(jobs), do: query |> where([f], f.job_id in ^jobs)
+  def for_job(query, %Opencov.Job{id: job_id}), do: for_job(query, job_id)
+  def for_job(query, job_id), do: query |> where([f], f.job_id == ^job_id)
+
+  def with_filters(query, [filter|rest]), do: with_filters(with_filter(query, filter), rest)
+  def with_filters(query, []), do: query
+
+  def with_filter(query, "cov_changed") do
+    query |> where([f], f.coverage != f.previous_coverage)
+  end
+  def with_filter(query, "changed") do
+    query
+    |> join(:left, [f], of in assoc(f, :previous_file))
+    |> where([f, of], f.source != of.source or is_nil(of.source))
+  end
+  def with_filter(query, "covered"), do: query |> where([f], f.coverage > 0.0)
+  def with_filter(query, "unperfect"), do: query |> where([f], f.coverage < 100.0)
+  def with_filter(query, _), do: query
 
   def base_query do
     from f in Opencov.File, select: f
@@ -49,10 +82,6 @@ defmodule Opencov.File do
 
   def query_with_name(query, name) do
     query |> where([f], f.name == ^name)
-  end
-
-  def query_for_job(query, job_id) do
-    query |> where([f], f.job_id == ^job_id)
   end
 
   def order_by_coverage(query, order \\ :desc) do
@@ -80,14 +109,16 @@ defmodule Opencov.File do
       changeset
     else
       {job_id, name} = {job.previous_job_id, changeset.changes.name}
-      put_change(changeset, :previous_file_id, find_previous_file(job_id, name))
+      if file = find_previous_file(job_id, name) do
+        change(changeset, previous_file_id: file.id, previous_coverage: file.coverage)
+      else
+        changeset
+      end
     end
   end
 
   defp find_previous_file(previous_job_id, name) do
-    if file = Opencov.Repo.one(base_query |> query_for_job(previous_job_id) |> query_with_name(name)) do
-      file.id
-    end
+    Opencov.Repo.one(base_query |> for_job(previous_job_id) |> query_with_name(name))
   end
 
   def compute_coverage(lines) do

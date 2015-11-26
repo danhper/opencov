@@ -17,7 +17,7 @@ defmodule Opencov.Mixfile do
   def application do
     [mod: {Opencov, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :tzdata]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -28,10 +28,14 @@ defmodule Opencov.Mixfile do
      {:phoenix_ecto, "~> 1.1"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.1"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:secure_random, "~> 0.2"},
      {:temp, "~> 0.2.5"},
+     {:timex, "~> 0.19.0"},
+     {:timex_ecto, "~> 0.5.0"},
+     {:scrivener, "~> 1.0"},
+     {:scrivener_html, github: "tuvistavie/scrivener_html"},
+     {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:excoveralls, "~> 0.4.2", only: :test},
      {:mock, "~> 0.1.1", only: :test}
     ]

@@ -42,6 +42,7 @@ defmodule Opencov.FileTest do
     file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, job.id))
     Opencov.Repo.get!(File, file.id)
     assert file.previous_file_id == previous_file.id
+    assert file.previous_coverage == previous_file.coverage
   end
 
   test "for_job" do
@@ -51,8 +52,8 @@ defmodule Opencov.FileTest do
     file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, job.id))
     other_file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, other_job.id))
 
-    files_ids = File.for_job(job) |> Enum.map(fn f -> f.id end)
-    other_files_ids = File.for_job(other_job) |> Enum.map(fn f -> f.id end)
+    files_ids = Opencov.Repo.all(File.for_job(job)) |> Enum.map(fn f -> f.id end)
+    other_files_ids = Opencov.Repo.all(File.for_job(other_job)) |> Enum.map(fn f -> f.id end)
 
     assert files_ids == [file.id]
     assert other_files_ids == [other_file.id]

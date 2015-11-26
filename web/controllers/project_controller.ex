@@ -7,7 +7,7 @@ defmodule Opencov.ProjectController do
   plug :scrub_params, "project" when action in [:create, :update]
 
   def index(conn, _params) do
-    projects = Repo.all(Project)
+    projects = Repo.all(Project) |> Project.preload_recent_builds
     render(conn, "index.html", projects: projects)
   end
 
@@ -30,7 +30,7 @@ defmodule Opencov.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id) |> Repo.preload(:builds)
+    project = Repo.get!(Project, id) |> Project.preload_recent_builds
     render(conn, "show.html", project: project)
   end
 

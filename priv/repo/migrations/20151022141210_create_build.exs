@@ -14,8 +14,8 @@ defmodule Opencov.Repo.Migrations.CreateBuild do
       add :service_job_pull_request, :string
 
       add :commit_sha, :string
-      add :author_name, :string
-      add :author_email, :string
+      add :committer_name, :string
+      add :committer_email, :string
       add :commit_message, :text
       add :branch, :string
 

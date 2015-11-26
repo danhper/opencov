@@ -1,4 +1,4 @@
-defmodule Opencov.BuildView do
+defmodule Opencov.SharedView do
   use Opencov.Web, :view
 
   import Opencov.CommonView
