@@ -33,9 +33,26 @@ defmodule Opencov.File do
   @required_fields ~w(name source coverage_lines job_id)
   @optional_fields ~w()
 
+  @allowed_sort_fields ~w(name coverage diff)a
+
   def changeset(model, params \\ :empty) do
     model
     |> cast(normalize_params(params), @required_fields, @optional_fields)
+  end
+
+  def sort_by(query, param, order) when not is_atom(order), do: sort_by(query, param, String.to_atom(order))
+  def sort_by(query, _, order) when order != :desc and order != :asc, do: query
+  def sort_by(query, param, order) when not is_atom(param), do: sort_by(query, String.to_atom(param), order)
+  def sort_by(query, :diff, order) do
+    query |> order_by([f], [{^order, fragment("abs(? - ?)", f.previous_coverage, f.coverage)}])
+  end
+  def sort_by(query, param, order) do
+    if Enum.any?(@allowed_sort_fields, &(&1 == param)) do
+      if __schema__(:type, param) == :string, do: order = if order == :asc, do: :desc, else: :asc
+      query |> order_by([f], [{^order, field(f, ^param)}])
+    else
+      query
+    end
   end
 
   def for_job(job), do: for_job(base_query, job)
