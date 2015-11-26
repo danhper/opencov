@@ -41,7 +41,7 @@ defmodule Opencov.File do
   def for_job(job), do: for_job(base_query, job)
 
   def for_job(query, jobs) when is_list(jobs), do: query |> where([f], f.job_id in ^jobs)
-  def for_job(query, %Opencov.File{job_id: job_id}), do: for_job(query, job_id)
+  def for_job(query, %Opencov.Job{id: job_id}), do: for_job(query, job_id)
   def for_job(query, job_id), do: query |> where([f], f.job_id == ^job_id)
 
   def with_filters(query, [filter|rest]), do: with_filters(with_filter(query, filter), rest)
