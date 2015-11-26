@@ -1,4 +1,3 @@
-
 <h2 class="row breadcrumb">
   <span class="media-body">
     <%= link @job.build.project.name, to: project_path(@conn, :show, @job.build.project) %>
