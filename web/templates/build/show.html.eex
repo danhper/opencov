@@ -37,11 +37,12 @@
   <div class="build-jobs">
     <h3>Jobs</h3>
 
-    <table class="table">
+    <table class="table jobs">
       <thead>
         <tr>
           <th>Number</th>
           <th>Coverage</th>
+          <th>Diff</th>
           <th>Run time</th>
           <th>Files count</th>
         </tr>
@@ -52,6 +53,8 @@
           <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
           <td>
             <%= format_coverage(job.coverage) %>
+          </td>
+          <td>
             <%= if job.previous_coverage do %>
               <%= render Opencov.SharedView, "coverage_diff.html", diff: job.coverage - job.previous_coverage %>
             <% end %>
@@ -64,3 +67,13 @@
     </table>
   </div>
 </div>
+
+<%= render Opencov.FileView,
+           "list.html",
+           conn: @conn,
+           paginator: @paginator,
+           files: @files,
+           filters: @filters,
+           path_fn: &Opencov.Router.Helpers.build_path/4,
+           path_args: [@conn, :show, @build]
+           %>
