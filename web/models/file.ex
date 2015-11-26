@@ -47,7 +47,7 @@ defmodule Opencov.File do
     query |> order_by([f], [{^order, fragment("abs(? - ?)", f.previous_coverage, f.coverage)}])
   end
   def sort_by(query, param, order) do
-    if Enum.any?(@allowed_sort_fields, &(&1 == param)) do
+    if param in @allowed_sort_fields do
       if __schema__(:type, param) == :string, do: order = if order == :asc, do: :desc, else: :asc
       query |> order_by([f], [{^order, field(f, ^param)}])
     else

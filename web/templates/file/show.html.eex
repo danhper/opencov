@@ -1,28 +1,27 @@
-<h2>Show file</h2>
+<h2 class="row breadcrumb">
+  <span class="media-body">
+    <%= link @file.job.build.project.name, to: project_path(@conn, :show, @file.job.build.project) %>
+    <span class="separator">></span>
+    <span class="build-number">
+      <%= link "#{@file.job.build.build_number}", to: build_path(@conn, :show, @file.job.build) %>
+    </span>
+    <span class="separator">.</span>
+    <span class="job-number">
+      <%= link "#{@file.job.job_number}", to: job_path(@conn, :show, @file.job) %>
+    </span>
+    <span class="separator">></span>
+    <span class="filename">
+      <%= short_name @file.name %>
+    </span>
+  </span>
 
-<ul>
-
-  <li>
-    <strong>Job:</strong>
-    <%= @file.job_id %>
-  </li>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @file.name %>
-  </li>
-
-  <li>
-    <strong>Coverage:</strong>
-    <%= @file.coverage %>
-  </li>
-
-</ul>
+  <span class="coverage media-right <%= coverage_color(@file.coverage) %>">
+    <%= format_coverage(@file.coverage) %>
+  </span>
+</h2>
 
 <script>
   window.file = <%= raw @file_json %>;
 </script>
 
 <file-coverage></file-coverage>
-
-<%= link "Back", to: job_path(@conn, :show, @file.job_id) %>
