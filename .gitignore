@@ -6,5 +6,6 @@ _build/
 deps/
 node_modules/
 priv/static/
+config/prod.secret.exs
 
 *.dump
