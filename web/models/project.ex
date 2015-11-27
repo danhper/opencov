@@ -47,9 +47,11 @@ defmodule Opencov.Project do
   end
 
   def add_job!(project, params) do
-    build = Opencov.Build.get_or_create!(project, params)
-    job = Opencov.Job.create_from_json!(build, params)
-    {build, job}
+    Opencov.Repo.transaction fn ->
+      build = Opencov.Build.get_or_create!(project, params)
+      job = Opencov.Job.create_from_json!(build, params)
+      {build, job}
+    end
   end
 
   defp base_query do

@@ -37,7 +37,7 @@ defmodule Opencov.ProjectTest do
   test "add_job!" do
     project = Repo.insert! Project.changeset(%Project{}, @valid_attrs)
     cov = Opencov.Fixtures.dummy_coverage
-    {build, job} = Project.add_job!(project, cov)
+    {:ok, {build, job}} = Project.add_job!(project, cov)
     assert build.id
     assert job.id
     assert build.commit_sha == cov["git"]["head"]["id"]
