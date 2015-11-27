@@ -17,7 +17,7 @@ defmodule Opencov.Repo.Migrations.CreateBuild do
       add :committer_name, :string
       add :committer_email, :string
       add :commit_message, :text
-      add :branch, :string
+      add :branch, :string, null: false
 
       add :build_started_at, :datetime, null: false
       add :completed, :boolean

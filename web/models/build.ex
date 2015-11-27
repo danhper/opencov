@@ -18,7 +18,7 @@ defmodule Opencov.Build do
     field :committer_name, :string
     field :committer_email, :string
     field :commit_message, :string
-    field :branch, :string
+    field :branch, :string, default: ""
 
     field :service_name, :string
     field :service_job_id, :string
@@ -60,7 +60,7 @@ defmodule Opencov.Build do
 
   defp set_previous_values(changeset) do
     {project_id, build_number} = {get_change(changeset, :project_id), get_change(changeset, :build_number)}
-    previous_build = search_previous_build(project_id, build_number)
+    previous_build = search_previous_build(project_id, build_number, get_change(changeset, :branch, ""))
     if previous_build do
       change(changeset, %{previous_build_id: previous_build.id, previous_coverage: previous_build.coverage})
     else
@@ -68,9 +68,9 @@ defmodule Opencov.Build do
     end
   end
 
-  defp search_previous_build(project_id, build_number) do
+  defp search_previous_build(project_id, build_number, branch) do
     query = query_for_project(project_id)
-              |> where([b], b.build_number < ^build_number)
+              |> where([b], b.build_number < ^build_number and b.branch == ^branch)
               |> order_by_build_number
               |> first
     Opencov.Repo.one(query)
