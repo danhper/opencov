@@ -5,7 +5,7 @@ defmodule Opencov.JobTest do
   alias Ecto.Changeset
   alias Ecto.Model
 
-  @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
+  @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov", run_at: "2015-11-27T15:33:46+09:00"}
   @build_attrs %{coverage: 50.5, build_number: 42}
 
   @valid_attrs %{coverage: 42, job_number: 42}
