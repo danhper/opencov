@@ -69,7 +69,6 @@ defmodule Opencov.Build do
   end
 
   defp search_previous_build(project_id, build_number, branch) do
-    if is_nil(branch), do: branch = ""
     query = query_for_project(project_id)
               |> where([b], b.build_number < ^build_number and b.branch == ^branch)
               |> order_by_build_number
@@ -124,7 +123,7 @@ defmodule Opencov.Build do
         "message" => commit_message
       }
     } = params
-    result = %{"branch" => branch, "commit_sha" => commit_sha, "committer_name" => committer_name,
+    result = %{"branch" => branch || "", "commit_sha" => commit_sha, "committer_name" => committer_name,
         "committer_email" => committer_email, "commit_message" => commit_message}
     Enum.map result, fn {k, v} ->
       unless is_nil(v), do: v = String.strip(v)
