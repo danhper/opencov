@@ -15,7 +15,7 @@ config :opencov, Opencov.Endpoint,
            adapter: Phoenix.PubSub.PG2]
 
 config :opencov,
-  badge_format: "png"
+  badge_format: "svg"
 
 # Configures Elixir's Logger
 config :logger, :console,
