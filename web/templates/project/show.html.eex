@@ -33,7 +33,10 @@
           <dd><selectable text="<%= project_badge_url(@conn, @project) %>" rows="1" /></dd>
           <dt>Markdown</dt>
           <dd>
-            <selectable text="[![Coverage Status][<%= project_badge_url(@conn, @project) %>]](<%= project_url(@conn, :show, @project) %>)"/>
+            <selectable
+              text="[![Coverage Status](<%= project_badge_url(@conn, @project) %>)](<%= project_url(@conn, :show, @project) %>)"
+              rows="3"
+            />
           </dd>
           <dt>HTML</dt>
           <dd>
