@@ -17,7 +17,7 @@ defmodule Api.V1.JobController do
 
   defp handle_create(conn, %{"repo_token" => token} = params) do
     project = Opencov.Project.find_by_token!(token)
-    {_, job} = Opencov.Project.add_job!(project, params)
+    {:ok, {_, job}} = Opencov.Project.add_job!(project, params)
     render conn, "show.json", job: job
   end
 
