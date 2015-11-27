@@ -7,7 +7,7 @@ defmodule Opencov.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    if Mix.env == :prod do
+    if Application.get_env(:opencov, PlugBasicAuth)[:enable] do
       plug PlugBasicAuth,
         username: Application.get_env(:opencov, PlugBasicAuth)[:username],
         password: Application.get_env(:opencov, PlugBasicAuth)[:password]
