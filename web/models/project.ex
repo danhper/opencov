@@ -19,6 +19,15 @@ defmodule Opencov.Project do
 
   before_insert :generate_token
 
+  def preload_latest_build(projects) do
+    query = from b in Opencov.Build,
+            join: p in assoc(b, :project),
+            where: b.completed and b.id == fragment("(SELECT id FROM builds AS b WHERE b.project_id = ? ORDER BY b.inserted_at DESC LIMIT 1)", p.id),
+            order_by: [desc: b.inserted_at]
+    projects |> Opencov.Repo.preload(builds: query)
+  end
+
+
   def preload_recent_builds(projects) do
     query = from b in Opencov.Build, where: b.completed, order_by: [desc: b.inserted_at], limit: 10
     projects |> Opencov.Repo.preload(builds: query)
