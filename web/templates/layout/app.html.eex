@@ -20,8 +20,8 @@
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
-            <i class="fa fa-check"></i>
-            OpenCov
+            <img src="<%= static_path(@conn, "/images/logo.svg") %>" alt="Logo">
+            penCov
           </a>
         </div>
       </div>
