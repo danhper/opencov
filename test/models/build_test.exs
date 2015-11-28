@@ -2,28 +2,20 @@ defmodule Opencov.BuildTest do
   use Opencov.ModelCase
 
   alias Opencov.Build
-  alias Opencov.Project
-  alias Ecto.Changeset
-
-  @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
-
-  @valid_attrs %{build_number: 42, project_id: 42}
-  @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    changeset = Build.changeset(%Build{}, @valid_attrs)
+    changeset = Build.changeset(%Build{}, Dict.put(fields_for(:build), :project_id, 1))
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = Build.changeset(%Build{}, @invalid_attrs)
+    changeset = Build.changeset(%Build{}, %{})
     refute changeset.valid?
   end
 
   test "changeset with real params" do
     params = Opencov.Fixtures.dummy_coverage
-    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
-    changeset = Build.changeset(Ecto.Model.build(project, :builds, build_number: 1), params)
+    changeset = Build.changeset(build(:build) |> with_project, params)
     assert changeset.valid?
 
     build = Opencov.Repo.insert!(changeset)
@@ -36,50 +28,43 @@ defmodule Opencov.BuildTest do
   end
 
   test "info_for when no service name and no previous build exists" do
-    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
+    project = create(:project)
     info = Build.info_for(project, %{})
     assert info["build_number"] == 1
   end
 
   test "info_for when no service name and previous build exists" do
-    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
-    previous_build = Opencov.Repo.insert! Build.changeset(%Build{}, Dict.merge(@valid_attrs, project_id: project.id))
-    info = Build.info_for(project, %{})
+    previous_build = create(:build)
+    info = Build.info_for(previous_build.project, %{})
     assert info["build_number"] == previous_build.build_number + 1
   end
 
   test "previous_build when no previous build" do
-    build = Opencov.Repo.insert! Build.changeset(%Build{}, @valid_attrs)
+    build = create(:build)
     assert build.previous_build_id == nil
     assert build.previous_coverage == nil
   end
 
   test "previous_build when previous build exists" do
-    changeset = Build.changeset(%Build{}, @valid_attrs)
-    previous_build = Opencov.Repo.insert! Build.changeset(%Build{}, @valid_attrs)
-    build = Opencov.Repo.insert! Changeset.change(changeset, build_number: 44)
+    previous_build = create(:build)
+    build = create(:build, build_number: 44, project: previous_build.project)
     assert build.previous_build_id == previous_build.id
     assert build.previous_coverage == previous_build.coverage
   end
 
   test "current_for_project when no build exist" do
-    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
-    changeset = Changeset.change(Build.changeset(%Build{}, @valid_attrs), completed: false)
-    Opencov.Repo.insert! changeset
-    assert Build.current_for_project(project) == nil
+    create(:build, completed: false)
+    assert Build.current_for_project(create(:project)) == nil
   end
 
   test "current_for_project when build exists" do
-    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
-    base_build = Build.changeset(%Build{}, @valid_attrs)
-    changeset = Changeset.change(base_build, project_id: project.id, completed: false)
-    existing_build = Opencov.Repo.insert! changeset
-    build = Build.current_for_project(project)
+    existing_build = create(:build, completed: false)
+    build = Build.current_for_project(existing_build.project)
     assert build.id == existing_build.id
   end
 
   test "get_or_create! when build does not exist" do
-    project = Opencov.Repo.insert! Project.changeset(%Project{}, @project_attrs)
+    project = create(:project)
     cov = Opencov.Fixtures.dummy_coverage
     build = Build.get_or_create!(project, cov)
     assert build.id

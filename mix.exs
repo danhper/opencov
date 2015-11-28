@@ -35,6 +35,7 @@ defmodule Opencov.Mixfile do
      {:timex_ecto, "~> 0.5.0"},
      {:scrivener, "~> 1.0"},
      {:plug_basic_auth, "~> 1.0"},
+     {:ex_machina, "~> 0.5"},
      {:scrivener_html, github: "tuvistavie/scrivener_html"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:excoveralls, "~> 0.4.2", only: :test},

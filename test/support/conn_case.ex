@@ -21,8 +21,9 @@ defmodule Opencov.ConnCase do
       use Phoenix.ConnTest
 
       alias Opencov.Repo
-      import Ecto.Model
+      import Ecto.Model, except: [build: 2]
       import Ecto.Query, only: [from: 2]
+      import Opencov.Factory
 
       import Opencov.Router.Helpers
 

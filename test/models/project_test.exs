@@ -3,21 +3,18 @@ defmodule Opencov.ProjectTest do
 
   alias Opencov.Project
 
-  @valid_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
-  @invalid_attrs %{}
-
   test "changeset with valid attributes" do
-    changeset = Project.changeset(%Project{}, @valid_attrs)
+    changeset = Project.changeset(%Project{}, fields_for(:project))
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = Project.changeset(%Project{}, @invalid_attrs)
+    changeset = Project.changeset(%Project{}, %{})
     refute changeset.valid?
   end
 
   test "find_by_token with existing token" do
-    project = Repo.insert! Project.changeset(%Project{}, @valid_attrs)
+    project = create(:project)
     assert Project.find_by_token(project.token) == project
   end
 
@@ -26,7 +23,7 @@ defmodule Opencov.ProjectTest do
   end
 
   test "find_by_token! with existing token" do
-    project = Repo.insert! Project.changeset(%Project{}, @valid_attrs)
+    project = create(:project)
     assert Project.find_by_token!(project.token) == project
   end
 
@@ -35,7 +32,7 @@ defmodule Opencov.ProjectTest do
   end
 
   test "add_job!" do
-    project = Repo.insert! Project.changeset(%Project{}, @valid_attrs)
+    project = create(:project)
     cov = Opencov.Fixtures.dummy_coverage
     {:ok, {build, job}} = Project.add_job!(project, cov)
     assert build.id

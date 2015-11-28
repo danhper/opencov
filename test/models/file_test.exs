@@ -5,52 +5,44 @@ defmodule Opencov.FileTest do
 
   @coverage_lines [0, nil, 3, nil, 0, 1]
 
-  @build_attrs %{build_number: 42, project_id: 42}
-  @job_attrs %{coverage: 42, job_number: 42}
-
-  @valid_attrs %{name: "some name", source: "some content", coverage_lines: @coverage_lines, job_id: 30}
-  @invalid_attrs %{}
-
   test "changeset with valid attributes" do
-    changeset = File.changeset(%File{}, @valid_attrs)
+    changeset = File.changeset(%File{}, Dict.put(fields_for(:file), :job_id, 1))
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = File.changeset(%File{}, @invalid_attrs)
+    changeset = File.changeset(%File{}, %{})
     refute changeset.valid?
   end
 
   test "empty coverage" do
-    file = Repo.insert! Ecto.Changeset.put_change(File.changeset(%File{}, @valid_attrs), :coverage_lines, [])
+    file = create(:file, coverage_lines: [])
     assert file.coverage == 0
   end
 
   test "normal coverage" do
-    file = Repo.insert! File.changeset(%File{}, @valid_attrs)
+    file = create(:file, coverage_lines: @coverage_lines)
     assert file.coverage == 50
   end
 
   test "set_previous_file when a previous file exists" do
-    previous_build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, @build_attrs)
-    build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, Dict.put(@build_attrs, :build_number, 43))
-    previous_job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: previous_build.id}, Dict.put(@job_attrs, :job_number, 1))
-    job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: build.id}, Dict.put(@job_attrs, :job_number, 1))
+    project = create(:project)
+    previous_job = create(:job, job_number: 1, build: create(:build, project: project))
+    job = create(:job, job_number: 1, build: create(:build, project: project))
     assert job.previous_job_id == previous_job.id
 
-    previous_file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, previous_job.id))
-    file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, job.id))
-    Opencov.Repo.get!(File, file.id)
+    previous_file = create(:file, job: previous_job, name: "file")
+    file = create(:file, job: job, name: "file")
     assert file.previous_file_id == previous_file.id
     assert file.previous_coverage == previous_file.coverage
   end
 
   test "for_job" do
-    build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{project_id: 1}, @build_attrs)
-    job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: build.id}, Dict.put(@job_attrs, :job_number, 1))
-    other_job = Opencov.Repo.insert! Opencov.Job.changeset(%Opencov.Job{build_id: build.id}, Dict.put(@job_attrs, :job_number, 2))
-    file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, job.id))
-    other_file = Repo.insert! File.changeset(%File{}, Dict.put(@valid_attrs, :job_id, other_job.id))
+    build = create(:build)
+    job = create(:job, build: build)
+    other_job = create(:job, build: build)
+    file = create(:file, job: job)
+    other_file = create(:file, job: other_job)
 
     files_ids = Opencov.Repo.all(File.for_job(job)) |> Enum.map(fn f -> f.id end)
     other_files_ids = Opencov.Repo.all(File.for_job(other_job)) |> Enum.map(fn f -> f.id end)
