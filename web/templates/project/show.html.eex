@@ -78,7 +78,7 @@
             <%= render Opencov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
           <% end %>
         </td>
-        <td><%= build.commit_message %></td>
+        <td><%= render Opencov.BuildView, "commit.html", build: %{build|project: @project} %></td>
         <td><%= build.committer_name %></td>
         <td><%= human_time_ago(build.inserted_at) %></td>
         <td><%= build.service_name %></td>

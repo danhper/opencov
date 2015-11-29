@@ -16,14 +16,7 @@
 
     <h3>Latest change <span class="small">about <%= human_time_ago(@build.inserted_at) %></span></h3>
     <div class="latest-change">
-      <%= if @build.commit_message do %>
-        <%= @build.commit_message %>
-        <%= if @build.commit_sha  do %>
-          <%= link to: commit_link(@build.project, @build.commit_sha) do %>
-            <i class="fa <%= repository_class(@build.project) %>"></i>
-          <% end %>
-        <% end %>
-      <% end %>
+      <%= render "commit.html", build: @build %>
     </div>
     <div class="commit-info">
       <%= if @build.previous_coverage do %>

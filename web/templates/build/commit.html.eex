@@ -1,0 +1,8 @@
+<%= if @build.commit_message do %>
+  <%= @build.commit_message %>
+  <%= if @build.commit_sha  do %>
+    <%= link to: commit_link(@build.project, @build.commit_sha) do %>
+      <i class="fa <%= repository_class(@build.project) %>"></i>
+    <% end %>
+  <% end %>
+<% end %>
