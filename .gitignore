@@ -7,5 +7,6 @@ deps/
 node_modules/
 priv/static/js
 config/prod.secret.exs
+*.coverdata
 
 *.dump

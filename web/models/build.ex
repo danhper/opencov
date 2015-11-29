@@ -132,10 +132,19 @@ defmodule Opencov.Build do
   end
 
   def get_or_create!(project, params) do
-    if build = current_for_project(project) do
-      build
-    else
-      create_from_json!(project, params)
+    cond do
+      build = current_for_project(project) -> build
+      build = for_commit(project, Dict.get(params, "git", %{})) -> build
+      true -> create_from_json!(project, params)
+    end
+  end
+
+  def for_commit(project, git_params) do
+    if (git_branch = git_params["branch"]) && (git_commit_sha = Dict.get(git_params, "head", %{})["id"]) do
+      base_query
+        |> for_project(project.id)
+        |> where([b], b.branch == ^git_branch and b.commit_sha == ^git_commit_sha)
+        |> Opencov.Repo.one
     end
   end
 
