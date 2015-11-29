@@ -7,3 +7,5 @@ otp_release:
   - 17.5
   - 18.0
   - 18.1
+script:
+  - ./cover.sh

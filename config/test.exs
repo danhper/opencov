@@ -9,7 +9,7 @@ config :opencov, Opencov.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-config :excoveralls, :endpoint, "http://localhost:4000"
+config :excoveralls, :endpoint, "http://demo.opencov.io"
 
 # Configure your database
 config :opencov, Opencov.Repo,

@@ -4,7 +4,7 @@ config :opencov, Opencov.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [
     scheme: System.get_env("OPENCOV_SCHEME") || "https",
-    host: System.get_env("OPENCOV_HOST") || "opencov.herokuapp.com",
+    host: System.get_env("OPENCOV_HOST") || "demo.opencov.io",
     port: System.get_env("OPENCOV_PORT") || 443
   ],
   secret_key_base: System.get_env("SECRET_KEY_BASE")

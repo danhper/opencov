@@ -38,7 +38,7 @@ defmodule Opencov.Mixfile do
      {:ex_machina, "~> 0.5"},
      {:scrivener_html, github: "tuvistavie/scrivener_html"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:excoveralls, "~> 0.4.2", only: :test},
+     {:excoveralls, "~> 0.4.3", only: :test},
      {:mock, "~> 0.1.1", only: :test}
     ]
   end
