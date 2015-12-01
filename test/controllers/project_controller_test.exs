@@ -4,7 +4,7 @@ defmodule Opencov.ProjectControllerTest do
   import Mock
 
   alias Opencov.Project
-  @valid_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
+  @valid_attrs Dict.take(fields_for(:project), [:name, :base_url])
   @invalid_attrs %{name: nil}
 
   setup do
@@ -29,7 +29,7 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, project_path(conn, :create), project: @invalid_attrs
+    conn = post conn, project_path(conn, :create), project: %{}
     assert html_response(conn, 200) =~ "New project"
   end
 

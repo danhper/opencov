@@ -1,24 +1,13 @@
 defmodule Opencov.JobControllerTest do
   use Opencov.ConnCase
 
-  alias Opencov.Job
-
-  @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov"}
-  @build_attrs %{coverage: 50.4, project_id: 42, build_number: 1}
-
-  @valid_attrs %{job_number: 42}
-  @invalid_attrs %{build_id: nil}
-
   setup do
     conn = conn()
-    project = Opencov.Repo.insert! Opencov.Project.changeset(%Opencov.Project{}, @project_attrs)
-    build = Opencov.Repo.insert! Opencov.Build.changeset(%Opencov.Build{}, Dict.merge(@build_attrs, project_id: project.id))
-    valid_attrs = Dict.put(@valid_attrs, :build_id, build.id)
-    {:ok, conn: conn, build: build, valid_attrs: valid_attrs}
+    {:ok, conn: conn}
   end
 
-  test "shows chosen resource", %{conn: conn, valid_attrs: valid_attrs} do
-    job = Repo.insert! Job.changeset(%Job{}, valid_attrs)
+  test "shows chosen resource", %{conn: conn} do
+    job = create(:job)
     conn = get conn, job_path(conn, :show, job)
     assert html_response(conn, 200) =~ "#{job.job_number}"
   end
