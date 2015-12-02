@@ -9,7 +9,7 @@ config :opencov, Opencov.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-config :excoveralls, :endpoint, "https://demo.opencov.io"
+config :excoveralls, :endpoint, System.get_env("COVERALLS_ENDPOINT") || "https://demo.opencov.io"
 
 # Configure your database
 config :opencov, Opencov.Repo,

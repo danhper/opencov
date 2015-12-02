@@ -5,6 +5,6 @@ defmodule Opencov.Types.JSON do
 
   def cast(any), do: {:ok, any}
   def load(value), do: Poison.decode(value)
-  def dump(value) when is_binary(value), do: value
+  def dump(value) when is_binary(value), do: {:ok, value}
   def dump(value), do: Poison.encode(value)
 end
