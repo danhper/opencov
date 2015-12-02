@@ -11,6 +11,9 @@ config :logger, level: :warn
 
 config :excoveralls, :endpoint, System.get_env("COVERALLS_ENDPOINT") || "https://demo.opencov.io"
 
+config :opencov,
+  runtime_config_path: Path.join(__DIR__, "runtime_test.exs")
+
 # Configure your database
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,

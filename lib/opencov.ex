@@ -12,6 +12,7 @@ defmodule Opencov do
       # Start the Ecto repository
       worker(Opencov.Repo, []),
       # Here you could define other workers and supervisors as children
+      worker(Opencov.ConfigServer, [], name: Opencov.ConfigServer.default_name)
       # worker(Opencov.Worker, [arg1, arg2, arg3]),
     ]
 
