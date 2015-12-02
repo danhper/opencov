@@ -18,7 +18,7 @@ defmodule Opencov.Router do
     plug :accepts, ["json"]
 
     scope "/api/v1", as: :api_v1, alias: Api.V1 do
-      resources "/jobs", JobController
+      resources "/jobs", JobController, only: [:create]
     end
   end
 

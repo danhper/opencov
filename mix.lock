@@ -13,6 +13,7 @@
   "jsx": {:hex, :jsx, "2.6.2"},
   "meck": {:hex, :meck, "0.8.3"},
   "mimerl": {:hex, :mimerl, "1.0.0"},
+  "mix_test_watch": {:hex, :mix_test_watch, "0.2.4"},
   "mock": {:hex, :mock, "0.1.1"},
   "phoenix": {:hex, :phoenix, "1.0.3"},
   "phoenix_ecto": {:hex, :phoenix_ecto, "1.2.0"},
