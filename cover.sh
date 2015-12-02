@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# wake up heroku!
+curl https://demo.opencov.io || true
+
 MIX_ENV=test mix coveralls.post \
   --sha="$TRAVIS_COMMIT" \
   --committer="$(git log -1 $TRAVIS_COMMIT --pretty=format:'%cN')" \

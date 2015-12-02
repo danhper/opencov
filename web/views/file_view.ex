@@ -4,7 +4,7 @@ defmodule Opencov.FileView do
   import Opencov.CommonView
   import Scrivener.HTML
 
-  @max_length 15
+  @max_length 20
 
   def filters do
     %{
@@ -16,14 +16,18 @@ defmodule Opencov.FileView do
   end
 
   def short_name(name) do
-    if String.length(name) < 20 do
+    if String.length(name) < @max_length do
       name
     else
       name
         |> String.split("/")
         |> Enum.reverse
         |> Enum.reduce({[], 0}, fn s, {n, len} ->
-          if len <= @max_length, do: {[s|n], len + String.length(s)}, else: {[String.first(s)|n], len + 1}
+          if len + String.length(s) <= @max_length do
+            {[s|n], len + String.length(s)}
+          else
+            {[String.first(s)|n], len + 1}
+          end
         end)
         |> elem(0)
         |> Enum.join("/")
