@@ -12,8 +12,7 @@ defmodule Opencov.BadgeCreatorTest do
   end
 
   test "make badge in other format" do
-    convert_mock = [cmd: fn("convert", [input, output]) -> {File.copy!(input, output), 0} end]
-    with_mock System, [:passthrough], convert_mock do
+    with_mock Opencov.ImageMagick, [convert: fn([input, output]) -> File.copy!(input, output) end] do
       {:ok, format, _} = BadgeCreator.make_badge(50, format: :png)
       assert format == :png
     end

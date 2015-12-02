@@ -46,7 +46,7 @@ defmodule Opencov.BadgeCreator do
 
   defp make_output(svg_path, output_path) do
     try do
-      System.cmd("convert", [svg_path, output_path])
+      Opencov.ImageMagick.convert([svg_path, output_path])
       File.read(output_path)
     rescue
       ErlangError -> {:error, "failed to run convert"}
