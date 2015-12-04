@@ -33,5 +33,6 @@ defmodule Opencov.Router do
     resources "/builds", BuildController, only: [:show]
     resources "/jobs", JobController, only: [:show]
     resources "/files", FileController, only: [:show]
+    resources "/users", UserController
   end
 end

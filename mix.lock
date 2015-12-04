@@ -28,7 +28,7 @@
   "ranch": {:hex, :ranch, "1.2.0"},
   "scrivener": {:hex, :scrivener, "1.1.0"},
   "scrivener_html": {:git, "https://github.com/tuvistavie/scrivener_html.git", "bcead83cba276275ca4d62c3ce7374ff23e26786", []},
-  "secure_password": {:hex, :secure_password, "0.2.0"},
+  "secure_password": {:hex, :secure_password, "0.2.2"},
   "secure_random": {:hex, :secure_random, "0.2.0"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
   "temp": {:hex, :temp, "0.2.5"},

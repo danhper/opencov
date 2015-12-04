@@ -27,7 +27,6 @@ defmodule Opencov.Project do
     projects |> Opencov.Repo.preload(builds: query)
   end
 
-
   def preload_recent_builds(projects) do
     query = from b in Opencov.Build, where: b.completed, order_by: [desc: b.inserted_at], limit: 10
     projects |> Opencov.Repo.preload(builds: query)
