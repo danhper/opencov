@@ -1,5 +1,3 @@
-'use strict'
-
 import riot from 'riot'
 
 riot.tag('raw', '<span></span>', function (opts) {
