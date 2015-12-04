@@ -17,7 +17,7 @@ defmodule Opencov.Mixfile do
   def application do
     [mod: {Opencov, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :tzdata]]
+                    :phoenix_ecto, :postgrex, :tzdata, :secure_password]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -37,6 +37,7 @@ defmodule Opencov.Mixfile do
      {:plug_basic_auth, "~> 1.0"},
      {:ex_machina, "~> 0.5"},
      {:scrivener_html, github: "tuvistavie/scrivener_html"},
+     {:secure_password, "~> 0.2"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:excoveralls, "~> 0.4.3", only: :test},

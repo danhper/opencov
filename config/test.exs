@@ -14,6 +14,10 @@ config :excoveralls, :endpoint, System.get_env("COVERALLS_ENDPOINT") || "https:/
 config :opencov,
   runtime_config_path: Path.join(__DIR__, "runtime_test.exs")
 
+config :comeonin,
+  bcrypt_log_rounds: 4,
+  pbkdf2_rounds: 1
+
 # Configure your database
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,

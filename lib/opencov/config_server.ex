@@ -7,8 +7,6 @@ defmodule Opencov.ConfigServer do
 
   use GenServer
 
-  @server_name "OpencovConfig"
-
   def start_link do
     GenServer.start_link(__MODULE__, [], name: default_name)
   end

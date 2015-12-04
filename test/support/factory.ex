@@ -8,6 +8,14 @@ defmodule Opencov.Factory do
     }
   end
 
+  def factory(:user) do
+    %Opencov.User{
+      name: sequence(:name, &("name-#{&1}")),
+      email: sequence(:email, &("email-#{&1}@example.com")),
+      password: "my-secure-password"
+    }
+  end
+
   def factory(:build) do
     %Opencov.Build{
       build_number: sequence(:build_number, &(&1)),
