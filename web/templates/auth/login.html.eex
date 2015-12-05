@@ -1,0 +1,21 @@
+<%= form_for @conn, auth_path(@conn, :login), [as: :login], fn f -> %>
+  <%= if @error do %>
+    <div class="alert alert-danger">
+      <%= @error %>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :email, "Email", class: "control-label" %>
+    <%= text_input f, :email, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :password, "Password", class: "control-label" %>
+    <%= password_input f, :password, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Login", class: "btn btn-primary" %>
+  </div>
+<% end %>

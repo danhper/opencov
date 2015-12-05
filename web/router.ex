@@ -14,6 +14,10 @@ defmodule Opencov.Router do
     end
   end
 
+  pipeline :authenticated do
+    plug Opencov.Plug.Authentication
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
 
@@ -34,5 +38,15 @@ defmodule Opencov.Router do
     resources "/jobs", JobController, only: [:show]
     resources "/files", FileController, only: [:show]
     resources "/users", UserController
+
+    get "/login", AuthController, :login
+    post "/login", AuthController, :make_login
+  end
+
+  scope "/", Opencov do
+    pipe_through :browser
+    pipe_through :authenticated
+
+    # resources "/jobs", JobController, only: [:show]
   end
 end
