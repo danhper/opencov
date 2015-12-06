@@ -43,4 +43,9 @@ defmodule Opencov.Factory do
     project = create(:project)
     %{build | project_id: project.id}
   end
+
+  def with_secure_password(user, password) do
+    changeset = Opencov.User.changeset(user, %{password: password})
+    %{user | password_digest: changeset.changes[:password_digest]}
+  end
 end

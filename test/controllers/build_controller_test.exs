@@ -2,7 +2,7 @@ defmodule Opencov.BuildControllerTest do
   use Opencov.ConnCase
 
   setup do
-    conn = conn()
+    conn = conn() |> with_login
     {:ok, conn: conn}
   end
 

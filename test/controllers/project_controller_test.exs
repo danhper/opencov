@@ -8,7 +8,7 @@ defmodule Opencov.ProjectControllerTest do
   @invalid_attrs %{name: nil}
 
   setup do
-    conn = conn()
+    conn = conn() |> with_login
     {:ok, conn: conn}
   end
 
