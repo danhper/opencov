@@ -11,10 +11,6 @@ defmodule Opencov.Authentication do
     delete_session(conn, user_id_key)
   end
 
-  def current_user(conn) do
-    Map.fetch!(conn.assigns, :current_user)
-  end
-
   def user_id_key do
     @user_id_key
   end

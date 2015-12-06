@@ -20,4 +20,10 @@ defmodule Opencov.AuthController do
   def make_login(conn, _params) do
     render(conn, "login.html", email: "", error: "You need to provide your email and password")
   end
+
+  def logout(conn, _params) do
+    conn
+    |> Authentication.logout
+    |> redirect(to: auth_path(conn, :login))
+  end
 end

@@ -29,6 +29,7 @@ defmodule Opencov.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.1"},
      {:cowboy, "~> 1.0"},
+     {:exgravatar, "~> 2.0"},
      {:secure_random, "~> 0.2"},
      {:temp, "~> 0.2.5"},
      {:timex, "~> 0.19.0"},

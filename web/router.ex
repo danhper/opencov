@@ -31,11 +31,14 @@ defmodule Opencov.Router do
 
     get "/login", AuthController, :login
     post "/login", AuthController, :make_login
+    resources "/users", UserController, only: [:new, :create]
   end
 
   scope "/", Opencov do
     pipe_through :browser
     pipe_through :authenticated
+
+    delete "/logout", AuthController, :logout
 
     get "/", ProjectController, :index
 
@@ -44,7 +47,6 @@ defmodule Opencov.Router do
     end
     resources "/builds", BuildController, only: [:show]
     resources "/files", FileController, only: [:show]
-    resources "/users", UserController
 
     resources "/jobs", JobController, only: [:show]
   end

@@ -16,16 +16,7 @@
   <body class="opencov">
 
   <div class="container-fluid body-wrapper">
-    <nav class="navbar navbar-inverse">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">
-            <i class="fa fa-check"></i>
-            OpenCov
-          </a>
-        </div>
-      </div>
-    </nav>
+    <%= render "header.html", conn: @conn %>
 
     <% if get_flash(@conn, :info) do %>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
