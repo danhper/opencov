@@ -20,17 +20,19 @@
     <%= text_input f, :email, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= label f, :password, "Password", class: "control-label" %>
-    <%= password_input f, :password, class: "form-control" %>
-  </div>
+  <%= unless @is_profile do %>
+    <div class="form-group">
+      <%= label f, :password, "Password", class: "control-label" %>
+      <%= password_input f, :password, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, :password_confirmation, "Password confirmation", class: "control-label" %>
+      <%= password_input f, :password_confirmation, class: "form-control" %>
+    </div>
+  <% end %>
 
   <div class="form-group">
-    <%= label f, :password_confirmation, "Password confirmation", class: "control-label" %>
-    <%= password_input f, :password_confirmation, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+    <%= submit "Save", class: "btn btn-primary" %>
   </div>
 <% end %>

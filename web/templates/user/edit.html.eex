@@ -1,0 +1,7 @@
+<h2>
+  <%= if @is_profile, do: "Profile", else: "Edit #{@user.name}" %>
+</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: user_path(@conn, :update, @user, is_profile: @is_profile),
+                        is_profile: @is_profile %>

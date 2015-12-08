@@ -42,6 +42,9 @@ defmodule Opencov.Router do
 
     get "/", ProjectController, :index
 
+    resources "/users", UserController, only: [:edit, :update]
+    get "/profile", UserController, :profile
+
     resources "/projects", ProjectController do
       get "/badge.:format", ProjectController, :badge, as: :badge
     end

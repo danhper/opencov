@@ -14,9 +14,19 @@
             <%= current_user(@conn).name %>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="#">Profile</a></li>
+            <li>
+              <%= link to: user_path(@conn, :profile) do %>
+                <i class="fa fa-user"></i>
+                Profile
+              <% end %>
+            </li>
             <li role="separator" class="divider"></li>
-            <li><%= link "Logout", to: auth_path(@conn, :logout), method: :delete %></li>
+            <li>
+              <%= link to: auth_path(@conn, :logout), method: :delete do %>
+                <i class="fa fa-sign-out"></i>
+                Logout
+              <% end %>
+            </li>
           </ul>
         </li>
       </ul>

@@ -1,4 +1,5 @@
 <h2>Signup</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: user_path(@conn, :create) %>
+                        action: user_path(@conn, :create),
+                        only_profile: false %>

@@ -1,6 +1,6 @@
 defmodule Opencov.LayoutView do
   use Opencov.Web, :view
 
-  import Opencov.ViewHelpers.Authentication
+  import Opencov.Helpers.Authentication
   import Exgravatar
 end

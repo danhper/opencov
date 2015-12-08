@@ -1,4 +1,4 @@
-defmodule Opencov.ViewHelpers.Authentication do
+defmodule Opencov.Helpers.Authentication do
   def current_user(conn) do
     Map.fetch!(conn.assigns, :current_user)
   end
