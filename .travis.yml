@@ -17,6 +17,7 @@ otp_release:
 before_install:
   - curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
 before_script:
+  - kiex install $ELIXIR_VERSION
   - kiex use $ELIXIR_VERSION
   - MIX_ENV=test mix deps.get
 script: MIX_ENV=test mix test
