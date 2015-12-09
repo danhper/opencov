@@ -14,16 +14,22 @@ defmodule Opencov.Router do
     end
   end
 
-  pipeline :authenticated do
+  pipeline :authenticate do
     plug Opencov.Plug.Authentication
+  end
+
+  pipeline :authenticate_admin do
+    plug Opencov.Plug.Authentication, admin: true
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
 
-    scope "/api/v1", as: :api_v1, alias: Api.V1 do
-      resources "/jobs", JobController, only: [:create]
-    end
+  scope "/api/v1", Opencov.Api.V1, as: :api_v1 do
+    pipe_through :api
+
+    resources "/jobs", JobController, only: [:create]
   end
 
   scope "/", Opencov do
@@ -36,7 +42,7 @@ defmodule Opencov.Router do
 
   scope "/", Opencov do
     pipe_through :browser
-    pipe_through :authenticated
+    pipe_through :authenticate
 
     delete "/logout", AuthController, :logout
 
@@ -52,5 +58,12 @@ defmodule Opencov.Router do
     resources "/files", FileController, only: [:show]
 
     resources "/jobs", JobController, only: [:show]
+  end
+
+  scope "/admin", Opencov.Admin, as: :admin do
+    pipe_through :browser
+    pipe_through :authenticate_admin
+
+    get "/", DashboardController, :index
   end
 end

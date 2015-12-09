@@ -8,6 +8,14 @@
     </div>
     <%= if user_signed_in?(@conn) do %>
       <ul class="nav navbar-nav navbar-right">
+        <%= if current_user(@conn).admin do %>
+          <li>
+            <%= link to: admin_dashboard_path(@conn, :index) do %>
+              <i class="fa fa-wrench"></i>
+              Admin
+            <% end %>
+          </li>
+        <% end %>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             <img class="avatar" src="<%= gravatar_url(current_user(@conn).email, s: 24) %>" alt="Avatar">

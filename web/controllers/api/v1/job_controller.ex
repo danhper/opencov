@@ -1,4 +1,4 @@
-defmodule Api.V1.JobController do
+defmodule Opencov.Api.V1.JobController do
   use Opencov.Web, :controller
 
   def create(conn, %{"json" => json}) do
