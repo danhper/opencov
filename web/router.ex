@@ -65,5 +65,7 @@ defmodule Opencov.Router do
     pipe_through :authenticate_admin
 
     get "/", DashboardController, :index
+
+    resources "/users", UserController
   end
 end

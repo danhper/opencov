@@ -4,7 +4,7 @@ defmodule Opencov.ProjectControllerTest do
   import Mock
 
   alias Opencov.Project
-  @valid_attrs Dict.take(fields_for(:project), [:name, :base_url])
+  @valid_attrs Map.take(fields_for(:project), [:name, :base_url])
   @invalid_attrs %{name: nil}
 
   setup do

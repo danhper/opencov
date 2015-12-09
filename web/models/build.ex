@@ -105,15 +105,15 @@ defmodule Opencov.Build do
   end
 
   defp normalize_params(params) when is_map(params) do
-    {git_info, params} = Dict.pop(params, "git")
-    Dict.merge(params, git_params(git_info))
+    {git_info, params} = Map.pop(params, "git")
+    Map.merge(params, git_info |> git_params |> Enum.into(%{}))
   end
   defp normalize_params(params), do: params
 
   defp git_params(nil), do: %{}
   defp git_params(params) do
     params = Map.merge(@git_defaults, params)
-    params = Dict.put(params, "head", Map.merge(@git_defaults["head"], params["head"]))
+    params = Map.put(params, "head", Map.merge(@git_defaults["head"], params["head"]))
     %{
       "branch" => branch,
       "head" => %{
@@ -134,13 +134,13 @@ defmodule Opencov.Build do
   def get_or_create!(project, params) do
     cond do
       build = current_for_project(project) -> build
-      build = for_commit(project, Dict.get(params, "git", %{})) -> build
+      build = for_commit(project, Map.get(params, "git", %{})) -> build
       true -> create_from_json!(project, params)
     end
   end
 
   def for_commit(project, git_params) do
-    if (git_branch = git_params["branch"]) && (git_commit_sha = Dict.get(git_params, "head", %{})["id"]) do
+    if (git_branch = git_params["branch"]) && (git_commit_sha = Map.get(git_params, "head", %{})["id"]) do
       base_query
         |> for_project(project.id)
         |> where([b], b.branch == ^git_branch and b.commit_sha == ^git_commit_sha)
@@ -149,7 +149,7 @@ defmodule Opencov.Build do
   end
 
   def create_from_json!(project, params) do
-    params = Dict.merge(params, info_for(project, params))
+    params = Map.merge(params, info_for(project, params))
     build = Ecto.Model.build(project, :builds)
     Opencov.Repo.insert! changeset(build, params)
   end
@@ -166,7 +166,7 @@ defmodule Opencov.Build do
   end
 
   defp update_project_coverage(changeset) do
-    if Dict.has_key?(changeset.changes, :coverage) do
+    if Map.has_key?(changeset.changes, :coverage) do
       Opencov.Project.update_coverage(Opencov.Repo.preload(changeset.model, :project).project)
     end
     changeset

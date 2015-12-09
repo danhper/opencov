@@ -9,7 +9,7 @@ defmodule Opencov.Plug.Authentication do
   def call(conn, opts) do
     if user = current_user(conn) do
       if user.admin || !opts[:admin] do
-        %{conn | assigns: Dict.put(conn.assigns, :current_user, user)}
+        %{conn | assigns: Map.put(conn.assigns, :current_user, user)}
       else
         redirect_with(conn, :error, "You are not authorized here.", "/")
       end

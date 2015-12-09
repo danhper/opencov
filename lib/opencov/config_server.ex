@@ -30,13 +30,13 @@ defmodule Opencov.ConfigServer do
   end
 
   def handle_cast({:set, key, value}, {config, config_path}) do
-    config = Dict.put(config, key, value)
+    config = Keyword.put(config, key, value)
     persist_config(config, config_path)
     {:noreply, {config, config_path}}
   end
 
   def handle_cast({:set, new_config}, {config, config_path}) do
-    config = Dict.merge(config, new_config)
+    config = Keyword.merge(config, new_config)
     persist_config(config, config_path)
     {:noreply, {config, config_path}}
   end

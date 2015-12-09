@@ -4,7 +4,7 @@ defmodule Opencov.UserTest do
   alias Opencov.User
 
   test "changeset with valid attributes" do
-    changeset = User.changeset %User{}, Dict.delete(fields_for(:user), :password_confirmation)
+    changeset = User.changeset %User{}, Map.delete(fields_for(:user), :password_confirmation)
     assert changeset.valid?
   end
 

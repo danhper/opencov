@@ -1,3 +1,29 @@
-<div class="admin">
-  Hello
+<div class="admin container">
+  <h1>Admin dashboard</h1>
+  <div class="row">
+    <div class="panel panel-default col-sm-5 col-xs-12">
+      <div class="panel-heading">
+        <h3 class="panel-title">Recent projects</h3>
+      </div>
+      <div class="panel-body">
+        <%= for project <- @projects do %>
+          <li><%= project.name %></li>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel panel-default col-sm-5 col-sm-offset-1 col-xs-12">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">
+          Recent users
+          <%= link "Create user", to: admin_user_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <%= for user <- @users do %>
+          <li><%= user.name %></li>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

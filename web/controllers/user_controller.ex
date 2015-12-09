@@ -5,13 +5,15 @@ defmodule Opencov.UserController do
   alias Opencov.Authentication
   import Opencov.Helpers.Authentication
 
+  plug :scrub_params, "user" when action in [:create, :update]
+
   def new(conn, _params) do
     changeset = User.changeset(%User{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
+    changeset = User.changeset(%User{}, make_user_params(user_params))
 
     case Repo.insert(changeset) do
       {:ok, user} ->
@@ -49,4 +51,7 @@ defmodule Opencov.UserController do
     end
   end
 
+  defp make_user_params(params) do
+    params |> Map.delete("admin")
+  end
 end
