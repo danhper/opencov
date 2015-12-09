@@ -19,6 +19,7 @@ before_install:
 before_script:
   - kiex install $ELIXIR_VERSION
   - kiex use $ELIXIR_VERSION
+  - mix local.hex --force
   - MIX_ENV=test mix deps.get
 script: MIX_ENV=test mix test
 env:
