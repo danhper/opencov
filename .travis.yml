@@ -1,12 +1,25 @@
-language: elixir
-elixir:
-  - 1.0.5
-  - 1.1.0
-  - 1.1.1
-  - 1.2.0-rc.0
+# language: elixir
+# elixir:
+#   - 1.0.5
+#   - 1.1.0
+#   - 1.1.1
+#   - 1.2.0-rc.0
+# otp_release:
+#   - 17.5
+#   - 18.0
+#   - 18.1
+# script:
+#   - ./cover.sh
+
+language: erlang
 otp_release:
-  - 17.5
-  - 18.0
   - 18.1
-script:
-  - ./cover.sh
+before_install:
+  - curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
+before_script:
+  - kiex use $ELIXIR_VERSION
+  - MIX_ENV=test mix deps.get
+script: MIX_ENV=test mix test
+env:
+  ELIXIR_VERSION: 1.1.1
+  ELIXIR_VERSION: 1.2.0-rc.0

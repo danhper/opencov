@@ -1,11 +1,11 @@
 defmodule Opencov.ConfigServer do
+  use GenServer
+
   @doc """
   Runtime configuration server
   NOTE: this updates config/runtime.exs to store configuration, so it is only good for
   a single node.
   """
-
-  use GenServer
 
   def start_link do
     GenServer.start_link(__MODULE__, [], name: default_name)

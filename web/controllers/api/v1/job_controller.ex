@@ -28,6 +28,6 @@ defmodule Opencov.Api.V1.JobController do
   defp bad_request(conn, message) do
     conn
       |> put_status(400)
-      |> json %{"error" => message}
+      |> json(%{"error" => message})
   end
 end

@@ -33,11 +33,11 @@ defmodule Opencov.UserController do
 
   def update(conn, %{"id" => id, "is_profile" => is_profile, "user" => user_params}) do
     is_profile = is_profile == "true"
-    if is_profile do
-      {redirect_path, user, flash} = {user_path(conn, :profile), current_user(conn), "Profile"}
+    {redirect_path, user, flash} = if is_profile do
+      {user_path(conn, :profile), current_user(conn), "Profile"}
     else
-      {user, flash}  = {Repo.get!(User, id), "User"}
-      redirect_path = user_path(conn, :edit, user)
+      user = Repo.get!(User, id)
+      {user_path(conn, :edit, user), user, "User"}
     end
     changeset = User.changeset(user, user_params)
 
