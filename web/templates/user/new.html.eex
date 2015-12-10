@@ -2,4 +2,5 @@
 
 <%= render "form.html", changeset: @changeset,
                         action: user_path(@conn, :create),
-                        only_profile: false %>
+                        only_profile: false,
+                        is_admin: false %>

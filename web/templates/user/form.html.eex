@@ -32,6 +32,14 @@
     </div>
   <% end %>
 
+  <%= if @is_admin do %>
+    <div class="form-group checkbox admin">
+      <%= label f, :admin, class: "control-label"  do %>
+        <%= checkbox f, :admin %> Admin
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= submit "Save", class: "btn btn-primary" %>
   </div>
