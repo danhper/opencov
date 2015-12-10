@@ -1,6 +1,5 @@
 language: erlang
 otp_release:
-  - 17.5
   - 18.1
 before_install:
   - curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
