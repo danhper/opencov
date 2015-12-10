@@ -106,7 +106,7 @@ defmodule Opencov.Build do
 
   defp normalize_params(params) when is_map(params) do
     {git_info, params} = Map.pop(params, "git")
-    Map.merge(params, git_info |> git_params |> Enum.into(%{}))
+    Map.merge(params, git_params(git_info))
   end
   defp normalize_params(params), do: params
 
@@ -125,7 +125,7 @@ defmodule Opencov.Build do
     } = params
     result = %{"branch" => branch || "", "commit_sha" => commit_sha, "committer_name" => committer_name,
         "committer_email" => committer_email, "commit_message" => commit_message}
-    Enum.map result, fn {k, v} ->
+    for {k, v} <- result, into: %{} do
       unless is_nil(v), do: v = String.strip(v)
       {k, v}
     end
