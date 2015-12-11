@@ -1,14 +1,16 @@
 defmodule Opencov.Admin.UserController do
   use Opencov.Web, :controller
 
+  import Opencov.Helpers.Authentication
+
   alias Opencov.User
   alias Opencov.Repo
 
   plug :scrub_params, "user" when action in [:create, :update]
 
   def index(conn, params) do
-    users = Repo.all(User) |> Repo.paginate(params)
-    render(conn, "index.html", users: users)
+    paginator = Repo.paginate(User, params)
+    render(conn, "index.html", users: paginator.entries, paginator: paginator)
   end
 
   def new(conn, _params) do
@@ -17,7 +19,7 @@ defmodule Opencov.Admin.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
+    changeset = User.changeset(%User{}, user_params, generate_password: true, generate_token: true)
 
     case Repo.insert(changeset) do
       {:ok, user} ->
@@ -56,10 +58,16 @@ defmodule Opencov.Admin.UserController do
 
   def delete(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
-    Repo.delete!(user)
+    if current_user(conn).id == user.id do
+      conn
+        |> put_flash(:error, "You cannot delete yourself.")
+        |> redirect(to: admin_user_path(conn, :index))
+    else
+      Repo.delete!(user)
 
-    conn
-      |> put_flash(:info, "user deleted successfully.")
-      |> redirect(to: admin_user_path(conn, :index))
+      conn
+        |> put_flash(:info, "user deleted successfully.")
+        |> redirect(to: admin_user_path(conn, :index))
+    end
   end
 end

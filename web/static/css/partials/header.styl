@@ -1,23 +1,26 @@
 .body-wrapper
-  .navbar-inverse
-    margin-bottom 0
-  .navbar-brand
-    font-size 1.6em
-    & > img
-      display inline
-      max-height 100%
-      height 100%
-      -o-object-fit contain
-      object-fit contain
-  .navbar-right
-    .avatar
-      border-radius 12px
+  .navbar
+    &.navbar-inverse
+      margin-bottom 0
+    .navbar-brand
+      font-size 1.6em
+      & > img
+        display inline
+        max-height 100%
+        height 100%
+        -o-object-fit contain
+        object-fit contain
+    .navbar-right
+      .avatar
+        border-radius 12px
+        min-height 24px
+        min-width 24px
 
-  .dropdown-menu > li > form > a
-    display block
-    padding 3px 20px
-    clear both
-    font-weight normal
-    line-height 1.42857143
-    color #333333
-    white-space nowrap
+    .dropdown-menu > li > form > a
+      display block
+      padding 3px 20px
+      clear both
+      font-weight normal
+      line-height 1.42857143
+      color #333333
+      white-space nowrap

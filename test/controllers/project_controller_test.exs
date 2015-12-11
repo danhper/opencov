@@ -19,7 +19,7 @@ defmodule Opencov.ProjectControllerTest do
 
   test "renders form for new resources", %{conn: conn} do
     conn = get conn, project_path(conn, :new)
-    assert html_response(conn, 200) =~ "New project"
+    assert html_response(conn, 200) =~ "project"
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
@@ -30,7 +30,7 @@ defmodule Opencov.ProjectControllerTest do
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, project_path(conn, :create), project: %{}
-    assert html_response(conn, 200) =~ "New project"
+    assert html_response(conn, 200) =~ "new"
   end
 
   test "shows chosen resource", %{conn: conn} do
@@ -46,9 +46,9 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
-    project = Repo.insert! %Project{}
+    project = create(:project)
     conn = get conn, project_path(conn, :edit, project)
-    assert html_response(conn, 200) =~ "Edit project"
+    assert html_response(conn, 200) =~ project.name
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
@@ -59,9 +59,9 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    project = Repo.insert! %Project{}
+    project = create(:project)
     conn = put conn, project_path(conn, :update, project), project: @invalid_attrs
-    assert html_response(conn, 200) =~ "Edit project"
+    assert html_response(conn, 200) =~ project.name
   end
 
   test "deletes chosen resource", %{conn: conn} do

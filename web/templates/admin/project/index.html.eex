@@ -1,0 +1,43 @@
+<div class="admin project-list">
+  <h2 class="row breadcrumb">
+    <span class="media-body">
+      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <span class="separator">></span>
+      <span>Projects</span>
+    </span>
+    <span class="coverage media-right">
+      <%= link "Create project", to: project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+    </span>
+  </h2>
+
+  <table class="table">
+    <caption><%= @paginator.total_entries %> total projects</caption>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>URL</th>
+        <th>Created on</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <%= for project <- @projects do %>
+      <tr>
+        <td><%= link project.name, to: admin_project_path(@conn, :show, project) %></td>
+        <td><%= link project.base_url, to: project.base_url, target: "_blank" %></td>
+        <td><%= Datetime.format(project.inserted_at, :dateonly) %></td>
+        <td class="text-right">
+          <%= link "Edit", to: project_path(@conn, :edit, project), class: "btn btn-default btn-xs" %>
+          <%= link "Delete", to: project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <%= if @paginator.total_pages > 1 do %>
+    <div class="text-centered">
+      <%= pagination_links @conn, @paginator, path: &Opencov.Router.Helpers.admin_project_path/3 %>
+    </div>
+  <% end %>
+</div>

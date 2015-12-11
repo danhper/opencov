@@ -24,7 +24,7 @@ defmodule Opencov.Mixfile do
   defp elixirc_paths(_),     do: ["lib", "web"]
 
   defp deps do
-    [{:phoenix, "~> 1.0.3"},
+    [{:phoenix, "~> 1.0"},
      {:phoenix_ecto, "~> 1.2"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.1"},
@@ -38,7 +38,7 @@ defmodule Opencov.Mixfile do
      {:plug_basic_auth, "~> 1.0"},
      {:ex_machina, "~> 0.5"},
      {:scrivener_html, github: "tuvistavie/scrivener_html"},
-     {:secure_password, "~> 0.2"},
+     {:secure_password, "~> 0.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:excoveralls, "~> 0.4.3", only: :test},

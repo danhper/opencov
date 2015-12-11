@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [class: "full-page"], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below:</p>
@@ -20,7 +20,7 @@
     <%= text_input f, :email, class: "form-control" %>
   </div>
 
-  <%= unless @is_profile do %>
+  <%= if @show_password do %>
     <div class="form-group">
       <%= label f, :password, "Password", class: "control-label" %>
       <%= password_input f, :password, class: "form-control" %>
@@ -33,6 +33,11 @@
   <% end %>
 
   <%= if @is_admin do %>
+    <%= unless @show_password do %>
+      <div class="password-generated">
+        An email will be sent and the user will enter his password on his first login.
+      </div>
+    <% end %>
     <div class="form-group checkbox admin">
       <%= label f, :admin, class: "control-label"  do %>
         <%= checkbox f, :admin %> Admin

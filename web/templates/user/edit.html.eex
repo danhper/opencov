@@ -1,8 +1,13 @@
-<h2>
-  <%= if @is_profile, do: "Profile", else: "Edit #{@user.name}" %>
-</h2>
+<div class="edit-user">
+  <h2 class="breadcrumb row">
+    <span class="media-body">
+      Profile
+    </span>
+  </h2>
 
-<%= render "form.html", changeset: @changeset,
-                        action: user_path(@conn, :update, @user, is_profile: @is_profile),
-                        is_profile: @is_profile,
-                        is_admin: false %>
+  <%= render "form.html", changeset: @changeset,
+                          action: user_path(@conn, :update, @user, is_profile: @is_profile),
+                          show_password: !@is_profile,
+                          is_admin: false %>
+
+</div>

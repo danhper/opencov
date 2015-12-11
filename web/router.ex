@@ -67,5 +67,6 @@ defmodule Opencov.Router do
     get "/", DashboardController, :index
 
     resources "/users", UserController
+    resources "/projects", ProjectController, only: [:index, :show]
   end
 end

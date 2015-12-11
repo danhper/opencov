@@ -1,15 +1,23 @@
 <div class="admin container">
-  <h1>Admin dashboard</h1>
+  <div class="breadcrumb row">
+    <h2>Admin dashboard</h2>
+  </div>
   <div class="row">
     <div class="panel panel-default col-sm-5 col-xs-12">
       <div class="panel-heading">
-        <h3 class="panel-title">Recent projects</h3>
+        <h3 class="panel-title">
+          Recent projects
+          <%= link "Create project", to: project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+        </h3>
       </div>
       <div class="panel-body">
-        <%= for project <- @projects do %>
-          <li><%= project.name %></li>
-        <% end %>
+        <ul>
+          <%= for project <- @projects do %>
+            <li><%= link project.name, to: admin_project_path(@conn, :show, project) %></li>
+          <% end %>
+        </ul>
       </div>
+      <%= link "View all >>", to: admin_project_path(@conn, :index), class: "view-all" %>
     </div>
 
     <div class="panel panel-default col-sm-5 col-sm-offset-1 col-xs-12">
@@ -20,10 +28,13 @@
         </h3>
       </div>
       <div class="panel-body">
-        <%= for user <- @users do %>
-          <li><%= user.name %></li>
-        <% end %>
+        <ul>
+          <%= for user <- @users do %>
+            <li><%= link user.name, to: admin_user_path(@conn, :show, user) %></li>
+          <% end %>
+        </ul>
       </div>
+      <%= link "View all >>", to: admin_user_path(@conn, :index), class: "view-all" %>
     </div>
   </div>
 </div>

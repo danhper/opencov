@@ -1,0 +1,24 @@
+<div class="admin project-show">
+  <h2 class="row breadcrumb">
+    <span class="media-body">
+      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <span class="separator">></span>
+      <span><%= link "Projects", to: admin_project_path(@conn, :index) %></span>
+      <span class="separator">></span>
+      <span><%= @project.name %></span>
+    </span>
+  </h2>
+  <div class="project">
+    <dl class="dl-horizontal">
+      <dt>Name</dt>
+      <dd><%= @project.name %></dd>
+      <dt>URL</dt>
+      <dd><%= link @project.base_url, to: @project.base_url, target: "_blank" %></dd>
+      <dt>Token</dt>
+      <dd><%= @project.token %></dd>
+      <dt>Created on</dt>
+      <dd><%= Datetime.format(@project.inserted_at, :dateonly) %></dd>
+    </dl>
+  </div>
+  <%= render Opencov.Admin.SharedView, "actions.html", conn: @conn, resource: @project, path_fn: &Opencov.Router.Helpers.project_path/3 %>
+</div>

@@ -13,7 +13,7 @@ defmodule Opencov.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, make_user_params(user_params))
+    changeset = User.changeset(%User{}, make_user_params(user_params), generate_token: true)
 
     case Repo.insert(changeset) do
       {:ok, user} ->
