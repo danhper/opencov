@@ -13,6 +13,8 @@ defmodule Opencov.User do
 
     has_secure_password
 
+    has_many :projects, Opencov.Project
+
     timestamps
   end
 
