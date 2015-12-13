@@ -1,6 +1,7 @@
 defmodule Opencov.AuthController do
   use Opencov.Web, :controller
 
+  import Opencov.Helpers.Navigation
   alias Opencov.Authentication
   alias Opencov.User
   alias Opencov.Repo
@@ -11,7 +12,7 @@ defmodule Opencov.AuthController do
 
   def make_login(conn, %{"login" => %{"email" => email, "password" => password}}) do
     if user = User.authenticate(Repo.get_by(User, email: email), password) do
-      conn |> Authentication.login(user) |> redirect(to: "/")
+      conn |> Authentication.login(user) |> redirect(to: previous_path(conn, default: "/"))
     else
       render(conn, "login.html", email: email, error: "Wrong email or password", can_signup: can_signup?)
     end

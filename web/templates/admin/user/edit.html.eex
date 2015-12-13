@@ -14,7 +14,7 @@
   <div class="user-form">
     <%= render Opencov.UserView, "form.html",
                 changeset: @changeset,
-                action: admin_user_path(@conn, :create),
+                action: admin_user_path(@conn, :update, @user),
                 show_password: true,
                 is_admin: true %>
   </div>

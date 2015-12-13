@@ -2,6 +2,7 @@ defmodule Opencov.Admin.UserController do
   use Opencov.Web, :controller
 
   import Opencov.Helpers.Authentication
+  import Opencov.Helpers.Navigation
 
   alias Opencov.User
   alias Opencov.Repo
@@ -49,7 +50,7 @@ defmodule Opencov.Admin.UserController do
     case Repo.update(changeset) do
       {:ok, user} ->
         conn
-        |> put_flash(:error, "user updated successfully.")
+        |> put_flash(:info, "user updated successfully.")
         |> redirect(to: admin_user_path(conn, :show, user))
       {:error, changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
@@ -61,7 +62,7 @@ defmodule Opencov.Admin.UserController do
     if current_user(conn).id == user.id do
       conn
         |> put_flash(:error, "You cannot delete yourself.")
-        |> redirect(to: admin_user_path(conn, :index))
+        |> redirect(to: previous_path(conn, default: admin_user_path(conn, :index)))
     else
       Repo.delete!(user)
 
