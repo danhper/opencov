@@ -5,14 +5,19 @@ defmodule Opencov.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
+    plug Opencov.Plug.FetchUser
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Opencov.Plug.Navigation, excluded_paths: ~w(/login)
+    plug Opencov.Plug.Navigation, excluded_paths: ~w(/login /users/new)
     if Application.get_env(:opencov, PlugBasicAuth)[:enable] do
       plug PlugBasicAuth,
         username: Application.get_env(:opencov, PlugBasicAuth)[:username],
         password: Application.get_env(:opencov, PlugBasicAuth)[:password]
     end
+  end
+
+  pipeline :anonymous_only do
+    plug Opencov.Plug.AnonymousOnly
   end
 
   pipeline :authenticate do
@@ -35,6 +40,7 @@ defmodule Opencov.Router do
 
   scope "/", Opencov do
     pipe_through :browser
+    pipe_through :anonymous_only
 
     get "/login", AuthController, :login
     post "/login", AuthController, :make_login
@@ -69,5 +75,7 @@ defmodule Opencov.Router do
 
     resources "/users", UserController
     resources "/projects", ProjectController, only: [:index, :show]
+    get "/settings", SettingsController, :edit
+    put "/settings", SettingsController, :update
   end
 end

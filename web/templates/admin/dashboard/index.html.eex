@@ -36,5 +36,22 @@
       </div>
       <%= link "View all >>", to: admin_user_path(@conn, :index), class: "view-all" %>
     </div>
+
+    <div class="panel panel-default col-sm-5 col-xs-12">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">
+          Settings
+          <%= link "Edit settings", to: admin_settings_path(@conn, :edit), class: "btn btn-primary btn-sm pull-right" %>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <dl class="settings dl-horizontal">
+          <%= for key <- ~w(signup_enabled restricted_signup_domains default_project_visibility)a do %>
+            <dt class="<%= key %>"><%= Display.atom(key) %></dt>
+            <dd><%= Display.display(Map.get(@settings, key)) %></dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
   </div>
 </div>
