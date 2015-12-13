@@ -23,8 +23,7 @@ defmodule Opencov.AuthController do
   end
 
   defp can_signup? do
-    allow_signup = Application.get_env(:opencov, :runtime)[:allow_signup]
-    is_nil(allow_signup) || allow_signup
+    Opencov.Settings.get!.signup_enabled
   end
 
   def logout(conn, _params) do

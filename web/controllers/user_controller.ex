@@ -6,6 +6,7 @@ defmodule Opencov.UserController do
   import Opencov.Helpers.Authentication
 
   plug :scrub_params, "user" when action in [:create, :update]
+  plug :check_signup when action in [:new, :create]
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -53,5 +54,16 @@ defmodule Opencov.UserController do
 
   defp make_user_params(params) do
     params |> Map.delete("admin")
+  end
+
+  defp check_signup(conn, _) do
+    if Opencov.Settings.get!.signup_enabled do
+      conn
+    else
+      conn
+      |> put_flash(:info, "Signup is disabled. Contact your administrator if you need an account.")
+      |> redirect(to: auth_path(conn, :login))
+      |> halt
+    end
   end
 end

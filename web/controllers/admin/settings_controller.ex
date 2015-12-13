@@ -20,7 +20,7 @@ defmodule Opencov.Admin.SettingsController do
       {:ok, _settings} ->
         conn
         |> put_flash(:info, "Settings updated successfully.")
-        |> redirect(to: admin_settings_path(conn, :edit))
+        |> redirect(to: admin_dashboard_path(conn, :index))
       {:error, changeset} ->
         render(conn, "edit.html", settings: settings, changeset: changeset)
     end

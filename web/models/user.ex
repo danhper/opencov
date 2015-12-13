@@ -25,6 +25,7 @@ defmodule Opencov.User do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:email)
+    |> validate_email
     |> with_generated_password(opts)
     |> with_confirmation_token(opts)
     |> with_secure_password
@@ -43,6 +44,32 @@ defmodule Opencov.User do
       put_change(changeset, :confirmation_token, SecureRandom.urlsafe_base64(30))
     else
       changeset
+    end
+  end
+
+  defp validate_email(%Ecto.Changeset{} = changeset) do
+    if (email = get_change(changeset, :email)) && (error = validate_email(email)) do
+      add_error(changeset, :email, error)
+    else
+      changeset
+    end
+  end
+
+  defp validate_email(email) do
+    if not Regex.match?(~r/@/, email) do
+      "the email is not valid"
+    else
+      validate_domain(email)
+    end
+  end
+
+  defp validate_domain(email) do
+    allowed_domains = Opencov.Settings.restricted_signup_domains
+    domain = email |> String.split("@") |> List.last
+    if allowed_domains && not domain in allowed_domains do
+      "only the following domains are allowed: #{Enum.join(allowed_domains, ",")}"
+    else
+      nil
     end
   end
 end

@@ -4,7 +4,7 @@ defmodule Opencov.Repo.Migrations.CreateSettings do
   def change do
     create table(:settings) do
       add :signup_enabled, :boolean, default: false
-      add :restricted_signup_domains, :text
+      add :restricted_signup_domains, :text, default: ""
       add :default_project_visibility, :string
 
       timestamps

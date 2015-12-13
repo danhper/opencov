@@ -8,6 +8,15 @@ defmodule Opencov.Factory do
     }
   end
 
+  def factory(:settings) do
+    %Opencov.Settings{
+      signup_enabled: false,
+      restricted_signup_domains: nil,
+      default_project_visibility: "internal"
+    }
+  end
+
+
   def factory(:user) do
     %Opencov.User{
       name: sequence(:name, &("name-#{&1}")),
