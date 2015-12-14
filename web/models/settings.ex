@@ -15,6 +15,7 @@ defmodule Opencov.Settings do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_inclusion(:default_project_visibility, Opencov.Project.visibility_choices)
     |> normalize_domains
   end
 

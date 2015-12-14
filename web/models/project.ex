@@ -75,4 +75,8 @@ defmodule Opencov.Project do
     coverage = Opencov.Build.last_for_project(project).coverage
     Opencov.Repo.update! %{project | current_coverage: coverage}
   end
+
+  def visibility_choices do
+    ~w(public private internal)
+  end
 end
