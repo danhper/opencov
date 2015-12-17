@@ -29,6 +29,9 @@ config :scrivener_html,
 config :opencov, PlugBasicAuth,
   enable: false
 
+config :opencov, :email,
+  sender: "info@opencov.io"
+
 import_config "#{Mix.env}.exs"
 
 if File.exists?(runtime_config_path), do: import_config runtime_config_path

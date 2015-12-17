@@ -68,6 +68,12 @@ defmodule Opencov.Web do
     end
   end
 
+  def mailer do
+    quote do
+      use Opencov.Mailer
+    end
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """

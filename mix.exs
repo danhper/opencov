@@ -37,6 +37,8 @@ defmodule Opencov.Mixfile do
      {:scrivener, "~> 1.0"},
      {:plug_basic_auth, "~> 1.0"},
      {:ex_machina, "~> 0.5"},
+     {:mailman, "~> 0.1.0"},
+     {:eiconv, github: "zotonic/eiconv"},
      {:scrivener_html, github: "tuvistavie/scrivener_html"},
      {:secure_password, "~> 0.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
