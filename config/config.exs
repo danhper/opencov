@@ -1,7 +1,5 @@
 use Mix.Config
 
-runtime_config_path = Path.join(__DIR__, "runtime.exs")
-
 config :opencov, Opencov.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
@@ -11,9 +9,7 @@ config :opencov, Opencov.Endpoint,
            adapter: Phoenix.PubSub.PG2]
 
 config :opencov,
-  badge_format: "svg",
-  runtime_config_path: runtime_config_path,
-  runtime: []
+  badge_format: "svg"
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -30,8 +26,18 @@ config :opencov, PlugBasicAuth,
   enable: false
 
 config :opencov, :email,
-  sender: "info@opencov.io"
+  sender: "Opencov <info@opencov.io>",
+  smtp: [
+    relay: "smtp.mailgun.org",
+    username: "info@opencov.io",
+    password: "I wouldn't share this",
+    port: 587,
+    ssl: false,
+    tls: :always,
+    auth: :always
+  ]
 
 import_config "#{Mix.env}.exs"
 
-if File.exists?(runtime_config_path), do: import_config runtime_config_path
+local_config_path = Path.join(__DIR__, "local.exs")
+if File.exists?(local_config_path), do: import_config local_config_path

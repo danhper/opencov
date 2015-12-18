@@ -1,14 +1,14 @@
 defmodule Opencov.UserMailer do
   use Opencov.Web, :mailer
 
-  define_templates :send_registration, [:user]
+  define_templates :registration, [:user]
 
-  def send_registration(user) do
+  def registration_email(user) do
     %Mailman.Email{
-      subject: "Hello Mailman!",
-      to: [user.email],
-      text: send_registration_text(user),
-      html: send_registration_html(user)
+      subject: "Welcome to Opencov",
+      to: ["#{user.name} <#{user.email}>"],
+      text: registration_text(user),
+      html: registration_html(user)
     }
   end
 end

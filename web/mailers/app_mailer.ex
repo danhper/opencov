@@ -1,23 +1,39 @@
-defmodule AppMailer do
-  def send(email, opts \\ []) do
-    email = %{email | from: opts[:from] || default_from}
-    Mailman.deliver(email, config)
+defmodule Opencov.AppMailer do
+  def send(email) do
+    email = %{email | from: sender}
+    message = generate_message(email)
+    Mailman.Adapter.deliver(mailman_config, normalize_email(email), message)
   end
 
-  def config do
-    %Mailman.Context{
-      config:   %Mailman.LocalSmtpConfig{
-        port: 1234
-      },
-      composer: %Mailman.EexComposeConfig{}
-    }
+  defp generate_message(email) do
+    Mailman.Render.render(email, %Mailman.EexComposeConfig{})
   end
 
-  defp default_from do
-    app_config[:sender]
+  defp normalize_email(email) do
+    %{email | from: extract_address(email.from),
+              to: Enum.map(email.to, &extract_address/1)}
   end
 
-  defp app_config do
+  defp sender do
+    mail_config[:sender]
+  end
+
+  defp mail_config do
     Application.get_env(:opencov, :email, [])
+  end
+
+  defp mailman_config do
+    if Mix.env == :test do
+      %Mailman.TestConfig{}
+    else
+      struct(Mailman.SmtpConfig, mail_config[:smtp])
+    end
+  end
+
+  defp extract_address(email) do
+    case Regex.run(~r/.*?<(.*?)>/, email) do
+      [_, extracted] -> extracted |> String.strip |> String.downcase
+      _ -> email
+    end
   end
 end
