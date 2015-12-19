@@ -57,4 +57,8 @@ defmodule Opencov.Factory do
     changeset = Opencov.User.changeset(user, %{password: password})
     %{user | password_digest: changeset.changes[:password_digest]}
   end
+
+  def confirmed_user(user) do
+    %{user | confirmed_at: Timex.Date.now, password_need_reset: false}
+  end
 end

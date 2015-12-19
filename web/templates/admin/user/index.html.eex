@@ -26,7 +26,7 @@
       <tr>
         <td><%= link user.name, to: admin_user_path(@conn, :show, user) %></td>
         <td><%= user.email %></td>
-        <td><%= Display.bool(user.confirmed_at) %></td>
+        <td><%= Display.bool(!is_nil(user.confirmed_at)) %></td>
         <td><%= Display.bool(user.admin) %></td>
         <td class="text-right">
           <%= link "Edit", to: admin_user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %>

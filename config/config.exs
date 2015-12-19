@@ -27,7 +27,7 @@ config :opencov, PlugBasicAuth,
   enable: false
 
 config :opencov, :email,
-  sender: "Opencov <info@opencov.io>",
+  sender: "OpenCov <info@opencov.io>",
   smtp: [
     relay: "smtp.mailgun.org",
     username: "info@opencov.io",

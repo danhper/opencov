@@ -11,6 +11,7 @@ defmodule Opencov.User do
     field :confirmation_token, :string
     field :confirmed_at, Timex.Ecto.DateTime
 
+    field :current_password, :string, virtual: true
     has_secure_password
 
     has_many :projects, Opencov.Project
@@ -29,6 +30,27 @@ defmodule Opencov.User do
     |> with_generated_password(opts)
     |> with_confirmation_token(opts)
     |> with_secure_password
+  end
+
+  def confirmation_changeset(model, params \\ :empty) do
+    model |> cast(params, ~w(confirmed_at), [])
+  end
+
+  def password_update_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(password password_confirmation), ~w(current_password))
+    |> validate_password_update
+    |> put_change(:password_need_reset, false)
+    |> with_secure_password
+  end
+
+  defp validate_password_update(changeset) do
+    user = changeset.model
+    if user.password_need_reset or Opencov.User.authenticate(user, get_change(changeset, :current_password)) do
+      delete_change(changeset, :current_password)
+    else
+      add_error(changeset, :current_password, "is invalid")
+    end
   end
 
   defp with_generated_password(changeset, opts) do

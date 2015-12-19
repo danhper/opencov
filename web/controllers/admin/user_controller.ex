@@ -66,7 +66,7 @@ defmodule Opencov.Admin.UserController do
       Repo.delete!(user)
 
       conn
-        |> put_flash(:info, "user deleted successfully.")
+        |> put_flash(:info, "User deleted successfully.")
         |> redirect(to: admin_user_path(conn, :index))
     end
   end

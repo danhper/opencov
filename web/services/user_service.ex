@@ -15,4 +15,19 @@ defmodule Opencov.UserService do
       err -> err
     end
   end
+
+  def confirm_user(token) do
+    case Repo.get_by(User, confirmation_token: token) do
+      %User{confirmed_at: nil} = user ->
+        finalize_confirmation!(user)
+        {:ok, user, "Your email has been confirmed successfully"}
+      %User{} = user -> {:ok, user, "You are already confirmed."}
+      _              -> {:error, "Could not find the user to confirm"}
+    end
+  end
+
+  defp finalize_confirmation!(user) do
+    changeset = User.confirmation_changeset(user, %{confirmed_at: Timex.Date.now})
+    Repo.update!(changeset)
+  end
 end

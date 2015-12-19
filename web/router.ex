@@ -5,9 +5,10 @@ defmodule Opencov.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    plug Opencov.Plug.FetchUser
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Opencov.Plug.FetchUser
+    plug Opencov.Plug.ForcePasswordInitialize
     plug Opencov.Plug.Navigation, excluded_paths: ~w(/login /users/new)
     if Application.get_env(:opencov, PlugBasicAuth)[:enable] do
       plug PlugBasicAuth,
@@ -45,6 +46,8 @@ defmodule Opencov.Router do
     get "/login", AuthController, :login
     post "/login", AuthController, :make_login
     resources "/users", UserController, only: [:new, :create]
+
+    get "/users/confirm", UserController, :confirm
   end
 
   scope "/", Opencov do
@@ -57,6 +60,8 @@ defmodule Opencov.Router do
 
     resources "/users", UserController, only: [:edit, :update]
     get "/profile", UserController, :profile
+    get "/profile/password/edit", UserController, :edit_password
+    put "/profile/password", UserController, :update_password
 
     resources "/projects", ProjectController do
       get "/badge.:format", ProjectController, :badge, as: :badge
