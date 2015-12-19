@@ -19,7 +19,7 @@
       <dt>Confirmed</dt>
       <dd><%= Display.bool(!is_nil(@user.confirmed_at)) %></dd>
       <dt>Password initialized</dt>
-      <dd><%= Display.bool(!@user.password_need_reset) %></dd>
+      <dd><%= Display.bool(@user.password_initialized) %></dd>
       <dt>Created on</dt>
       <dd><%= Datetime.format(@user.inserted_at, :dateonly) %></dd>
     </dl>

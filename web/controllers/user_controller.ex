@@ -77,10 +77,10 @@ defmodule Opencov.UserController do
     do: redirect_to_login_with_error(conn, "The URL seems wrong, double check your email")
 
   defp finalize_confirm(conn, user) do
-    if user.password_need_reset do
-      conn |> Opencov.Authentication.login(user) |> redirect(to: user_path(conn, :edit_password))
-    else
+    if user.password_initialized do
       conn |> redirect(to: auth_path(conn, :login))
+    else
+      conn |> Opencov.Authentication.login(user) |> redirect(to: user_path(conn, :edit_password))
     end
   end
 

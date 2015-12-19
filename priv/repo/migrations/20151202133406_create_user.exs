@@ -8,7 +8,7 @@ defmodule Opencov.Repo.Migrations.CreateUser do
       add :password_digest, :string
       add :admin, :boolean, default: false
 
-      add :password_need_reset, :boolean, default: false
+      add :password_initialized, :boolean, default: false
 
       add :confirmation_token, :string
       add :confirmed_at, :datetime

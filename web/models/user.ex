@@ -7,7 +7,7 @@ defmodule Opencov.User do
     field :email, :string
     field :admin, :boolean, default: false
     field :name, :string
-    field :password_need_reset, :boolean, default: false
+    field :password_initialized, :boolean, default: true
     field :confirmation_token, :string
     field :confirmed_at, Timex.Ecto.DateTime
 
@@ -40,13 +40,13 @@ defmodule Opencov.User do
     model
     |> cast(params, ~w(password password_confirmation), ~w(current_password))
     |> validate_password_update
-    |> put_change(:password_need_reset, false)
+    |> put_change(:password_initialized, true)
     |> with_secure_password
   end
 
   defp validate_password_update(changeset) do
     user = changeset.model
-    if user.password_need_reset or Opencov.User.authenticate(user, get_change(changeset, :current_password)) do
+    if !user.password_initialized or Opencov.User.authenticate(user, get_change(changeset, :current_password)) do
       delete_change(changeset, :current_password)
     else
       add_error(changeset, :current_password, "is invalid")
@@ -55,7 +55,7 @@ defmodule Opencov.User do
 
   defp with_generated_password(changeset, opts) do
     if opts[:generate_password] do
-      change(changeset, password: SecureRandom.urlsafe_base64(12), password_need_reset: true)
+      change(changeset, password: SecureRandom.urlsafe_base64(12), password_initialized: false)
     else
       changeset
     end

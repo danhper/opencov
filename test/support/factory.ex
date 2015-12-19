@@ -59,6 +59,6 @@ defmodule Opencov.Factory do
   end
 
   def confirmed_user(user) do
-    %{user | confirmed_at: Timex.Date.now, password_need_reset: false}
+    %{user | confirmed_at: Timex.Date.now, password_initialized: true}
   end
 end
