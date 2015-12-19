@@ -9,7 +9,8 @@ config :opencov, Opencov.Endpoint,
            adapter: Phoenix.PubSub.PG2]
 
 config :opencov,
-  badge_format: "svg"
+  badge_format: "svg",
+  base_url: nil
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

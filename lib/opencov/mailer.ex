@@ -8,17 +8,10 @@ defmodule Opencov.Mailer do
     end
   end
 
-  defmacro define_templates(action, params) do
-    quote bind_quoted: [action: action, params: params] do
-      define_text_template(action, params)
-      define_html_template(action, params)
-    end
-  end
-
-  defmacro define_template(action, params, type) do
-    quote bind_quoted: [action: action, params: params, type: type] do
-      path = Opencov.Mailer.template_path(__MODULE__, action, type)
-      EEx.function_from_file :defp, String.to_atom("#{action}_#{type}"), path, params
+  defmacro define_template(action, params, format) do
+    quote bind_quoted: [action: action, params: params, format: format] do
+      path = Opencov.Mailer.template_path(__MODULE__, action, format)
+      EEx.function_from_file :defp, String.to_atom("#{action}_#{format}"), path, params
     end
   end
 
@@ -31,6 +24,13 @@ defmodule Opencov.Mailer do
   defmacro define_text_template(action, params) do
     quote bind_quoted: [action: action, params: params] do
       define_template(action, params, "text")
+    end
+  end
+
+  defmacro define_templates(action, params) do
+    quote bind_quoted: [action: action, params: params] do
+      define_text_template(action, params)
+      define_html_template(action, params)
     end
   end
 

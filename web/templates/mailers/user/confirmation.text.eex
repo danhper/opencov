@@ -1,0 +1,17 @@
+Hi <%= user.name %>,
+
+<%= if invited do %>
+  You have been invited to join Opencov@<%= base_url %>
+<% else %>
+  Thank you for registering to Opencov@<%= base_url %>
+<% end %>
+
+Your login address is: <%= user.email %>
+
+<%= if invited do %>
+  Please visit on the following address to set your password.
+<% else %>
+  Please visit on the following address to confirm your account.
+<% end %>
+
+<%= confirmation_url %>

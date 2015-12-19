@@ -12,7 +12,7 @@ defmodule Opencov.AuthController do
 
   def make_login(conn, %{"login" => %{"email" => email, "password" => password}}) do
     if user = User.authenticate(Repo.get_by(User, email: email), password) do
-      conn |> Authentication.login(user) |> redirect(to: previous_path(conn, default: "/"))
+      login_if_confirmed(conn, user)
     else
       render(conn, "login.html", email: email, error: "Wrong email or password", can_signup: can_signup?)
     end
@@ -20,6 +20,14 @@ defmodule Opencov.AuthController do
 
   def make_login(conn, _params) do
     render(conn, "login.html", email: "", error: "You need to provide your email and password")
+  end
+
+  defp login_if_confirmed(conn, user) do
+    if is_nil(user.confirmed_at) do
+      render(conn, "login.html", email: user.email, error: "Please confirm your email", can_signup: can_signup?)
+    else
+      conn |> Authentication.login(user) |> redirect(to: previous_path(conn, default: "/"))
+    end
   end
 
   defp can_signup? do

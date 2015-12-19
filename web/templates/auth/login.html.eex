@@ -21,5 +21,5 @@
 <% end %>
 
 <%= if @can_signup do %>
-  <%= link "Create an account.", to: user_path(@conn, :new) %>
+  <%= link "Create an account", to: user_path(@conn, :new) %>
 <% end %>

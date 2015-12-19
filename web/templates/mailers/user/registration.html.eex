@@ -1,5 +1,0 @@
-<html>
-<body>
-  Hi <%= user.name %>
-</body>
-</html>

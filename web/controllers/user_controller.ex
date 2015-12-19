@@ -2,8 +2,9 @@ defmodule Opencov.UserController do
   use Opencov.Web, :controller
 
   alias Opencov.User
-  alias Opencov.Authentication
   import Opencov.Helpers.Authentication
+
+  alias Opencov.UserService
 
   plug :scrub_params, "user" when action in [:create, :update]
   plug :check_signup when action in [:new, :create]
@@ -14,14 +15,11 @@ defmodule Opencov.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, make_user_params(user_params), generate_token: true)
-
-    case Repo.insert(changeset) do
-      {:ok, user} ->
+    case UserService.create_user(conn, make_user_params(user_params), false) do
+      {:ok, _user} ->
         conn
-        |> put_flash(:info, "User created successfully.")
-        |> Authentication.login(user)
-        |> redirect(to: "/")
+        |> put_flash(:info, "Please confirm your email address.")
+        |> redirect(to: auth_path(conn, :login))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

@@ -4,6 +4,7 @@ defmodule Opencov.Admin.UserController do
   import Opencov.Helpers.Authentication
   import Opencov.Helpers.Navigation
 
+  alias Opencov.UserService
   alias Opencov.User
   alias Opencov.Repo
 
@@ -20,12 +21,10 @@ defmodule Opencov.Admin.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params, generate_password: true, generate_token: true)
-
-    case Repo.insert(changeset) do
+    case UserService.create_user(conn, user_params, true) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "user created successfully.")
+        |> put_flash(:info, "User created successfully.")
         |> redirect(to: admin_user_path(conn, :show, user))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)

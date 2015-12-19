@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to Opencov</title>
+  <style>
+    body {
+      line-height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    Hi <%= user.name %>,
+  </p>
+  <p>
+    <%= if invited do %>
+      You have been invited to join
+    <% else %>
+      Thank you for registering to
+    <% end %>
+     Opencov@<a href="<%= base_url %>"><%= base_url %></a>.
+  </p>
+  <p>
+    Your login address is:
+    <%= user.email %>
+  </p>
+  <p>
+    <a href="<%= confirmation_url %>">
+      <%= if invited do %>
+        Please click here to set your password.
+      <% else %>
+        Please click here to confirm your account.
+      <% end %>
+    </a>
+  </p>
+</body>
+</html>
