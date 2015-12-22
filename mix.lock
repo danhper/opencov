@@ -33,7 +33,7 @@
   "postgrex": {:hex, :postgrex, "0.9.1"},
   "ranch": {:hex, :ranch, "1.2.0"},
   "scrivener": {:hex, :scrivener, "1.1.0"},
-  "scrivener_html": {:git, "https://github.com/tuvistavie/scrivener_html.git", "bcead83cba276275ca4d62c3ce7374ff23e26786", []},
+  "scrivener_html": {:git, "https://github.com/tuvistavie/scrivener_html.git", "01fbb61798dac4f759a3d85093186b94dcd55a1c", []},
   "secure_password": {:hex, :secure_password, "0.3.0"},
   "secure_random": {:hex, :secure_random, "0.2.0"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
