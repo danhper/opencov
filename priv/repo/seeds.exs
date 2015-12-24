@@ -3,11 +3,15 @@ alias Opencov.User
 import Ecto.Query
 require Ecto.Query
 
-unless Repo.one(Opencov.Settings), do: Repo.insert!(%Opencov.Settings{
-  signup_enabled: false,
-  restricted_signup_domains: "",
-  default_project_visibility: "internal"
-})
+unless Repo.one(Opencov.Settings) do
+  params = %{
+    signup_enabled: false,
+    restricted_signup_domains: "",
+    default_project_visibility: "internal"
+  }
+  Repo.insert!(Opencov.Settings.changeset(%Opencov.Settings{}, params))
+end
+
 
 if Opencov.Repo.one!(from u in Opencov.User, select: count(u.id), where: u.admin) == 0 do
   password = "p4ssw0rd"

@@ -6,8 +6,8 @@
   </h2>
 
   <%= render "form.html", changeset: @changeset,
-                          action: user_path(@conn, :update, @user, is_profile: @is_profile),
-                          show_password: !@is_profile,
+                          action: user_path(@conn, :update, @user),
+                          show_password: false,
                           is_admin: false %>
 
 </div>

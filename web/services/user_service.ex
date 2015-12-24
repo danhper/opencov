@@ -9,7 +9,8 @@ defmodule Opencov.UserService do
     changeset = User.changeset(%User{}, user_params, options)
     case Repo.insert(changeset) do
       {:ok, user} = res ->
-        email = UserMailer.confirmation_email(user, ConnHelpers.base_url(conn), invited)
+        opts = [invited: invited, registration: true]
+        email = UserMailer.confirmation_email(user, ConnHelpers.base_url(conn), opts)
         Opencov.AppMailer.send(email)
         res
       err -> err
@@ -27,7 +28,6 @@ defmodule Opencov.UserService do
   end
 
   defp finalize_confirmation!(user) do
-    changeset = User.confirmation_changeset(user, %{confirmed_at: Timex.Date.now})
-    Repo.update!(changeset)
+    User.confirmation_changeset(user) |> Repo.update!
   end
 end

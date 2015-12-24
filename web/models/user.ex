@@ -10,6 +10,7 @@ defmodule Opencov.User do
     field :password_initialized, :boolean, default: true
     field :confirmation_token, :string
     field :confirmed_at, Timex.Ecto.DateTime
+    field :unconfirmed_email, :string
 
     field :current_password, :string, virtual: true
     has_secure_password
@@ -27,13 +28,18 @@ defmodule Opencov.User do
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:email)
     |> validate_email
+    |> assign_unconfirmed_email
+    |> unique_constraint(:unconfirmed_email)
     |> with_generated_password(opts)
     |> with_confirmation_token(opts)
     |> with_secure_password
   end
 
-  def confirmation_changeset(model, params \\ :empty) do
-    model |> cast(params, ~w(confirmed_at), [])
+  def confirmation_changeset(model) do
+    Ecto.Changeset.change(model)
+    |> put_change(:email, model.unconfirmed_email)
+    |> put_change(:unconfirmed_email, nil)
+    |> put_change(:confirmed_at, Timex.Date.now)
   end
 
   def password_update_changeset(model, params \\ :empty) do
@@ -70,18 +76,26 @@ defmodule Opencov.User do
   end
 
   defp validate_email(%Ecto.Changeset{} = changeset) do
-    if (email = get_change(changeset, :email)) && (error = validate_email(email)) do
+    if (email = get_change(changeset, :email)) && (error = validate_email_format(email)) do
       add_error(changeset, :email, error)
     else
       changeset
     end
   end
 
-  defp validate_email(email) do
+  defp validate_email_format(email) do
     if not Regex.match?(~r/@/, email) do
       "the email is not valid"
     else
       validate_domain(email)
+    end
+  end
+
+  defp assign_unconfirmed_email(changeset) do
+    if new_email = get_change(changeset, :email) do
+      changeset |> put_change(:unconfirmed_email, new_email) |> delete_change(:email)
+    else
+      changeset
     end
   end
 

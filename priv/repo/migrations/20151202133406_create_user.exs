@@ -12,9 +12,11 @@ defmodule Opencov.Repo.Migrations.CreateUser do
 
       add :confirmation_token, :string
       add :confirmed_at, :datetime
+      add :unconfirmed_email, :string
 
       timestamps
     end
     create unique_index(:users, [:email])
+    create unique_index(:users, [:unconfirmed_email])
   end
 end

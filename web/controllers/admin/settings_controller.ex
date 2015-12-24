@@ -4,7 +4,7 @@ defmodule Opencov.Admin.SettingsController do
   alias Opencov.Settings
   alias Opencov.Repo
 
-  plug :scrub_params, "settings" when action in [:update]
+  # plug :scrub_params, "settings" when action in [:update]
 
   def edit(conn, _params) do
     settings = Settings.get!

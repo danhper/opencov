@@ -27,7 +27,7 @@ defmodule Opencov.UserController do
 
   def profile(conn, _params) do
     user = current_user(conn)
-    render(conn, "edit.html", user: user, changeset: User.changeset(user), is_profile: true)
+    render(conn, "edit.html", user: user, changeset: User.changeset(user))
   end
 
   def edit_password(conn, _params) do
@@ -44,23 +44,15 @@ defmodule Opencov.UserController do
     end
   end
 
-  def update(conn, %{"id" => id, "is_profile" => is_profile, "user" => user_params}) do
-    is_profile = is_profile == "true"
-    {redirect_path, user, flash} = if is_profile do
-      {user_path(conn, :profile), current_user(conn), "Profile"}
-    else
-      user = Repo.get!(User, id)
-      {user_path(conn, :edit, user), user, "User"}
-    end
-    changeset = User.changeset(user, user_params)
-
-    case Repo.update(changeset) do
-      {:ok, _user} ->
+  def update(conn, params) do
+    extras = Opencov.UpdateUserService.Extras.from_conn(conn)
+    case Opencov.UpdateUserService.update_user(params, extras) do
+      {:ok, _user, redirect_fn, flash_message} ->
         conn
-        |> put_flash(:info, "#{flash} updated successfully.")
-        |> redirect(to: redirect_path)
-      {:error, changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset, is_profile: is_profile)
+        |> put_flash(:info, flash_message)
+        |> redirect(to: redirect_fn.(conn))
+      {:error, assigns} ->
+        render(conn, "edit.html", assigns)
     end
   end
 
