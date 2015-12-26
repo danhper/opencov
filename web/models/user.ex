@@ -39,7 +39,14 @@ defmodule Opencov.User do
     Ecto.Changeset.change(model)
     |> put_change(:email, model.unconfirmed_email)
     |> put_change(:unconfirmed_email, nil)
-    |> put_change(:confirmed_at, Timex.Date.now)
+    |> update_confirmed_at
+  end
+  defp update_confirmed_at(changeset) do
+    if is_nil(changeset.model.confirmed_at) do
+      put_change(changeset, :confirmed_at, Timex.Date.now)
+    else
+      changeset
+    end
   end
 
   def password_update_changeset(model, params \\ :empty) do

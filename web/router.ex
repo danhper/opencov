@@ -46,8 +46,6 @@ defmodule Opencov.Router do
     get "/login", AuthController, :login
     post "/login", AuthController, :make_login
     resources "/users", UserController, only: [:new, :create]
-
-    get "/users/confirm", UserController, :confirm
   end
 
   scope "/", Opencov do
@@ -59,6 +57,8 @@ defmodule Opencov.Router do
     get "/", ProjectController, :index
 
     resources "/users", UserController, only: [:edit, :update]
+    get "/users/confirm", UserController, :confirm
+
     get "/profile", UserController, :profile
     get "/profile/password/edit", UserController, :edit_password
     put "/profile/password", UserController, :update_password

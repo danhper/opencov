@@ -15,7 +15,7 @@ defmodule Opencov.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case UserService.create_user(conn, make_user_params(user_params), false) do
+    case UserService.create_user(make_user_params(user_params), false) do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "Please confirm your email address.")
@@ -45,12 +45,11 @@ defmodule Opencov.UserController do
   end
 
   def update(conn, params) do
-    extras = Opencov.UpdateUserService.Extras.from_conn(conn)
-    case Opencov.UpdateUserService.update_user(params, extras) do
-      {:ok, _user, redirect_fn, flash_message} ->
+    case Opencov.UpdateUserService.update_user(params, current_user(conn)) do
+      {:ok, _user, redirect_path, flash_message} ->
         conn
         |> put_flash(:info, flash_message)
-        |> redirect(to: redirect_fn.(conn))
+        |> redirect(to: redirect_path)
       {:error, assigns} ->
         render(conn, "edit.html", assigns)
     end
@@ -62,11 +61,11 @@ defmodule Opencov.UserController do
         conn
         |> put_flash(:info, message)
         |> finalize_confirm(user)
-      {:error, err} -> redirect_to_login_with_error(conn, err)
+      {:error, err} -> redirect_to_top_with_error(conn, err)
     end
   end
   def confirm(conn, _params),
-    do: redirect_to_login_with_error(conn, "The URL seems wrong, double check your email")
+    do: redirect_to_top_with_error(conn, "The URL seems wrong, double check your email")
 
   defp finalize_confirm(conn, user) do
     if user.password_initialized do
@@ -76,8 +75,9 @@ defmodule Opencov.UserController do
     end
   end
 
-  defp redirect_to_login_with_error(conn, err) do
-    conn |> put_flash(:error, err) |> redirect(to: auth_path(conn, :login))
+  defp redirect_to_top_with_error(conn, err) do
+    redirect_path = if user_signed_in?(conn), do: "/", else: auth_path(conn, :login)
+    conn |> put_flash(:error, err) |> redirect(to: redirect_path)
   end
 
   defp make_user_params(params) do
