@@ -1,6 +1,6 @@
 defmodule Opencov.UpdateUserService do
   def update_user(%{"user" => user_params}, user) do
-    redirect_path = Opencov.Router.Helpers.user_path(Opencov.Endpoint, :profile)
+    redirect_path = Opencov.Router.Helpers.profile_path(Opencov.Endpoint, :show)
     changeset = Opencov.User.changeset(user, user_params)
 
     case Opencov.Repo.update(changeset) do

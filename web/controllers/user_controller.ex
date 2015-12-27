@@ -25,25 +25,6 @@ defmodule Opencov.UserController do
     end
   end
 
-  def profile(conn, _params) do
-    user = current_user(conn)
-    render(conn, "edit.html", user: user, changeset: User.changeset(user))
-  end
-
-  def edit_password(conn, _params) do
-    user = current_user(conn)
-    render(conn, "edit_password.html", user: user, changeset: User.changeset(user))
-  end
-
-  def update_password(conn, %{"user" => user_params}) do
-    user = current_user(conn)
-    changeset = User.password_update_changeset(user, user_params)
-    case Repo.update(changeset) do
-      {:ok, _user} -> conn |> put_flash(:info, "Your password has been updated") |> redirect(to: "/")
-      {:error, changeset} -> render(conn, "edit_password.html", user: user, changeset: changeset)
-    end
-  end
-
   def update(conn, params) do
     case Opencov.UpdateUserService.update_user(params, current_user(conn)) do
       {:ok, _user, redirect_path, flash_message} ->
@@ -71,7 +52,7 @@ defmodule Opencov.UserController do
     if user.password_initialized do
       conn |> redirect(to: auth_path(conn, :login))
     else
-      conn |> Opencov.Authentication.login(user) |> redirect(to: user_path(conn, :edit_password))
+      conn |> Opencov.Authentication.login(user) |> redirect(to: profile_path(conn, :edit_password))
     end
   end
 

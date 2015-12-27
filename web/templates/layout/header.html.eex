@@ -23,13 +23,13 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <%= link to: user_path(@conn, :profile) do %>
+              <%= link to: profile_path(@conn, :show) do %>
                 <i class="fa fa-user"></i>
                 Profile
               <% end %>
             </li>
             <li>
-              <%= link to: user_path(@conn, :edit_password) do %>
+              <%= link to: profile_path(@conn, :edit_password) do %>
                 <i class="fa fa-lock"></i>
                 Change password
               <% end %>

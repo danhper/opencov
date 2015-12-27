@@ -20,14 +20,14 @@ defmodule Opencov.Plug.ForcePasswordInitialize do
     if user.password_initialized or allowed_path?(conn) do
       conn
     else
-      redirect(conn, to: Opencov.Router.Helpers.user_path(conn, :edit_password)) |> halt
+      redirect(conn, to: Opencov.Router.Helpers.profile_path(conn, :edit_password)) |> halt
     end
   end
 
   defp allowed_path?(conn) do
     conn.request_path in [
-      Opencov.Router.Helpers.user_path(conn, :edit_password),
-      Opencov.Router.Helpers.user_path(conn, :update_password),
+      Opencov.Router.Helpers.profile_path(conn, :edit_password),
+      Opencov.Router.Helpers.profile_path(conn, :update_password),
       Opencov.Router.Helpers.auth_path(conn, :logout)
     ]
   end
