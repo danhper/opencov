@@ -57,10 +57,10 @@ defmodule Opencov.Router do
 
     get "/", ProjectController, :index
 
-    resources "/users", UserController, only: [:edit, :update]
     get "/users/confirm", UserController, :confirm
 
     get "/profile", ProfileController, :show
+    put "/profile", ProfileController, :update
     get "/profile/password/edit", ProfileController, :edit_password
     put "/profile/password", ProfileController, :update_password
 

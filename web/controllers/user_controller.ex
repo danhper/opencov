@@ -25,17 +25,6 @@ defmodule Opencov.UserController do
     end
   end
 
-  def update(conn, params) do
-    case Opencov.UpdateUserService.update_user(params, current_user(conn)) do
-      {:ok, _user, redirect_path, flash_message} ->
-        conn
-        |> put_flash(:info, flash_message)
-        |> redirect(to: redirect_path)
-      {:error, assigns} ->
-        render(conn, "edit.html", assigns)
-    end
-  end
-
   def confirm(conn, %{"token" => token}) do
     case UserService.confirm_user(token) do
       {:ok, user, message} ->
