@@ -30,8 +30,8 @@ defmodule Opencov.User do
     |> validate_email
     |> assign_unconfirmed_email
     |> unique_constraint(:unconfirmed_email)
-    |> with_generated_password(opts)
-    |> with_confirmation_token(opts)
+    |> pipe_when(opts[:generate_password], generate_password)
+    |> pipe_when(opts[:generate_token], generate_confirmation_token)
     |> with_secure_password
   end
 
@@ -39,14 +39,7 @@ defmodule Opencov.User do
     Ecto.Changeset.change(model)
     |> put_change(:email, model.unconfirmed_email)
     |> put_change(:unconfirmed_email, nil)
-    |> update_confirmed_at
-  end
-  defp update_confirmed_at(changeset) do
-    if is_nil(changeset.model.confirmed_at) do
-      put_change(changeset, :confirmed_at, Timex.Date.now)
-    else
-      changeset
-    end
+    |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.Date.now))
   end
 
   def password_update_changeset(model, params \\ :empty) do
@@ -66,20 +59,12 @@ defmodule Opencov.User do
     end
   end
 
-  defp with_generated_password(changeset, opts) do
-    if opts[:generate_password] do
-      change(changeset, password: SecureRandom.urlsafe_base64(12), password_initialized: false)
-    else
-      changeset
-    end
+  defp generate_password(changeset) do
+    change(changeset, password: SecureRandom.urlsafe_base64(12), password_initialized: false)
   end
 
-  defp with_confirmation_token(changeset, opts) do
-    if opts[:generate_token] do
-      put_change(changeset, :confirmation_token, SecureRandom.urlsafe_base64(30))
-    else
-      changeset
-    end
+  defp generate_confirmation_token(changeset) do
+    put_change(changeset, :confirmation_token, SecureRandom.urlsafe_base64(30))
   end
 
   defp validate_email(%Ecto.Changeset{} = changeset) do
@@ -111,8 +96,6 @@ defmodule Opencov.User do
     domain = email |> String.split("@") |> List.last
     if allowed_domains && not domain in allowed_domains do
       "only the following domains are allowed: #{Enum.join(allowed_domains, ",")}"
-    else
-      nil
     end
   end
 end
