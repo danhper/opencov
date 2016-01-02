@@ -29,4 +29,13 @@ defmodule Opencov.UserService do
   defp finalize_confirmation!(user) do
     User.confirmation_changeset(user) |> Repo.update!
   end
+
+  def send_reset_password(email) do
+    case Repo.get_by(User, email: email) do
+      %User{} = user ->
+        UserMailer.reset_password_email(user)
+        :ok
+      _              -> :ok
+    end
+  end
 end

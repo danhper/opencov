@@ -12,6 +12,9 @@ defmodule Opencov.User do
     field :confirmed_at, Timex.Ecto.DateTime
     field :unconfirmed_email, :string
 
+    field :password_reset_token, :string
+    field :password_reset_sent_at, Timex.Ecto.DateTime
+
     field :current_password, :string, virtual: true
     has_secure_password
 
@@ -50,6 +53,12 @@ defmodule Opencov.User do
     |> with_secure_password
   end
 
+  def password_reset_changeset(model) do
+    change(model)
+    |> generate_password_reset_token
+    |> put_change(:password_reset_sent_at, Timex.Date.now)
+  end
+
   defp validate_password_update(changeset) do
     user = changeset.model
     if !user.password_initialized or Opencov.User.authenticate(user, get_change(changeset, :current_password)) do
@@ -65,6 +74,10 @@ defmodule Opencov.User do
 
   defp generate_confirmation_token(changeset) do
     put_change(changeset, :confirmation_token, SecureRandom.urlsafe_base64(30))
+  end
+
+  defp generate_password_reset_token(changeset) do
+    put_change(changeset, :password_reset_token, SecureRandom.urlsafe_base64(30))
   end
 
   defp validate_email(%Ecto.Changeset{} = changeset) do

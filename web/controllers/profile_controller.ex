@@ -38,4 +38,10 @@ defmodule Opencov.ProfileController do
   def reset_password(conn, _params) do
     render(conn, "reset_password.html")
   end
+
+  def send_reset_password(conn, _params) do
+    conn
+    |> put_flash(:info, "An email has been sent to reset your password.")
+    |> redirect(to: auth_path(conn, :login))
+  end
 end

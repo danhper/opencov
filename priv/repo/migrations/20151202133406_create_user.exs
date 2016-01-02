@@ -14,9 +14,15 @@ defmodule Opencov.Repo.Migrations.CreateUser do
       add :confirmed_at, :datetime
       add :unconfirmed_email, :string
 
+      add :password_reset_token, :string
+      add :password_reset_sent_at, :datetime
+
       timestamps
     end
+
     create unique_index(:users, [:email])
     create unique_index(:users, [:unconfirmed_email])
+    create unique_index(:users, [:confirmation_token])
+    create unique_index(:users, [:password_reset_token])
   end
 end
