@@ -4,7 +4,7 @@ defmodule Opencov.JobTest do
   alias Opencov.Job
 
   test "changeset with valid attributes" do
-    changeset = Job.changeset(%Job{}, Dict.put(fields_for(:job), :build_id, 1))
+    changeset = Job.changeset(%Job{}, Map.put(fields_for(:job), :build_id, 1))
     assert changeset.valid?
   end
 

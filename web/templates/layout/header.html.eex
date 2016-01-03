@@ -1,0 +1,49 @@
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <i class="fa fa-check"></i>
+        OpenCov
+      </a>
+    </div>
+    <%= if user_signed_in?(@conn) do %>
+      <ul class="nav navbar-nav navbar-right">
+        <%= if current_user(@conn).admin do %>
+          <li>
+            <%= link to: admin_dashboard_path(@conn, :index) do %>
+              <i class="fa fa-wrench"></i>
+              Admin
+            <% end %>
+          </li>
+        <% end %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <img class="avatar" src="<%= gravatar_url(current_user(@conn).email, s: 24) %>" alt="Avatar">
+            <%= current_user(@conn).name %>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link to: profile_path(@conn, :show) do %>
+                <i class="fa fa-user"></i>
+                Profile
+              <% end %>
+            </li>
+            <li>
+              <%= link to: profile_path(@conn, :edit_password) do %>
+                <i class="fa fa-lock"></i>
+                Change password
+              <% end %>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <%= link to: auth_path(@conn, :logout), method: :delete do %>
+                <i class="fa fa-sign-out"></i>
+                Logout
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</nav>

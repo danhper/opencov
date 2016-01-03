@@ -31,7 +31,7 @@ defmodule Opencov.BadgeTest do
     assert badge.id
 
     new_coverage = 62.4
-    project = Opencov.Repo.update!(%{project | current_coverage: new_coverage})
+    project = Opencov.Repo.update!(Ecto.Changeset.change(project, current_coverage: new_coverage))
 
     {:ok, new_badge} = Badge.get_or_create(project, @format)
     assert badge.id == new_badge.id

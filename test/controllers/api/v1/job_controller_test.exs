@@ -18,7 +18,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
   end
 
   test "returns 404 when inexistent token given", %{conn: conn} do
-    data = Dict.put(Opencov.Fixtures.dummy_coverage, "repo_token", "i-dont-exist")
+    data = Map.put(Opencov.Fixtures.dummy_coverage, "repo_token", "i-dont-exist")
     payload = Poison.encode!(%{json: Poison.encode!(data)})
     assert_raise Ecto.NoResultsError, fn ->
       post conn, api_v1_job_path(conn, :create), payload
@@ -27,7 +27,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
 
   test "creates job when project exists", %{conn: conn} do
     project = create(:project)
-    data = Dict.put(Opencov.Fixtures.dummy_coverage, "repo_token", project.token)
+    data = Map.put(Opencov.Fixtures.dummy_coverage, "repo_token", project.token)
     payload = Poison.encode!(%{json: Poison.encode!(data)})
     conn = post conn, api_v1_job_path(conn, :create), payload
     assert json_response(conn, 200)
@@ -40,7 +40,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
 
   test "works with multipart data", %{conn: conn} do
     project = create(:project)
-    data = Dict.put(Opencov.Fixtures.dummy_coverage, "repo_token", project.token)
+    data = Map.put(Opencov.Fixtures.dummy_coverage, "repo_token", project.token)
     {:ok, file_path} = Temp.open %{prefix: "opencov", suffix: ".json"}, &IO.write(&1, Poison.encode!(data))
     upload = %Plug.Upload{path: file_path, filename: "coverage.json", content_type: "application/json"}
     conn = put_req_header(conn, "content-type", "multipart/form-data")

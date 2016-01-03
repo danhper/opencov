@@ -1,0 +1,18 @@
+Hi <%= user.name %>,
+<%= if opts[:registration] do %>
+  <%= if opts[:invited] do %>
+    You have been invited to join Opencov@<%= base_url %>
+  <% else %>
+    Thank you for registering to Opencov@<%= base_url %>
+  <% end %>
+
+  Your login address is: <%= user.email %>
+<% end %>
+
+<%= if opts[:invited] do %>
+  Please visit the following address to set your password.
+<% else %>
+  Please visit the following address to confirm your email.
+<% end %>
+
+<%= confirmation_url %>

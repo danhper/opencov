@@ -1,0 +1,57 @@
+<div class="admin container">
+  <div class="breadcrumb row">
+    <h2>Admin dashboard</h2>
+  </div>
+  <div class="row">
+    <div class="panel panel-default col-sm-5 col-xs-12">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Recent projects
+          <%= link "Create project", to: project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <%= for project <- @projects do %>
+            <li><%= link project.name, to: admin_project_path(@conn, :show, project) %></li>
+          <% end %>
+        </ul>
+      </div>
+      <%= link "View all >>", to: admin_project_path(@conn, :index), class: "view-all" %>
+    </div>
+
+    <div class="panel panel-default col-sm-5 col-sm-offset-1 col-xs-12">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">
+          Recent users
+          <%= link "Create user", to: admin_user_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <%= for user <- @users do %>
+            <li><%= link user.name, to: admin_user_path(@conn, :show, user) %></li>
+          <% end %>
+        </ul>
+      </div>
+      <%= link "View all >>", to: admin_user_path(@conn, :index), class: "view-all" %>
+    </div>
+
+    <div class="panel panel-default col-sm-5 col-xs-12">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title">
+          Settings
+          <%= link "Edit settings", to: admin_settings_path(@conn, :edit), class: "btn btn-primary btn-sm pull-right" %>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <dl class="settings dl-horizontal">
+          <%= for key <- ~w(signup_enabled restricted_signup_domains default_project_visibility)a do %>
+            <dt class="<%= key %>"><%= Display.atom(key) %></dt>
+            <dd><%= Display.display(Map.get(@settings, key)) %></dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>

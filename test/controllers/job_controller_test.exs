@@ -2,8 +2,15 @@ defmodule Opencov.JobControllerTest do
   use Opencov.ConnCase
 
   setup do
-    conn = conn()
+    conn = conn() |> with_login
     {:ok, conn: conn}
+  end
+
+  test "redirects when not logged in" do
+    job = create(:job)
+    conn = conn()
+    conn = get conn, job_path(conn, :show, job)
+    assert redirected_to(conn) == auth_path(conn, :login)
   end
 
   test "shows chosen resource", %{conn: conn} do

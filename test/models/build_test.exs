@@ -4,7 +4,7 @@ defmodule Opencov.BuildTest do
   alias Opencov.Build
 
   test "changeset with valid attributes" do
-    changeset = Build.changeset(%Build{}, Dict.put(fields_for(:build), :project_id, 1))
+    changeset = Build.changeset(%Build{}, Map.put(fields_for(:build), :project_id, 1))
     assert changeset.valid?
   end
 

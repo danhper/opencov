@@ -6,7 +6,7 @@ defmodule Opencov.FileTest do
   @coverage_lines [0, nil, 3, nil, 0, 1]
 
   test "changeset with valid attributes" do
-    changeset = File.changeset(%File{}, Dict.put(fields_for(:file), :job_id, 1))
+    changeset = File.changeset(%File{}, Map.put(fields_for(:file), :job_id, 1))
     assert changeset.valid?
   end
 

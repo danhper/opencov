@@ -9,6 +9,7 @@ defmodule Opencov.Project do
     field :current_coverage, :float
     field :base_url, :string
 
+    belongs_to :user, Opencov.User
     has_many :builds, Opencov.Build
 
     timestamps
@@ -26,7 +27,6 @@ defmodule Opencov.Project do
             order_by: [desc: b.inserted_at]
     projects |> Opencov.Repo.preload(builds: query)
   end
-
 
   def preload_recent_builds(projects) do
     query = from b in Opencov.Build, where: b.completed, order_by: [desc: b.inserted_at], limit: 10
@@ -73,6 +73,10 @@ defmodule Opencov.Project do
 
   def update_coverage(project) do
     coverage = Opencov.Build.last_for_project(project).coverage
-    Opencov.Repo.update! %{project | current_coverage: coverage}
+    Opencov.Repo.update! change(project, current_coverage: coverage)
+  end
+
+  def visibility_choices do
+    ~w(public private internal)
   end
 end

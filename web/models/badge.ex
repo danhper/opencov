@@ -49,7 +49,7 @@ defmodule Opencov.Badge do
 
   defp update(project, badge, format) do
     make project, format, fn image ->
-      Opencov.Repo.update!(%{badge | coverage: project.current_coverage, image: image})
+      Opencov.Repo.update! change(badge, coverage: project.current_coverage, image: image)
     end
   end
 end

@@ -1,0 +1,19 @@
+<div class="admin create-user">
+  <h2 class="row breadcrumb">
+    <span class="media-body">
+      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <span class="separator">></span>
+      <%= link "Users", to: admin_user_path(@conn, :index) %>
+      <span class="separator">></span>
+      <span>new</span>
+    </span>
+  </h2>
+</div>
+
+<div class="user-form">
+  <%= render Opencov.UserView, "form.html",
+              changeset: @changeset,
+              action: admin_user_path(@conn, :create),
+              show_password: false,
+              is_admin: true %>
+</div>

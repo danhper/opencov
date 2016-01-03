@@ -1,0 +1,30 @@
+<div class="admin user-show">
+  <h2 class="row breadcrumb">
+    <span class="media-body">
+      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <span class="separator">></span>
+      <span><%= link "Users", to: admin_user_path(@conn, :index) %></span>
+      <span class="separator">></span>
+      <span><%= @user.name %></span>
+    </span>
+  </h2>
+  <div class="user">
+    <dl class="dl-horizontal">
+      <dt>Name</dt>
+      <dd><%= @user.name %></dd>
+      <dt>Email</dt>
+      <dd><%= @user.email %></dd>
+      <dt>Unconfirmed email</dt>
+      <dd><%= @user.unconfirmed_email %></dd>
+      <dt>Admin</dt>
+      <dd><%= Display.bool(@user.admin) %></dd>
+      <dt>Confirmed</dt>
+      <dd><%= Display.bool(!is_nil(@user.confirmed_at)) %></dd>
+      <dt>Password initialized</dt>
+      <dd><%= Display.bool(@user.password_initialized) %></dd>
+      <dt>Created on</dt>
+      <dd><%= Datetime.format(@user.inserted_at, :dateonly) %></dd>
+    </dl>
+  </div>
+  <%= render Opencov.Admin.SharedView, "actions.html", conn: @conn, resource: @user, path_fn: &Opencov.Router.Helpers.admin_user_path/3 %>
+</div>

@@ -1,0 +1,12 @@
+<div class="edit-user">
+  <h2 class="breadcrumb row">
+    <span class="media-body">
+      Profile
+    </span>
+  </h2>
+
+  <%= render Opencov.UserView, "form.html", changeset: @changeset,
+                                            action: profile_path(@conn, :update),
+                                            show_password: false,
+                                            is_admin: false %>
+</div>

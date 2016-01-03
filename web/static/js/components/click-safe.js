@@ -1,8 +1,8 @@
-'use strict'
-
 import riot from 'riot'
 
-riot.tag('click-safe', '<div onclick="{ preventClick }"><yield /></div>', function (opts) {
+const template = '<div onclick="{ preventClick }"><yield /></div>'
+
+riot.tag('click-safe', template, function (opts) {
   this.preventClick = (e) => {
     e.stopPropagation()
   }

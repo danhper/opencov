@@ -7,7 +7,7 @@ defmodule Opencov.File do
     def encode(model, opts) do
       model
         |> Map.take([:name, :source])
-        |> Dict.put(:coverage, model.coverage_lines)
+        |> Map.put(:coverage, model.coverage_lines)
         |> Poison.Encoder.encode(opts)
     end
   end
@@ -89,8 +89,8 @@ defmodule Opencov.File do
   end
 
   defp normalize_params(%{"coverage" => coverage} = params) when is_list(coverage) do
-    {lines, params} = Dict.pop(params, "coverage")
-    Dict.put(params, "coverage_lines", lines)
+    {lines, params} = Map.pop(params, "coverage")
+    Map.put(params, "coverage_lines", lines)
   end
   defp normalize_params(params), do: params
 

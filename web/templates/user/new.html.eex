@@ -1,0 +1,13 @@
+<div class="new-user">
+  <h2 class="breadcrumb row">
+    <span class="media-body">
+      Sign up
+    </span>
+  </h2>
+
+
+  <%= render "form.html", changeset: @changeset,
+                          action: user_path(@conn, :create),
+                          show_password: true,
+                          is_admin: false %>
+</div>

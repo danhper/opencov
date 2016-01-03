@@ -1,5 +1,3 @@
-'use strict'
-
 import riot from 'riot'
 
 import './project-token.styl'

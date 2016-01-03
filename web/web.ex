@@ -20,6 +20,7 @@ defmodule Opencov.Web do
     quote do
       use Ecto.Model
       use Timex.Ecto.Timestamps
+      use Opencov.Core
 
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
@@ -65,6 +66,12 @@ defmodule Opencov.Web do
       alias Opencov.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
+    end
+  end
+
+  def mailer do
+    quote do
+      use Opencov.Mailer
     end
   end
 

@@ -8,6 +8,23 @@ defmodule Opencov.Factory do
     }
   end
 
+  def factory(:settings) do
+    %Opencov.Settings{
+      signup_enabled: false,
+      restricted_signup_domains: nil,
+      default_project_visibility: "internal"
+    }
+  end
+
+
+  def factory(:user) do
+    %Opencov.User{
+      name: sequence(:name, &("name-#{&1}")),
+      email: sequence(:email, &("email-#{&1}@example.com")),
+      password: "my-secure-password"
+    }
+  end
+
   def factory(:build) do
     %Opencov.Build{
       build_number: sequence(:build_number, &(&1)),
@@ -34,5 +51,14 @@ defmodule Opencov.Factory do
   def with_project(build) do
     project = create(:project)
     %{build | project_id: project.id}
+  end
+
+  def with_secure_password(user, password) do
+    changeset = Opencov.User.changeset(user, %{password: password})
+    %{user | password_digest: changeset.changes[:password_digest]}
+  end
+
+  def confirmed_user(user) do
+    %{user | confirmed_at: Timex.Date.now, password_initialized: true}
   end
 end

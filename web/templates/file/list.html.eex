@@ -48,14 +48,17 @@
     </tbody>
   </table>
 
-  <div class="text-centered">
-    <%= pagination_links @conn,
-                         @paginator,
-                         @path_args,
-                         path: @path_fn,
-                         filters: @filters,
-                         order_field: elem(@order, 0),
-                         order_direction: elem(@order, 1)
-                          %>
-  </div>
+  <%= if @paginator.total_pages > 1 do %>
+    <div class="text-centered">
+      <%= pagination_links @conn,
+                           @paginator,
+                           Enum.drop(@path_args, 2),
+                           path: @path_fn,
+                           action: Enum.at(@path_args, 1),
+                           filters: @filters,
+                           order_field: elem(@order, 0),
+                           order_direction: elem(@order, 1)
+                            %>
+    </div>
+  <% end %>
 </div>

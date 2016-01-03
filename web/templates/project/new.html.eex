@@ -1,6 +1,14 @@
-<h2>New project</h2>
+<div class="new-project">
+  <h2 class="breadcrumb row">
+    <span class="media-body">
+      <%= link "Projects", to: project_path(@conn, :index) %>
+      <span class="separator">></span>
+      <span>
+        new
+      </span>
+    </span>
+  </h2>
 
-<%= render "form.html", changeset: @changeset,
-                        action: project_path(@conn, :create) %>
-
-<%= link "Back", to: project_path(@conn, :index) %>
+  <%= render "form.html", changeset: @changeset,
+                          action: project_path(@conn, :create) %>
+</div>

@@ -9,13 +9,11 @@ defmodule Opencov.BadgeCreator do
   EEx.function_from_file :defp, :template, @template_path, [:coverage_str, :width, :extra_width, :bg_color]
 
   def make_badge(coverage, options \\ []) do
-    if is_nil(coverage) do
-      coverage_str = "NA"
-      digits_num = 2
+    {coverage, coverage_str, digits_num} = if is_nil(coverage) do
+      {nil, "NA", 2}
     else
       coverage = round(coverage)
-      coverage_str = "#{coverage}%"
-      digits_num = coverage |> Integer.to_string |> String.length
+      {coverage, "#{coverage}%", coverage |> Integer.to_string |> String.length}
     end
     extra_width = (digits_num - 1) * @extra_width
     width = @base_width + extra_width

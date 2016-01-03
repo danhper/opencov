@@ -1,0 +1,50 @@
+<div class="admin edit-settings">
+  <h2 class="row breadcrumb">
+    <span class="media-body">
+      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <span class="separator">></span>
+      <span>Settings</span>
+    </span>
+  </h2>
+
+<%= form_for @changeset, admin_settings_path(@conn, :update), [class: "full-page"], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+      <ul>
+        <%= for {attr, message} <- f.errors do %>
+          <li><%= humanize(attr) %> <%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3>Projects</h3>
+
+  <div class="form-group">
+    <%= label f, :default_project_visibility, "Project default visibility", class: "control-label" %>
+    <%= select f, :default_project_visibility, ["Private": "private", "Internal": "internal", "Public": "public"], class: "form-control" %>
+  </div>
+
+  <hr>
+
+  <h3>Login</h3>
+
+  <div class="form-group checkbox">
+    <%= label f, :signup_enabled, class: "control-label"  do %>
+      <%= checkbox f, :signup_enabled %> Signup Enabled
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :restricted_signup_domains, class: "control-label" do %>
+      Restricted signup domains <small>(Enter one domain per line)</small>
+    <% end %>
+    <%= textarea f, :restricted_signup_domains, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Update settings", class: "btn btn-primary" %>
+  </div>
+<% end %>
+</div>
