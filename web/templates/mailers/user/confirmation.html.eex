@@ -21,7 +21,7 @@
   </p>
   <%= if opts[:registration] do %>
     <p>
-      <%= if opts[:invited] do %>
+      <%= if opts[:invited?] do %>
         You have been invited to join
       <% else %>
         Thank you for registering to
@@ -30,12 +30,12 @@
     </p>
     <p>
       Your login address is:
-      <%= user.email %>
+      <%= user.unconfirmed_email %>
     </p>
   <% end %>
   <p>
     <a href="<%= confirmation_url %>">
-      <%= if opts[:invited] do %>
+      <%= if opts[:invited?] do %>
         Please click here to set your password.
       <% else %>
         Please click here to confirm your email.

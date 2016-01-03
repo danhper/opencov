@@ -3,13 +3,12 @@ defmodule Opencov.UserService do
   alias Opencov.UserMailer
   alias Opencov.Repo
 
-  def create_user(user_params, invited?) do
-    options = [generate_token: true, generate_password: invited?]
+  def create_user(user_params, opts) do
+    options = [generate_token: true, generate_password: opts[:invited?]]
     changeset = User.changeset(%User{}, user_params, options)
     case Repo.insert(changeset) do
       {:ok, user} = res ->
-        opts = [invited: invited?, registration: true]
-        email = UserMailer.confirmation_email(user, opts)
+        email = UserMailer.confirmation_email(user, opts ++ [registration: true])
         Opencov.AppMailer.send(email)
         res
       err -> err
@@ -35,7 +34,7 @@ defmodule Opencov.UserService do
       %User{} = user ->
         UserMailer.reset_password_email(user)
         :ok
-      _              -> :ok
+      _ -> :ok
     end
   end
 end

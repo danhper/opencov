@@ -21,7 +21,7 @@ defmodule Opencov.Admin.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case UserService.create_user(conn, user_params, true) do
+    case UserService.create_user(user_params, invited?: true) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully.")
