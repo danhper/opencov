@@ -45,10 +45,11 @@ defmodule Opencov.User do
     |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.Date.now))
   end
 
-  def password_update_changeset(model, params \\ :empty) do
+  def password_update_changeset(model, params \\ :empty, opts \\ []) do
     model
     |> cast(params, ~w(password password_confirmation), ~w(current_password))
-    |> validate_password_update
+    |> pipe_when(!opts[:skip_password_validation], validate_password_update)
+    |> pipe_when(opts[:remove_reset_token], remove_reset_token)
     |> put_change(:password_initialized, true)
     |> with_secure_password
   end
@@ -57,6 +58,10 @@ defmodule Opencov.User do
     change(model)
     |> generate_password_reset_token
     |> put_change(:password_reset_sent_at, Timex.Date.now)
+  end
+
+  defp remove_reset_token(changeset) do
+    change(changeset, password_reset_token: nil, password_reset_sent_at: nil)
   end
 
   defp validate_password_update(changeset) do

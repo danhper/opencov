@@ -32,9 +32,21 @@ defmodule Opencov.UserService do
   def send_reset_password(email) do
     case Repo.get_by(User, email: email) do
       %User{} = user ->
-        UserMailer.reset_password_email(user)
+        User.password_reset_changeset(user)
+        |> Repo.update!
+        |> UserMailer.reset_password_email
+        |> Opencov.AppMailer.send
         :ok
       _ -> :ok
+    end
+  end
+
+  def finalize_reset_password(%{"password_reset_token" => token} = params) do
+    case Repo.get_by(User, password_reset_token: token) do
+      %User{} = user ->
+        opts = [skip_password_validation: true, remove_reset_token: true]
+        User.password_update_changeset(user, params, opts) |> Repo.update
+      _ -> {:error, :not_found}
     end
   end
 end

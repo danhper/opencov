@@ -20,7 +20,7 @@
   </div>
 <% end %>
 
-<p><%= link "Forgot your password?", to: profile_path(@conn, :reset_password) %></p>
+<p><%= link "Forgot your password?", to: profile_path(@conn, :reset_password_request) %></p>
 <%= if @can_signup do %>
   <p><%= link "Create an account", to: user_path(@conn, :new) %></p>
 <% end %>
