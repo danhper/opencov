@@ -73,7 +73,7 @@ defmodule Opencov.Project do
 
   def update_coverage(project) do
     coverage = Opencov.Build.last_for_project(project).coverage
-    Opencov.Repo.update! %{project | current_coverage: coverage}
+    Opencov.Repo.update! change(project, current_coverage: coverage)
   end
 
   def visibility_choices do

@@ -28,7 +28,7 @@
   </div>
 
     <main class="container">
-      <%= @inner %>
+      <%= render @view_module, @view_template, assigns %>
     </main>
   </div>
 

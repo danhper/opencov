@@ -78,7 +78,7 @@ defmodule Opencov.ProjectControllerTest do
     assert List.first(get_resp_header(conn, "content-type")) =~ "image/svg+xml"
     assert conn.resp_body =~ "NA"
 
-    Repo.update! %{project | current_coverage: 80.0}
+    Repo.update! Ecto.Changeset.change(project, current_coverage: 80.0)
 
     conn = get conn, project_badge_path(conn, :badge, project, "svg")
     assert List.first(get_resp_header(conn, "content-type")) =~ "image/svg+xml"

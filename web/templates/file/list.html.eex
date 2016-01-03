@@ -52,8 +52,9 @@
     <div class="text-centered">
       <%= pagination_links @conn,
                            @paginator,
-                           @path_args,
+                           Enum.drop(@path_args, 2),
                            path: @path_fn,
+                           action: Enum.at(@path_args, 1),
                            filters: @filters,
                            order_field: elem(@order, 0),
                            order_direction: elem(@order, 1)

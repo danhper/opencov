@@ -155,7 +155,7 @@ defmodule Opencov.Build do
   end
 
   def update_coverage(build) do
-    Opencov.Repo.update! %{build | coverage: compute_coverage(build)}
+    Opencov.Repo.update! change(build, coverage: compute_coverage(build))
   end
 
   def compute_coverage(build) do

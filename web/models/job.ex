@@ -85,7 +85,7 @@ defmodule Opencov.Job do
   end
 
   def update_coverage(job) do
-    Opencov.Repo.update! %{job | coverage: compute_coverage(job)}
+    Opencov.Repo.update! change(job, coverage: compute_coverage(job))
   end
 
   defp update_build_coverage(changeset) do
