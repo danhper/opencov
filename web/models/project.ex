@@ -18,8 +18,6 @@ defmodule Opencov.Project do
   @required_fields ~w(name base_url)
   @optional_fields ~w(token current_coverage)
 
-  before_insert :generate_token
-
   def preload_latest_build(projects) do
     query = from b in Opencov.Build,
             join: p in assoc(b, :project),
@@ -36,10 +34,11 @@ defmodule Opencov.Project do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> generate_token
   end
 
   def generate_token(changeset) do
-    change(changeset, token: unique_token)
+    put_change(changeset, :token, unique_token)
   end
 
   defp unique_token do

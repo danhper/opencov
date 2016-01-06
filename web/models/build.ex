@@ -31,17 +31,16 @@ defmodule Opencov.Build do
     timestamps
   end
 
-  @required_fields ~w(build_number project_id)
+  @required_fields ~w(build_number)
   @optional_fields ~w(commit_sha commit_message committer_name committer_email branch
-                      service_name service_job_id service_job_pull_request)
+                      service_name service_job_id service_job_pull_request  project_id)
 
-  before_insert :set_build_started_at
-  before_insert :set_previous_values
   after_update :update_project_coverage
 
   def changeset(model, params \\ :empty) do
     model
     |> cast(normalize_params(params), @required_fields, @optional_fields)
+    |> set_build_started_at
   end
 
   # TODO: fetch build/job numbers from CI APIs
@@ -58,22 +57,13 @@ defmodule Opencov.Build do
     else: put_change(changeset, :build_started_at, Ecto.DateTime.utc)
   end
 
-  defp set_previous_values(changeset) do
-    {project_id, build_number} = {get_change(changeset, :project_id), get_change(changeset, :build_number)}
-    previous_build = search_previous_build(project_id, build_number, get_change(changeset, :branch))
-    if previous_build do
-      change(changeset, %{previous_build_id: previous_build.id, previous_coverage: previous_build.coverage})
-    else
-      changeset
-    end
-  end
-
-  defp search_previous_build(project_id, build_number, branch) do
-    query = query_for_project(project_id)
-              |> where([b], b.build_number < ^build_number and b.branch == ^branch)
-              |> order_by_build_number
-              |> first
-    Opencov.Repo.one(query)
+  def previous(project_id, build_number, nil),
+    do: previous(project_id, build_number, "")
+  def previous(project_id, build_number, branch) do
+    query_for_project(project_id)
+    |> where([b], b.build_number < ^build_number and b.branch == ^branch)
+    |> order_by_build_number
+    |> first
   end
 
   def current_for_project(project) do

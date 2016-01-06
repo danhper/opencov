@@ -2,6 +2,7 @@ defmodule Opencov.JobTest do
   use Opencov.ModelCase
 
   alias Opencov.Job
+  import Opencov.CreateBuildService, only: [create_build!: 2]
 
   test "changeset with valid attributes" do
     changeset = Job.changeset(%Job{}, Map.put(fields_for(:job), :build_id, 1))
@@ -34,8 +35,8 @@ defmodule Opencov.JobTest do
 
   test "set_previous_values when a previous job exists" do
     project = create(:project)
-    previous_job = create(:job, job_number: 1, build: create(:build, project: project))
-    job = create(:job, job_number: 1, build: create(:build, project: project))
+    previous_job = create(:job, job_number: 1, build: create_build!(project, %{build_number: 1}))
+    job = create(:job, job_number: 1, build: create_build!(project, %{build_number: 2}))
     assert job.previous_job_id == previous_job.id
     assert job.previous_coverage == previous_job.coverage
   end

@@ -3,12 +3,18 @@ defmodule Opencov.Repo do
   use Scrivener, page_size: 10
 
   require Ecto.Query
+  alias Ecto.Query
 
   def latest(model, opts \\ []) do
-    all(Ecto.Query.from m in model,
+    all(Query.from m in model,
       select: m,
       limit: ^Keyword.get(opts, :limit, 5),
       order_by: [desc: field(m, ^Keyword.get(opts, :order, :inserted_at))]
     )
   end
+
+  def first(%Query{} = query),
+    do: one(query |> Query.limit(1))
+  def first(model),
+    do: first(Query.from m in model, select: m)
 end

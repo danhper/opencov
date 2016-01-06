@@ -2,10 +2,11 @@ defmodule Opencov.Factory do
   use ExMachina.Ecto, repo: Opencov.Repo
 
   def factory(:project) do
-    %Opencov.Project{
+    project = %Opencov.Project{
       name: sequence(:name, &("name-#{&1}")),
       base_url: sequence(:base_url, &("https://github.com/tuvistavie/name-#{&1}"))
     }
+    Map.merge(project, Opencov.Project.changeset(project).changes)
   end
 
   def factory(:settings) do
@@ -26,10 +27,11 @@ defmodule Opencov.Factory do
   end
 
   def factory(:build) do
-    %Opencov.Build{
+    attrs = %{
       build_number: sequence(:build_number, &(&1)),
-      project: build(:project)
     }
+    changeset = Opencov.CreateBuildService.make_changeset(create(:project), attrs)
+    Map.merge(changeset.model, changeset.changes)
   end
 
   def factory(:job) do

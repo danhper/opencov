@@ -3,6 +3,8 @@ defmodule Opencov.FileTest do
 
   alias Opencov.File
 
+  import Opencov.CreateBuildService, only: [create_build!: 2]
+
   @coverage_lines [0, nil, 3, nil, 0, 1]
 
   test "changeset with valid attributes" do
@@ -27,8 +29,8 @@ defmodule Opencov.FileTest do
 
   test "set_previous_file when a previous file exists" do
     project = create(:project)
-    previous_job = create(:job, job_number: 1, build: create(:build, project: project))
-    job = create(:job, job_number: 1, build: create(:build, project: project))
+    previous_job = create(:job, job_number: 1, build: create_build!(project, %{build_number: 1}))
+    job = create(:job, job_number: 1, build: create_build!(project, %{build_number: 2}))
     assert job.previous_job_id == previous_job.id
 
     previous_file = create(:file, job: previous_job, name: "file")
