@@ -27,10 +27,9 @@ defmodule Opencov.File do
     timestamps
   end
 
-  before_insert :generate_coverage
-  before_insert :set_previous_file
+  # before_insert :set_previous_file
 
-  @required_fields ~w(name source coverage_lines job_id)
+  @required_fields ~w(name source coverage_lines)
   @optional_fields ~w()
 
   @allowed_sort_fields ~w(name coverage diff)a
@@ -38,6 +37,8 @@ defmodule Opencov.File do
   def changeset(model, params \\ :empty) do
     model
     |> cast(normalize_params(params), @required_fields, @optional_fields)
+    |> generate_coverage
+    |> prepare_changes(&set_previous_file/1)
   end
 
   def sort_by(query, param, order) when not is_atom(order), do: sort_by(query, param, String.to_atom(order))
@@ -95,11 +96,9 @@ defmodule Opencov.File do
   defp normalize_params(params), do: params
 
   defp generate_coverage(changeset) do
-    lines = get_change(changeset, :coverage_lines)
-    if lines do
-      put_change(changeset, :coverage, compute_coverage(lines))
-    else
-      changeset
+    case get_change(changeset, :coverage_lines) do
+      nil -> changeset
+      lines -> put_change(changeset, :coverage, compute_coverage(lines))
     end
   end
 

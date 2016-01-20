@@ -23,7 +23,7 @@ defmodule Opencov.FileTest do
   end
 
   test "normal coverage" do
-    file = create(:file, coverage_lines: @coverage_lines)
+    file = create_file(%{coverage_lines: @coverage_lines})
     assert file.coverage == 50
   end
 
@@ -33,8 +33,8 @@ defmodule Opencov.FileTest do
     job = create(:job, job_number: 1, build: create_build!(project, %{build_number: 2}))
     assert job.previous_job_id == previous_job.id
 
-    previous_file = create(:file, job: previous_job, name: "file")
-    file = create(:file, job: job, name: "file")
+    previous_file = create_file(previous_job, %{name: "file"})
+    file = create_file(job, %{name: "file"})
     assert file.previous_file_id == previous_file.id
     assert file.previous_coverage == previous_file.coverage
   end
@@ -54,9 +54,9 @@ defmodule Opencov.FileTest do
   end
 
   test "covered and unperfect filters" do
-    create(:file, coverage_lines: [0, 0])
-    create(:file, coverage_lines: [100, 100])
-    normal = create(:file, coverage_lines: [50, 100, 0])
+    create_file(%{coverage_lines: [0, 0]})
+    create_file(%{coverage_lines: [100, 100]})
+    normal = create_file(%{coverage_lines: [50, 100, 0]})
     normal_only = File.base_query |> File.with_filters(["unperfect", "covered"]) |> Opencov.Repo.all
     assert Enum.count(normal_only) == 1
     assert List.first(normal_only).id == normal.id
@@ -69,5 +69,12 @@ defmodule Opencov.FileTest do
     changed = File.base_query |> File.with_filters(["changed"]) |> Opencov.Repo.all
     refute file.id in Enum.map(cov_changed, &(&1.id))
     assert file.id in Enum.map(changed, &(&1.id))
+  end
+
+  defp create_file(job \\ nil, attrs) do
+    job = if job, do: job, else: create(:job)
+    attrs = Map.merge(fields_for(:file, coverage_lines: @coverage_lines), attrs)
+    changeset = File.changeset(Ecto.Model.build(job, :files), attrs)
+    Repo.insert!(changeset)
   end
 end

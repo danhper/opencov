@@ -19,7 +19,7 @@ defmodule Opencov.CreateBuildService do
     do: changeset
   defp finalize_changeset(changeset, project) do
     changeset
-    |> add_previous_values(project)
+    |> prepare_changes(&add_previous_values(&1, project))
   end
 
   defp add_previous_values(changeset, project) do

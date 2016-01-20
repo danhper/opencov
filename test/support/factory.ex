@@ -42,12 +42,14 @@ defmodule Opencov.Factory do
   end
 
   def factory(:file) do
-    %Opencov.File{
+    model = %Opencov.File{job: build(:job)}
+    attrs = %{
       name: sequence(:name, &("file-#{&1}")),
       source: "return 0",
-      coverage_lines: [],
-      job: build(:job)
+      coverage_lines: []
     }
+    changeset = Opencov.File.changeset(model, attrs)
+    Map.merge(changeset.model, changeset.changes)
   end
 
   def with_project(build) do

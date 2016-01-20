@@ -116,7 +116,7 @@ defmodule Opencov.Build do
     result = %{"branch" => branch || "", "commit_sha" => commit_sha, "committer_name" => committer_name,
         "committer_email" => committer_email, "commit_message" => commit_message}
     for {k, v} <- result, into: %{} do
-      unless is_nil(v), do: v = String.strip(v)
+      v = if is_nil(v), do: v, else: String.strip(v)
       {k, v}
     end
   end
