@@ -36,6 +36,7 @@ defmodule Opencov.Mixfile do
      {:timex_ecto, "~> 0.5.0"},
      {:scrivener, "~> 1.0"},
      {:plug_basic_auth, "~> 1.0"},
+     {:navigation_history, "~> 0.2"},
      {:ex_machina, "~> 0.5"},
      {:mailman, "~> 0.1.0"},
      {:eiconv, github: "zotonic/eiconv"},

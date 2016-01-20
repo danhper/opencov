@@ -23,6 +23,7 @@
   "mimerl": {:hex, :mimerl, "1.0.2"},
   "mix_test_watch": {:hex, :mix_test_watch, "0.2.5"},
   "mock": {:hex, :mock, "0.1.1"},
+  "navigation_history": {:hex, :navigation_history, "0.2.0"},
   "phoenix": {:hex, :phoenix, "1.1.2"},
   "phoenix_ecto": {:hex, :phoenix_ecto, "1.2.0"},
   "phoenix_html": {:hex, :phoenix_html, "2.3.0"},

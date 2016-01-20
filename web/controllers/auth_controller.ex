@@ -1,7 +1,6 @@
 defmodule Opencov.AuthController do
   use Opencov.Web, :controller
 
-  import Opencov.Helpers.Navigation
   alias Opencov.Authentication
   alias Opencov.User
   alias Opencov.Repo
@@ -26,7 +25,7 @@ defmodule Opencov.AuthController do
     if is_nil(user.confirmed_at) do
       render(conn, "login.html", email: user.email, error: "Please confirm your email", can_signup: can_signup?)
     else
-      conn |> Authentication.login(user) |> redirect(to: previous_path(conn, default: "/"))
+      conn |> Authentication.login(user) |> redirect(to: NavigationHistory.last_path(conn, default: "/"))
     end
   end
 
