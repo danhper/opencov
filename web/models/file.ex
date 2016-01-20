@@ -27,8 +27,6 @@ defmodule Opencov.File do
     timestamps
   end
 
-  # before_insert :set_previous_file
-
   @required_fields ~w(name source coverage_lines)
   @optional_fields ~w()
 
@@ -41,20 +39,26 @@ defmodule Opencov.File do
     |> prepare_changes(&set_previous_file/1)
   end
 
-  def sort_by(query, param, order) when not is_atom(order), do: sort_by(query, param, String.to_atom(order))
-  def sort_by(query, _, order) when order != :desc and order != :asc, do: query
-  def sort_by(query, param, order) when not is_atom(param), do: sort_by(query, String.to_atom(param), order)
+  def sort_by(query, param, order) when not is_atom(order),
+    do: sort_by(query, param, String.to_atom(order))
+  def sort_by(query, _, order) when order != :desc and order != :asc,
+    do: query
+  def sort_by(query, param, order) when not is_atom(param),
+    do: sort_by(query, String.to_atom(param), order)
   def sort_by(query, :diff, order) do
     query |> order_by([f], [{^order, fragment("abs(? - ?)", f.previous_coverage, f.coverage)}])
   end
-  def sort_by(query, param, order) do
-    if param in @allowed_sort_fields do
-      if __schema__(:type, param) == :string, do: order = if order == :asc, do: :desc, else: :asc
-      query |> order_by([f], [{^order, field(f, ^param)}])
-    else
-      query
-    end
+  def sort_by(query, param, order) when param in @allowed_sort_fields do
+    order = if __schema__(:type, param) == :string,
+      do: order,
+      else: reverse_order(order)
+    query |> order_by([f], [{^order, field(f, ^param)}])
   end
+  def sort_by(query, _, _),
+    do: query
+
+  defp reverse_order(:asc), do: :desc
+  defp reverse_order(:desc), do: :asc
 
   def for_job(job), do: for_job(base_query, job)
 
