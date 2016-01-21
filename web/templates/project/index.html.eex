@@ -26,6 +26,7 @@
             on branch <%= latest_build.branch %>
           <% end %>
         <% end %>
+        <%= human_time_ago(latest_build.inserted_at) %>
       </li>
     <% end %>
   </ul>
