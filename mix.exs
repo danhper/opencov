@@ -37,7 +37,7 @@ defmodule Opencov.Mixfile do
      {:scrivener, "~> 1.0"},
      {:plug_basic_auth, "~> 1.0"},
      {:navigation_history, "~> 0.2"},
-     {:ex_machina, "~> 0.5"},
+     {:ex_machina, github: "tuvistavie/ex_machina", branch: "allow-changset-customization"},
      {:mailman, "~> 0.1.0"},
      {:eiconv, github: "zotonic/eiconv"},
      {:scrivener_html, github: "tuvistavie/scrivener_html", branch: "elixir-1.2-support"},

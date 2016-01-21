@@ -33,7 +33,7 @@ defmodule Opencov.Build do
 
   @required_fields ~w(build_number)
   @optional_fields ~w(commit_sha commit_message committer_name committer_email branch
-                      service_name service_job_id service_job_pull_request  project_id)
+                      service_name service_job_id service_job_pull_request project_id completed)
 
   after_update :update_project_coverage
 

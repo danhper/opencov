@@ -23,14 +23,13 @@ defmodule Opencov.Job do
   @required_fields ~w(build_id)
   @optional_fields ~w(run_at job_number files_count)
 
-  before_insert :check_job_number
-  before_insert :set_previous_values
-
   after_update :update_build_coverage
 
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> prepare_changes(&check_job_number/1)
+    |> prepare_changes(&set_previous_values/1)
   end
 
   def create_from_json!(build, params) do

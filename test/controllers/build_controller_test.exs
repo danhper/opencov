@@ -7,7 +7,7 @@ defmodule Opencov.BuildControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    build = create(:build) |> Opencov.Repo.preload(:project)
+    build = create(:build)
     conn = get conn, build_path(conn, :show, build)
     assert html_response(conn, 200) =~ build.project.name
   end

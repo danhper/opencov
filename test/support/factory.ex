@@ -27,11 +27,10 @@ defmodule Opencov.Factory do
   end
 
   def factory(:build) do
-    attrs = %{
+    %Opencov.Build{
       build_number: sequence(:build_number, &(&1)),
+      project: build(:project)
     }
-    changeset = Opencov.CreateBuildService.make_changeset(create(:project), attrs)
-    Map.merge(changeset.model, changeset.changes)
   end
 
   def factory(:job) do
@@ -42,14 +41,25 @@ defmodule Opencov.Factory do
   end
 
   def factory(:file) do
-    model = %Opencov.File{job: build(:job)}
-    attrs = %{
+    %Opencov.File{
+      job: build(:job),
       name: sequence(:name, &("file-#{&1}")),
       source: "return 0",
       coverage_lines: []
     }
-    changeset = Opencov.File.changeset(model, attrs)
-    Map.merge(changeset.model, changeset.changes)
+  end
+
+  def make_changeset(%Opencov.File{} = file, params) do
+    Opencov.File.changeset(file, params)
+  end
+
+  def make_changeset(%Opencov.Build{}, params) do
+    project = Opencov.Repo.get(Opencov.Project, params.project_id)
+    Opencov.CreateBuildService.make_changeset(project, params)
+  end
+
+  def make_changeset(%Opencov.Job{} = job, params) do
+    Opencov.Job.changeset(job, params)
   end
 
   def with_project(build) do

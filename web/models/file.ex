@@ -28,7 +28,7 @@ defmodule Opencov.File do
   end
 
   @required_fields ~w(name source coverage_lines)
-  @optional_fields ~w()
+  @optional_fields ~w(job_id)
 
   @allowed_sort_fields ~w(name coverage diff)a
 
@@ -107,7 +107,7 @@ defmodule Opencov.File do
   end
 
   defp set_previous_file(changeset) do
-    job = Opencov.Repo.get(Opencov.Job, get_change(changeset, :job_id))
+    job = Opencov.Repo.get(Opencov.Job, get_change(changeset, :job_id) || changeset.model.job_id)
     if is_nil(job) or is_nil(job.previous_job_id) do
       changeset
     else

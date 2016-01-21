@@ -3,8 +3,6 @@ defmodule Opencov.BuildTest do
 
   alias Opencov.Build
 
-  import Opencov.CreateBuildService, only: [create_build!: 2]
-
   test "changeset with valid attributes" do
     changeset = Build.changeset(%Build{}, Map.put(fields_for(:build), :project_id, 1))
     assert changeset.valid?
@@ -36,7 +34,7 @@ defmodule Opencov.BuildTest do
   end
 
   test "info_for when no service name and previous build exists" do
-    previous_build = create(:build) |> Opencov.Repo.preload(:project)
+    previous_build = create(:build)
     info = Build.info_for(previous_build.project, %{})
     assert info["build_number"] == previous_build.build_number + 1
   end
@@ -48,8 +46,8 @@ defmodule Opencov.BuildTest do
   end
 
   test "previous_build when previous build exists" do
-    previous_build = create(:build) |> Opencov.Repo.preload(:project)
-    build = create_build!(previous_build.project, %{build_number: 44})
+    previous_build = create(:build)
+    build = create(:build, project: previous_build.project, build_number: 44)
     assert build.previous_build_id == previous_build.id
     assert build.previous_coverage == previous_build.coverage
   end
@@ -60,7 +58,7 @@ defmodule Opencov.BuildTest do
   end
 
   test "current_for_project when build exists" do
-    existing_build = create(:build, completed: false) |> Opencov.Repo.preload(:project)
+    existing_build = create(:build, completed: false)
     build = Build.current_for_project(existing_build.project)
     assert build.id == existing_build.id
   end
