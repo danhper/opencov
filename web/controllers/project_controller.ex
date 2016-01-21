@@ -19,7 +19,7 @@ defmodule Opencov.ProjectController do
   end
 
   def create(conn, %{"project" => project_params}) do
-    changeset = Project.changeset(Ecto.Model.build(current_user(conn), :projects), project_params)
+    changeset = Project.changeset(Ecto.build_assoc(current_user(conn), :projects), project_params)
 
     case Repo.insert(changeset) do
       {:ok, _project} ->

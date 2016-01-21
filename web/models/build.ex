@@ -138,7 +138,7 @@ defmodule Opencov.Build do
 
   def create_from_json!(project, params) do
     params = Map.merge(params, info_for(project, params))
-    build = Ecto.Model.build(project, :builds)
+    build = Ecto.build_assoc(project, :builds)
     Opencov.Repo.insert! changeset(build, params)
   end
 

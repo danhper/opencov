@@ -18,7 +18,7 @@ defmodule Opencov.Web do
 
   def model do
     quote do
-      use Ecto.Model
+      use Ecto.Schema
       use Timex.Ecto.Timestamps
       use Opencov.Core
 
@@ -32,7 +32,6 @@ defmodule Opencov.Web do
       use Phoenix.Controller
 
       alias Opencov.Repo
-      import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Opencov.Router.Helpers
@@ -64,7 +63,6 @@ defmodule Opencov.Web do
       use Phoenix.Channel
 
       alias Opencov.Repo
-      import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
     end
   end

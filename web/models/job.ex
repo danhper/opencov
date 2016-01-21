@@ -1,8 +1,6 @@
 defmodule Opencov.Job do
   use Opencov.Web, :model
 
-  alias Ecto.Model
-
   alias Opencov.File
 
   schema "jobs" do
@@ -33,9 +31,9 @@ defmodule Opencov.Job do
   def create_from_json!(build, params) do
     {source_files, params} = Map.pop(params, "source_files", [])
     params = Map.put(params, "files_count", Enum.count(source_files))
-    job = Model.build(build, :jobs) |> changeset(params) |> Opencov.Repo.insert!
+    job = Ecto.build_assoc(build, :jobs) |> changeset(params) |> Opencov.Repo.insert!
     Enum.each source_files, fn file_params ->
-      Model.build(job, :files) |> File.changeset(file_params) |> Opencov.Repo.insert!
+      Ecto.build_assoc(job, :files) |> File.changeset(file_params) |> Opencov.Repo.insert!
     end
     job |> Opencov.Repo.preload(:files) |> update_coverage
   end

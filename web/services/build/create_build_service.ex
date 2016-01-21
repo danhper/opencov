@@ -4,7 +4,7 @@ defmodule Opencov.CreateBuildService do
   import Ecto.Changeset
 
   def make_changeset(project, params \\ :empty) do
-    Ecto.Model.build(project, :builds)
+    Ecto.build_assoc(project, :builds)
     |> Build.changeset(params)
     |> finalize_changeset(project)
   end
