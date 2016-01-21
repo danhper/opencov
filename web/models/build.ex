@@ -127,14 +127,14 @@ defmodule Opencov.Build do
     end
   end
 
-  def for_commit(project, git_params) do
-    if (git_branch = git_params["branch"]) && (git_commit_sha = Map.get(git_params, "head", %{})["id"]) do
-      base_query
-        |> for_project(project.id)
-        |> where([b], b.branch == ^git_branch and b.commit_sha == ^git_commit_sha)
-        |> Opencov.Repo.one
-    end
+  def for_commit(project, %{"branch" => branch, "head" => %{"id" => sha}})
+      when is_binary(branch) and is_binary(sha) and byte_size(branch) > 0 and byte_size(sha) > 0 do
+    base_query
+      |> for_project(project.id)
+      |> where([b], b.branch == ^branch and b.commit_sha == ^sha)
+      |> Opencov.Repo.one
   end
+  def for_commit(_, _), do: nil
 
   def create_from_json!(project, params) do
     params = Map.merge(params, info_for(project, params))
