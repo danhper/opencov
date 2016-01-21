@@ -35,8 +35,6 @@ defmodule Opencov.Build do
   @optional_fields ~w(commit_sha commit_message committer_name committer_email branch
                       service_name service_job_id service_job_pull_request project_id completed)
 
-  after_update :update_project_coverage
-
   def changeset(model, params \\ :empty) do
     model
     |> cast(normalize_params(params), @required_fields, @optional_fields)
@@ -145,7 +143,9 @@ defmodule Opencov.Build do
   end
 
   def update_coverage(build) do
-    Opencov.Repo.update! change(build, coverage: compute_coverage(build))
+    build = Opencov.Repo.update! change(build, coverage: compute_coverage(build))
+    Opencov.Project.update_coverage(Opencov.Repo.preload(build, :project).project)
+    build
   end
 
   def compute_coverage(build) do
@@ -153,12 +153,5 @@ defmodule Opencov.Build do
       |> Enum.map(fn j -> j.coverage end)
       |> Enum.reject(fn n -> is_nil(n) or n == 0 end)
       |> Enum.min
-  end
-
-  defp update_project_coverage(changeset) do
-    if Map.has_key?(changeset.changes, :coverage) do
-      Opencov.Project.update_coverage(Opencov.Repo.preload(changeset.model, :project).project)
-    end
-    changeset
   end
 end

@@ -23,8 +23,6 @@ defmodule Opencov.Job do
   @required_fields ~w(build_id)
   @optional_fields ~w(run_at job_number files_count)
 
-  after_update :update_build_coverage
-
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
@@ -84,14 +82,9 @@ defmodule Opencov.Job do
   end
 
   def update_coverage(job) do
-    Opencov.Repo.update! change(job, coverage: compute_coverage(job))
-  end
-
-  defp update_build_coverage(changeset) do
-    if Map.has_key?(changeset.changes, :coverage) do
-      Opencov.Build.update_coverage(Opencov.Repo.preload(changeset.model, :build).build)
-    end
-    changeset
+    job = Opencov.Repo.update! change(job, coverage: compute_coverage(job))
+    Opencov.Build.update_coverage(Opencov.Repo.preload(job, :build).build)
+    job
   end
 
   def compute_coverage(job) do

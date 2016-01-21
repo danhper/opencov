@@ -40,6 +40,6 @@
   "secure_random": {:hex, :secure_random, "0.2.0"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
   "temp": {:hex, :temp, "0.2.5"},
-  "timex": {:hex, :timex, "0.19.5"},
-  "timex_ecto": {:hex, :timex_ecto, "0.5.0"},
+  "timex": {:hex, :timex, "1.0.0"},
+  "timex_ecto": {:hex, :timex_ecto, "0.7.0"},
   "tzdata": {:hex, :tzdata, "0.5.6"}}
