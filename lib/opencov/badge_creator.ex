@@ -5,6 +5,7 @@ defmodule Opencov.BadgeCreator do
   @base_width 89
   @extra_width 7
   @template_path Path.join(__DIR__, "templates/badge_template.eex")
+  @authorized_formats ~w(png jpg svg)
 
   EEx.function_from_file :defp, :template, @template_path, [:coverage_str, :width, :extra_width, :bg_color]
 
@@ -18,17 +19,17 @@ defmodule Opencov.BadgeCreator do
     extra_width = (digits_num - 1) * @extra_width
     width = @base_width + extra_width
     color = badge_color(coverage)
-    template(coverage_str, width, extra_width, color) |> get_image(options)
+    template(coverage_str, width, extra_width, color) |> get_image(options[:format])
   end
 
-  defp get_image(svg, options) do
-    case options[:format] do
-      :svg -> {:ok, :svg, svg}
-      format ->
-        if is_nil(format), do: format = :png
-        transform(svg, format)
-    end
-  end
+  defp get_image(svg, nil),
+    do: get_image(svg, "png")
+  defp get_image(svg, format) when format in @authorized_formats,
+    do: get_image(svg, String.to_atom(format))
+  defp get_image(svg, :svg),
+    do: {:ok, :svg, svg}
+  defp get_image(svg, format) when is_atom(format),
+    do: transform(svg, format)
 
   def transform(svg, format) do
     dir = Temp.mkdir!("opencov")

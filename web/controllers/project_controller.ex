@@ -4,7 +4,6 @@ defmodule Opencov.ProjectController do
   import Opencov.Helpers.Authentication
 
   alias Opencov.Project
-  alias Opencov.Badge
 
   plug :scrub_params, "project" when action in [:create, :update]
 
@@ -67,7 +66,7 @@ defmodule Opencov.ProjectController do
 
   def badge(conn, %{"project_id" => id, "format" => format}) do
     project = Repo.get!(Project, id)
-    {:ok, badge} = Badge.get_or_create(project, format)
+    {:ok, badge} = Opencov.BadgeManager.get_or_create(project, format)
     conn
       |> put_resp_content_type(Plug.MIME.type(format))
       |> send_resp(200, badge.image)

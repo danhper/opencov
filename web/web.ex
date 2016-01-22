@@ -27,6 +27,12 @@ defmodule Opencov.Web do
     end
   end
 
+  def manager do
+    quote do
+      alias Opencov.Repo
+    end
+  end
+
   def controller do
     quote do
       use Phoenix.Controller

@@ -11,6 +11,7 @@ defmodule Opencov.Project do
 
     belongs_to :user, Opencov.User
     has_many :builds, Opencov.Build
+    has_one :badge, Opencov.Badge
 
     timestamps
   end

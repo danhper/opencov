@@ -34,7 +34,7 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    project = Repo.insert! %Project{name: "name"}
+    project = create(:project, name: "name")
     conn = get conn, project_path(conn, :show, project)
     assert html_response(conn, 200) =~ project.name
   end
@@ -52,7 +52,7 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    project = Repo.insert! %Project{}
+    project = create(:project)
     conn = put conn, project_path(conn, :update, project), project: @valid_attrs
     assert redirected_to(conn) == project_path(conn, :show, project)
     assert Repo.get_by(Project, @valid_attrs)
@@ -65,14 +65,14 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    project = Repo.insert! %Project{}
+    project = create(:project)
     conn = delete conn, project_path(conn, :delete, project)
     assert redirected_to(conn) == project_path(conn, :index)
     refute Repo.get(Project, project.id)
   end
 
   test "get badge", %{conn: conn} do
-    project = Repo.insert! %Project{}
+    project = create(:project, current_coverage: nil)
     conn = get conn, project_badge_path(conn, :badge, project, "svg")
     assert conn.status == 200
     assert List.first(get_resp_header(conn, "content-type")) =~ "image/svg+xml"

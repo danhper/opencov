@@ -2,11 +2,11 @@ defmodule Opencov.Factory do
   use ExMachina.Ecto, repo: Opencov.Repo
 
   def factory(:project) do
-    project = %Opencov.Project{
+    %Opencov.Project{
       name: sequence(:name, &("name-#{&1}")),
-      base_url: sequence(:base_url, &("https://github.com/tuvistavie/name-#{&1}"))
+      base_url: sequence(:base_url, &("https://github.com/tuvistavie/name-#{&1}")),
+      current_coverage: 50.0
     }
-    Map.merge(project, Opencov.Project.changeset(project).changes)
   end
 
   def factory(:settings) do
@@ -49,6 +49,19 @@ defmodule Opencov.Factory do
     }
   end
 
+  def factory(:badge) do
+    %Opencov.Badge{
+      project: build(:project),
+      coverage: 50.0,
+      image: "encoded_image",
+      format: to_string(Opencov.Badge.default_format)
+    }
+  end
+
+  def make_changeset(%Opencov.Project{} = project, params) do
+    Opencov.Project.changeset(project, params)
+  end
+
   def make_changeset(%Opencov.File{} = file, params) do
     Opencov.File.changeset(file, params)
   end
@@ -60,6 +73,10 @@ defmodule Opencov.Factory do
 
   def make_changeset(%Opencov.Job{} = job, params) do
     Opencov.Job.changeset(job, params)
+  end
+
+  def make_changeset(%Opencov.Badge{} = badge, params) do
+    Opencov.Badge.changeset(badge, params)
   end
 
   def with_project(build) do
