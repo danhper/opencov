@@ -13,14 +13,6 @@ defmodule Opencov.Badge do
     timestamps
   end
 
-  @required_fields ~w(image format project_id)
-  @optional_fields ~w(coverage)
-
-  def changeset(model, params \\ :empty) do
-    model
-    |> cast(params, @required_fields, @optional_fields)
-  end
-
   def for_project(query, %Opencov.Project{id: project_id}),
     do: for_project(query, project_id)
   def for_project(query, project_id) when is_integer(project_id),

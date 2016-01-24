@@ -1,7 +1,7 @@
 defmodule Opencov.Job do
   use Opencov.Web, :model
 
-  alias Opencov.File
+  alias Opencov.FileManager
 
   schema "jobs" do
     field :coverage, :float, default: 0.0
@@ -33,7 +33,7 @@ defmodule Opencov.Job do
     params = Map.put(params, "files_count", Enum.count(source_files))
     job = Ecto.build_assoc(build, :jobs) |> changeset(params) |> Opencov.Repo.insert!
     Enum.each source_files, fn file_params ->
-      Ecto.build_assoc(job, :files) |> File.changeset(file_params) |> Opencov.Repo.insert!
+      Ecto.build_assoc(job, :files) |> FileManager.changeset(file_params) |> Opencov.Repo.insert!
     end
     job |> Opencov.Repo.preload(:files) |> update_coverage
   end

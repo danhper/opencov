@@ -3,9 +3,16 @@ defmodule Opencov.BadgeManager do
 
   alias Opencov.Badge
   alias Opencov.BadgeCreator
-  
+
   import Opencov.Badge
 
+  @required_fields ~w(image format project_id)
+  @optional_fields ~w(coverage)
+
+  def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
+  end
 
   def get_or_create(project, format \\ default_format) do
     case find(project.id, format) do
@@ -31,7 +38,7 @@ defmodule Opencov.BadgeManager do
     make project, format, fn image ->
       params = %{image: image, format: to_string(format), coverage: project.current_coverage}
       Ecto.build_assoc(project, :badge)
-      |> Badge.changeset(params)
+      |> changeset(params)
       |> Repo.insert!
     end
   end
@@ -41,7 +48,7 @@ defmodule Opencov.BadgeManager do
 
   defp update(project, badge) do
     make project, badge.format, fn image ->
-      Badge.changeset(badge, %{coverage: project.current_coverage, image: image})
+      changeset(badge, %{coverage: project.current_coverage, image: image})
       |> Repo.update!
     end
   end

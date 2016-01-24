@@ -30,6 +30,8 @@ defmodule Opencov.Web do
   def manager do
     quote do
       alias Opencov.Repo
+
+      import Ecto.Changeset
     end
   end
 

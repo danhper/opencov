@@ -63,7 +63,7 @@ defmodule Opencov.Factory do
   end
 
   def make_changeset(%Opencov.File{} = file, params) do
-    Opencov.File.changeset(file, params)
+    Opencov.FileManager.changeset(file, params)
   end
 
   def make_changeset(%Opencov.Build{}, params) do
@@ -76,7 +76,7 @@ defmodule Opencov.Factory do
   end
 
   def make_changeset(%Opencov.Badge{} = badge, params) do
-    Opencov.Badge.changeset(badge, params)
+    Opencov.BadgeManager.changeset(badge, params)
   end
 
   def with_project(build) do
