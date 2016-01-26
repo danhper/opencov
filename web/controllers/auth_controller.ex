@@ -30,7 +30,7 @@ defmodule Opencov.AuthController do
   end
 
   defp can_signup? do
-    Opencov.Settings.get!.signup_enabled
+    Opencov.SettingsManager.get!.signup_enabled
   end
 
   def logout(conn, _params) do

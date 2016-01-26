@@ -55,7 +55,7 @@ defmodule Opencov.UserController do
   end
 
   defp check_signup(conn, _) do
-    if Opencov.Settings.get!.signup_enabled do
+    if Opencov.SettingsManager.get!.signup_enabled do
       conn
     else
       conn

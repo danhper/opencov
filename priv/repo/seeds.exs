@@ -9,7 +9,7 @@ unless Repo.one(Opencov.Settings) do
     restricted_signup_domains: "",
     default_project_visibility: "internal"
   }
-  Repo.insert!(Opencov.Settings.changeset(%Opencov.Settings{}, params))
+  Repo.insert!(Opencov.SettingsManager.changeset(%Opencov.Settings{}, params))
 end
 
 

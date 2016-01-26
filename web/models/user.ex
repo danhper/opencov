@@ -110,7 +110,7 @@ defmodule Opencov.User do
   end
 
   defp validate_domain(email) do
-    allowed_domains = Opencov.Settings.restricted_signup_domains
+    allowed_domains = Opencov.SettingsManager.restricted_signup_domains
     domain = email |> String.split("@") |> List.last
     if allowed_domains && not domain in allowed_domains do
       "only the following domains are allowed: #{Enum.join(allowed_domains, ",")}"

@@ -72,7 +72,7 @@ defmodule Opencov.File do
   def with_filter(query, _), do: query
 
   def query_with_name(query, name) do
-    query |> where([f], f.name == ^name)
+    query |> where(name: ^name)
   end
 
   def order_by_coverage(query, order \\ :desc) do
