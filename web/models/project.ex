@@ -58,7 +58,7 @@ defmodule Opencov.Project do
   def add_job!(project, params) do
     Opencov.Repo.transaction fn ->
       build = Opencov.Build.get_or_create!(project, params)
-      job = Opencov.Job.create_from_json!(build, params)
+      job = Opencov.JobManager.create_from_json!(build, params)
       {build, job}
     end
   end

@@ -72,7 +72,7 @@ defmodule Opencov.Factory do
   end
 
   def make_changeset(%Opencov.Job{} = job, params) do
-    Opencov.Job.changeset(job, params)
+    Opencov.JobManager.changeset(job, params)
   end
 
   def make_changeset(%Opencov.Badge{} = badge, params) do

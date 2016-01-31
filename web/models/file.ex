@@ -27,25 +27,21 @@ defmodule Opencov.File do
     timestamps
   end
 
-  @allowed_sort_fields ~w(name coverage diff)a
+  @allowed_sort_fields ~w(name coverage diff)
 
-  def sort_by(query, param, order) when not is_atom(order),
-    do: sort_by(query, param, String.to_atom(order))
-  def sort_by(query, _, order) when order != :desc and order != :asc,
-    do: query
-  def sort_by(query, param, order) when not is_atom(param),
+  def sort_by(query, param, "asc"), do: sort_by(query, param, :asc)
+  def sort_by(query, param, "desc"), do: sort_by(query, param, :desc)
+  def sort_by(query, param, order) when param in @allowed_sort_fields,
     do: sort_by(query, String.to_atom(param), order)
   def sort_by(query, :diff, order) do
     query |> order_by([f], [{^order, fragment("abs(? - ?)", f.previous_coverage, f.coverage)}])
   end
-  def sort_by(query, param, order) when param in @allowed_sort_fields do
+  def sort_by(query, param, order) do
     order = if __schema__(:type, param) == :string,
       do: order,
       else: reverse_order(order)
     query |> order_by([f], [{^order, field(f, ^param)}])
   end
-  def sort_by(query, _, _),
-    do: query
 
   defp reverse_order(:asc), do: :desc
   defp reverse_order(:desc), do: :asc
