@@ -36,6 +36,12 @@ defmodule Opencov.Web do
     end
   end
 
+  def service do
+    quote do
+      alias Opencov.Repo
+    end
+  end
+
   def controller do
     quote do
       use Phoenix.Controller

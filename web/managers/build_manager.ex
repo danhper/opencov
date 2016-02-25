@@ -23,7 +23,7 @@ defmodule Opencov.BuildManager do
   def get_or_create!(project, params) do
     current_build = current_for_project(Build, project) |> Repo.one
     git_params = Map.get(params, "git", %{})
-    if build = (current_build || for_commit(project, git_params)),
+    if build = (current_build || Repo.one(for_commit(project, git_params))),
       do: build,
       else: create_from_json!(project, params)
   end

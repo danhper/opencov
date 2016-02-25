@@ -1,10 +1,11 @@
-defmodule Opencov.Helpers.FileControllerHelpers do
+defmodule Opencov.FileService do
+  use Opencov.Web, :service
+
   alias Opencov.File
 
   # FIXME: we should make file distinct by name instead but this is not yet
   # supported by scrivener
   def files_with_filter([job|_], params), do: files_with_filter(job, params)
-
   def files_with_filter(job, params) do
     filters = Map.get(params, "filters", [])
     order_field = Map.get(params, "order_field", "diff")

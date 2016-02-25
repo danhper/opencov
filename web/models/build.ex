@@ -49,16 +49,12 @@ defmodule Opencov.Build do
     query |> for_project(project.id) |> order_by_build_number |> first
   end
 
-  def base_query do
-    from b in Opencov.Build, select: b
-  end
-
   def first(query) do
     query |> limit([b], 1)
   end
 
   def query_for_project(project_id) do
-    base_query |> for_project(project_id)
+    for_project(Opencov.Build, project_id)
   end
 
   def for_project(query, project_id) do
@@ -96,16 +92,13 @@ defmodule Opencov.Build do
     end
   end
 
-
   def for_commit(project, %{"branch" => branch, "head" => %{"id" => sha}})
       when is_binary(branch) and is_binary(sha) and byte_size(branch) > 0 and byte_size(sha) > 0 do
-    base_query
+    Opencov.Build
       |> for_project(project.id)
       |> where([b], b.branch == ^branch and b.commit_sha == ^sha)
-      |> Opencov.Repo.one
   end
   def for_commit(_, _), do: nil
-
 
   def compute_coverage(build) do
     build.jobs
