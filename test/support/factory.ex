@@ -67,7 +67,8 @@ defmodule Opencov.Factory do
 
   def make_changeset(%Opencov.Build{}, params) do
     project = Opencov.Repo.get(Opencov.Project, params.project_id)
-    Opencov.CreateBuildService.make_changeset(project, params)
+    build = Ecto.build_assoc(project, :builds)
+    Opencov.BuildManager.changeset(build, params)
   end
 
   def make_changeset(%Opencov.Job{} = job, params) do
