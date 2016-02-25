@@ -24,8 +24,9 @@ defmodule Opencov.ProjectControllerTest do
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
     conn = post conn, project_path(conn, :create), project: @valid_attrs
-    assert redirected_to(conn) == project_path(conn, :index)
-    assert Repo.get_by(Project, @valid_attrs)
+    project = Repo.get_by(Project, @valid_attrs)
+    assert project
+    assert redirected_to(conn) == project_path(conn, :show, project)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do

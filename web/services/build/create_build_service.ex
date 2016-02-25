@@ -1,11 +1,12 @@
 defmodule Opencov.CreateBuildService do
   alias Opencov.Build
+  alias Opencov.BuildManager
   alias Opencov.Repo
   import Ecto.Changeset
 
   def make_changeset(project, params \\ :empty) do
     Ecto.build_assoc(project, :builds)
-    |> Build.changeset(params)
+    |> BuildManager.changeset(params)
     |> finalize_changeset(project)
   end
 

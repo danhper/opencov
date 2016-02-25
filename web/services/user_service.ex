@@ -1,11 +1,12 @@
 defmodule Opencov.UserService do
   alias Opencov.User
+  alias Opencov.UserManager
   alias Opencov.UserMailer
   alias Opencov.Repo
 
   def create_user(user_params, opts) do
     options = [generate_token: true, generate_password: opts[:invited?]]
-    changeset = User.changeset(%User{}, user_params, options)
+    changeset = UserManager.changeset(%User{}, user_params, options)
     case Repo.insert(changeset) do
       {:ok, user} = res ->
         email = UserMailer.confirmation_email(user, opts ++ [registration: true])
@@ -26,13 +27,13 @@ defmodule Opencov.UserService do
   end
 
   defp finalize_confirmation!(user) do
-    User.confirmation_changeset(user) |> Repo.update!
+    UserManager.confirmation_changeset(user) |> Repo.update!
   end
 
   def send_reset_password(email) do
     case Repo.get_by(User, email: email) do
       %User{} = user ->
-        User.password_reset_changeset(user)
+        UserManager.password_reset_changeset(user)
         |> Repo.update!
         |> UserMailer.reset_password_email
         |> Opencov.AppMailer.send
@@ -45,7 +46,7 @@ defmodule Opencov.UserService do
     case Repo.get_by(User, password_reset_token: token) do
       %User{} = user ->
         opts = [skip_password_validation: true, remove_reset_token: true]
-        User.password_update_changeset(user, params, opts) |> Repo.update
+        UserManager.password_update_changeset(user, params, opts) |> Repo.update
       _ -> {:error, :not_found}
     end
   end

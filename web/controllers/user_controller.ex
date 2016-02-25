@@ -2,6 +2,7 @@ defmodule Opencov.UserController do
   use Opencov.Web, :controller
 
   alias Opencov.User
+  alias Opencov.UserManager
   import Opencov.Helpers.Authentication
 
   alias Opencov.UserService
@@ -10,7 +11,7 @@ defmodule Opencov.UserController do
   plug :check_signup when action in [:new, :create]
 
   def new(conn, _params) do
-    changeset = User.changeset(%User{})
+    changeset = UserManager.changeset(%User{})
     render(conn, "new.html", changeset: changeset)
   end
 

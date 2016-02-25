@@ -43,6 +43,6 @@ defmodule Opencov.FileManager do
   end
 
   defp find_previous_file(previous_job_id, name) do
-    File |> for_job(previous_job_id) |> query_with_name(name) |> Opencov.Repo.one
+    File |> for_job(previous_job_id) |> with_name(name) |> Opencov.Repo.one
   end
 end

@@ -29,8 +29,8 @@ defmodule Opencov.File do
 
   @allowed_sort_fields ~w(name coverage diff)
 
-  def sort_by(query, param, "asc"), do: sort_by(query, param, :asc)
-  def sort_by(query, param, "desc"), do: sort_by(query, param, :desc)
+  def sort_by(query, param, order) when order in ~w(asc desc),
+    do: sort_by(query, param, String.to_atom(order))
   def sort_by(query, param, order) when param in @allowed_sort_fields,
     do: sort_by(query, String.to_atom(param), order)
   def sort_by(query, :diff, order) do
@@ -67,7 +67,7 @@ defmodule Opencov.File do
   def with_filter(query, "unperfect"), do: query |> where([f], f.coverage < 100.0)
   def with_filter(query, _), do: query
 
-  def query_with_name(query, name) do
+  def with_name(query, name) do
     query |> where(name: ^name)
   end
 

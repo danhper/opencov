@@ -25,8 +25,8 @@
           <%= if latest_build.branch do %>
             on branch <%= latest_build.branch %>
           <% end %>
+          <%= human_time_ago(latest_build.inserted_at) %>
         <% end %>
-        <%= human_time_ago(latest_build.inserted_at) %>
       </li>
     <% end %>
   </ul>

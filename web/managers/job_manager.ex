@@ -47,18 +47,18 @@ defmodule Opencov.JobManager do
     do: Job |> for_build(previous_build_id) |> where(job_number: ^job_number) |> Repo.one
 
   def update_coverage(job) do
-    job = Opencov.Repo.update! change(job, coverage: compute_coverage(job))
-    Opencov.Build.update_coverage(Opencov.Repo.preload(job, :build).build)
+    job = change(job, coverage: compute_coverage(job)) |> Repo.update! |> Repo.preload(:build)
+    Opencov.BuildManager.update_coverage(job.build)
     job
   end
 
   def create_from_json!(build, params) do
     {source_files, params} = Map.pop(params, "source_files", [])
     params = Map.put(params, "files_count", Enum.count(source_files))
-    job = Ecto.build_assoc(build, :jobs) |> changeset(params) |> Opencov.Repo.insert!
+    job = Ecto.build_assoc(build, :jobs) |> changeset(params) |> Repo.insert!
     Enum.each source_files, fn file_params ->
-      Ecto.build_assoc(job, :files) |> FileManager.changeset(file_params) |> Opencov.Repo.insert!
+      Ecto.build_assoc(job, :files) |> FileManager.changeset(file_params) |> Repo.insert!
     end
-    job |> Opencov.Repo.preload(:files) |> update_coverage
+    job |> Repo.preload(:files) |> update_coverage
   end
 end

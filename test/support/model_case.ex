@@ -49,7 +49,7 @@ defmodule Opencov.ModelCase do
   You can also create the changeset manually and retrieve the errors
   field directly:
 
-      iex> changeset = User.changeset(%User{}, password: "password")
+      iex> changeset = UserManager.changeset(%User{}, password: "password")
       iex> {:password, "is unsafe"} in changeset.errors
       true
   """

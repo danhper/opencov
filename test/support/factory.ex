@@ -17,7 +17,6 @@ defmodule Opencov.Factory do
     }
   end
 
-
   def factory(:user) do
     %Opencov.User{
       name: sequence(:name, &("name-#{&1}")),
@@ -59,7 +58,7 @@ defmodule Opencov.Factory do
   end
 
   def make_changeset(%Opencov.Project{} = project, params) do
-    Opencov.Project.changeset(project, params)
+    Opencov.ProjectManager.changeset(project, params)
   end
 
   def make_changeset(%Opencov.File{} = file, params) do
@@ -85,7 +84,7 @@ defmodule Opencov.Factory do
   end
 
   def with_secure_password(user, password) do
-    changeset = Opencov.User.changeset(user, %{password: password})
+    changeset = Opencov.UserManager.changeset(user, %{password: password})
     %{user | password_digest: changeset.changes[:password_digest]}
   end
 
