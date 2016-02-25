@@ -21,7 +21,6 @@ defmodule Opencov.ChannelCase do
       use Phoenix.ChannelTest
 
       alias Opencov.Repo
-      import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
 

@@ -4,7 +4,8 @@ defmodule Opencov.Factory do
   def factory(:project) do
     %Opencov.Project{
       name: sequence(:name, &("name-#{&1}")),
-      base_url: sequence(:base_url, &("https://github.com/tuvistavie/name-#{&1}"))
+      base_url: sequence(:base_url, &("https://github.com/tuvistavie/name-#{&1}")),
+      current_coverage: 50.0
     }
   end
 
@@ -15,7 +16,6 @@ defmodule Opencov.Factory do
       default_project_visibility: "internal"
     }
   end
-
 
   def factory(:user) do
     %Opencov.User{
@@ -41,11 +41,42 @@ defmodule Opencov.Factory do
 
   def factory(:file) do
     %Opencov.File{
+      job: build(:job),
       name: sequence(:name, &("file-#{&1}")),
       source: "return 0",
-      coverage_lines: [],
-      job: build(:job)
+      coverage_lines: []
     }
+  end
+
+  def factory(:badge) do
+    %Opencov.Badge{
+      project: build(:project),
+      coverage: 50.0,
+      image: "encoded_image",
+      format: to_string(Opencov.Badge.default_format)
+    }
+  end
+
+  def make_changeset(%Opencov.Project{} = project, params) do
+    Opencov.ProjectManager.changeset(project, params)
+  end
+
+  def make_changeset(%Opencov.File{} = file, params) do
+    Opencov.FileManager.changeset(file, params)
+  end
+
+  def make_changeset(%Opencov.Build{}, params) do
+    project = Opencov.Repo.get(Opencov.Project, params.project_id)
+    build = Ecto.build_assoc(project, :builds)
+    Opencov.BuildManager.changeset(build, params)
+  end
+
+  def make_changeset(%Opencov.Job{} = job, params) do
+    Opencov.JobManager.changeset(job, params)
+  end
+
+  def make_changeset(%Opencov.Badge{} = badge, params) do
+    Opencov.BadgeManager.changeset(badge, params)
   end
 
   def with_project(build) do
@@ -54,7 +85,7 @@ defmodule Opencov.Factory do
   end
 
   def with_secure_password(user, password) do
-    changeset = Opencov.User.changeset(user, %{password: password})
+    changeset = Opencov.UserManager.changeset(user, %{password: password})
     %{user | password_digest: changeset.changes[:password_digest]}
   end
 

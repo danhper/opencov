@@ -4,14 +4,15 @@ defmodule Opencov.ProfileController do
   import Opencov.Helpers.Authentication
 
   alias Opencov.User
+  alias Opencov.UserManager
 
   def show(conn, _params) do
     user = current_user(conn)
-    render(conn, "edit.html", user: user, changeset: User.changeset(user))
+    render(conn, "edit.html", user: user, changeset: UserManager.changeset(user))
   end
 
   def update(conn, params) do
-    case Opencov.UpdateUserService.update_user(params, current_user(conn)) do
+    case Opencov.UserService.update_user(params, current_user(conn)) do
       {:ok, _user, redirect_path, flash_message} ->
         conn
         |> put_flash(:info, flash_message)
@@ -23,12 +24,12 @@ defmodule Opencov.ProfileController do
 
   def edit_password(conn, _params) do
     user = current_user(conn)
-    render(conn, "edit_password.html", user: user, changeset: User.changeset(user))
+    render(conn, "edit_password.html", user: user, changeset: UserManager.changeset(user))
   end
 
   def update_password(conn, %{"user" => user_params}) do
     user = current_user(conn)
-    changeset = User.password_update_changeset(user, user_params)
+    changeset = UserManager.password_update_changeset(user, user_params)
     case Repo.update(changeset) do
       {:ok, _user} -> conn |> put_flash(:info, "Your password has been updated") |> redirect(to: "/")
       {:error, changeset} -> render(conn, "edit_password.html", user: user, changeset: changeset)
@@ -49,7 +50,7 @@ defmodule Opencov.ProfileController do
   def reset_password(conn, %{"token" => token}) do
     case Repo.get_by(User, password_reset_token: token) do
       %User{} = user ->
-        changeset = User.changeset(user)
+        changeset = UserManager.changeset(user)
         render(conn, "reset_password.html", user: user, changeset: changeset, token: token)
       _ -> password_reset_error(conn)
     end

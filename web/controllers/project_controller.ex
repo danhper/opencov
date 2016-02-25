@@ -4,47 +4,48 @@ defmodule Opencov.ProjectController do
   import Opencov.Helpers.Authentication
 
   alias Opencov.Project
-  alias Opencov.Badge
+  alias Opencov.ProjectManager
 
   plug :scrub_params, "project" when action in [:create, :update]
 
   def index(conn, _params) do
-    projects = Repo.all(Project) |> Project.preload_latest_build
+    projects = Repo.all(Project) |> ProjectManager.preload_latest_build
     render(conn, "index.html", projects: projects)
   end
 
   def new(conn, _params) do
-    changeset = Project.changeset(%Project{})
+    changeset = ProjectManager.changeset(%Project{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"project" => project_params}) do
-    changeset = Project.changeset(Ecto.Model.build(current_user(conn), :projects), project_params)
+    project = Ecto.build_assoc(current_user(conn), :projects)
+    changeset = ProjectManager.changeset(project, project_params)
 
     case Repo.insert(changeset) do
-      {:ok, _project} ->
+      {:ok, project} ->
         conn
         |> put_flash(:info, "Project created successfully.")
-        |> redirect(to: project_path(conn, :index))
+        |> redirect(to: project_path(conn, :show, project))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id) |> Project.preload_recent_builds
+    project = Repo.get!(Project, id) |> ProjectManager.preload_recent_builds
     render(conn, "show.html", project: project)
   end
 
   def edit(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
-    changeset = Project.changeset(project)
+    changeset = ProjectManager.changeset(project)
     render(conn, "edit.html", project: project, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "project" => project_params}) do
     project = Repo.get!(Project, id)
-    changeset = Project.changeset(project, project_params)
+    changeset = ProjectManager.changeset(project, project_params)
 
     case Repo.update(changeset) do
       {:ok, project} ->
@@ -67,9 +68,9 @@ defmodule Opencov.ProjectController do
 
   def badge(conn, %{"project_id" => id, "format" => format}) do
     project = Repo.get!(Project, id)
-    {:ok, badge} = Badge.get_or_create(project, format)
+    {:ok, badge} = Opencov.BadgeManager.get_or_create(project, format)
     conn
-      |> put_resp_content_type(Plug.MIME.type(format))
-      |> send_resp(200, badge.image)
+    |> put_resp_content_type(Plug.MIME.type(format))
+    |> send_resp(200, badge.image)
   end
 end

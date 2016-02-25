@@ -1,55 +1,28 @@
 defmodule Opencov.Badge do
   use Opencov.Web, :model
 
+  import Ecto.Query
+
   schema "badges" do
-    field :project_id, :integer
     field :image, :binary
     field :format, :string
     field :coverage, :float
 
+    belongs_to :project, Opencov.Project
+
     timestamps
   end
 
-  def get_or_create(project, format \\ Application.get_env(:opencov, :badge_format)) do
-    if badge = find(project.id, format) do
-      if project.current_coverage == badge.coverage, do: {:ok, badge},
-      else: update(project, badge, format)
-    else
-      create(project, format)
-    end
-  end
+  def for_project(query, %Opencov.Project{id: project_id}),
+    do: for_project(query, project_id)
+  def for_project(query, project_id) when is_integer(project_id),
+    do: query |> where(project_id: ^project_id)
 
-  defp find(project_id, format) do
-    format = to_string(format)
-    Opencov.Repo.one(
-      from b in Opencov.Badge,
-      select: b,
-      where: b.project_id == ^project_id and b.format == ^format
-    )
-  end
+  def with_format(query, format) when is_atom(format),
+    do: with_format(query, Atom.to_string(format))
+  def with_format(query, format),
+    do: query |> where(format: ^format)
 
-  defp make(project, format, cb) do
-    if is_binary(format), do: format = String.to_atom(format)
-    case Opencov.BadgeCreator.make_badge(project.current_coverage, format: format) do
-      {:ok, ^format, image} -> {:ok, cb.(image)}
-      {:error, e} -> {:error, e}
-    end
-  end
-
-  defp create(project, format) do
-    make project, format, fn image ->
-      Opencov.Repo.insert! %Opencov.Badge{
-        coverage: project.current_coverage,
-        project_id: project.id,
-        image: image,
-        format: to_string(format)
-      }
-    end
-  end
-
-  defp update(project, badge, format) do
-    make project, format, fn image ->
-      Opencov.Repo.update! change(badge, coverage: project.current_coverage, image: image)
-    end
-  end
+  def default_format,
+    do: Application.get_env(:opencov, :badge_format)
 end

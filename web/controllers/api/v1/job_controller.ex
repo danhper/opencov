@@ -1,6 +1,8 @@
 defmodule Opencov.Api.V1.JobController do
   use Opencov.Web, :controller
 
+  alias Opencov.ProjectManager
+
   def create(conn, %{"json" => json}) do
     json = Poison.decode!(json)
     handle_create(conn, json)
@@ -16,8 +18,8 @@ defmodule Opencov.Api.V1.JobController do
   end
 
   defp handle_create(conn, %{"repo_token" => token} = params) do
-    project = Opencov.Project.find_by_token!(token)
-    {:ok, {_, job}} = Opencov.Project.add_job!(project, params)
+    project = ProjectManager.find_by_token!(token)
+    {:ok, {_, job}} = ProjectManager.add_job!(project, params)
     render conn, "show.json", job: job
   end
 
@@ -27,7 +29,7 @@ defmodule Opencov.Api.V1.JobController do
 
   defp bad_request(conn, message) do
     conn
-      |> put_status(400)
-      |> json(%{"error" => message})
+    |> put_status(400)
+    |> json(%{"error" => message})
   end
 end

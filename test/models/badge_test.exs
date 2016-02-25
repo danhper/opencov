@@ -3,38 +3,29 @@ defmodule Opencov.BadgeTest do
 
   alias Opencov.Badge
 
-  @format :svg
-
-  @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov", current_coverage: 58.4}
-
   setup do
-    project = Opencov.Repo.insert! Opencov.Project.changeset(%Opencov.Project{}, @project_attrs)
-    {:ok, project: project}
+    svg_badge = create(:badge, format: "svg")
+    png_badge = create(:badge, format: "png")
+    {:ok, svg_badge: svg_badge, png_badge: png_badge}
   end
 
-  test "get_or_create when no badge exist", %{project: project} do
-    {:ok, badge} = Badge.get_or_create(project, @format)
-    assert badge.id
-    assert badge.coverage == project.current_coverage
+  test "default_format/0" do
+    assert Badge.default_format == "svg"
   end
 
-  test "get_or_create when badge exists", %{project: project} do
-    {:ok, badge} = Badge.get_or_create(project, @format)
-    assert badge.id
+  test "for_project/2", %{svg_badge: svg_badge, png_badge: png_badge} do
+    badge = Badge |> Badge.for_project(svg_badge.project) |> Repo.one!
+    assert badge.id == svg_badge.id
 
-    {:ok, new_badge} = Badge.get_or_create(project, @format)
-    assert badge.id == new_badge.id
+    badge = Badge |> Badge.for_project(png_badge.project.id) |> Repo.one!
+    assert badge.id == png_badge.id
   end
 
-  test "get_or_create when badge exists and coverage changed", %{project: project} do
-    {:ok, badge} = Badge.get_or_create(project, @format)
-    assert badge.id
+  test "with_format/2", %{svg_badge: svg_badge, png_badge: png_badge} do
+    badge = Badge |> Badge.with_format("svg") |> Repo.one!
+    assert badge.id == svg_badge.id
 
-    new_coverage = 62.4
-    project = Opencov.Repo.update!(Ecto.Changeset.change(project, current_coverage: new_coverage))
-
-    {:ok, new_badge} = Badge.get_or_create(project, @format)
-    assert badge.id == new_badge.id
-    assert new_badge.coverage == new_coverage
+    badge = Badge |> Badge.with_format(:png) |> Repo.one!
+    assert badge.id == png_badge.id
   end
 end
