@@ -12,7 +12,7 @@ defmodule Opencov.ProfileController do
   end
 
   def update(conn, params) do
-    case Opencov.UpdateUserService.update_user(params, current_user(conn)) do
+    case Opencov.UserService.update_user(params, current_user(conn)) do
       {:ok, _user, redirect_path, flash_message} ->
         conn
         |> put_flash(:info, flash_message)

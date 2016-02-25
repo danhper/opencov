@@ -14,7 +14,6 @@ defmodule Opencov.UserManager do
     |> assign_unconfirmed_email
     |> unique_constraint(:unconfirmed_email)
     |> pipe_when(opts[:generate_password], generate_password)
-    |> pipe_when(opts[:generate_token], generate_confirmation_token)
     |> with_secure_password
   end
 
@@ -57,10 +56,6 @@ defmodule Opencov.UserManager do
     change(changeset, password: SecureRandom.urlsafe_base64(12), password_initialized: false)
   end
 
-  defp generate_confirmation_token(changeset) do
-    put_change(changeset, :confirmation_token, SecureRandom.urlsafe_base64(30))
-  end
-
   defp generate_password_reset_token(changeset) do
     put_change(changeset, :password_reset_token, SecureRandom.urlsafe_base64(30))
   end
@@ -83,7 +78,10 @@ defmodule Opencov.UserManager do
 
   defp assign_unconfirmed_email(changeset) do
     if new_email = get_change(changeset, :email) do
-      changeset |> put_change(:unconfirmed_email, new_email) |> delete_change(:email)
+      changeset
+      |> put_change(:unconfirmed_email, new_email)
+      |> put_change(:confirmation_token, SecureRandom.urlsafe_base64(30))
+      |> delete_change(:email)
     else
       changeset
     end
