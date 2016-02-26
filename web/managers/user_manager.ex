@@ -6,7 +6,7 @@ defmodule Opencov.UserManager do
   @required_fields ~w(email)
   @optional_fields ~w(admin name password)
 
-  def changeset(model, params \\ :empty, opts \\ []) do
+  def changeset(model, params \\ :invalid, opts \\ []) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:email)
@@ -24,7 +24,7 @@ defmodule Opencov.UserManager do
     |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.Date.now))
   end
 
-  def password_update_changeset(model, params \\ :empty, opts \\ []) do
+  def password_update_changeset(model, params \\ :invalid, opts \\ []) do
     model
     |> cast(params, ~w(password password_confirmation), ~w(current_password))
     |> pipe_when(!opts[:skip_password_validation], validate_password_update)
@@ -44,7 +44,7 @@ defmodule Opencov.UserManager do
   end
 
   defp validate_password_update(changeset) do
-    user = changeset.model
+    user = changeset.data
     if !user.password_initialized or Opencov.User.authenticate(user, get_change(changeset, :current_password)) do
       delete_change(changeset, :current_password)
     else

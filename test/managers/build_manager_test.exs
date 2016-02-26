@@ -16,7 +16,7 @@ defmodule Opencov.BuildManagerTest do
 
   test "changeset with real params" do
     params = Opencov.Fixtures.dummy_coverage
-    changeset = BuildManager.changeset(build(:build) |> with_project, params)
+    changeset = BuildManager.changeset(build(:build, project: nil) |> with_project, params)
     assert changeset.valid?
 
     build = Repo.insert!(changeset)

@@ -6,7 +6,7 @@ defmodule Opencov.FileManager do
   @required_fields ~w(name source coverage_lines)
   @optional_fields ~w(job_id)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ :invalid) do
     model
     |> cast(normalize_params(params), @required_fields, @optional_fields)
     |> generate_coverage
@@ -38,11 +38,11 @@ defmodule Opencov.FileManager do
   defp set_previous_file(changeset, _), do: changeset
 
   defp job_for_changeset(changeset) do
-    job_id = get_change(changeset, :job_id) || changeset.model.job_id
+    job_id = get_change(changeset, :job_id) || changeset.data.job_id
     Repo.get(Opencov.Job, job_id)
   end
 
   defp find_previous_file(previous_job_id, name) do
-    File |> for_job(previous_job_id) |> with_name(name) |> Opencov.Repo.one
+    File |> for_job(previous_job_id) |> with_name(name) |> Opencov.Repo.first
   end
 end

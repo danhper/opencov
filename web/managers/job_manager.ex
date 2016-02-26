@@ -9,7 +9,7 @@ defmodule Opencov.JobManager do
   @required_fields ~w(build_id)
   @optional_fields ~w(run_at job_number files_count)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ :invalid) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> prepare_changes(&check_job_number/1)
@@ -44,7 +44,7 @@ defmodule Opencov.JobManager do
 
   defp search_previous_job(nil, _), do: nil
   defp search_previous_job(previous_build_id, job_number),
-    do: Job |> for_build(previous_build_id) |> where(job_number: ^job_number) |> Repo.one
+    do: Job |> for_build(previous_build_id) |> where(job_number: ^job_number) |> Repo.first
 
   def update_coverage(job) do
     job = change(job, coverage: compute_coverage(job)) |> Repo.update! |> Repo.preload(:build)

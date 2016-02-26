@@ -12,9 +12,4 @@ defmodule Opencov.Repo do
       order_by: [desc: field(m, ^Keyword.get(opts, :order, :inserted_at))]
     )
   end
-
-  def first(%Query{} = query),
-    do: one(query |> Query.limit(1))
-  def first(model),
-    do: first(Query.from m in model, select: m)
 end

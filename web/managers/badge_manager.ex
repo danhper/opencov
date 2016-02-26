@@ -9,7 +9,7 @@ defmodule Opencov.BadgeManager do
   @required_fields ~w(image format project_id)
   @optional_fields ~w(coverage)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ :invalid) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
@@ -44,7 +44,7 @@ defmodule Opencov.BadgeManager do
   end
 
   defp find(project, format),
-    do: Badge |> for_project(project) |> with_format(format) |> Repo.one
+    do: Badge |> for_project(project) |> with_format(format) |> Repo.first
 
   defp update(project, badge) do
     make project, badge.format, fn image ->

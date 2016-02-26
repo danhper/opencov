@@ -4,7 +4,7 @@ alias Opencov.UserManager
 import Ecto.Query
 require Ecto.Query
 
-unless Repo.one(Opencov.Settings) do
+unless Repo.first(Opencov.Settings) do
   params = %{
     signup_enabled: false,
     restricted_signup_domains: "",
@@ -14,7 +14,7 @@ unless Repo.one(Opencov.Settings) do
 end
 
 
-if Opencov.Repo.one!(from u in Opencov.User, select: count(u.id), where: u.admin) == 0 do
+if !Opencov.Repo.first(from u in Opencov.User, where: u.admin) do
   password = "p4ssw0rd"
   password_params = %{password: password, password_confirmation: password}
   changeset = UserManager.password_update_changeset(%User{password_initialized: false}, password_params)

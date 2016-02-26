@@ -31,7 +31,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
     payload = Poison.encode!(%{json: Poison.encode!(data)})
     conn = post conn, api_v1_job_path(conn, :create), payload
     assert json_response(conn, 200)
-    build = Opencov.Build.for_commit(project, data["git"]) |> Opencov.Repo.one
+    build = Opencov.Build.for_commit(project, data["git"]) |> Opencov.Repo.first
     assert build
     job = List.first(Opencov.Repo.preload(build, :jobs).jobs)
     assert job
@@ -46,7 +46,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
     conn = put_req_header(conn, "content-type", "multipart/form-data")
     conn = post conn, api_v1_job_path(conn, :create), %{json_file: upload}
     assert json_response(conn, 200)
-    assert Opencov.Build.for_commit(project, data["git"]) |> Opencov.Repo.one
+    assert Opencov.Build.for_commit(project, data["git"]) |> Opencov.Repo.first
     File.rm! file_path
   end
 end

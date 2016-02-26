@@ -65,7 +65,7 @@ defmodule Opencov.ProfileController do
         |> redirect(to: "/")
       {:error, :not_found} -> password_reset_error(conn)
       {:error, changeset} ->
-        render(conn, "reset_password.html", user: changeset.model, changeset: changeset, token: token)
+        render(conn, "reset_password.html", user: changeset.data, changeset: changeset, token: token)
     end
   end
 
