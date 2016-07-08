@@ -6,7 +6,7 @@ otp_release:
 before_script:
   - mix ecto.create
   - mix ecto.migrate
-script: ./cover.sh
+script: mix test
 env:
   global:
     - MIX_ENV=test
