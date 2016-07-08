@@ -4,6 +4,7 @@ elixir:
 otp_release:
   - 19.0
 before_script:
+  - mix compile
   - mix ecto.create
   - mix ecto.migrate
 script: mix test
