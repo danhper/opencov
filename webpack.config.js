@@ -1,5 +1,6 @@
 var webpack           = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var path              = require('path')
 var nib               = require('nib')
 
 module.exports = {
@@ -40,6 +41,11 @@ module.exports = {
       {test: /\.(png|woff|woff2|eot|ttf|svg|gif)/, loader: 'url-loader?limit=10000'},
       {test: /\.jpg/, loader: 'file-loader'}
     ]
+  },
+  resolve: {
+    alias: {
+      phoenix_html: path.join(__dirname, './deps/phoenix_html/web/static/js/phoenix_html.js')
+    }
   },
   plugins: [
     new ExtractTextPlugin('[name].css', {allChunks: true}),
