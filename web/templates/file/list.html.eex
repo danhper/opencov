@@ -19,7 +19,7 @@
     <thead>
       <tr>
         <%= for {k, v} <- %{"coverage" => "Coverage", "diff" => "Diff", "name" => "Name"} do %>
-          <% if elem(@order, 0) == k && elem(@order, 1) == "desc", do: order = "asc", else: order = "desc" %>
+          <% order = if elem(@order, 0) == k && elem(@order, 1) == "desc", do: "asc", else: "desc" %>
         <th>
           <%= link to: apply(@path_fn, @path_args ++ [[filters: @filters, order_field: k, order_direction: order]]) do %>
             <span><%= v %></span>

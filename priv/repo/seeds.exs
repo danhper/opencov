@@ -22,7 +22,7 @@ if !Opencov.Repo.first(from u in Opencov.User, where: u.admin) do
     email: "admin@example.com",
     password_digest: changeset.changes.password_digest,
     password_initialized: true,
-    confirmed_at: Timex.Date.now,
+    confirmed_at: Timex.DateTime.now,
     name: "Admin",
     admin: true
   })

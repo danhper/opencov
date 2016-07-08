@@ -2,7 +2,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
   use Opencov.ConnCase
 
   setup do
-    conn = conn() |> put_req_header("content-type", "application/json")
+    conn = build_conn() |> put_req_header("content-type", "application/json")
     {:ok, conn: conn}
   end
 
@@ -26,7 +26,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
   end
 
   test "creates job when project exists", %{conn: conn} do
-    project = create(:project)
+    project = insert(:project)
     data = Map.put(Opencov.Fixtures.dummy_coverage, "repo_token", project.token)
     payload = Poison.encode!(%{json: Poison.encode!(data)})
     conn = post conn, api_v1_job_path(conn, :create), payload
@@ -39,7 +39,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
   end
 
   test "works with multipart data", %{conn: conn} do
-    project = create(:project)
+    project = insert(:project)
     data = Map.put(Opencov.Fixtures.dummy_coverage, "repo_token", project.token)
     {:ok, file_path} = Temp.open %{prefix: "opencov", suffix: ".json"}, &IO.write(&1, Poison.encode!(data))
     upload = %Plug.Upload{path: file_path, filename: "coverage.json", content_type: "application/json"}

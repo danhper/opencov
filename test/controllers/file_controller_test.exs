@@ -2,12 +2,12 @@ defmodule Opencov.FileControllerTest do
   use Opencov.ConnCase
 
   setup do
-    conn = conn() |> with_login
+    conn = build_conn() |> with_login
     {:ok, conn: conn}
   end
 
   test "shows chosen resource", %{conn: conn} do
-    file = create(:file)
+    file = insert(:file)
     conn = get conn, file_path(conn, :show, file)
     assert html_response(conn, 200) =~ file.name
   end

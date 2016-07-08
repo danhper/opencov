@@ -1,5 +1,5 @@
 defmodule Opencov.Authentication do
-  import Plug.Conn, only: [get_session: 2, put_session: 3, delete_session: 2]
+  import Plug.Conn, only: [put_session: 3, delete_session: 2]
 
   @user_id_key :user_id
 

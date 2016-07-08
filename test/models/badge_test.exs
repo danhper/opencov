@@ -4,8 +4,8 @@ defmodule Opencov.BadgeTest do
   alias Opencov.Badge
 
   setup do
-    svg_badge = create(:badge, format: "svg")
-    png_badge = create(:badge, format: "png")
+    svg_badge = insert(:badge, format: "svg") |> Repo.preload(:project)
+    png_badge = insert(:badge, format: "png") |> Repo.preload(:project)
     {:ok, svg_badge: svg_badge, png_badge: png_badge}
   end
 

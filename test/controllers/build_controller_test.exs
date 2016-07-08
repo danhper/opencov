@@ -2,12 +2,12 @@ defmodule Opencov.BuildControllerTest do
   use Opencov.ConnCase
 
   setup do
-    conn = conn() |> with_login
+    conn = build_conn() |> with_login
     {:ok, conn: conn}
   end
 
   test "shows chosen resource", %{conn: conn} do
-    build = create(:build)
+    build = insert(:build) |> Repo.preload(:project)
     conn = get conn, build_path(conn, :show, build)
     assert html_response(conn, 200) =~ build.project.name
   end

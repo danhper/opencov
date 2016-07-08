@@ -5,7 +5,7 @@ defmodule Opencov.ProjectManagerTest do
   alias Opencov.ProjectManager
 
   test "changeset with valid attributes" do
-    changeset = ProjectManager.changeset(%Project{}, fields_for(:project))
+    changeset = ProjectManager.changeset(%Project{}, params_for(:project))
     assert changeset.valid?
   end
 
@@ -15,7 +15,7 @@ defmodule Opencov.ProjectManagerTest do
   end
 
   test "find_by_token with existing token" do
-    project = create(:project)
+    project = insert(:project)
     assert ProjectManager.find_by_token(project.token) == project
   end
 
@@ -24,7 +24,7 @@ defmodule Opencov.ProjectManagerTest do
   end
 
   test "find_by_token! with existing token" do
-    project = create(:project)
+    project = insert(:project)
     assert ProjectManager.find_by_token!(project.token) == project
   end
 
@@ -33,7 +33,7 @@ defmodule Opencov.ProjectManagerTest do
   end
 
   test "add_job!" do
-    project = create(:project)
+    project = insert(:project)
     cov = Opencov.Fixtures.dummy_coverage
     {:ok, {build, job}} = ProjectManager.add_job!(project, cov)
     assert build.id

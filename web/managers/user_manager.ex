@@ -21,7 +21,7 @@ defmodule Opencov.UserManager do
     Ecto.Changeset.change(model)
     |> put_change(:email, model.unconfirmed_email)
     |> put_change(:unconfirmed_email, nil)
-    |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.Date.now))
+    |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.DateTime.now))
   end
 
   def password_update_changeset(model, params \\ :invalid, opts \\ []) do
@@ -61,7 +61,9 @@ defmodule Opencov.UserManager do
   end
 
   defp validate_email(%Ecto.Changeset{} = changeset) do
-    if (email = get_change(changeset, :email)) && (error = validate_email_format(email)) do
+    email = get_change(changeset, :email)
+    error = email && validate_email_format(email)
+    if email && error do
       add_error(changeset, :email, error)
     else
       changeset

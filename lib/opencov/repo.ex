@@ -12,4 +12,17 @@ defmodule Opencov.Repo do
       order_by: [desc: field(m, ^Keyword.get(opts, :order, :inserted_at))]
     )
   end
+
+
+  def first(queryable, opts \\ [])
+  def first(nil, _opts), do: nil
+  def first(queryable, opts) do
+    queryable |> Ecto.Query.first |> one(opts)
+  end
+
+  def first!(queryable, opts \\ [])
+  def first!(nil, _opts), do: nil
+  def first!(queryable, opts) do
+    queryable |> Ecto.Query.first |> one!(opts)
+  end
 end

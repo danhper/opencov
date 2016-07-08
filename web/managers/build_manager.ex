@@ -18,7 +18,7 @@ defmodule Opencov.BuildManager do
   def create_from_json!(project, params) do
     params = Map.merge(params, info_for(project, params))
     build = Ecto.build_assoc(project, :builds)
-    Opencov.Repo.insert! changeset(build, params)
+    Repo.insert! changeset(build, params)
   end
 
   def get_or_create!(project, params) do
@@ -31,8 +31,8 @@ defmodule Opencov.BuildManager do
 
   def update_coverage(build) do
     coverage = build |> Repo.preload(:jobs) |> compute_coverage
-    build = Opencov.Repo.update! change(build, coverage: coverage)
-    Opencov.ProjectManager.update_coverage(Opencov.Repo.preload(build, :project).project)
+    build = Repo.update! change(build, coverage: coverage)
+    Opencov.ProjectManager.update_coverage(Repo.preload(build, :project).project)
     build
   end
 
@@ -46,7 +46,7 @@ defmodule Opencov.BuildManager do
   def info_for(project, params), do: fallback_info_for(project, params)
 
   defp fallback_info_for(project, _params) do
-    build = Opencov.Repo.first(query_for_project(project.id) |> order_by_build_number |> first)
+    build = query_for_project(project.id) |> order_by_build_number |> Repo.first
     if build, do: %{"build_number" => build.build_number + 1}, else: %{"build_number" => 1}
   end
 
