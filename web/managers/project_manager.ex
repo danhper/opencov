@@ -8,7 +8,7 @@ defmodule Opencov.ProjectManager do
   @required_fields ~w(name base_url)
   @optional_fields ~w(token current_coverage)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ :invalid) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> generate_token
@@ -24,15 +24,15 @@ defmodule Opencov.ProjectManager do
   end
 
   def find_by_token(token) do
-    with_token(Project, token) |> Repo.one
+    with_token(Project, token) |> Repo.first
   end
 
   def find_by_token!(token) do
-    with_token(Project, token) |> Repo.one!
+    with_token(Project, token) |> Repo.first!
   end
 
   def update_coverage(project) do
-    coverage = (Opencov.Build.last_for_project(Opencov.Build, project) |> Repo.one!).coverage
+    coverage = (Opencov.Build.last_for_project(Opencov.Build, project) |> Repo.first!).coverage
     Repo.update! change(project, current_coverage: coverage)
   end
 

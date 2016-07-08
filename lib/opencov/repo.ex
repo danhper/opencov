@@ -13,8 +13,16 @@ defmodule Opencov.Repo do
     )
   end
 
-  def first(%Query{} = query),
-    do: one(query |> Query.limit(1))
-  def first(model),
-    do: first(Query.from m in model, select: m)
+
+  def first(queryable, opts \\ [])
+  def first(nil, _opts), do: nil
+  def first(queryable, opts) do
+    queryable |> Ecto.Query.first |> one(opts)
+  end
+
+  def first!(queryable, opts \\ [])
+  def first!(nil, _opts), do: nil
+  def first!(queryable, opts) do
+    queryable |> Ecto.Query.first |> one!(opts)
+  end
 end

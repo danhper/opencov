@@ -49,10 +49,6 @@ defmodule Opencov.Build do
     query |> for_project(project.id) |> order_by_build_number |> first
   end
 
-  def first(query) do
-    query |> limit([b], 1)
-  end
-
   def query_for_project(project_id) do
     for_project(Opencov.Build, project_id)
   end

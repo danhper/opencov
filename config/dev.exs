@@ -13,7 +13,8 @@ config :opencov, Opencov.Endpoint,
   cache_static_lookup: false,
   check_origin: false,
   watchers: [
-    {Path.expand("node_modules/webpack/bin/webpack.js"), ["--watch", "--colors", "--progress"]}
+    {Path.expand("node_modules/webpack/bin/webpack.js"), [
+      "--watch", "--colors", "--progress", cd: Path.expand("../", __DIR__)]}
   ]
 
 # Watch static and templates for browser reloading.

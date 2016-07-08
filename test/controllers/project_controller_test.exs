@@ -4,11 +4,11 @@ defmodule Opencov.ProjectControllerTest do
   import Mock
 
   alias Opencov.Project
-  @valid_attrs Map.take(fields_for(:project), [:name, :base_url])
+  @valid_attrs Map.take(params_for(:project), [:name, :base_url])
   @invalid_attrs %{name: nil}
 
   setup do
-    conn = conn() |> with_login
+    conn = build_conn() |> with_login
     {:ok, conn: conn}
   end
 
@@ -35,7 +35,7 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    project = create(:project, name: "name")
+    project = insert(:project, name: "name")
     conn = get conn, project_path(conn, :show, project)
     assert html_response(conn, 200) =~ project.name
   end
@@ -47,33 +47,33 @@ defmodule Opencov.ProjectControllerTest do
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
-    project = create(:project)
+    project = insert(:project)
     conn = get conn, project_path(conn, :edit, project)
     assert html_response(conn, 200) =~ project.name
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    project = create(:project)
+    project = insert(:project)
     conn = put conn, project_path(conn, :update, project), project: @valid_attrs
     assert redirected_to(conn) == project_path(conn, :show, project)
     assert Repo.get_by(Project, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    project = create(:project)
+    project = insert(:project)
     conn = put conn, project_path(conn, :update, project), project: @invalid_attrs
     assert html_response(conn, 200) =~ project.name
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    project = create(:project)
+    project = insert(:project)
     conn = delete conn, project_path(conn, :delete, project)
     assert redirected_to(conn) == project_path(conn, :index)
     refute Repo.get(Project, project.id)
   end
 
   test "get badge", %{conn: conn} do
-    project = create(:project, current_coverage: nil)
+    project = insert(:project, current_coverage: nil)
     conn = get conn, project_badge_path(conn, :badge, project, "svg")
     assert conn.status == 200
     assert List.first(get_resp_header(conn, "content-type")) =~ "image/svg+xml"

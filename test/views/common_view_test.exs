@@ -1,7 +1,7 @@
 defmodule Opencov.CommonViewTest do
   use Opencov.ConnCase, async: true
 
-  alias Timex.Date
+  alias Timex.DateTime
   alias Timex.Time
 
   import Opencov.CommonView
@@ -19,10 +19,10 @@ defmodule Opencov.CommonViewTest do
   end
 
   test "human_time_ago" do
-    date = Date.now |> Date.subtract(Time.to_timestamp(5, :mins))
+    date = DateTime.now |> Timex.subtract(Time.to_timestamp(5, :minutes))
     assert human_time_ago(date) == "about 5 minutes ago"
 
-    date = Date.now |> Date.subtract(Time.to_timestamp(8, :days))
+    date = DateTime.now |> Timex.subtract(Time.to_timestamp(8, :days))
     assert human_time_ago(date) == "about 8 days ago"
   end
 

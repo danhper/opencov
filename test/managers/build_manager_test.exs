@@ -5,7 +5,7 @@ defmodule Opencov.BuildManagerTest do
   alias Opencov.BuildManager
 
   test "changeset with valid attributes" do
-    changeset = BuildManager.changeset(%Build{}, Map.put(fields_for(:build), :project_id, 1))
+    changeset = BuildManager.changeset(%Build{}, Map.put(params_for(:build), :project_id, 1))
     assert changeset.valid?
   end
 
@@ -16,7 +16,7 @@ defmodule Opencov.BuildManagerTest do
 
   test "changeset with real params" do
     params = Opencov.Fixtures.dummy_coverage
-    changeset = BuildManager.changeset(build(:build) |> with_project, params)
+    changeset = BuildManager.changeset(build(:build, project: nil) |> with_project, params)
     assert changeset.valid?
 
     build = Repo.insert!(changeset)
@@ -29,32 +29,32 @@ defmodule Opencov.BuildManagerTest do
   end
 
   test "info_for when no service name and no previous build exists" do
-    project = create(:project)
+    project = insert(:project)
     info = BuildManager.info_for(project, %{})
     assert info["build_number"] == 1
   end
 
   test "info_for when no service name and previous build exists" do
-    previous_build = create(:build)
+    previous_build = insert(:build) |> Repo.preload(:project)
     info = BuildManager.info_for(previous_build.project, %{})
     assert info["build_number"] == previous_build.build_number + 1
   end
 
   test "previous_build when no previous build" do
-    build = create(:build)
+    build = insert(:build)
     assert build.previous_build_id == nil
     assert build.previous_coverage == nil
   end
 
   test "previous_build when previous build exists" do
-    previous_build = create(:build)
-    build = create(:build, project: previous_build.project, build_number: 44)
+    previous_build = insert(:build) |> Repo.preload(:project)
+    build = insert(:build, project: previous_build.project, build_number: previous_build.build_number + 1)
     assert build.previous_build_id == previous_build.id
     assert build.previous_coverage == previous_build.coverage
   end
 
   test "get_or_create! when build does not exist" do
-    project = create(:project)
+    project = insert(:project)
     cov = Opencov.Fixtures.dummy_coverage
     build = BuildManager.get_or_create!(project, cov)
     assert build.id

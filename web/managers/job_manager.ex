@@ -9,7 +9,7 @@ defmodule Opencov.JobManager do
   @required_fields ~w(build_id)
   @optional_fields ~w(run_at job_number files_count)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ :invalid) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> prepare_changes(&check_job_number/1)
@@ -25,14 +25,15 @@ defmodule Opencov.JobManager do
   end
 
   defp set_job_number(changeset) do
-    build_id = get_change(changeset, :build_id)
+    build_id = get_change(changeset, :build_id) || changeset.data.build_id
     job = Job |> for_build(build_id) |> order_by(desc: :job_number) |> Repo.first
     job_number = if job, do: job.job_number + 1, else: 1
     put_change(changeset, :job_number, job_number)
   end
 
   defp set_previous_values(changeset) do
-    {build_id, job_number} = {get_change(changeset, :build_id), get_change(changeset, :job_number)}
+    build_id = get_change(changeset, :build_id) || changeset.data.build_id
+    job_number = get_change(changeset, :job_number)
     previous_build_id = Opencov.Repo.get!(Opencov.Build, build_id).previous_build_id
     previous_job = search_previous_job(previous_build_id, job_number)
     if previous_job do
@@ -44,7 +45,7 @@ defmodule Opencov.JobManager do
 
   defp search_previous_job(nil, _), do: nil
   defp search_previous_job(previous_build_id, job_number),
-    do: Job |> for_build(previous_build_id) |> where(job_number: ^job_number) |> Repo.one
+    do: Job |> for_build(previous_build_id) |> where(job_number: ^job_number) |> Repo.first
 
   def update_coverage(job) do
     job = change(job, coverage: compute_coverage(job)) |> Repo.update! |> Repo.preload(:build)

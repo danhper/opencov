@@ -13,9 +13,8 @@ defmodule Opencov.CommonView do
     end
   end
 
-  def human_time_ago(time) do
-    diff = Timex.Time.sub(Timex.Time.now, Timex.Date.to_timestamp(time))
-    "#{Timex.Format.Time.Formatters.SimpleHumanized.format(diff)} ago"
+  def human_time_ago(datetime) do
+    "about " <> Timex.from_now(datetime)
   end
 
   def coverage_diff(previous, current) do

@@ -10,7 +10,8 @@ config :opencov, Opencov.Endpoint,
 
 config :opencov,
   badge_format: "svg",
-  base_url: nil
+  base_url: nil,
+  ecto_repos: [Opencov.Repo]
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
