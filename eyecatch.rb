@@ -6,6 +6,7 @@ before_build do
   run 'apt-get install -y elixir erlang-dev erlang-parsetools'
   run 'mix local.hex --force'
   run 'mix local.rebar --force'
+  run 'npm install'
   run 'mix deps.get'
   run 'mix compile'
   run 'mix ecto.create'
