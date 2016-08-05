@@ -128,7 +128,7 @@ defmodule Opencov.Factory do
   end
 
   def confirmed_user(user) do
-    %{user | confirmed_at: Timex.DateTime.now, password_initialized: true}
+    %{user | confirmed_at: Timex.now, password_initialized: true}
   end
 
   def params_for(factory_name, attrs \\ %{}) do

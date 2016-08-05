@@ -9,7 +9,7 @@ defmodule Opencov.JobViewTest do
   end
 
   test "job_time when run_at present" do
-    job = insert(:job, run_at: Timex.DateTime.now)
+    job = insert(:job, run_at: Timex.now)
     assert job_time(job) == job.run_at
     assert job_time(job) != job.inserted_at
   end

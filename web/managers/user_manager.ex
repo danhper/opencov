@@ -21,7 +21,7 @@ defmodule Opencov.UserManager do
     Ecto.Changeset.change(model)
     |> put_change(:email, model.unconfirmed_email)
     |> put_change(:unconfirmed_email, nil)
-    |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.DateTime.now))
+    |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.now))
   end
 
   def password_update_changeset(model, params \\ :invalid, opts \\ []) do
@@ -36,7 +36,7 @@ defmodule Opencov.UserManager do
   def password_reset_changeset(model) do
     change(model)
     |> generate_password_reset_token
-    |> put_change(:password_reset_sent_at, Timex.Date.now)
+    |> put_change(:password_reset_sent_at, Timex.now)
   end
 
   defp remove_reset_token(changeset) do

@@ -1,9 +1,6 @@
 defmodule Opencov.CommonViewTest do
   use Opencov.ConnCase, async: true
 
-  alias Timex.DateTime
-  alias Timex.Time
-
   import Opencov.CommonView
 
   test "coverage_color" do
@@ -19,10 +16,10 @@ defmodule Opencov.CommonViewTest do
   end
 
   test "human_time_ago" do
-    date = DateTime.now |> Timex.subtract(Time.to_timestamp(5, :minutes))
+    date = Timex.shift(DateTime.utc_now(), minutes: -5)
     assert human_time_ago(date) == "about 5 minutes ago"
 
-    date = DateTime.now |> Timex.subtract(Time.to_timestamp(8, :days))
+    date = Timex.shift(DateTime.utc_now(), days: -8)
     assert human_time_ago(date) == "about 8 days ago"
   end
 
