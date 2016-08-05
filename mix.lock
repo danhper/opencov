@@ -43,6 +43,7 @@
   "scrivener_html": {:hex, :scrivener_html, "1.3.1", "06cff5c41407bf2d932df0d8daeeb61f3202ac8b91ccfd39a779fb9b4c85a3dd", [:mix], [{:phoenix, "~> 1.0 or ~> 1.2", [hex: :phoenix, optional: true]}, {:phoenix_html, "~> 2.2", [hex: :phoenix_html, optional: false]}, {:scrivener, "~> 1.2 or ~> 2.0.0", [hex: :scrivener, optional: false]}]},
   "secure_password": {:hex, :secure_password, "0.4.3", "5185c561db46e012e1c07e1d6a78fd2c0d0440d9419d2cf9e57218448ddc4bf3", [:mix], [{:comeonin, "~> 2.0", [hex: :comeonin, optional: false]}, {:ecto, "~> 1.0 or > 2.0.0-beta0", [hex: :ecto, optional: false]}]},
   "secure_random": {:hex, :secure_random, "0.5.0", "f49e4bfe686f7a78f0dd16700552e4135f02c122ef6dff35544e4f754641f688", [:mix], []},
+  "seedex": {:hex, :seedex, "0.1.2", "f3479af06bb196509fc6dbba55ec83eb87643f10e80f3a5f5d672c131bbaee22", [:mix], [{:ecto, "~> 1.1 or ~> 2.0.0-rc.5", [hex: :ecto, optional: false]}]},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.0", "edee20847c42e379bf91261db474ffbe373f8acb56e9079acb6038d4e0bf414f", [:rebar, :make], []},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5", "2e73e068cd6393526f9fa6d399353d7c9477d6886ba005f323b592d389fb47be", [:make], []},
   "temp": {:hex, :temp, "0.4.1", "5e8a0fa2013837b4bbe7ae8bd613c1d44879250e72026564ecae53cedab4fdd6", [:mix], []},

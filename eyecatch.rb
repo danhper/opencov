@@ -11,7 +11,7 @@ before_build do
   run 'mix compile'
   run 'mix ecto.create'
   run 'mix ecto.migrate'
-  run 'mix run priv/repo/seeds.exs'
+  run 'mix seedex.seed --env=eyecatch'
 end
 
 service 'postgresql'

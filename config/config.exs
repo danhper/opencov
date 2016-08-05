@@ -27,6 +27,8 @@ config :scrivener_html,
 config :opencov, PlugBasicAuth,
   enable: false
 
+config :seedex, repo: Opencov.Repo
+
 config :opencov, :email,
   sender: "OpenCov <info@opencov.io>",
   smtp: [
