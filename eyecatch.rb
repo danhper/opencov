@@ -34,6 +34,7 @@ task('user') do
     click_button 'Login'
   end
   entry_point '/login'
+  exclude_paths [%r{/builds/\d+?.+}, %r{/jobs/\d+?.+}]
 end
 
 env 'MIX_ENV=dev'
