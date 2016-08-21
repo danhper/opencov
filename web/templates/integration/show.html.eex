@@ -1,0 +1,13 @@
+<div class="edit-user">
+  <h2 class="breadcrumb row">
+    <span class="media-body">
+      Integrations
+    </span>
+  </h2>
+
+  <h3>
+    <i class="fa fa-github"></i>
+    GitHub
+  </h3>
+  <button class="btn btn-default">Add GitHub integration</button>
+</div>

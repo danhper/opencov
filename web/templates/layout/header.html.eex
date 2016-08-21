@@ -29,6 +29,12 @@
               <% end %>
             </li>
             <li>
+              <%= link to: integration_path(@conn, :show) do %>
+                <i class="fa fa-wheel"></i>
+                Integrations
+              <% end %>
+            </li>
+            <li>
               <%= link to: profile_path(@conn, :edit_password) do %>
                 <i class="fa fa-lock"></i>
                 Change password

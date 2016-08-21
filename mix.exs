@@ -44,6 +44,7 @@ defmodule Opencov.Mixfile do
      {:scrivener_html, "~> 1.3"},
      {:secure_password, "~> 0.4"},
      {:seedex, "~> 0.1.3"},
+     {:oauth2, "~> 0.7.0"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:excoveralls, "~> 0.6", only: :test},
