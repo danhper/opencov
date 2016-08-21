@@ -10,6 +10,8 @@ defmodule Opencov.Repo.Migrations.CreateUser do
 
       add :password_initialized, :boolean, default: false
 
+      add :github_access_token, :string
+
       add :confirmation_token, :string
       add :confirmed_at, :utc_datetime
       add :unconfirmed_email, :string

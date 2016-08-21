@@ -30,7 +30,7 @@
             </li>
             <li>
               <%= link to: integration_path(@conn, :show) do %>
-                <i class="fa fa-wheel"></i>
+                <i class="fa fa-cog"></i>
                 Integrations
               <% end %>
             </li>

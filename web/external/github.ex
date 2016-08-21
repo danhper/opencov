@@ -1,39 +1,26 @@
 defmodule Opencov.External.GitHub do
-  use OAuth2.Strategy
-
-  @config Application.get_all_env(:opencov)
-  @gh_config Application.get_env(:opencov, :github)
-
-  def client do
-    OAuth2.Client.new([
-      strategy: __MODULE__,
-      client_id: @gh_config[:client_id],
-      client_secret: @gh_config[:client_secret],
-      redirect_uri: Path.join(@config[:base_url], "github/callback"),
-      site: "https://api.github.com",
-      authorize_url: "https://github.com/login/oauth/authorize",
-      token_url: "https://github.com/login/oauth/access_token"
-    ])
+  def add_user_info(user) do
+    if user.github_access_token do
+      Map.put(user, :github_info, get_user_info(user))
+    else
+      user
+    end
   end
 
-  def authorize_url! do
-    OAuth2.Client.authorize_url!(client(), scope: "user,public_repo")
+  def get_user_info(user) do
+    if github_user = Opencov.External.GitHub.Cache.fetch_user(user) do
+      github_user
+    else
+      fetch_user_info(user)
+    end
   end
 
-  # you can pass options to the underlying http library via `opts` parameter
-  def get_token!(params \\ [], headers \\ [], opts \\ []) do
-    OAuth2.Client.get_token!(client(), params, headers, opts)
+  defp fetch_user_info(user) do
+    github_user = Opencov.External.GitHub.OAuth.get!("/user", user: user)
+    Opencov.External.GitHub.Cache.save_user(Map.put(user, :github_info, github_user))
+    github_user
   end
 
-  # Strategy Callbacks
-
-  def authorize_url(client, params) do
-    OAuth2.Strategy.AuthCode.authorize_url(client, params)
-  end
-
-  def get_token(client, params, headers) do
-    client
-    |> put_header("accept", "application/json")
-    |> OAuth2.Strategy.AuthCode.get_token(params, headers)
+  defp make_request do
   end
 end

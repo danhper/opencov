@@ -18,6 +18,11 @@ defmodule Opencov.UserManager do
     |> with_secure_password
   end
 
+  def github_changeset(model, access_token) do
+    Ecto.Changeset.change(model)
+    |> put_change(:github_access_token, access_token)
+  end
+
   def confirmation_changeset(model) do
     Ecto.Changeset.change(model)
     |> put_change(:email, model.unconfirmed_email)

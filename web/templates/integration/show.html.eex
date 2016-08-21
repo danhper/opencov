@@ -1,13 +1,31 @@
-<div class="edit-user">
+<div class="integrations">
   <h2 class="breadcrumb row">
     <span class="media-body">
       Integrations
     </span>
   </h2>
 
-  <h3>
-    <i class="fa fa-github"></i>
-    GitHub
-  </h3>
-  <button class="btn btn-default">Add GitHub integration</button>
+  <main class="content">
+    <h3>
+      <i class="fa fa-github"></i>
+      GitHub
+    </h3>
+    <%= if @user.github_info do %>
+      <div class="integration">
+        <img class="avatar" src="<%= @user.github_info["avatar_url"] %>" alt="Avatar">
+        <div class="user-info">
+          <%= link "@#{@user.github_info["login"]}", to: "https://github.com/#{@user.github_info["login"]}" %>
+          <div class="name"><%= @user.github_info["name"] %></div>
+        </div>
+        <div class="remove">
+          <%= link "Remove integration", to: github_path(@conn, :delete),
+                                         method: :delete,
+                                         class: "btn btn-xs btn-danger",
+                                         data: [confirm: "Are you sure you want to remove this integration?"] %>
+        </div>
+      </div>
+    <% else %>
+      <%= link "Add GitHub integration", to: github_path(@conn, :new), class: "btn btn-default" %>
+    <% end %>
+  </main>
 </div>

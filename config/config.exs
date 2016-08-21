@@ -14,9 +14,9 @@ config :opencov,
   ecto_repos: [Opencov.Repo]
 
 config :opencov, :github,
-  client_id: "id",
-  client_secret: "secret"
-
+  client_id: System.get_env("OPENCOV_GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("OPENCOV_GITHUB_CLIENT_SECRET"),
+  scope: "user,repo"
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

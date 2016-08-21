@@ -72,6 +72,9 @@ defmodule Opencov.Router do
     put "/profile/password", ProfileController, :update_password
 
     get "/integrations", IntegrationController, :show
+    get "/integrations/github/new", Integration.GithubController, :new
+    delete "/integrations/github", Integration.GithubController, :delete
+    get "/integrations/github/callback", Integration.GithubController, :callback
 
     resources "/projects", ProjectController
     resources "/builds", BuildController, only: [:show]
