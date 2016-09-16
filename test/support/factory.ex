@@ -20,6 +20,7 @@ defmodule Opencov.Factory do
 
   def user_factory do
     %Opencov.User{
+      id: sequence(:id, &(&1 + 2)),
       name: sequence(:name, &("name-#{&1}")),
       email: sequence(:email, &("email-#{&1}@example.com")),
       password: "my-secure-password"
