@@ -1,6 +1,6 @@
 <div class="projects-list">
   <h2 class="row">
-    <span class="media-body">Your Projects</span>
+    <span class="media-body">Projects</span>
 
     <%= link to: project_path(@conn, :new), class: "btn btn-primary media-right" do %>
       <i class="fa fa-plus-circle"></i>
