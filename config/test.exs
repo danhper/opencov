@@ -9,7 +9,7 @@ config :opencov, Opencov.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-config :excoveralls, :endpoint, System.get_env("COVERALLS_ENDPOINT") || "https://demo.opencov.com"
+config :excoveralls, :endpoint, System.get_env("COVERALLS_ENDPOINT") || "http://demo.opencov.com"
 
 config :comeonin,
   bcrypt_log_rounds: 4,

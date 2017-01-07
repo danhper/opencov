@@ -1,7 +1,7 @@
 # OpenCov
 
-OpenCov is an self-hosted opensource test coverage history viewer.
-It is compatible with [coveralls](https://coveralls.io/), so most
+OpenCov is a self-hosted opensource test coverage history viewer.
+It is (mostly) compatible with [coveralls](https://coveralls.io/), so most
 coverage tools will work easily.
 
 ## Starting the server
