@@ -16,6 +16,11 @@ This should start OpenCov at port 4000.
 
 You should also be able to deploy to Heroku by simply git pushing this repository.
 
+### Configuring
+
+The simplest way to configure the app is to create a `local.exs` in the `config`
+and to override all the configuration you need.
+
 ## Sending test metrics
 
 A few languages are documented in [the wiki](https://github.com/tuvistavie/opencov/wiki).
@@ -25,7 +30,12 @@ the token, even when using Travis.
 
 ## Demo and screenshots
 
-A demo is available at https://opencov.herokuapp.com
+A demo is available at http://demo.opencov.com, you can create an account or login with
+
+* username: user@example.com
+* password: password123
+
+For "security" reasons, the user is not admin.
 
 ### Projects list
 

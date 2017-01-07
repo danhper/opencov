@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # wake up heroku!
-curl https://demo.opencov.io || true
+curl https://demo.opencov.com || true
 
 MIX_ENV=test mix coveralls.post \
   --sha="$TRAVIS_COMMIT" \

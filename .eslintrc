@@ -31,3 +31,6 @@ rules:
   prefer-const: 2
   strict: [2, "global"]
   no-undef: 2
+
+globals:
+  $: true

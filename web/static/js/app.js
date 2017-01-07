@@ -7,3 +7,6 @@ import '../css/main.styl'
 import './components'
 
 riot.mount('*')
+
+// Fix logout link
+$(document).off('click.bs.dropdown.data-api', '.dropdown form')

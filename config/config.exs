@@ -30,11 +30,11 @@ config :opencov, PlugBasicAuth,
 config :seedex, repo: Opencov.Repo
 
 config :opencov, :email,
-  sender: "OpenCov <info@opencov.io>",
+  sender: "OpenCov <info@opencov.com>",
   smtp: [
     relay: "smtp.mailgun.org",
-    username: "info@opencov.io",
-    password: "I wouldn't share this",
+    username: System.get_env("SMTP_USER") || "info@opencov.com",
+    password: System.get_env("SMTP_PASSWORD") || "I wouldn't share this",
     port: 587,
     ssl: false,
     tls: :always,
