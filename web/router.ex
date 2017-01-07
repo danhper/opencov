@@ -39,6 +39,12 @@ defmodule Opencov.Router do
 
   scope "/", Opencov do
     pipe_through :browser
+
+    get "/projects/:project_id/badge.:format", ProjectController, :badge, as: :project_badge
+  end
+
+  scope "/", Opencov do
+    pipe_through :browser
     pipe_through :anonymous_only
 
     get "/login", AuthController, :login
@@ -65,9 +71,7 @@ defmodule Opencov.Router do
     get "/profile/password/edit", ProfileController, :edit_password
     put "/profile/password", ProfileController, :update_password
 
-    resources "/projects", ProjectController do
-      get "/badge.:format", ProjectController, :badge, as: :badge
-    end
+    resources "/projects", ProjectController
     resources "/builds", BuildController, only: [:show]
     resources "/files", FileController, only: [:show]
 
