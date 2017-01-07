@@ -1,5 +1,8 @@
 # OpenCov
 
+[![Build Status](https://travis-ci.org/tuvistavie/opencov.svg?branch=master)](https://travis-ci.org/tuvistavie/opencov)
+[![Coverage Status](http://demo.opencov.com/projects/1/badge.svg)](http://demo.opencov.com/projects/1)
+
 OpenCov is a self-hosted opensource test coverage history viewer.
 It is (mostly) compatible with [coveralls](https://coveralls.io/), so most
 coverage tools will work easily.
@@ -46,6 +49,7 @@ A demo is available at http://demo.opencov.com, you can create an account or log
 * password: password123
 
 For "security" reasons, the user is not admin.
+NOTE: the demo is on a Heroku free dyno, so it may not always be available and might be very slow.
 
 ### Projects list
 
