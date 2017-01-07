@@ -3,7 +3,7 @@
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below:</p>
       <ul>
-        <%= for {attr, message} <- f.errors do %>
+        <%= for {attr, {message, _opts}} <- f.errors do %>
           <li><%= humanize(attr) %> <%= message %></li>
         <% end %>
       </ul>
@@ -17,7 +17,7 @@
 
   <div class="form-group">
     <%= label f, :email, "Email", class: "control-label" %>
-    <%= text_input f, :email, class: "form-control" %>
+    <%= text_input f, :email, class: "form-control", value: @changeset.data.email || @changeset.data.unconfirmed_email %>
   </div>
 
   <%= if @show_password do %>

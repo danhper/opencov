@@ -4,14 +4,14 @@ defmodule Opencov.Authentication do
   @user_id_key :user_id
 
   def login(conn, user) do
-    put_session(conn, user_id_key, user.id)
+    put_session(conn, user_id_key(), user.id)
   end
 
   def logout(conn) do
-    delete_session(conn, user_id_key)
+    delete_session(conn, user_id_key())
   end
 
-  def user_id_key do
+  def user_id_key() do
     @user_id_key
   end
 end

@@ -4,13 +4,14 @@ defmodule Opencov.BuildManager do
   alias Opencov.Build
   import Opencov.Build
 
-  @required_fields ~w(build_number)
+  @required_fields ~w(build_number)a
   @optional_fields ~w(commit_sha commit_message committer_name committer_email branch
-                      service_name service_job_id service_job_pull_request project_id completed)
+                      service_name service_job_id service_job_pull_request project_id completed)a
 
   def changeset(model, params \\ :invalid) do
     model
-    |> cast(normalize_params(params), @required_fields, @optional_fields)
+    |> cast(normalize_params(params), @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> set_build_started_at
     |> prepare_changes(&add_previous_values/1)
   end

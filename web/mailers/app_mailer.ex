@@ -1,8 +1,8 @@
 defmodule Opencov.AppMailer do
   def send(email) do
-    email = %{email | from: sender}
+    email = %{email | from: sender()}
     message = generate_message(email)
-    Mailman.Adapter.deliver(mailman_config, normalize_email(email), message)
+    Mailman.Adapter.deliver(mailman_config(), normalize_email(email), message)
   end
 
   defp generate_message(email) do
@@ -14,19 +14,19 @@ defmodule Opencov.AppMailer do
               to: Enum.map(email.to, &extract_address/1)}
   end
 
-  defp sender do
-    mail_config[:sender]
+  defp sender() do
+    mail_config()[:sender]
   end
 
   defp mail_config do
     Application.get_env(:opencov, :email, [])
   end
 
-  defp mailman_config do
+  defp mailman_config() do
     if Mix.env == :test do
       %Mailman.TestConfig{}
     else
-      struct(Mailman.SmtpConfig, mail_config[:smtp])
+      struct(Mailman.SmtpConfig, mail_config()[:smtp])
     end
   end
 

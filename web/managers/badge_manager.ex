@@ -6,15 +6,16 @@ defmodule Opencov.BadgeManager do
 
   import Opencov.Badge
 
-  @required_fields ~w(image format project_id)
-  @optional_fields ~w(coverage)
+  @required_fields ~w(image format project_id)a
+  @optional_fields ~w(coverage)a
 
   def changeset(model, params \\ :invalid) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
-  def get_or_create(project, format \\ default_format) do
+  def get_or_create(project, format \\ default_format()) do
     case find(project.id, format) do
       nil -> create(project, format)
       badge -> return_or_update(project, badge)

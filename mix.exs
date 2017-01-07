@@ -4,14 +4,14 @@ defmodule Opencov.Mixfile do
   def project do
     [app: :opencov,
      version: "0.0.1",
-     elixir: "~> 1.0",
+     elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: aliases,
+     aliases: aliases(),
      test_coverage: [tool: ExCoveralls],
-     deps: deps]
+     deps: deps()]
   end
 
   def application do
@@ -25,28 +25,28 @@ defmodule Opencov.Mixfile do
 
   defp deps do
     [{:phoenix, "~> 1.2"},
-     {:phoenix_ecto, "~> 3.0.0"},
-     {:postgrex, "~> 0.11"},
+     {:phoenix_ecto, "~> 3.2"},
+     {:postgrex, "~> 0.13"},
      {:phoenix_html, "~> 2.6"},
      {:cowboy, "~> 1.0"},
      {:exgravatar, "~> 2.0"},
      {:secure_random, "~> 0.2"},
      {:temp, "~> 0.2"},
-     {:timex, "~> 3.0"},
-     {:timex_ecto, "~> 3.0"},
+     {:timex, "~> 3.1"},
+     {:timex_ecto, "~> 3.1"},
      {:scrivener_ecto, "~> 1.0"},
      {:plug_basic_auth, "~> 1.0"},
      {:navigation_history, "~> 0.2"},
      {:ex_machina, "~> 1.0"},
-     {:mailman, "~> 0.2"},
+     {:mailman, "~> 0.3"},
      {:eiconv, github: "zotonic/eiconv"},
      {:scrivener_html, "~> 1.3"},
      {:secure_password, "~> 0.4"},
-     {:seedex, "~> 0.1.2"},
+     {:seedex, "~> 0.1.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
-     {:excoveralls, "~> 0.5", only: :test},
-     {:mock, "~> 0.1.1", only: :test}
+     {:excoveralls, "~> 0.6", only: :test},
+     {:mock, "~> 0.2.0", only: :test}
     ]
   end
 

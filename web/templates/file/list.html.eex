@@ -1,7 +1,7 @@
 <div class="files">
   <h3>Files <span class="small">(<%= @paginator.total_entries %>)</span></h3>
   <ul class="nav nav-pills">
-    <%= for {k, v} <- filters do %>
+    <%= for {k, v} <- filters() do %>
       <% order_args = [order_field: elem(@order, 0), order_direction: elem(@order, 1)] %>
       <%= if Enum.any?(@filters, &(&1 == k)) do %>
         <li class="active">

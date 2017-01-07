@@ -24,7 +24,7 @@ defmodule Opencov.File do
     belongs_to :job, Job
     belongs_to :previous_file, Opencov.File
 
-    timestamps
+    timestamps()
   end
 
   @allowed_sort_fields ~w(name coverage diff)

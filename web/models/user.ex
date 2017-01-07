@@ -16,10 +16,10 @@ defmodule Opencov.User do
     field :password_reset_sent_at, Timex.Ecto.DateTime
 
     field :current_password, :string, virtual: true
-    has_secure_password
+    has_secure_password()
 
     has_many :projects, Opencov.Project
 
-    timestamps
+    timestamps()
   end
 end

@@ -5,8 +5,6 @@ defmodule Opencov.BadgeManagerTest do
 
   @format :svg
 
-  @project_attrs %{name: "some content", base_url: "https://github.com/tuvistavie/opencov", current_coverage: 58.4}
-
   setup do
     project = insert(:project, current_coverage: 58.4)
     {:ok, project: project}

@@ -15,7 +15,7 @@ defmodule Opencov.Job do
     has_one :previous_job, Opencov.Job
     has_many :files, Opencov.File
 
-    timestamps
+    timestamps()
   end
 
   def compute_coverage(job) do

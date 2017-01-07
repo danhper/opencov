@@ -6,6 +6,6 @@ defmodule Opencov.Settings do
     field :restricted_signup_domains, :string, default: ""
     field :default_project_visibility, :string
 
-    timestamps
+    timestamps()
   end
 end

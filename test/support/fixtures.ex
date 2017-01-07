@@ -7,6 +7,6 @@ defmodule Opencov.Fixtures do
   end
 
   def dummy_coverage do
-    Enum.at(dummy_coverages, 0)
+    Enum.at(dummy_coverages(), 0)
   end
 end

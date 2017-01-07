@@ -11,8 +11,10 @@ defmodule Opencov.Endpoint do
     plug Phoenix.CodeReloader
   end
 
-  plug Plug.RequestId
-  plug Plug.Logger
+  unless Mix.env == :test do
+    plug Plug.RequestId
+    plug Plug.Logger
+  end
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

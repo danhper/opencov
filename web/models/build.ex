@@ -28,7 +28,7 @@ defmodule Opencov.Build do
     has_many :jobs, Opencov.Job
     has_one :previous_build, Opencov.Build, foreign_key: :previous_build_id
 
-    timestamps
+    timestamps()
   end
 
 

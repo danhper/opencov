@@ -3,12 +3,13 @@ defmodule Opencov.UserManager do
 
   import SecurePassword, only: [with_secure_password: 1]
 
-  @required_fields ~w(email)
-  @optional_fields ~w(admin name password)
+  @required_fields ~w(email)a
+  @optional_fields ~w(admin name password)a
 
   def changeset(model, params \\ :invalid, opts \\ []) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> unique_constraint(:email)
     |> validate_email
     |> assign_unconfirmed_email
@@ -26,7 +27,8 @@ defmodule Opencov.UserManager do
 
   def password_update_changeset(model, params \\ :invalid, opts \\ []) do
     model
-    |> cast(params, ~w(password password_confirmation), ~w(current_password))
+    |> cast(params, ~w(password password_confirmation current_password)a)
+    |> validate_required(~w(password password_confirmation)a)
     |> pipe_when(!opts[:skip_password_validation], validate_password_update)
     |> pipe_when(opts[:remove_reset_token], remove_reset_token)
     |> put_change(:password_initialized, true)

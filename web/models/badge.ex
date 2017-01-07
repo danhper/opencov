@@ -10,7 +10,7 @@ defmodule Opencov.Badge do
 
     belongs_to :project, Opencov.Project
 
-    timestamps
+    timestamps()
   end
 
   def for_project(query, %Opencov.Project{id: project_id}),
@@ -23,6 +23,6 @@ defmodule Opencov.Badge do
   def with_format(query, format),
     do: query |> where(format: ^format)
 
-  def default_format,
+  def default_format(),
     do: Application.get_env(:opencov, :badge_format)
 end

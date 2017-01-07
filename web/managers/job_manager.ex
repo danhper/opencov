@@ -6,12 +6,13 @@ defmodule Opencov.JobManager do
   alias Opencov.Job
   alias Opencov.FileManager
 
-  @required_fields ~w(build_id)
-  @optional_fields ~w(run_at job_number files_count)
+  @required_fields ~w(build_id)a
+  @optional_fields ~w(run_at job_number files_count)a
 
   def changeset(model, params \\ :invalid) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> prepare_changes(&check_job_number/1)
     |> prepare_changes(&set_previous_values/1)
   end

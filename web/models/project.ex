@@ -13,7 +13,7 @@ defmodule Opencov.Project do
     has_many :builds, Opencov.Build
     has_one :badge, Opencov.Badge
 
-    timestamps
+    timestamps()
   end
 
   def with_token(query, token) do

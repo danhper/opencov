@@ -1,10 +1,10 @@
 defmodule Opencov.FileViewTest do
   use Opencov.ConnCase, async: true
 
-  import Opencov.FileView
+  import Opencov.FileView, only: [filters: 0, short_name: 1]
 
   test "filters" do
-    assert Enum.count(filters) == 4
+    assert Enum.count(filters()) == 4
   end
 
   test "short_name" do

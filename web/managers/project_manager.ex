@@ -5,22 +5,23 @@ defmodule Opencov.ProjectManager do
 
   import Ecto.Query
 
-  @required_fields ~w(name base_url)
-  @optional_fields ~w(token current_coverage)
+  @required_fields ~w(name base_url)a
+  @optional_fields ~w(token current_coverage)a
 
   def changeset(model, params \\ :invalid) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> generate_token
   end
 
   def generate_token(changeset) do
-    put_change(changeset, :token, unique_token)
+    put_change(changeset, :token, unique_token())
   end
 
-  defp unique_token do
+  defp unique_token() do
     token = SecureRandom.urlsafe_base64(30)
-    if find_by_token(token), do: unique_token, else: token
+    if find_by_token(token), do: unique_token(), else: token
   end
 
   def find_by_token(token) do
