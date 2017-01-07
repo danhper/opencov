@@ -1,0 +1,5 @@
+msgid "name"
+msgstr "Name"
+
+msgid "url"
+msgstr "URL"

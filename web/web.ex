@@ -64,6 +64,8 @@ defmodule Opencov.Web do
       use Phoenix.HTML
 
       import Opencov.Router.Helpers
+      import Opencov.ErrorHelpers
+      import Opencov.FormHelpers
     end
   end
 

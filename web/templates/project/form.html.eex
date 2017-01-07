@@ -1,24 +1,12 @@
 <%= form_for @changeset, @action, [class: "full-page"], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below:</p>
-      <ul>
-        <%= for {attr, {message, _opts}} <- f.errors do %>
-          <li><%= humanize(attr) %> <%= message %></li>
-        <% end %>
-      </ul>
+      <p>Could not create the project, please check the errors below:</p>
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= label f, :name, "Name", class: "control-label" %>
-    <%= text_input f, :name, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :base_url, "URL", class: "control-label" %>
-    <%= text_input f, :base_url, class: "form-control" %>
-  </div>
+  <%= input(f, :name) %>
+  <%= input(f, :url) %>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>

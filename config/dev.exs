@@ -22,6 +22,7 @@ config :opencov, Opencov.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/gettext/.*(po)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]
@@ -43,3 +44,14 @@ config :opencov, Opencov.Repo,
   database: "opencov_dev",
   hostname: "localhost",
   pool_size: 10
+
+
+config :opencov, :email,
+  sender: "OpenCov <info@opencov.com>",
+  smtp: [
+    relay: "127.0.0.1",
+    port: 1025,
+    ssl: false,
+    tls: :never,
+    auth: :never
+  ]

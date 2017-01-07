@@ -1,0 +1,14 @@
+msgid "name"
+msgstr "Name"
+
+msgid "email"
+msgstr "Email"
+
+msgid "password"
+msgstr "Password"
+
+msgid "password_confirmation"
+msgstr "Password confirmation"
+
+msgid "current_password"
+msgstr "Current password"

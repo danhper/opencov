@@ -21,10 +21,8 @@
 
   <h3>Projects</h3>
 
-  <div class="form-group">
-    <%= label f, :default_project_visibility, "Project default visibility", class: "control-label" %>
-    <%= select f, :default_project_visibility, ["Private": "private", "Internal": "internal", "Public": "public"], class: "form-control" %>
-  </div>
+  <%= input(f, :default_project_visibility, type: :select,
+            args: [["Private": "private", "Internal": "internal", "Public": "public"]]) %>
 
   <hr>
 

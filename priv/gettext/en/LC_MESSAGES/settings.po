@@ -1,0 +1,2 @@
+msgid "default_project_visibility"
+msgstr "Default project visibility"

@@ -1,35 +1,16 @@
 <%= form_for @changeset, @action, [class: "full-page"], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below:</p>
-      <ul>
-        <%= for {attr, {message, _opts}} <- f.errors do %>
-          <li><%= humanize(attr) %> <%= message %></li>
-        <% end %>
-      </ul>
+      <p>Could not save user, please check the errors below</p>
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= label f, :name, "Name", class: "control-label" %>
-    <%= text_input f, :name, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :email, "Email", class: "control-label" %>
-    <%= text_input f, :email, class: "form-control", value: @changeset.data.email || @changeset.data.unconfirmed_email %>
-  </div>
+  <%= input(f, :name) %>
+  <%= input(f, :email, attrs: [value: @changeset.data.email || @changeset.data.unconfirmed_email]) %>
 
   <%= if @show_password do %>
-    <div class="form-group">
-      <%= label f, :password, "Password", class: "control-label" %>
-      <%= password_input f, :password, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= label f, :password_confirmation, "Password confirmation", class: "control-label" %>
-      <%= password_input f, :password_confirmation, class: "form-control" %>
-    </div>
+    <%= input(f, :password, type: :password_input) %>
+    <%= input(f, :password_confirmation, type: :password_input) %>
   <% end %>
 
   <%= if @is_admin do %>
