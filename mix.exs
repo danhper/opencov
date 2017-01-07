@@ -47,8 +47,7 @@ defmodule Opencov.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:excoveralls, "~> 0.6", only: :test},
-     {:mock, "~> 0.2.0", only: :test}
-    ]
+     {:mock, "~> 0.2.0", only: :test}]
   end
 
   defp aliases do

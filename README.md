@@ -92,13 +92,22 @@ In all setups, `mix ecto.setup` creates the following admin user
 
 You should use it for your first login and the change the email and password.
 
-
 ## Sending test metrics
 
 A few languages are documented in [the wiki](https://github.com/tuvistavie/opencov/wiki).
 For other languages, coveralls instructions should work out of the box,
 you just need to set the URL to your OpenCov server and to explicitly set
 the token, even when using Travis.
+
+## Development status
+
+The application is more or less stable. I have been using it
+for a little while now with coverage data from the 4 languages in the Wiki.
+
+The main missing feature is the ability to send coverage status on pull requests.
+The implementation is started in the [integrations branch](https://github.com/tuvistavie/opencov/tree/integrations) but I could not find the time to finish it yet.
+
+I am open to any other suggestions, and help is very welcome.
 
 ## Demo and screenshots
 
