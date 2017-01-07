@@ -14,7 +14,7 @@ coverage tools will work easily.
 First, you will need to at least setup a database
 The simplest way to configure the app is to create a `local.exs` in the `config`
 and to override all the configuration you need.
-Check [config/local.exs](https://github.com/tuvistavie/opencov/blob/master/config/config.local.exs) to see the available configurations.
+Check [config/local.sample.exs](https://github.com/tuvistavie/opencov/blob/master/config/local.sample.exs) to see the available configurations.
 
 ### Using docker
 
@@ -31,7 +31,7 @@ This will start the server on the port you set in `local.exs`.
 
 #### With docker-compose
 
-If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/tuvistavie/opencov/blob/master/ddocker-compose.yml) for a sample `docker-compose.yml` file.
+If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/tuvistavie/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
 
 Once you have your `docker-compose.yml`, you can run
 
