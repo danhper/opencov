@@ -14,10 +14,11 @@ config :opencov, Opencov.Repo,
   url: System.get_env("DATABASE_URL"),
   pool_size: 20
 
-config :opencov, PlugBasicAuth,
+config :opencov, :auth,
   enable: System.get_env("OPENCOV_AUTH") == "true",
   username: System.get_env("OPENCOV_USER"),
-  password: System.get_env("OPENCOV_PASSWORD")
+  password: System.get_env("OPENCOV_PASSWORD"),
+  realm: System.get_env("OPENCOV_REALM") || "Protected OpenCov"
 
 config :logger, level: :info
 

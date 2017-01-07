@@ -35,7 +35,7 @@ defmodule Opencov.Mixfile do
      {:timex, "~> 3.1"},
      {:timex_ecto, "~> 3.1"},
      {:scrivener_ecto, "~> 1.0"},
-     {:plug_basic_auth, "~> 1.0"},
+     {:basic_auth, "~> 2.0"},
      {:navigation_history, "~> 0.2"},
      {:ex_machina, "~> 1.0"},
      {:mailman, "~> 0.3"},
