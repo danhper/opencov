@@ -32,7 +32,7 @@ the token, even when using Travis.
 
 A demo is available at http://demo.opencov.com, you can create an account or login with
 
-* username: user@example.com
+* username: user@opencov.com
 * password: password123
 
 For "security" reasons, the user is not admin.
@@ -52,3 +52,7 @@ For "security" reasons, the user is not admin.
 ### Coverage page
 
 ![coverage page](https://cloud.githubusercontent.com/assets/1436271/21740028/45cca55a-d4ef-11e6-9515-6b8672549dbd.png)
+
+### Admin panel
+
+![admin panel](https://cloud.githubusercontent.com/assets/1436271/21740375/adaaaa08-d4fb-11e6-916b-439a2eaeeb3b.png)
