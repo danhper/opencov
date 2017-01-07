@@ -12,7 +12,7 @@ config :opencov, Opencov.Endpoint,
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
-  pool_size: 20
+  pool_size: 15
 
 config :opencov, :auth,
   enable: System.get_env("OPENCOV_AUTH") == "true",
