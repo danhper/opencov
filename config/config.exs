@@ -43,5 +43,5 @@ config :opencov, :email,
 
 import_config "#{Mix.env}.exs"
 
-local_config_path = Path.join(__DIR__, "local.exs")
+local_config_path = Path.expand("local.exs", __DIR__)
 if File.exists?(local_config_path), do: import_config local_config_path

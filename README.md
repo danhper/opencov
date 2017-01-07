@@ -7,12 +7,49 @@ OpenCov is a self-hosted opensource test coverage history viewer.
 It is (mostly) compatible with [coveralls](https://coveralls.io/), so most
 coverage tools will work easily.
 
-## Starting the server
+## Starting the application
+
+### Configuring
+
+First, you will need to at least setup a database
+The simplest way to configure the app is to create a `local.exs` in the `config`
+and to override all the configuration you need.
+Check [config/local.exs](https://github.com/tuvistavie/opencov/blob/master/config/config.local.exs) to see the available configurations.
+
+### Using docker
+
+#### With an existing database
+
+If you already have a database to use, you can simply start the application using docker:
 
 ```
+$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs tuvistavie/opencov mix ecto.setup
+$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs tuvistavie/opencov mix phoenix.server
+```
+
+This will start the server on the port you set in `local.exs`.
+
+#### With docker-compose
+
+If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/tuvistavie/opencov/blob/master/ddocker-compose.yml) for a sample `docker-compose.yml` file.
+
+Once you have your `docker-compose.yml`, you can run
+
+```
+$ docker-compose run opencov mix ecto.setup
+$ docker-compose up
+```
+
+### Manually
+
+```
+$ git clone https://github.com/tuvistavie/opencov.git
+$ cd opencov
+$ cp /path/to/local.exs config/local.exs
+
 $ npm install # (or yarn install)
 $ mix deps.get
-$ mix ecto.create && mix ecto.migrate
+$ mix ecto.setup
 $ mix phoenix.server
 ```
 
@@ -27,12 +64,34 @@ $ mix assets.compile
 
 before starting the server.
 
+### Deploying to Heroku
+
 You should also be able to deploy to Heroku by simply git pushing this repository.
+You will need to set the following environment variables using `heroku config:set`
 
-### Configuring
+* `OPENCOV_PORT`
+* `OPENCOV_SCHEME`
+* `SECRET_KEY_BASE`
+* `SMTP_USER`
+* `SMTP_PASSWORD`
 
-The simplest way to configure the app is to create a `local.exs` in the `config`
-and to override all the configuration you need.
+You will need to run
+
+```
+$ heroku run mix ecto.setup
+```
+
+before you can use your application.
+
+### Default user
+
+In all setups, `mix ecto.setup` creates the following admin user
+
+* email: admin@example.com
+* password: p4ssw0rd
+
+You should use it for your first login and the change the email and password.
+
 
 ## Sending test metrics
 

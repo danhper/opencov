@@ -32,7 +32,7 @@ defmodule Opencov.Mixfile do
      {:cowboy, "~> 1.0"},
      {:exgravatar, "~> 2.0"},
      {:secure_random, "~> 0.2"},
-     {:temp, "~> 0.2"},
+     {:temp, "~> 0.4"},
      {:timex, "~> 3.1"},
      {:timex_ecto, "~> 3.1"},
      {:scrivener_ecto, "~> 1.0"},
@@ -52,9 +52,9 @@ defmodule Opencov.Mixfile do
   end
 
   defp aliases do
-    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+    ["ecto.setup": ["ecto.create", "ecto.migrate", "seedex.seed"],
      "ecto.reset": ["ecto.drop", "ecto.setup"],
-     "assets.compile": &compile_assets/1]
+     "assets.compile": [&compile_assets/1, "phoenix.digest"]]
   end
 
   defp compile_assets(_) do

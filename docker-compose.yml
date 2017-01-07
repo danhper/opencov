@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:9.5
+    volumes:
+      - ./postgresql-data:/var/lib/postgresql/data/pgdata
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+  opencov:
+    image: tuvistavie/opencov
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./config/local.sample.exs:/opencov/config/local.exs
+    command: mix phoenix.server
+    links:
+      - postgres

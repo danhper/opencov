@@ -47,7 +47,7 @@
   "secure_random": {:hex, :secure_random, "0.5.0", "f49e4bfe686f7a78f0dd16700552e4135f02c122ef6dff35544e4f754641f688", [:mix], []},
   "seedex": {:hex, :seedex, "0.1.3", "7ebcf897fc53e76aa28ea98d3fafe82ee4f90ea153ef13138aed0b7a0c6388fd", [:mix], [{:ecto, "~> 1.1 or ~> 2.1", [hex: :ecto, optional: false]}]},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.1", "28a4d65b7f59893bc2c7de786dec1e1555bd742d336043fe644ae956c3497fbe", [:make, :rebar], []},
-  "temp": {:hex, :temp, "0.4.1", "5e8a0fa2013837b4bbe7ae8bd613c1d44879250e72026564ecae53cedab4fdd6", [:mix], []},
+  "temp": {:hex, :temp, "0.4.2", "0004b79d8ef11d200be68585f252bb6429d35d1dc163c2b25c54bcc810d9a87d", [:mix], []},
   "timex": {:hex, :timex, "3.1.7", "71f9c32e13ff4860e86a314303757cc02b3ead5db6e977579a2935225ce9a666", [:mix], [{:combine, "~> 0.7", [hex: :combine, optional: false]}, {:gettext, "~> 0.10", [hex: :gettext, optional: false]}, {:tzdata, "~> 0.1.8 or ~> 0.5", [hex: :tzdata, optional: false]}]},
   "timex_ecto": {:hex, :timex_ecto, "3.1.1", "37d54f6879d96a6789bb497296531cfb853631de78e152969d95cff03c1368dd", [:mix], [{:ecto, "~> 2.1.0", [hex: :ecto, optional: false]}, {:timex, "~> 3.0", [hex: :timex, optional: false]}]},
   "tzdata": {:hex, :tzdata, "0.5.10", "087e8dfe8c0283473115ad8ca6974b898ecb55ca5c725427a142a79593391e90", [:mix], [{:hackney, "~> 1.0", [hex: :hackney, optional: false]}]}}
