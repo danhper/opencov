@@ -10,3 +10,7 @@ before_script:
   - mix compile
   - mix ecto.create
   - mix ecto.migrate
+
+env:
+  global:
+    - MIX_ENV=test
