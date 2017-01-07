@@ -11,6 +11,9 @@ before_script:
   - mix ecto.create
   - mix ecto.migrate
 
+script:
+  - ./cover.sh
+
 env:
   global:
     - MIX_ENV=test
