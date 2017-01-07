@@ -28,24 +28,9 @@
         Get badge
       </a>
       <click-safe class="badges dropdown-menu" aria-labelledby="badge-trigger">
-        <dl class="badge-list">
-          <dt>URL</dt>
-          <dd><selectable text="<%= project_badge_url(@conn, @project) %>" rows="1" /></dd>
-          <dt>Markdown</dt>
-          <dd>
-            <selectable
-              text="[![Coverage Status](<%= project_badge_url(@conn, @project) %>)](<%= project_url(@conn, :show, @project) %>)"
-              rows="3"
-            />
-          </dd>
-          <dt>HTML</dt>
-          <dd>
-            <selectable
-              text="<%= "<img src=\"#{project_badge_url(@conn, @project)}\" alt=\"Coverage status\">" %>"
-              rows="3"
-            />
-          </dd>
-        </dl>
+        <badges
+          project-url="<%= project_url(@conn, :show, @project) %>"
+          badge-url="<%= project_badge_url(@conn, @project) %>" />
       </click-safe>
     </div>
   </div>

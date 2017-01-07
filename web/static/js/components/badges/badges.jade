@@ -1,0 +1,18 @@
+ul.nav.nav-pills.formats
+  li(class="{active: format === 'svg'}")
+    a(href="javascript:void(0)" data-format="svg" onclick="{ handleClickFormat }") SVG
+  li(class="{active: format === 'png'}")
+    a(href="javascript:void(0)" data-format="png" onclick="{ handleClickFormat }") PNG
+dl.badge-list
+  dt URL
+  dd
+    selectable(text="{ badgeURL }" rows="1")
+  dt Markdown
+  dd
+    selectable(text="[![Coverage Status]({ badgeURL })]({ opts.projectUrl })" rows="3")
+  dt HTML
+  dd
+    selectable(
+      text="<a href=\"{ opts.projectUrl }\"><img src=\"{  badgeURL }\" alt=\"Coverage status\"></a>"
+      rows="4"
+    )
