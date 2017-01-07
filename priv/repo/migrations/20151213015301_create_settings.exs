@@ -7,8 +7,7 @@ defmodule Opencov.Repo.Migrations.CreateSettings do
       add :restricted_signup_domains, :text, default: "", null: false
       add :default_project_visibility, :string, default: "internal", null: false
 
-      timestamps
+      timestamps()
     end
-
   end
 end

@@ -19,10 +19,10 @@ defmodule Opencov.Repo.Migrations.CreateBuild do
       add :commit_message, :text
       add :branch, :string, null: false
 
-      add :build_started_at, :datetime, null: false
+      add :build_started_at, :utc_datetime, null: false
       add :completed, :boolean
 
-      timestamps
+      timestamps()
     end
 
     create index(:builds, [:project_id])

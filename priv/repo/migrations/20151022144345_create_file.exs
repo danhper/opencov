@@ -11,7 +11,7 @@ defmodule Opencov.Repo.Migrations.CreateFile do
       add :previous_coverage, :float
       add :previous_file_id, :integer
 
-      timestamps
+      timestamps()
     end
 
     create index(:files, [:job_id])

@@ -9,7 +9,7 @@ defmodule Opencov.Repo.Migrations.CreateProject do
       add :current_coverage, :float
       add :base_url, :string
 
-      timestamps
+      timestamps()
     end
 
     create index(:projects, [:user_id])

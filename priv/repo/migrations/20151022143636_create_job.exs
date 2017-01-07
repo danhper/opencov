@@ -9,10 +9,10 @@ defmodule Opencov.Repo.Migrations.CreateJob do
       add :previous_coverage, :float
       add :previous_job_id, :integer
 
-      add :run_at, :datetime
+      add :run_at, :utc_datetime
       add :files_count, :integer
 
-      timestamps
+      timestamps()
     end
 
     create index(:jobs, [:build_id])

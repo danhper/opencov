@@ -8,7 +8,7 @@ defmodule Opencov.Repo.Migrations.CreateBadge do
       add :format, :string
       add :coverage, :float
 
-      timestamps
+      timestamps()
     end
 
     create index(:badges, [:project_id])
