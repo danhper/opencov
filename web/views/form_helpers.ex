@@ -12,15 +12,16 @@ defmodule Opencov.FormHelpers do
   def input(form, field, opts \\ []) do
     opts = Keyword.merge(@input_default_opts, opts)
     form_group form, field do
-      [make_label_tag(form, field, opts[:label]),
+      [make_label_tag(form, field, opts),
        make_input_tag(form, field, opts),
        error_tag(form, field)] |> Enum.reject(&is_nil/1)
     end
   end
 
   defp make_label_tag(form, field, opts) do
-    text = Gettext.dgettext(Opencov.Gettext, to_string(form.name), to_string(field))
-    label(form, field, text, add_class(opts, "form-label"))
+    scope = to_string(opts[:scope] || form.name)
+    text = Gettext.dgettext(Opencov.Gettext, scope, to_string(field))
+    label(form, field, text, add_class(opts[:label], "form-label"))
   end
 
   defp make_input_tag(form, field, opts) do

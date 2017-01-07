@@ -41,6 +41,11 @@ config :opencov, :email,
     auth: :always
   ]
 
+config :opencov, :demo,
+  enabled: System.get_env("OPENCOV_DEMO") == "true",
+  email: "user@opencov.com",
+  password: "password123"
+
 import_config "#{Mix.env}.exs"
 
 local_config_path = Path.expand("local.exs", __DIR__)

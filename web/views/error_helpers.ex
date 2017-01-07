@@ -16,7 +16,7 @@ defmodule Opencov.ErrorHelpers do
   def state_class(form, field) do
     cond do
       # The form was not yet submitted
-      !form.source.action -> ""
+      !Map.get(form.source, :action) -> ""
       form.errors[field] -> "has-error"
       true -> "has-success"
     end
