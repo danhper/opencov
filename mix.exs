@@ -52,6 +52,11 @@ defmodule Opencov.Mixfile do
 
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"]]
+     "ecto.reset": ["ecto.drop", "ecto.setup"],
+     "assets.compile": &compile_assets/1]
+  end
+
+  defp compile_assets(_) do
+    System.cmd(Path.expand("node_modules/.bin/webpack", __DIR__), ["-p"], into: IO.stream(:stdio, :line))
   end
 end

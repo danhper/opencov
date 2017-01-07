@@ -7,12 +7,22 @@ coverage tools will work easily.
 ## Starting the server
 
 ```
+$ npm install # (or yarn install)
 $ mix deps.get
 $ mix ecto.create && mix ecto.migrate
 $ mix phoenix.server
 ```
 
 This should start OpenCov at port 4000.
+
+If you want to setup the server for production, you will need to run the above commands
+with `MIX_ENV=prod` and to run
+
+```
+$ mix assets.compile
+```
+
+before starting the server.
 
 You should also be able to deploy to Heroku by simply git pushing this repository.
 
