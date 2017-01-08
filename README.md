@@ -42,8 +42,7 @@ NOTE: the demo is on a Heroku free dyno, so it may not always be available and m
 ### Configuring
 
 First, you will need to at least setup a database
-The simplest way to configure the app is to create a `local.exs` in the `config`
-and to override all the configuration you need.
+To configure the app, create a `local.exs` file and override the configuration you need.
 Check [config/local.sample.exs](https://github.com/tuvistavie/opencov/blob/master/config/local.sample.exs) to see the available configurations.
 
 ### Using docker
@@ -63,7 +62,7 @@ This will start the server on the port you set in `local.exs`.
 
 If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/tuvistavie/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
 
-Once you have your `docker-compose.yml`, you can run
+Once you have your `docker-compose.yml` and `local.exs` ready, you can run
 
 ```
 $ docker-compose run opencov mix ecto.setup
@@ -75,7 +74,7 @@ $ docker-compose up
 ```
 $ git clone https://github.com/tuvistavie/opencov.git
 $ cd opencov
-$ cp /path/to/local.exs config/local.exs
+$ cp /path/to/local.exs config/local.exs # local.exs must be in the `config` directory of the app
 
 $ npm install # (or yarn install)
 $ mix deps.get
