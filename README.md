@@ -7,6 +7,36 @@ OpenCov is a self-hosted opensource test coverage history viewer.
 It is (mostly) compatible with [coveralls](https://coveralls.io/), so most
 coverage tools will work easily.
 
+## Demo and screenshots
+
+A demo is available at http://demo.opencov.com, you can create an account or login with
+
+* username: user@opencov.com
+* password: password123
+
+For "security" reasons, the user is not admin.
+NOTE: the demo is on a Heroku free dyno, so it may not always be available and might be very slow.
+
+### Projects list
+
+![projects](https://cloud.githubusercontent.com/assets/1436271/21740030/45ce95d6-d4ef-11e6-8d09-fac4aa7d5f00.png)
+
+### Project page
+
+![project page](https://cloud.githubusercontent.com/assets/1436271/21740031/45d0bafa-d4ef-11e6-93dc-0decbbd1d973.png)
+
+### Build page
+
+![build page](https://cloud.githubusercontent.com/assets/1436271/21740029/45cd825e-d4ef-11e6-9a55-ab19be6a3690.png)
+
+### Coverage page
+
+![coverage page](https://cloud.githubusercontent.com/assets/1436271/21740028/45cca55a-d4ef-11e6-9515-6b8672549dbd.png)
+
+### Admin panel
+
+![admin panel](https://cloud.githubusercontent.com/assets/1436271/21740375/adaaaa08-d4fb-11e6-916b-439a2eaeeb3b.png)
+
 ## Deploying the application
 
 ### Configuring
@@ -108,33 +138,3 @@ The main missing feature is the ability to send coverage status on pull requests
 The implementation is started in the [integrations branch](https://github.com/tuvistavie/opencov/tree/integrations) but I could not find the time to finish it yet.
 
 I am open to any other suggestions, and help is very welcome.
-
-## Demo and screenshots
-
-A demo is available at http://demo.opencov.com, you can create an account or login with
-
-* username: user@opencov.com
-* password: password123
-
-For "security" reasons, the user is not admin.
-NOTE: the demo is on a Heroku free dyno, so it may not always be available and might be very slow.
-
-### Projects list
-
-![projects](https://cloud.githubusercontent.com/assets/1436271/21740030/45ce95d6-d4ef-11e6-8d09-fac4aa7d5f00.png)
-
-### Project page
-
-![project page](https://cloud.githubusercontent.com/assets/1436271/21740031/45d0bafa-d4ef-11e6-93dc-0decbbd1d973.png)
-
-### Build page
-
-![build page](https://cloud.githubusercontent.com/assets/1436271/21740029/45cd825e-d4ef-11e6-9a55-ab19be6a3690.png)
-
-### Coverage page
-
-![coverage page](https://cloud.githubusercontent.com/assets/1436271/21740028/45cca55a-d4ef-11e6-9515-6b8672549dbd.png)
-
-### Admin panel
-
-![admin panel](https://cloud.githubusercontent.com/assets/1436271/21740375/adaaaa08-d4fb-11e6-916b-439a2eaeeb3b.png)
