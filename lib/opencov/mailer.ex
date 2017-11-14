@@ -40,10 +40,10 @@ defmodule Opencov.Mailer do
 
   defp module_path(module) do
     module
-    |> Atom.to_string
+    |> Atom.to_string()
     |> String.replace(~r/^Elixir\.Opencov\./, "")
     |> String.replace(".", "/")
-    |> Mix.Utils.underscore
+    |> Macro.underscore()
     |> String.replace(~r/_mailer$/, "")
   end
 end

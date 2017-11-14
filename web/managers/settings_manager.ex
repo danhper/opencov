@@ -14,7 +14,7 @@ defmodule Opencov.SettingsManager do
 
   defp normalize_domains(changeset) do
     if domains = get_change(changeset, :restricted_signup_domains) do
-      put_change(changeset, :restricted_signup_domains, String.strip(domains))
+      put_change(changeset, :restricted_signup_domains, String.trim(domains))
     else
       changeset
     end

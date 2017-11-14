@@ -32,7 +32,7 @@ defmodule Opencov.AppMailer do
 
   defp extract_address(email) do
     case Regex.run(~r/.*?<(.*?)>/, email) do
-      [_, extracted] -> extracted |> String.strip |> String.downcase
+      [_, extracted] -> extracted |> String.trim() |> String.downcase()
       _ -> email
     end
   end

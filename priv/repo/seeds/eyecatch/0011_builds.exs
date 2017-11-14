@@ -11,7 +11,7 @@ seed Opencov.Build, fn build ->
   |> Map.put(:committer_email, "tuvistavie@gmail.com")
   |> Map.put(:completed, true)
   |> Map.put(:coverage, 72.83)
-  |> Map.put(:build_started_at, Ecto.DateTime.utc())
+  |> Map.put(:build_started_at, DateTime.utc_now())
   |> Map.put(:service_name, "travis")
   |> Map.put(:build_number, 1)
 end
@@ -27,7 +27,7 @@ seed Opencov.Build, fn build ->
   |> Map.put(:committer_email, "tuvistavie@gmail.com")
   |> Map.put(:completed, true)
   |> Map.put(:coverage, 74.24)
-  |> Map.put(:build_started_at, Ecto.DateTime.utc())
+  |> Map.put(:build_started_at, DateTime.utc_now())
   |> Map.put(:service_name, "travis")
   |> Map.put(:build_number, 2)
   |> Map.put(:previous_build_id, 1)

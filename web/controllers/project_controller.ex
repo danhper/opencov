@@ -70,7 +70,7 @@ defmodule Opencov.ProjectController do
     project = Repo.get!(Project, id)
     {:ok, badge} = Opencov.BadgeManager.get_or_create(project, format)
     conn
-    |> put_resp_content_type(Plug.MIME.type(format))
+    |> put_resp_content_type(MIME.type(format))
     |> send_resp(200, badge.image)
   end
 end

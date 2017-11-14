@@ -9,11 +9,11 @@ defmodule Opencov.User do
     field :name, :string
     field :password_initialized, :boolean, default: true
     field :confirmation_token, :string
-    field :confirmed_at, Timex.Ecto.DateTime
+    field :confirmed_at, :utc_datetime
     field :unconfirmed_email, :string
 
     field :password_reset_token, :string
-    field :password_reset_sent_at, Timex.Ecto.DateTime
+    field :password_reset_sent_at, :utc_datetime
 
     field :current_password, :string, virtual: true
     has_secure_password()

@@ -12,7 +12,7 @@ defmodule Opencov.Build do
     field :coverage, :float, default: 0.0
     field :completed, :boolean, default: true
     field :previous_coverage, :float
-    field :build_started_at, Ecto.DateTime
+    field :build_started_at, :utc_datetime
 
     field :commit_sha, :string
     field :committer_name, :string
@@ -83,7 +83,7 @@ defmodule Opencov.Build do
     result = %{"branch" => branch || "", "commit_sha" => commit_sha, "committer_name" => committer_name,
         "committer_email" => committer_email, "commit_message" => commit_message}
     for {k, v} <- result, into: %{} do
-      v = if is_nil(v), do: v, else: String.strip(v)
+      v = if is_nil(v), do: v, else: String.trim(v)
       {k, v}
     end
   end

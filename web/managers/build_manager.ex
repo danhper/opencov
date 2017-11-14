@@ -39,7 +39,7 @@ defmodule Opencov.BuildManager do
 
   defp set_build_started_at(changeset) do
     if get_change(changeset, :build_started_at), do: changeset,
-    else: put_change(changeset, :build_started_at, Ecto.DateTime.utc)
+    else: put_change(changeset, :build_started_at, DateTime.utc_now())
   end
 
   # TODO: fetch build/job numbers from CI APIs

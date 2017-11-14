@@ -3,7 +3,7 @@ defmodule Opencov.Types.JSONText do
 
   import Opencov.Types.JSON
 
-  @json String.strip("""
+  @json String.trim("""
     {"foo":"bar"}
   """)
 

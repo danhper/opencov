@@ -2,9 +2,10 @@ language: elixir
 
 elixir:
   - 1.4
+  - 1.5
 
 otp_release:
-  - 19.1
+  - 19
 
 before_script:
   - mix compile

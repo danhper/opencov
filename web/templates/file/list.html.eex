@@ -7,7 +7,7 @@
         <li class="active">
           <%= link v, to: apply(@path_fn, @path_args ++ [[{:filters, @filters -- [k]}|order_args]]) %>
         </li>
-      <%= else %>
+      <% else %>
         <li>
           <%= link v, to: apply(@path_fn, @path_args ++ [[{:filters, [k|@filters]}|order_args]]) %>
         </li>

@@ -38,7 +38,7 @@ defmodule Opencov.Mixfile do
      {:scrivener_ecto, "~> 1.0"},
      {:basic_auth, "~> 2.0"},
      {:navigation_history, "~> 0.2"},
-     {:ex_machina, "~> 1.0"},
+     {:ex_machina, "~> 2.0"},
      {:mailman, "~> 0.3"},
      {:eiconv, github: "zotonic/eiconv"},
      {:scrivener_html, "~> 1.3"},
@@ -47,7 +47,7 @@ defmodule Opencov.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:excoveralls, "~> 0.6", only: :test},
-     {:mock, "~> 0.2.0", only: :test}]
+     {:mock, "~> 0.3", only: :test}]
   end
 
   defp aliases do
