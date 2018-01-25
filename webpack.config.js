@@ -3,6 +3,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var path              = require('path')
 var nib               = require('nib')
 
+const phoenixHTMLPath = './deps/phoenix_html/priv/static/phoenix_html.js'
+
 module.exports = {
   entry: {
     app: './web/static/js/app.js',
@@ -14,37 +16,64 @@ module.exports = {
       'highlight.js',
       'bootstrap',
       'font-awesome/css/font-awesome.css',
-      'highlight.js/styles/solarized_light.css'
+      'highlight.js/styles/solarized-light.css'
     ]
   },
   output: {
-    path: './priv/static/js',
+    path: path.join(__dirname, './priv/static/js'),
     filename: '[name].js'
   },
   devtool: 'source-map',
   module: {
-    loaders: [
-      {test: /\.json$/, loader: 'json'},
+    rules: [
+      {test: /\.json$/, loader: 'json-loader'},
       {
         test: /\.js$/,
-        loader: 'babel',
-        query: {
+        loader: 'babel-loader',
+        options: {
           presets: ['es2015'],
           plugins: ['transform-runtime']
         },
         include: /web\/static\/js/
       },
-      {test: /\.jade$/, loader: 'jade'},
-      {test: /\.styl$/, loader: ExtractTextPlugin.extract('style-loader', 'css!stylus')},
-      {test: /\.less$/, loader: ExtractTextPlugin.extract('style-loader', 'css!less')},
-      {test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader')},
-      {test: /\.(png|woff|woff2|eot|ttf|svg|gif)/, loader: 'url-loader?limit=10000'},
-      {test: /\.jpg/, loader: 'file-loader'}
+      {test: /\.jade$/, loader: 'pug-loader'},
+      {
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'css-loader',
+            {loader: 'stylus-loader', options: {use: [nib()]}}
+          ]
+        })
+      },
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'less-loader']
+        })
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader']
+        })
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg|gif)/,
+        loader: 'url-loader?limit=10000'
+      },
+      {
+        test: /\.jpg/,
+        loader: 'file-loader'
+      }
     ]
   },
   resolve: {
     alias: {
-      phoenix_html: path.join(__dirname, './deps/phoenix_html/web/static/js/phoenix_html.js')
+      phoenix_html: path.join(__dirname, phoenixHTMLPath)
     }
   },
   plugins: [
@@ -58,8 +87,5 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     })
-  ],
-  stylus: {
-    use: [nib()]
-  }
+  ]
 }
