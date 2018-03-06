@@ -5,7 +5,7 @@ defmodule Opencov.UserService do
   alias Opencov.Repo
 
   def create_user(user_params, opts) do
-    options = [generate_password: opts[:invited?]] |> IO.inspect
+    options = [generate_password: opts[:invited?]]
     changeset = UserManager.changeset(%User{}, user_params, options)
     case Repo.insert(changeset) do
       {:ok, user} = res ->
