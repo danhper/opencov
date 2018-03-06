@@ -3,7 +3,7 @@ use Mix.Config
 config :opencov, Opencov.Endpoint,
   http: [port: 4000],
   url: [scheme: "http", host: "demo.opencov.com", port: 80],
-  secret_key_base: "my-super-secret-key-base-with-64-characters-so-that-i-dont-get-an-error"
+  secret_key_base: "JCBkb2NrZXIgcnVuIC12IC9hYnNvbHV0ZS9wYXRoL3RvL2xvY2FsLmV4czovb3BlbmNvdi9jb25maWcvbG9jYWwuZXhzIHR1dmlzdGF2aWUvb3BlbmNvdiBtaXggZWN0by5zZXR1cA0K"
 
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,

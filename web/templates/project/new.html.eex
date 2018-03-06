@@ -4,7 +4,7 @@
       <%= link "Projects", to: project_path(@conn, :index) %>
       <span class="separator">></span>
       <span>
-        new
+        New Project
       </span>
     </span>
   </h2>

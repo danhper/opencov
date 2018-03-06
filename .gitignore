@@ -11,3 +11,5 @@ config/local.exs
 *.coverdata
 
 *.dump
+
+*.swp
