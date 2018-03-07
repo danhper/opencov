@@ -2,10 +2,12 @@
   <h2 class="row">
     <span class="media-body">Projects</span>
 
+  <%= if @is_admin do %>
     <%= link to: project_path(@conn, :new), class: "btn btn-primary media-right" do %>
       <i class="fa fa-plus-circle"></i>
       Add project
     <% end %>
+  <% end %>
   </h2>
 
   <ul class="projects">

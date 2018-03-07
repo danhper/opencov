@@ -45,7 +45,10 @@ defmodule Opencov.Router do
 
   scope "/", Opencov do
     pipe_through :browser
-    pipe_through :anonymous_only
+    resources "/projects", ProjectController, only: [:index, :show]
+    resources "/builds", BuildController, only: [:show]
+    resources "/files", FileController, only: [:show]
+    resources "/jobs", JobController, only: [:show]
 
     get "/login", AuthController, :login
     post "/login", AuthController, :make_login

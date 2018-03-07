@@ -13,3 +13,6 @@ config/local.exs
 *.dump
 
 *.swp
+
+## Config files
+config/config.exs
