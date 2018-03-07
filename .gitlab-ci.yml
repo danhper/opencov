@@ -5,7 +5,7 @@ stages:
 - build
 
 variables:
-  POSTGRES_DB: opencov_prod
+  POSTGRES_DB: opencov_test
   POSTGRES_HOST: postgres
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
@@ -16,7 +16,7 @@ test:
   services:
     - postgres:latest
   before_script:
-    - export MIX_ENV=prod
+    - export MIX_ENV=test
     - apk --no-cache --update add postgresql-client yarn
     - yarn install
     - mix deps.get
