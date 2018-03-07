@@ -13,7 +13,7 @@ test:
     POSTGRES_DB: opencov_test
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: postgres
-  before-script:
+  before_script:
     - apk --no-cache --update add postgresql-client yarn
     - yarn install
     - mix deps.get
