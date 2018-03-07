@@ -1,9 +1,11 @@
 stages:
 - build
 
-image: registry.bukalapak.io/sre/gudang/docker:1.0.0
+image: registry.bukalapak.io/sre/gudang/build/docker:1.0.0
 
 build:
   stage: build
   script:
     - make all
+  tags:
+    - build-image-shared
