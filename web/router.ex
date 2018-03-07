@@ -71,7 +71,7 @@ defmodule Opencov.Router do
     get "/profile/password/edit", ProfileController, :edit_password
     put "/profile/password", ProfileController, :update_password
 
-    resources "/projects", ProjectController, only: [:new, :edit, :create]
+    resources "/projects", ProjectController, only: [:new, :edit, :create, :update, :delete]
     resources "/builds", BuildController, only: [:show]
     resources "/files", FileController, only: [:show]
 

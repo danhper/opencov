@@ -78,7 +78,7 @@ defmodule Opencov.ProjectController do
     try do
       conn.assigns.current_user
     rescue
-      e in KeyError -> false
+      _ in KeyError -> false
     end
   end
 end
