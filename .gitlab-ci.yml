@@ -18,6 +18,7 @@ test:
     - yarn install
     - mix deps.get
     - cp config/config.sample.exs config/config.exs
+    - mix ecto.setup
   script:
     - mix test
 
