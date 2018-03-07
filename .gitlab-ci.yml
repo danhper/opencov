@@ -1,8 +1,8 @@
+image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
+
 stages:
 - test
 - build
-
-image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
 
 variables:
   POSTGRES_DB: opencov_prod
@@ -15,7 +15,7 @@ test:
   image: bitwalker/alpine-elixir-phoenix:latest
   services:
     - postgres:latest
- before_script:
+  before_script:
     - export MIX_ENV=prod
     - apk --no-cache --update add postgresql-client yarn
     - yarn install
