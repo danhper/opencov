@@ -17,11 +17,14 @@ test:
     - apk --no-cache --update add postgresql-client yarn
     - yarn install
     - mix deps.get
+    - cp config/config.sample.exs config/config.exs
   script:
     - mix test
 
 build:
   stage: build
+  before_script:
+    - cp config/config.sample.exs config/config.exs
   script:
     - make all
   tags:
