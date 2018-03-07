@@ -1,7 +1,25 @@
 stages:
+- test
 - build
 
 image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
+
+test:
+  stage: test
+  image: bitwalker/alpine-elixir-phoenix:latest
+  services:
+    - postgres:latest
+  variables:
+    POSTGRES_DB: opencov_test
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+  before-script:
+    - apk --no-cache --update add postgresql-client yarn
+    - yarn install
+    - mix deps.get
+    - mix compile
+  script:
+    - mix test
 
 build:
   stage: build
