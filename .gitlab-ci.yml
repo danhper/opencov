@@ -1,7 +1,7 @@
 stages:
 - build
 
-image: registry.bukalapak.io/sre/gudang/build/docker:1.0.0
+image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
 
 build:
   stage: build
