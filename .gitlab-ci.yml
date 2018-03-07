@@ -25,6 +25,8 @@ test:
     - mix ecto.setup
   script:
     - mix test
+  tags:
+    - bare-metal
 
 build:
   stage: build
