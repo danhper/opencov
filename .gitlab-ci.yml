@@ -10,10 +10,11 @@ test:
   services:
     - postgres:latest
   variables:
-    POSTGRES_DB: opencov_test
+    POSTGRES_DB: opencov_prod
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: postgres
   before_script:
+    - export MIX_ENV=prod
     - apk --no-cache --update add postgresql-client yarn
     - yarn install
     - mix deps.get
