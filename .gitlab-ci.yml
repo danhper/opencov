@@ -17,7 +17,6 @@ test:
     - apk --no-cache --update add postgresql-client yarn
     - yarn install
     - mix deps.get
-    - mix compile
   script:
     - mix test
 
