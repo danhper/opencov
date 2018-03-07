@@ -45,10 +45,7 @@ defmodule Opencov.Router do
 
   scope "/", Opencov do
     pipe_through :browser
-    resources "/projects", ProjectController, only: [:index, :show]
-    resources "/builds", BuildController, only: [:show]
-    resources "/files", FileController, only: [:show]
-    resources "/jobs", JobController, only: [:show]
+    pipe_through :anonymous_only
 
     get "/login", AuthController, :login
     post "/login", AuthController, :make_login
@@ -74,7 +71,7 @@ defmodule Opencov.Router do
     get "/profile/password/edit", ProfileController, :edit_password
     put "/profile/password", ProfileController, :update_password
 
-    resources "/projects", ProjectController
+    resources "/projects", ProjectController, only: [:new, :edit, :create]
     resources "/builds", BuildController, only: [:show]
     resources "/files", FileController, only: [:show]
 
@@ -92,4 +89,14 @@ defmodule Opencov.Router do
     get "/settings", SettingsController, :edit
     put "/settings", SettingsController, :update
   end
+
+  scope "/", Opencov do
+    pipe_through :browser
+
+    resources "/projects", ProjectController, only: [:index, :show]
+    resources "/builds", BuildController, only: [:show]
+    resources "/files", FileController, only: [:show]
+    resources "/jobs", JobController, only: [:show]
+  end
+
 end
