@@ -18,3 +18,4 @@ RUN mix deps.get
 ADD . /opencov
 RUN mix compile
 RUN mix assets.compile
+ENTRYPOINT ["mix", "phx.server"]
