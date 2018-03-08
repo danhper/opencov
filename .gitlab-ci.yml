@@ -18,6 +18,7 @@ test:
   before_script:
     - export MIX_ENV=test
     - apk --no-cache --update add postgresql-client yarn
+    - PGPASSWORD=postgres psql -U postgres -h postgres -c '\l+'
     - yarn install
     - mix deps.get
     - cp config/config.sample.exs config/config.exs
