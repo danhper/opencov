@@ -36,6 +36,8 @@ build:
     - cp config/config.sample.exs config/config.exs
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
+    - cp config/config.sample.exs config/config.exs
+    - cp config/local.sample.exs config/local.exs
     - make build push
   tags:
     - build-image-shared

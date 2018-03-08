@@ -1,6 +1,7 @@
 use Mix.Config
 
 config :opencov, Opencov.Endpoint,
+  http: [port: 4000],
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "tfYGCfFfu10pV8G5gtUJ1do3LDwnu+eWBfL1sNtK8+bEwo6gNzFQZtWkdNQVlt+V",
