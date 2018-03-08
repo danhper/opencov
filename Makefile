@@ -1,4 +1,4 @@
-.PHONY: all deploy
+.PHONY: all compile deploy
 
 REGISTRY  = registry.bukalapak.io/bukalapak
 DDIR      = deploy
@@ -32,7 +32,7 @@ db-setup:
 	mix ecto.setup
 
 compile:
-	$(foreach var, $(SERVICES), GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(ODIR)/$(var)/bin/$(var) app/$(var)/main.go;)
+	mix assets.compile
 
 $(ODIR):
 	mkdir -p $(ODIR)

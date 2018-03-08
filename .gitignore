@@ -16,3 +16,9 @@ config/local.exs
 
 ## Config files
 config/config.exs
+
+## deploy/_output/
+deploy/_output
+
+## static files
+priv/static
