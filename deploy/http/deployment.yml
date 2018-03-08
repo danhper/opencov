@@ -52,7 +52,7 @@ spec:
           - -sanitize
           - -upcase
           - -prefix=opencov
-          - /mix
+          - mix
           - phx.server
       - name: consul
         image: registry.bukalapak.io/bukalapak/consul-image:0.2.0
