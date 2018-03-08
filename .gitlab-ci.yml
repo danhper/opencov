@@ -30,9 +30,12 @@ test:
 
 build:
   stage: build
+  variables:
+    DOCKER_API_VERSION: "1.23"
   before_script:
     - cp config/config.sample.exs config/config.exs
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - make all
+    - make build push
   tags:
     - build-image-shared
