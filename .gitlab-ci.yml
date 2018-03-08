@@ -8,7 +8,7 @@ stages:
 
 test:
   stage: test
-  image: bitwalker/alpine-elixir-phoenix:latesta
+  image: bitwalker/alpine-elixir-phoenix:latest
   services:
     - postgres:latest
   before_script:
