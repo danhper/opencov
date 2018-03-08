@@ -1,0 +1,97 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "opencov-http-{{.CurrentEnvironment}}"
+  labels:
+    project: opencov
+    service: http
+    env: {{.CurrentEnvironment}}
+spec:
+  replicas: {{.CurrentReplica}}
+  selector:
+    matchLabels:
+      project: opencov
+      service: http
+      env: {{.CurrentEnvironment}}
+  template:
+    metadata:
+      labels:
+        project: opencov
+        service: http
+        release: '{{.Version}}'
+        env: {{.CurrentEnvironment}}
+    spec:
+      imagePullSecrets:
+      - name: blregistry
+      containers:
+      - name: opencov-http
+        image: registry.bukalapak.io/bukalapak/opencov/http:{{.Version}}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 4000
+          initialDelaySeconds: 45
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 4000
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 4000
+        resources:
+          limits:
+            memory: 1.5Gi
+            cpu: 2
+          requests:
+            memory: 0.5Gi
+            cpu: 1
+        command:
+          - /envconsul
+          - -consul=127.0.0.1:8500
+          - -sanitize
+          - -upcase
+          - -prefix=opencov
+          - /http
+      - name: consul
+        image: registry.bukalapak.io/bukalapak/consul-image:0.2.0
+        env:
+        - name: SERVICE_NAME
+          value: opencov-http
+        - name: SERVICE_ENVIRONMENT
+          value: {{.CurrentEnvironment}}
+        - name: SERVICE_PORT
+          value: "4000"
+        - name: CONSUL1
+          valueFrom:
+            configMapKeyRef:
+              name: consul-config
+              key: node1
+        - name: CONSUL2
+          valueFrom:
+            configMapKeyRef:
+              name: consul-config
+              key: node2
+        - name: CONSUL3
+          valueFrom:
+            configMapKeyRef:
+              name: consul-config
+              key: node3
+        - name: CONSUL_ENCRYPT
+          valueFrom:
+            configMapKeyRef:
+              name: consul-config
+              key: encrypt
+        - name: CONSUL_DATACENTER
+          valueFrom:
+            configMapKeyRef:
+              name: consul-config
+              key: datacenter
+        ports:
+        - containerPort: 8300
+        - containerPort: 8301
+        - containerPort: 8302
+        - containerPort: 8400
+        - containerPort: 8500
+        - containerPort: 8600
+        command: [ entrypoint, agent, -config-dir=/config, -join=$(CONSUL1), -join=$(CONSUL2), -join=$(CONSUL3), -encrypt=$(CONSUL_ENCRYPT) ]

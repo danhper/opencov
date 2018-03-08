@@ -1,0 +1,27 @@
+templateVersion: v1.0.1
+projectName: opencov
+services:
+- name: http
+  port: "4000"
+  environments:
+  - name: production
+    replica: "2"
+  - name: canary
+    replica: "1"
+  - name: sandbox
+    replica: "1"
+  - name: beta
+    replica: "1"
+  - name: staging
+    replica: "1"
+  nodePort: "39212"
+  healthz: healthz
+  maxMem: "1.5"
+  maxCpu: "2"
+  minMem: "0.5"
+  minCpu: "1"
+  limit: false
+  timeout: "5"
+  delay: "45"
+  language: go
+  consul: envconsul

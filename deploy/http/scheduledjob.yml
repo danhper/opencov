@@ -1,0 +1,52 @@
+apiVersion: batch/v2alpha1
+kind: ScheduledJob
+metadata:
+  name: "opencov-http-{{.CurrentEnvironment}}"
+  labels:
+    project: opencov
+    service: http
+    env: {{.CurrentEnvironment}}
+spec:
+  schedule: 4000
+  jobTemplate:
+    spec:
+      selector:
+        matchLabels:
+          project: opencov
+          service: http
+          env: {{.CurrentEnvironment}}
+      template:
+        metadata:
+          labels:
+            project: opencov
+            service: http
+            release: '{{.Version}}'
+            env: {{.CurrentEnvironment}}
+        spec:
+          imagePullSecrets:
+          - name: blregistry
+          containers:
+          - name: opencov-http
+            image: registry.bukalapak.io/bukalapak/opencov/http:{{.Version}}
+            resources:
+              limits:
+                memory: 1.5Gi
+                cpu: 2
+              requests:
+                memory: 0.5Gi
+                cpu: 1
+            command:
+              - envconsul
+              - -once
+              - -consul=$(CONSUL1)
+              - -sanitize
+              - -upcase
+              - -prefix=opencov
+              - http
+            env:
+            - name: CONSUL
+              valueFrom:
+                configMapKeyRef:
+                  name: consul-config
+                  key: node1
+          restartPolicy: Never
