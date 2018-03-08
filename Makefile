@@ -1,4 +1,4 @@
-.PHONY: all compile deploy
+.PHONY: all compile deploy test
 
 REGISTRY  = registry.bukalapak.io/bukalapak
 DDIR      = deploy
