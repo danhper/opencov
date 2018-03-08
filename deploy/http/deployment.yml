@@ -52,7 +52,8 @@ spec:
           - -sanitize
           - -upcase
           - -prefix=opencov
-          - /http
+          - /mix
+          - phx.server
       - name: consul
         image: registry.bukalapak.io/bukalapak/consul-image:0.2.0
         env:
