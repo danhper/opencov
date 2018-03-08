@@ -99,4 +99,9 @@ defmodule Opencov.Router do
     resources "/jobs", JobController, only: [:show]
   end
 
+  scope "/", Opencov do
+    pipe_through :browser
+
+    get "/healthz", ProjectController, :index
+  end
 end
