@@ -16,8 +16,7 @@ defmodule Opencov.Mixfile do
 
   def application do
     [mod: {Opencov, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :tzdata, :secure_password]]
+     extra_applications: [:logger]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -53,7 +52,7 @@ defmodule Opencov.Mixfile do
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "seedex.seed"],
      "ecto.reset": ["ecto.drop", "ecto.setup"],
-     "assets.compile": [&compile_assets/1, "phoenix.digest"]]
+     "assets.compile": [&compile_assets/1, "phx.digest"]]
   end
 
   defp compile_assets(_) do
