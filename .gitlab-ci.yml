@@ -19,7 +19,7 @@ test:
     - cp config/local.sample.exs config/local.exs
     - make dep db-setup
   script:
-    - make test
+    - COVERALLS_REPO_TOKEN="czZaRFhIVEpPYTBqU3JrWm5nZDBGamZHV3Z5bllIeFNsbTA1TzVKMA==" make test
   tags:
     - bare-metal
 

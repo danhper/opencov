@@ -1,5 +1,7 @@
 use Mix.Config
 
+config :excoveralls, :endpoint, System.get_env("COVERALLS_ENDPOINT") || "http://a"
+
 config :opencov, Opencov.Endpoint,
   http: [port: 4000],
   url: [host: "localhost"],

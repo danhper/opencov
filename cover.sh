@@ -1,10 +1,7 @@
 #!/bin/sh
 
-# wake up heroku!
-curl http://demo.opencov.com || true
-
-MIX_ENV=test mix coveralls.post \
-  --sha="$TRAVIS_COMMIT" \
-  --committer="$(git log -1 $TRAVIS_COMMIT --pretty=format:'%cN')" \
-  --message="$(git log -1 $TRAVIS_COMMIT --pretty=format:'%s')" \
-  --branch="$TRAVIS_BRANCH"
+COVERALLS_ENDPOINT=https://opencov.bukalapak.io mix coveralls.post \
+  --sha="$CI_COMMIT_SHA" \
+  --committer="$(git log -1 $CI_COMMIT_SHA --pretty=format:'%cN')" \
+  --message="$(git log -1 $CI_COMMIT_SHA --pretty=format:'%s')" \
+  --branch="$CI_COMMIT_REF_NAME"

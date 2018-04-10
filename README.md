@@ -1,7 +1,7 @@
 # OpenCov
 
 [![Build Status](https://travis-ci.org/tuvistavie/opencov.svg?branch=master)](https://travis-ci.org/tuvistavie/opencov)
-[![Coverage Status](http://demo.opencov.com/projects/1/badge.svg)](http://demo.opencov.com/projects/1)
+[![Coverage Status](http://opencov.bukalapak.io/projects/4/badge.svg)](http://opencov.bukalapak.io/projects/4)
 
 OpenCov is a self-hosted opensource test coverage history viewer.
 It is (mostly) compatible with [coveralls](https://coveralls.io/), so most

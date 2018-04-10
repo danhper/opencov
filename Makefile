@@ -23,7 +23,7 @@ BRANCH     = $(shell git rev-parse --abbrev-ref HEAD)
 all: consul compile build push kubefile deploy
 
 test:
-	mix test
+	sh cover.sh
 
 dep:
 	mix deps.get
