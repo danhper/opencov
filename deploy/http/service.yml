@@ -9,7 +9,7 @@ spec:
     env: {{.CurrentEnvironment}}
   ports:
     - protocol: TCP
-      port: 4000
-      targetPort: 4000
+      port: 80
+      targetPort: 80
       nodePort: {{.NodePort}}
   type: NodePort
