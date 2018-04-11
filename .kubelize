@@ -2,7 +2,7 @@ templateVersion: v1.0.1
 projectName: opencov
 services:
 - name: http
-  port: "4000"
+  port: "80"
   environments:
   - name: production
     replica: "2"

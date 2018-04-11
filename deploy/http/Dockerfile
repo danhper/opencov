@@ -22,6 +22,6 @@ ADD . /opencov
 RUN mix compile
 RUN mix assets.compile
 
-EXPOSE 4000
+EXPOSE 80
 ENTRYPOINT ["mix", "phx.server"]
 

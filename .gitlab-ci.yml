@@ -23,23 +23,6 @@ test:
   tags:
     - bare-metal
 
-#compile:
-#  stage: pre-build
-#  image: registry.bukalapak.io/sre/gudang/pre-build/golang:0.1.0
-#  before_script:
-#    - mkdir -p $GOPATH/src/github.com/bukalapak
-#    - ln -s $CI_PROJECT_DIR $GOPATH/src/github.com/bukalapak
-#    - cd $GOPATH/src/github.com/bukalapak/$CI_PROJECT_NAME
-#    - make dep
-#  script:
-#    - make compile
-#  artifacts:
-#    expire_in: 1 week
-#    paths:
-#      - deploy/_output
-#  only:
-#    - /^deploy-.*$/
-
 consul:
   stage: pre-build
   image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
