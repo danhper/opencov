@@ -29,16 +29,16 @@ spec:
         livenessProbe:
           httpGet:
             path: /healthz
-            port: 4000
+            port: 80
           initialDelaySeconds: 45
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /healthz
-            port: 4000
+            port: 80
           timeoutSeconds: 5
         ports:
-        - containerPort: 4000
+        - containerPort: 80
         resources:
           limits:
             memory: 1.5Gi
@@ -62,7 +62,7 @@ spec:
         - name: SERVICE_ENVIRONMENT
           value: {{.CurrentEnvironment}}
         - name: SERVICE_PORT
-          value: "4000"
+          value: "80"
         - name: CONSUL1
           valueFrom:
             configMapKeyRef:
