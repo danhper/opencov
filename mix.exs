@@ -53,7 +53,7 @@ defmodule Opencov.Mixfile do
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "seedex.seed"],
      "ecto.reset": ["ecto.drop", "ecto.setup"],
-     "assets.compile": [&compile_assets/1, "phoenix.digest"]]
+     "assets.compile": [&compile_assets/1, "phx.digest"]]
   end
 
   defp compile_assets(_) do

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "opencov-http-{{.CurrentEnvironment}}"
+spec:
+  selector:
+    project: opencov
+    service: http
+    env: {{.CurrentEnvironment}}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: {{.NodePort}}
+  type: NodePort

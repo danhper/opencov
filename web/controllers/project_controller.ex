@@ -10,7 +10,7 @@ defmodule Opencov.ProjectController do
 
   def index(conn, _params) do
     projects = Repo.all(Project) |> ProjectManager.preload_latest_build
-    render(conn, "index.html", projects: projects)
+    render(conn, "index.html", projects: projects, is_admin: is_admin?(conn))
   end
 
   def new(conn, _params) do
@@ -72,5 +72,13 @@ defmodule Opencov.ProjectController do
     conn
     |> put_resp_content_type(MIME.type(format))
     |> send_resp(200, badge.image)
+  end
+
+  defp is_admin?(conn) do
+    try do
+      conn.assigns.current_user
+    rescue
+      _ in KeyError -> false
+    end
   end
 end

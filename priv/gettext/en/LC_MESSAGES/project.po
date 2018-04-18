@@ -1,5 +1,5 @@
 msgid "name"
 msgstr "Name"
 
-msgid "url"
+msgid "base_url"
 msgstr "URL"

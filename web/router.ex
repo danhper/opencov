@@ -89,4 +89,10 @@ defmodule Opencov.Router do
     get "/settings", SettingsController, :edit
     put "/settings", SettingsController, :update
   end
+
+  scope "/", Opencov do
+    pipe_through :browser
+
+    get "/healthz", ProjectController, :index
+  end
 end

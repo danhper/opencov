@@ -6,7 +6,7 @@
   <% end %>
 
   <%= input(f, :name) %>
-  <%= input(f, :url) %>
+  <%= input(f, :base_url) %>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
