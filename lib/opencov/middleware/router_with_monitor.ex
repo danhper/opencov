@@ -5,7 +5,11 @@ defmodule Opencov.Middleware.RouterWithMonitor do
   plug Opencov.Router
 
   def label_value(:action, {conn, _}) do
-    "#{Phoenix.Controller.controller_module(conn)}:#{Phoenix.Controller.action_name(conn)}"
+    if Map.has_key?(conn.private, :phoenix_controller) do
+      "#{Phoenix.Controller.controller_module(conn)}:#{Phoenix.Controller.action_name(conn)}"
+    else
+      "nil_#{conn.status}"
+    end
   end
 
   def label_value(:status, {conn, _}) do

@@ -20,9 +20,13 @@ defmodule Opencov.Middleware.EndpointLogging do
           "status" => "#{conn.status}",
           "message" => "#{
                         if conn.status >= 400 do
-                          title = Regex.run(~r/<title>\s*(.+?)\s*<\/title>/, conn.resp_body)
-                          if title != nil do
-                            Enum.at(title,1)
+                          if is_binary(conn.resp_body) do
+                            title = Regex.run(~r/<title>\s*(.+?)\s*<\/title>/, conn.resp_body)
+                            if title != nil do
+                              Enum.at(title,1)
+                            else
+                              :fail
+                            end
                           else
                             :fail
                           end
