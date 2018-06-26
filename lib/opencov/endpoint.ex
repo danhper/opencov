@@ -1,6 +1,8 @@
 defmodule Opencov.Endpoint do
   use Phoenix.Endpoint, otp_app: :opencov
 
+  plug Opencov.PrometheusExporter
+
   plug Plug.Static,
     at: "/", from: :opencov, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
@@ -11,10 +13,8 @@ defmodule Opencov.Endpoint do
     plug Phoenix.CodeReloader
   end
 
-  unless Mix.env == :test do
-    plug Plug.RequestId
-    plug Plug.Logger
-  end
+  plug Plug.RequestId
+  plug Opencov.Middleware.EndpointLogging
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
@@ -29,5 +29,5 @@ defmodule Opencov.Endpoint do
     key: "_opencov_key",
     signing_salt: "DBdPx/m/"
 
-  plug Opencov.Router
+  plug Opencov.Middleware.RouterWithMonitor
 end

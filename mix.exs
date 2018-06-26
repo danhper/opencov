@@ -17,7 +17,8 @@ defmodule Opencov.Mixfile do
   def application do
     [mod: {Opencov, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :tzdata, :secure_password]]
+                    :phoenix_ecto, :postgrex, :tzdata, :secure_password,
+                    :prometheus_ex, :prometheus_plugs]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -47,7 +48,10 @@ defmodule Opencov.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:excoveralls, "~> 0.6", only: :test},
-     {:mock, "~> 0.3", only: :test}]
+     {:mock, "~> 0.3", only: :test},
+     {:prometheus_ex, "~> 3.0"},
+     {:prometheus_plugs, "~> 1.1.3"},
+     {:poison, "~> 3.1"}]
   end
 
   defp aliases do
