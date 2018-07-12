@@ -70,7 +70,7 @@ post-ci-releaselog:
   - timestamp=`date -Iseconds | sed 's/\(.*\)\([0-9]\{2\}\)/\1:\2/'`
   - >
     curl -XPOST -d "{
-    \"branch\": \"$BRANCH\",
+    \"branch\": \"$CI_COMMIT_REF_NAME\",
     \"commit\": \"$CI_COMMIT_SHA\",
     \"pipeline\": \"${ROLES:-$ENV}\",
     \"timestamp\": \"$timestamp\"
