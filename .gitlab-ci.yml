@@ -1,112 +1,88 @@
-image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
-
 stages:
-  - test
-  - pre-build
-  - build
-  - deployment
+- pre-ci
+- test
+- pre-build
+- build
+- migrate
+- deployment
+- post-ci
+
+variables:
+  VAR_KUBE_CONTEXT: $ENV
+
+pre-ci:
+  stage: pre-ci
+  image: appropriate/curl
+  only:
+  - triggers
+  script:
+  - export DEPLOYER=${DEPLOYER:1}
+  - curl -s "$ISYANA_URL/notify_start?service=$CI_PROJECT_NAME&branch=$CI_COMMIT_REF_NAME&deployer=$DEPLOYER&roles=$ENV&ci_pipeline_id=$CI_PIPELINE_ID"
 
 test:
   stage: test
-  image: bitwalker/alpine-elixir-phoenix:latest
-  services:
-    - postgres:latest
-  before_script:
-    - export MIX_ENV=test
-    - apk --no-cache --update add postgresql-client yarn
-    - yarn install
-    - cp config/config.sample.exs config/config.exs
-    - cp config/local.sample.exs config/local.exs
-    - make dep db-setup
+  image: alpine:3.6
   script:
-    - COVERALLS_REPO_TOKEN="czZaRFhIVEpPYTBqU3JrWm5nZDBGamZHV3Z5bllIeFNsbTA1TzVKMA==" make test
-  tags:
-    - bare-metal
-
-consul:
-  stage: pre-build
-  image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
-  script:
-    - make consul
-  artifacts:
-    expire_in: 1 week
+  - echo "test done"
+  cache:
+    key: depcache
     paths:
-      - deploy/_output
-  only:
-    - /^deploy-.*$/
+    - $CI_PROJECT_DIR/.depcache
 
-build-docker:
-  stage: build
-  image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
-  variables:
-    DOCKER_API_VERSION: "1.23"
-  before_script:
-    - cp config/config.sample.exs config/config.exs
-    - cp config/prod.exs config/local.exs
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-  script:
-    - make build push
+.deploy-template: &deploy-template
+  stage: deployment
+  image: alpine:3.6
   tags:
-    - build-image-shared
+  - bare-metal
   only:
-    - /^deploy-.*$/
-
-build-kubefile:
-  stage: build
-  image: registry.bukalapak.io/sre/gudang/build/kubelize:0.1.1
+  - triggers
   script:
-    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
-    - make kubefile
-  only:
-    - /^deploy-.*$/
-  dependencies: []
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - deploy/_output
+  - echo "deploying"
 
-deploy-production:
-  stage: deployment
-  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
-  script:
-    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
-    - kubectl config use-context production-cluster-2
-    - make deploy
-  only:
-    - /^deploy-(production|beta|canary).*$/
+deploy:
+  <<: *deploy-template
 
-deploy-production-service:
-  stage: deployment
-  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
+deploy-service:
+  <<: *deploy-template
+  allow_failure: true
+  when: manual
   variables:
     FILE: service
-  script:
-    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
-    - kubectl config use-context production-cluster-2
-    - make deploy
-  when: manual
-  only:
-    - /^deploy-(production|beta|canary).*$/
 
-deploy-sandbox:
-  stage: deployment
-  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
-  script:
-    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
-    - kubectl config use-context staging-cluster-1
-    - make deploy
+post-ci:
+  stage: post-ci
+  image: appropriate/curl
+  when: on_success
   only:
-    - /^deploy-(sandbox|staging).*$/
+  - triggers
+  script:
+  - export DEPLOYER=${DEPLOYER:1}
+  - curl -s "$ISYANA_URL/notify_done?service=$CI_PROJECT_NAME&branch=$CI_COMMIT_REF_NAME&deployer=$DEPLOYER&roles=$ENV&ci_pipeline_id=$CI_PIPELINE_ID"
 
-deploy-sandbox-service:
-  stage: deployment
-  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
-  variables:
-    FILE: service
-  script:
-    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
-    - kubectl config use-context staging-cluster-1
-    - make deploy
-  when: manual
+post-ci-releaselog:
+  stage: post-ci
+  image: appropriate/curl
+  when: on_success
   only:
-    - /^deploy-(sandbox|staging).*$/
+  - triggers
+  script:
+  - ([ ${ENV} = "production" ]) || ([ ${ENV} = "canary" ]) || exit 0
+  - timestamp=`date -Iseconds | sed 's/\(.*\)\([0-9]\{2\}\)/\1:\2/'`
+  - >
+    curl -XPOST -d "{
+    \"branch\": \"$BRANCH\",
+    \"commit\": \"$CI_COMMIT_SHA\",
+    \"pipeline\": \"${ROLES:-$ENV}\",
+    \"timestamp\": \"$timestamp\"
+    }"
+    "$RELEASELOG_URL/notify"
+
+post-ci-failed:
+  stage: post-ci
+  image: appropriate/curl
+  only:
+  - triggers
+  when: on_failure
+  script:
+  - export DEPLOYER=${DEPLOYER:1}
+  - curl -s "$ISYANA_URL/notify_failed?service=$CI_PROJECT_NAME&branch=$CI_COMMIT_REF_NAME&deployer=$DEPLOYER&roles=$ENV&ci_pipeline_id=$CI_PIPELINE_ID"

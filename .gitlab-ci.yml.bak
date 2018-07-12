@@ -1,0 +1,112 @@
+image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
+
+stages:
+  - test
+  - pre-build
+  - build
+  - deployment
+
+test:
+  stage: test
+  image: bitwalker/alpine-elixir-phoenix:latest
+  services:
+    - postgres:latest
+  before_script:
+    - export MIX_ENV=test
+    - apk --no-cache --update add postgresql-client yarn
+    - yarn install
+    - cp config/config.sample.exs config/config.exs
+    - cp config/local.sample.exs config/local.exs
+    - make dep db-setup
+  script:
+    - COVERALLS_REPO_TOKEN="czZaRFhIVEpPYTBqU3JrWm5nZDBGamZHV3Z5bllIeFNsbTA1TzVKMA==" make test
+  tags:
+    - bare-metal
+
+consul:
+  stage: pre-build
+  image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
+  script:
+    - make consul
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - deploy/_output
+  only:
+    - /^deploy-.*$/
+
+build-docker:
+  stage: build
+  image: registry.bukalapak.io/sre/gudang/build/docker:0.0.1
+  variables:
+    DOCKER_API_VERSION: "1.23"
+  before_script:
+    - cp config/config.sample.exs config/config.exs
+    - cp config/prod.exs config/local.exs
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - make build push
+  tags:
+    - build-image-shared
+  only:
+    - /^deploy-.*$/
+
+build-kubefile:
+  stage: build
+  image: registry.bukalapak.io/sre/gudang/build/kubelize:0.1.1
+  script:
+    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
+    - make kubefile
+  only:
+    - /^deploy-.*$/
+  dependencies: []
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - deploy/_output
+
+deploy-production:
+  stage: deployment
+  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
+  script:
+    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
+    - kubectl config use-context production-cluster-2
+    - make deploy
+  only:
+    - /^deploy-(production|beta|canary).*$/
+
+deploy-production-service:
+  stage: deployment
+  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
+  variables:
+    FILE: service
+  script:
+    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
+    - kubectl config use-context production-cluster-2
+    - make deploy
+  when: manual
+  only:
+    - /^deploy-(production|beta|canary).*$/
+
+deploy-sandbox:
+  stage: deployment
+  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
+  script:
+    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
+    - kubectl config use-context staging-cluster-1
+    - make deploy
+  only:
+    - /^deploy-(sandbox|staging).*$/
+
+deploy-sandbox-service:
+  stage: deployment
+  image: registry.bukalapak.io/sre/gudang/deployment:0.0.4
+  variables:
+    FILE: service
+  script:
+    - export ENV=$(echo $CI_COMMIT_REF_NAME | tr '-' ' ' | awk '{print $2}')
+    - kubectl config use-context staging-cluster-1
+    - make deploy
+  when: manual
+  only:
+    - /^deploy-(sandbox|staging).*$/
