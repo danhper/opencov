@@ -1,6 +1,6 @@
 # OpenCov
 
-[![Build Status](https://travis-ci.org/tuvistavie/opencov.svg?branch=master)](https://travis-ci.org/tuvistavie/opencov)
+[![Build Status](https://travis-ci.org/danhper/opencov.svg?branch=master)](https://travis-ci.org/danhper/opencov)
 [![Coverage Status](http://demo.opencov.com/projects/1/badge.svg)](http://demo.opencov.com/projects/1)
 
 OpenCov is a self-hosted opensource test coverage history viewer.
@@ -43,7 +43,7 @@ NOTE: the demo is on a Heroku free dyno, so it may not always be available and m
 
 First, you will need to at least setup a database
 To configure the app, create a `local.exs` file and override the configuration you need.
-Check [config/local.sample.exs](https://github.com/tuvistavie/opencov/blob/master/config/local.sample.exs) to see the available configurations.
+Check [config/local.sample.exs](https://github.com/danhper/opencov/blob/master/config/local.sample.exs) to see the available configurations.
 
 ### Using docker
 
@@ -52,15 +52,15 @@ Check [config/local.sample.exs](https://github.com/tuvistavie/opencov/blob/maste
 If you already have a database to use, you can simply start the application using docker:
 
 ```
-$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs tuvistavie/opencov mix ecto.setup
-$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs tuvistavie/opencov mix phoenix.server
+$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov mix ecto.setup
+$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov mix phoenix.server
 ```
 
 This will start the server on the port you set in `local.exs`.
 
 #### With docker-compose
 
-If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/tuvistavie/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
+If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/danhper/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
 
 Once you have your `docker-compose.yml` and `local.exs` ready, you can run
 
@@ -72,7 +72,7 @@ $ docker-compose up
 ### Manually
 
 ```
-$ git clone https://github.com/tuvistavie/opencov.git
+$ git clone https://github.com/danhper/opencov.git
 $ cd opencov
 $ cp /path/to/local.exs config/local.exs # local.exs must be in the `config` directory of the app
 
@@ -123,7 +123,7 @@ You should use it for your first login and the change the email and password.
 
 ## Sending test metrics
 
-A few languages are documented in [the wiki](https://github.com/tuvistavie/opencov/wiki).
+A few languages are documented in [the wiki](https://github.com/danhper/opencov/wiki).
 For other languages, coveralls instructions should work out of the box,
 you just need to set the URL to your OpenCov server and to explicitly set
 the token, even when using Travis.
@@ -134,6 +134,6 @@ The application is more or less stable. I have been using it
 for a little while now with coverage data from the 4 languages in the Wiki.
 
 The main missing feature is the ability to send coverage status on pull requests.
-The implementation is started in the [integrations branch](https://github.com/tuvistavie/opencov/tree/integrations) but I could not find the time to finish it yet.
+The implementation is started in the [integrations branch](https://github.com/danhper/opencov/tree/integrations) but I could not find the time to finish it yet.
 
 I am open to any other suggestions, and help is very welcome.
