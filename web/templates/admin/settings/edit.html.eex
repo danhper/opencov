@@ -24,6 +24,14 @@
   <%= input(f, :default_project_visibility, type: :select,
             args: [["Private": "private", "Internal": "internal", "Public": "public"]]) %>
 
+  <div class="form-group">
+   <%= label f, :url_mapping, class: "control-label" do %>
+      URL mapping <small>(one per line, format as placeholder)</small>
+    <% end %>
+    <%= textarea f, :url_mapping, class: "form-control",
+        placeholder: "example.com/$project/repos/$repo example.com/$project/repos/$repo/commits/$hash" %>
+  </div>
+
   <hr>
 
   <h3>Login</h3>
