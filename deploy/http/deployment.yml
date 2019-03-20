@@ -2,68 +2,64 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    release: '{{"{{.variable.VERSION}}"}}'
-  name: {{"{{.config.projectName}}"}}-{{"{{.service.name}}"}}-{{"{{.environment.name}}"}}
-  namespace: {{"{{.variable.VAR_KUBE_NAMESPACE}}"}}
-  labels:
-    project: {{"{{.config.projectName}}"}}
-    service: {{"{{.service.name}}"}}
-    env: {{"{{.environment.name}}"}}
+    release: '{{.variable.VERSION}}'
+  name: {{.config.projectName}}-{{.service.name}}-{{.environment.name}}
+  namespace: {{.variable.VAR_KUBE_NAMESPACE}}
 spec:
   selector:
     matchLabels:
-      project: {{"{{.config.projectName}}"}}
-      service: {{"{{.service.name}}"}}
-      env: {{"{{.environment.name}}"}}
-  replicas: {{"{{.environment.replica}}"}}
+      project: {{.config.projectName}}
+      service: {{.service.name}}
+      env: {{.environment.name}}
+  replicas: {{.environment.replica}}
   revisionHistoryLimit: 3
   template:
     metadata:
       annotations:
-        release: '{{"{{.variable.VERSION}}"}}'
+        release: '{{.variable.VERSION}}'
       labels:
-        project: {{"{{.config.projectName}}"}}
-        service: {{"{{.service.name}}"}}
-        env: {{"{{.environment.name}}"}}
+        project: {{.config.projectName}}
+        service: {{.service.name}}
+        env: {{.environment.name}}
     spec:
       nodeSelector:
-        env: {{"{{.environment.name}}"}}
+        env: {{.environment.name}}
       imagePullSecrets:
       - name: blregistry
       containers:
-      - name: {{"{{.config.projectName}}"}}-{{"{{.service.name}}"}}
-        image: {{"{{.variable.CI_REGISTRY}}"}}/bukalapak/{{"{{.config.projectName}}"}}/{{"{{.service.name}}"}}:{{"{{.variable.VERSION}}"}}
+      - name: {{.config.projectName}}-{{.service.name}}
+        image: {{.variable.CI_REGISTRY}}/bukalapak/{{.config.projectName}}/{{.service.name}}:{{.variable.VERSION}}
         livenessProbe:
           httpGet:
-            path: /{{"{{.service.healthz}}"}}
-            port: {{"{{.service.port}}"}}
-          initialDelaySeconds: {{"{{.service.delay}}"}}
-          timeoutSeconds: {{"{{.service.timeout}}"}}
+            path: /{{.service.healthz}}
+            port: {{.service.port}}
+          initialDelaySeconds: {{.service.delay}}
+          timeoutSeconds: {{.service.timeout}}
         readinessProbe:
           httpGet:
-            path: /{{"{{.service.healthz}}"}}
-            port: {{"{{.service.port}}"}}
-          initialDelaySeconds: {{"{{.service.delay}}"}}
-          timeoutSeconds: {{"{{.service.timeout}}"}}
+            path: /{{.service.healthz}}
+            port: {{.service.port}}
+          initialDelaySeconds: {{.service.delay}}
+          timeoutSeconds: {{.service.timeout}}
         ports:
-        - containerPort: {{"{{.service.port}}"}}
+        - containerPort: {{.service.port}}
         resources:
           limits:
-            memory: {{"{{.service.maxMem}}"}}Gi
-            cpu: {{"{{.service.maxCpu}}"}}
+            memory: {{.service.maxMem}}Gi
+            cpu: {{.service.maxCpu}}
           requests:
-            memory: {{"{{.service.minMem}}"}}Gi
-            cpu: {{"{{.service.minCpu}}"}}
+            memory: {{.service.minMem}}Gi
+            cpu: {{.service.minCpu}}
         command:
         - envconsul
         - -consul=127.0.0.1:8500
         - -sanitize
         - -upcase
-        - -prefix={{"{{.variable.VAR_CONSUL_PREFIX}}"}}
+        - -prefix={{.variable.VAR_CONSUL_PREFIX}}
         - mix
         - phx.server
       - name: consul
-        image: {{"{{.variable.CI_REGISTRY}}"}}/bukalapak/consul-image:0.2.0
+        image: {{.variable.CI_REGISTRY}}/bukalapak/consul-image:0.2.0
         resources:
           limits:
             memory: 128Mi
@@ -73,11 +69,11 @@ spec:
             cpu: 100m
         env:
         - name: SERVICE_NAME
-          value: {{"{{.config.projectName}}"}}-{{"{{.service.name}}"}}
+          value: {{.config.projectName}}-{{.service.name}}
         - name: SERVICE_ENVIRONMENT
-          value: {{"{{.environment.name}}"}}
+          value: {{.environment.name}}
         - name: SERVICE_PORT
-          value: "{{"{{.service.port}}"}}"
+          value: "{{.service.port}}"
         - name: CONSUL1
           valueFrom:
             configMapKeyRef:
