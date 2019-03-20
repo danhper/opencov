@@ -9,7 +9,7 @@ ENV MIX_ENV prod
 
 RUN apk --no-cache --update add postgresql-client yarn
 
-COPY --from=builder /usr/local/bin/http /usr/local/bin/envconsul /usr/local/bin/
+COPY --from=builder /usr/local/bin/envconsul /usr/local/bin/
 
 RUN mkdir /opencov
 WORKDIR /opencov
