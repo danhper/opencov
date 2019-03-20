@@ -42,17 +42,17 @@ push:
 
 checkenv:
 ifndef ENV
-    $(error ENV must be set.)
+	$(error ENV must be set.)
 endif
  
 deploy: checkenv $(ODIR)
-    @$(foreach svc, $(VAR_SERVICES), \
-        echo deploying "$(svc)" to environment "$(ENV)" && \
-        ! kubelize genfile --overwrite -c ./ -s $(svc) -e $(ENV) deploy/$(svc)/$(FILE).yml $(ODIR)/$(svc)/ || \
-        kubectl apply -f $(ODIR)/$(svc)/$(FILE).yml ;)
+	@$(foreach svc, $(VAR_SERVICES), \
+		echo deploying "$(svc)" to environment "$(ENV)" && \
+		! kubelize genfile --overwrite -c ./ -s $(svc) -e $(ENV) deploy/$(svc)/$(FILE).yml $(ODIR)/$(svc)/ || \
+		kubectl apply -f $(ODIR)/$(svc)/$(FILE).yml ;)
  
 # only generate files from services
 kubefile: checkenv $(ODIR)
-    $(foreach svc, $(VAR_SERVICES), \
-        $(foreach f, $(shell ls deploy/$(svc)/*.yml), \
-            kubelize genfile --overwrite -c ./ -s $(svc) -e $(ENV) $(f) $(ODIR)/$(svc)/;))
+	$(foreach svc, $(VAR_SERVICES), \
+		$(foreach f, $(shell ls deploy/$(svc)/*.yml), \
+			kubelize genfile --overwrite -c ./ -s $(svc) -e $(ENV) $(f) $(ODIR)/$(svc)/;))
