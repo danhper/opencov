@@ -3,7 +3,7 @@ FROM alpine:3.6 as builder
 ADD https://releases.hashicorp.com/envconsul/0.6.2/envconsul_0.6.2_linux_amd64.tgz /tmp/envconsul.tgz
 RUN tar -xvzf /tmp/envconsul.tgz -C /usr/local/bin/
 
-FROM bitwalker/alpine-elixir-phoenix:latest
+FROM bitwalker/alpine-elixir-phoenix:1.6.6
 
 ENV MIX_ENV prod
 

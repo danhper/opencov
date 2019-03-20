@@ -24,6 +24,8 @@ test:
     - COVERALLS_REPO_TOKEN="czZaRFhIVEpPYTBqU3JrWm5nZDBGamZHV3Z5bllIeFNsbTA1TzVKMA==" make test
   tags:
     - bare-metal
+  cache:
+    key: opencov-deps
 
 build-image:
   stage: build
@@ -41,6 +43,9 @@ build-image:
   - make build push
   tags:
   - build-image
+  cache:
+    key: opencov-deps
+
 
 .deploy-template: &deploy-template
   stage: deployment

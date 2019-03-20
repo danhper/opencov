@@ -1,4 +1,4 @@
-FROM bitwalker/alpine-elixir-phoenix:latest
+FROM bitwalker/alpine-elixir-phoenix:1.6.6
 
 ENV MIX_ENV prod
 
