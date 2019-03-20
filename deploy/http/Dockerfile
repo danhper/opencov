@@ -1,15 +1,20 @@
+FROM alpine:3.6 as builder
+
+ADD https://releases.hashicorp.com/envconsul/0.6.2/envconsul_0.6.2_linux_amd64.tgz /tmp/envconsul.tgz
+RUN tar -xvzf /tmp/envconsul.tgz -C /usr/local/bin/
+
 FROM bitwalker/alpine-elixir-phoenix:latest
 
 ENV MIX_ENV prod
 
 RUN apk --no-cache --update add postgresql-client yarn
 
+COPY --from=builder /usr/local/bin/http /usr/local/bin/envconsul /usr/local/bin/
+
 RUN mkdir /opencov
 WORKDIR /opencov
 
 # Install all the dependency
-COPY deploy/_output/envconsul /envconsul
-
 ADD mix.exs /opencov/mix.exs
 ADD mix.lock /opencov/mix.lock
 ADD package.json /opencov/package.json
