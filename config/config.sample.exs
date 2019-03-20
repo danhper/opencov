@@ -49,6 +49,13 @@ config :opencov, :demo,
   email: "user@opencov.com",
   password: "password123"
 
+config :prometheus, Opencov.Middleware.RouterWithMonitor,
+  histogram: :service_latency_seconds,
+  histogram_help: "Latency of routing to web controller in seconds.",
+  histogram_buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
+  duration_unit: :seconds,
+  labels: [:action, :status]
+
 import_config "#{Mix.env}.exs"
 
 local_config_path = Path.expand("local.exs", __DIR__)

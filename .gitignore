@@ -23,3 +23,7 @@ deploy/_output
 
 ## static files
 priv/static
+
+
+.elixir_ls/
+.vscode
