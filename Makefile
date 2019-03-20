@@ -1,24 +1,14 @@
 .PHONY: all compile deploy test
 
-REGISTRY  = registry.bukalapak.io/bukalapak
-DDIR      = deploy
-ODIR      = $(DDIR)/_output
-VERSION   = $(shell git show -q --format=%h)
-DEFENV    = production canary sandbox
-DIRS      = $(shell cd deploy && ls -d */ | grep -v "_")
-SQUAD     = default
-PROJECT   = opencov
-SERVICES ?= $(DIRS:/=)
-ENV      ?= $(DEFENV)
-FILE     ?= deployment
-
-ACTION  = $(CREATE) || $(REPLACE)
-CREATE  = kubectl --namespace=$(SQUAD) create -f $(ODIR)/$(var)/$(ENV)/$(FILE).yml
-REPLACE = kubectl --namespace=$(SQUAD) replace -f $(ODIR)/$(var)/$(ENV)/$(FILE).yml
-
-DATE       = $(shell date +'%Y%m%d-%H%M%S')
-DEPLOY_TAG = deploy-$(ENV)-$(DATE)
-BRANCH     = $(shell git rev-parse --abbrev-ref HEAD)
+IMAGE = $(CI_REGISTRY)/bukalapak/opencov/$(svc)
+DIRS  = $(shell cd deploy && ls -d */ | grep -v "_output")
+FILE ?= deployment
+ODIR := deploy/_output
+ 
+export VERSION            ?= $(shell git show -q --format=%h)
+export VAR_SERVICES       ?= $(DIRS:/=)
+export VAR_KUBE_NAMESPACE ?= default
+export VAR_CONSUL_PREFIX  ?= opencov
 
 all: consul compile build push kubefile deploy
 
@@ -35,7 +25,7 @@ compile:
 	mix assets.compile
 
 $(ODIR):
-	mkdir -p $(ODIR)
+	@mkdir -p $(ODIR)
 
 consul: $(ODIR)
 	wget -O consul.tgz https://releases.hashicorp.com/envconsul/0.6.2/envconsul_0.6.2_linux_amd64.tgz
@@ -43,28 +33,26 @@ consul: $(ODIR)
 	rm consul.tgz
 
 build:
-	$(foreach var, $(SERVICES), docker build -t $(REGISTRY)/$(PROJECT)/$(var):$(VERSION) -f ./deploy/$(var)/Dockerfile .;)
-
+	@$(foreach svc, $(VAR_SERVICES), \
+		docker build -t $(IMAGE):$(VERSION) -f ./deploy/$(svc)/Dockerfile .;)
+ 
 push:
-	$(foreach var, $(SERVICES), docker push $(REGISTRY)/$(PROJECT)/$(var):$(VERSION);)
+	@$(foreach svc, $(VAR_SERVICES), \
+		docker push $(IMAGE):$(VERSION);)
 
-kubefile: $(ODIR)
-ifeq ($(ENV),$(DEFENV))
-	kubelize deployment -v $(VERSION) $(SERVICES)
-else
-	kubelize deployment -e $(ENV) -v $(VERSION) $(SERVICES)
+checkenv:
+ifndef ENV
+    $(error ENV must be set.)
 endif
-
-deploy:
-	$(foreach var, $(SERVICES), $(ACTION);)
-
-deploy-tag:
-	git tag -a $(DEPLOY_TAG) -m "from $(BRANCH)"
-	git push origin $(DEPLOY_TAG)
-
-setup:
-	docker run --rm -it --network host -v $PWD/db:/app/db -v $PWD/.env:/app/.env registry.bukalapak.io/sre/migration:0.0.1 db:create
-	docker run --rm -it --network host -v $PWD/db:/app/db -v $PWD/.env:/app/.env registry.bukalapak.io/sre/migration:0.0.1 db:migrate
-
-migrate:
-	docker run --rm -it --network host -v $PWD/db:/app/db -v $PWD/.env:/app/.env registry.bukalapak.io/sre/migration:0.0.1 db:migrate
+ 
+deploy: checkenv $(ODIR)
+    @$(foreach svc, $(VAR_SERVICES), \
+        echo deploying "$(svc)" to environment "$(ENV)" && \
+        ! kubelize genfile --overwrite -c ./ -s $(svc) -e $(ENV) deploy/$(svc)/$(FILE).yml $(ODIR)/$(svc)/ || \
+        kubectl apply -f $(ODIR)/$(svc)/$(FILE).yml ;)
+ 
+# only generate files from services
+kubefile: checkenv $(ODIR)
+    $(foreach svc, $(VAR_SERVICES), \
+        $(foreach f, $(shell ls deploy/$(svc)/*.yml), \
+            kubelize genfile --overwrite -c ./ -s $(svc) -e $(ENV) $(f) $(ODIR)/$(svc)/;))
