@@ -19,7 +19,7 @@ test:
     - yarn install
     - cp config/config.sample.exs config/config.exs
     - cp config/local.sample.exs config/local.exs
-    - make dep db-setup
+    - ENV=test make dep db-setup
   script:
     - COVERALLS_REPO_TOKEN="czZaRFhIVEpPYTBqU3JrWm5nZDBGamZHV3Z5bllIeFNsbTA1TzVKMA==" make test
   tags:
