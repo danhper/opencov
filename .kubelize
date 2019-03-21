@@ -1,4 +1,4 @@
-templateVersion: v1.0.1
+templateVersion: v2.2.2
 projectName: opencov
 services:
 - name: http
@@ -6,11 +6,7 @@ services:
   environments:
   - name: production
     replica: "2"
-  - name: canary
-    replica: "1"
   - name: sandbox
-    replica: "1"
-  - name: beta
     replica: "1"
   - name: staging
     replica: "1"

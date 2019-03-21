@@ -1,15 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "opencov-http-{{.CurrentEnvironment}}"
+  labels:
+    project: {{.config.projectName}}
+    service: {{.service.name}}
+    env: {{.environment.name}}
+  name: {{.config.projectName}}-{{.service.name}}-{{.environment.name}}
+  namespace: {{.variable.VAR_KUBE_NAMESPACE}}
 spec:
   selector:
-    project: opencov
-    service: http
-    env: {{.CurrentEnvironment}}
+    project: {{.config.projectName}}
+    service: {{.service.name}}
+    env: {{.environment.name}}
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: {{.NodePort}}
+  - protocol: TCP
+    port: {{.service.port}}
   type: NodePort

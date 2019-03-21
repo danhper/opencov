@@ -1,68 +1,79 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "opencov-http-{{.CurrentEnvironment}}"
-  labels:
-    project: opencov
-    service: http
-    env: {{.CurrentEnvironment}}
+  annotations:
+    release: '{{.variable.VERSION}}'
+  name: {{.config.projectName}}-{{.service.name}}-{{.environment.name}}
+  namespace: {{.variable.VAR_KUBE_NAMESPACE}}
 spec:
-  replicas: {{.CurrentReplica}}
   selector:
     matchLabels:
-      project: opencov
-      service: http
-      env: {{.CurrentEnvironment}}
+      project: {{.config.projectName}}
+      service: {{.service.name}}
+      env: {{.environment.name}}
+  replicas: {{.environment.replica}}
+  revisionHistoryLimit: 3
   template:
     metadata:
+      annotations:
+        release: '{{.variable.VERSION}}'
       labels:
-        project: opencov
-        service: http
-        release: '{{.Version}}'
-        env: {{.CurrentEnvironment}}
+        project: {{.config.projectName}}
+        service: {{.service.name}}
+        env: {{.environment.name}}
     spec:
+      nodeSelector:
+        env: {{.environment.name}}
       imagePullSecrets:
       - name: blregistry
       containers:
-      - name: opencov-http
-        image: registry.bukalapak.io/bukalapak/opencov/http:{{.Version}}
+      - name: {{.config.projectName}}-{{.service.name}}
+        image: {{.variable.CI_REGISTRY}}/bukalapak/{{.config.projectName}}/{{.service.name}}:{{.variable.VERSION}}
         livenessProbe:
           httpGet:
-            path: /healthz
-            port: 80
-          initialDelaySeconds: 45
-          timeoutSeconds: 5
+            path: /{{.service.healthz}}
+            port: {{.service.port}}
+          initialDelaySeconds: {{.service.delay}}
+          timeoutSeconds: {{.service.timeout}}
         readinessProbe:
           httpGet:
-            path: /healthz
-            port: 80
-          timeoutSeconds: 5
+            path: /{{.service.healthz}}
+            port: {{.service.port}}
+          initialDelaySeconds: {{.service.delay}}
+          timeoutSeconds: {{.service.timeout}}
         ports:
-        - containerPort: 80
+        - containerPort: {{.service.port}}
         resources:
           limits:
-            memory: 1.5Gi
-            cpu: 2
+            memory: {{.service.maxMem}}Gi
+            cpu: {{.service.maxCpu}}
           requests:
-            memory: 0.5Gi
-            cpu: 1
+            memory: {{.service.minMem}}Gi
+            cpu: {{.service.minCpu}}
         command:
-          - /envconsul
-          - -consul=127.0.0.1:8500
-          - -sanitize
-          - -upcase
-          - -prefix=opencov
-          - mix
-          - phx.server
+        - envconsul
+        - -consul=127.0.0.1:8500
+        - -sanitize
+        - -upcase
+        - -prefix={{.variable.VAR_CONSUL_PREFIX}}
+        - mix
+        - phx.server
       - name: consul
-        image: registry.bukalapak.io/bukalapak/consul-image:0.2.0
+        image: {{.variable.CI_REGISTRY}}/bukalapak/consul-image:0.2.0
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: 250m
+          requests:
+            memory: 64Mi
+            cpu: 100m
         env:
         - name: SERVICE_NAME
-          value: opencov-http
+          value: {{.config.projectName}}-{{.service.name}}
         - name: SERVICE_ENVIRONMENT
-          value: {{.CurrentEnvironment}}
+          value: {{.environment.name}}
         - name: SERVICE_PORT
-          value: "80"
+          value: "{{.service.port}}"
         - name: CONSUL1
           valueFrom:
             configMapKeyRef:
@@ -95,4 +106,11 @@ spec:
         - containerPort: 8400
         - containerPort: 8500
         - containerPort: 8600
-        command: [ entrypoint, agent, -config-dir=/config, -join=$(CONSUL1), -join=$(CONSUL2), -join=$(CONSUL3), -encrypt=$(CONSUL_ENCRYPT) ]
+        command:
+        - entrypoint
+        - agent
+        - -config-dir=/config
+        - -join=$(CONSUL1)
+        - -join=$(CONSUL2)
+        - -join=$(CONSUL3)
+        - -encrypt=$(CONSUL_ENCRYPT)
