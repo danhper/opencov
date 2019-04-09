@@ -27,3 +27,4 @@ priv/static
 
 .elixir_ls/
 .vscode
+.env

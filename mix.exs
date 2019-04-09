@@ -47,7 +47,7 @@ defmodule Opencov.Mixfile do
      {:seedex, "~> 0.1.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
-     {:excoveralls, "~> 0.6", only: :test},
+     {:excoveralls, "~> 0.6"},
      {:mock, "~> 0.3", only: :test},
      {:prometheus_ex, "~> 3.0"},
      {:prometheus_plugs, "~> 1.1.3"},
