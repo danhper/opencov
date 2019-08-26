@@ -21,7 +21,7 @@
 </h2>
 
 <script>
-  window.file = <%= raw @file_json %>;
+  window.file = <%= raw escape_source(@file_json) %>;
 </script>
 
 <file-coverage></file-coverage>

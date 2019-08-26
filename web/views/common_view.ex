@@ -26,6 +26,10 @@ defmodule Opencov.CommonView do
     end
   end
 
+  def escape_source(input) do
+    String.replace(input, "</script>", "</script≥")
+  end 
+
   def repository_class(project) do
     url = project.base_url
     cond do
