@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :opencov, Opencov.Endpoint,
-  http: [port: System.get_env("OPENCOV_PORT")],
+  http: [port: System.get_env("PORT")],
   url: [
     scheme: System.get_env("OPENCOV_SCHEME") || "https",
     host: System.get_env("OPENCOV_HOST") || "demo.opencov.com",
