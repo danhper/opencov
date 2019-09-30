@@ -17,6 +17,17 @@ spec:
     metadata:
       annotations:
         release: '{{.variable.VERSION}}'
+        ad.datadoghq.com/{{.config.projectName}}-{{.service.name}}.check_names: '["prometheus"]'
+        ad.datadoghq.com/{{.config.projectName}}-{{.service.name}}.init_configs: '[{}]'
+        ad.datadoghq.com/{{.config.projectName}}-{{.service.name}}.instances: |
+          [{
+            "prometheus_url": "http://%%host%%:{{.service.port}}/metrics",
+            "namespace": "{{.config.projectName}}",
+            "metrics": ["*"],
+            "send_histograms_buckets": false,
+            "max_returned_metrics": 1000,
+            "tags": ["job:{{.config.projectName}}-{{.service.name}}", "roles:{{.environment.name}}"]
+          }]
       labels:
         project: {{.config.projectName}}
         service: {{.service.name}}
