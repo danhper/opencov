@@ -28,3 +28,6 @@ priv/static
 .elixir_ls/
 .vscode
 .env
+
+## ignore db if using docker-compose
+postgresql-data

@@ -40,7 +40,8 @@ defmodule Opencov.Router do
   scope "/", Opencov do
     pipe_through :browser
 
-    get "/projects/:project_id/badge.:format", ProjectController, :badge, as: :project_badge
+    get "/projects/:project_id/badge.:format", ProjectController, :badge, as: :default_project_badge
+    get "/badges/:project_id/:format", ProjectController, :badge, as: :project_badge
   end
 
   scope "/", Opencov do
