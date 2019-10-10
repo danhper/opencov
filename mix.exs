@@ -43,6 +43,7 @@ defmodule Opencov.Mixfile do
      {:mailman, "~> 0.3"},
      {:eiconv, github: "zotonic/eiconv"},
      {:scrivener_html, "~> 1.3"},
+     {:ecto_enum, "~> 1.3"},
      {:secure_password, "~> 0.4"},
      {:seedex, "~> 0.1.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},

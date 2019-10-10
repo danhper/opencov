@@ -22,7 +22,11 @@
       <project-token token="<%= @project.token %>"></project-token>
     </div>
 
-    <div class="col-xs-4 dropdown">
+    <div class="col-xs-3">
+      Tribe: <%= @project.tribe %>
+    </div>
+
+    <div class="col-xs-3 dropdown">
       <a id="badge-trigger" href="javascript:void(0)" data-toggle="dropdown">
         <img src="<%= project_badge_path(@conn, @project) %>" />
         Get badge

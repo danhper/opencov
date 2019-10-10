@@ -35,6 +35,7 @@ defmodule Opencov.Router do
     pipe_through :api
 
     resources "/jobs", JobController, only: [:create]
+    resources "/projects", ProjectController, only: [:index]
   end
 
   scope "/", Opencov do

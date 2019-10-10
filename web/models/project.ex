@@ -2,12 +2,16 @@ defmodule Opencov.Project do
   use Opencov.Web, :model
 
   import Ecto.Query
+  import EctoEnum
+
+  defenum TribeEnum, ["vp", "merchant", "shopex", "payment"]
 
   schema "projects" do
     field :name, :string
     field :token, :string
     field :current_coverage, :float
     field :base_url, :string
+    field :tribe, TribeEnum
 
     belongs_to :user, Opencov.User
     has_many :builds, Opencov.Build

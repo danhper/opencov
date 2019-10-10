@@ -8,6 +8,13 @@
   <%= input(f, :name) %>
   <%= input(f, :base_url) %>
 
+
+  <div class="form-group">
+    <%= label f, :tribe, class: "control-label" %>
+    <%= select(f, :tribe, Opencov.Project.TribeEnum.__enum_map__()) %>
+    <%= error_tag f, :tribe %>
+  </div>
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>

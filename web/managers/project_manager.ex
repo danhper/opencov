@@ -6,7 +6,7 @@ defmodule Opencov.ProjectManager do
   import Ecto.Query
 
   @required_fields ~w(name base_url)a
-  @optional_fields ~w(token current_coverage)a
+  @optional_fields ~w(tribe token current_coverage)a
 
   def changeset(model, params \\ :invalid) do
     model
