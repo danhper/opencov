@@ -1,5 +1,17 @@
 <div class="projects-list">
   <h2 class="row">
+    <span class="media-body">Tribes</span>
+  </h2>
+
+  <div class="row">
+    <%= for tribe <- @tribes do %>
+      <div class="col-md-1">
+        <%= link tribe, to: project_tribe_path(@conn, :tribe, tribe) %>
+      </div>
+    <% end %>
+  </div>
+
+  <h2 class="row">
     <span class="media-body">Projects</span>
 
   <%= if @is_admin do %>

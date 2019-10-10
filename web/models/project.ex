@@ -4,7 +4,9 @@ defmodule Opencov.Project do
   import Ecto.Query
   import EctoEnum
 
-  defenum TribeEnum, ["vp", "merchant", "shopex", "payment"]
+  @tribes ["vp", "logistic", "financing", "merchant", "shopex", "payment", "gro", "o2o", "enterprise", "revenue", "engineering", "infra", "investment"]
+
+  defenum TribeEnum, @tribes
 
   schema "projects" do
     field :name, :string
@@ -27,4 +29,6 @@ defmodule Opencov.Project do
   def visibility_choices do
     ~w(public private internal)
   end
+
+  defmacro tribes, do: @tribes
 end

@@ -7,7 +7,8 @@ defmodule Opencov.Admin.ProjectController do
   plug :scrub_params, "project" when action in [:create, :update]
 
   def index(conn, params) do
-    paginator = Repo.paginate(Project, params)
+    query = "%#{params["query"]}%"
+    paginator = Repo.paginate(from(u in Project, where: like(u.name, ^query)), params)
     render(conn, "index.html", projects: paginator.entries, paginator: paginator)
   end
 

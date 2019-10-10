@@ -2,6 +2,7 @@ defmodule Opencov.ProjectController do
   use Opencov.Web, :controller
 
   import Opencov.Helpers.Authentication
+  import Opencov.Project
 
   alias Opencov.Project
   alias Opencov.ProjectManager
@@ -10,7 +11,14 @@ defmodule Opencov.ProjectController do
 
   def index(conn, _params) do
     projects = Repo.all(Project) |> ProjectManager.preload_latest_build
-    render(conn, "index.html", projects: projects, is_admin: is_admin?(conn))
+    tribes = Opencov.Project.tribes
+    render(conn, "index.html", projects: projects, tribes: tribes, is_admin: is_admin?(conn))
+  end
+
+  def tribe(conn, %{"tribe" => tribe}) do
+    projects = Repo.all(from(u in Project, where: u.tribe == ^tribe)) |> ProjectManager.preload_latest_build
+    tribes = Opencov.Project.tribes
+    render(conn, "index.html", projects: projects, tribes: tribes, is_admin: is_admin?(conn))
   end
 
   def new(conn, _params) do

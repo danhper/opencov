@@ -5,6 +5,15 @@
       <span class="separator">></span>
       <span>Projects</span>
     </span>
+
+    <span class="coverage media-right">
+      <%= form_for @conn, admin_project_path(@conn, :index), [method: :get, class: "form-inline", autofocus: true], fn f -> %>
+        <div class="form-group">
+          <%= search_input f, :query, class: "form-control" %>
+          <%= submit "Search", class: "btn btn-default" %>
+        </div>
+      <% end %>
+    </span>
     <span class="coverage media-right">
       <%= link "Create project", to: project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
     </span>
