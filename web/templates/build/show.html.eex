@@ -14,7 +14,7 @@
 
   <div class="build-changes">
 
-    <h3>Latest change <span class="small">about <%= human_time_ago(@build.inserted_at) %></span></h3>
+    <h3>Latest change <span class="small"><%= human_time_ago(@build.inserted_at) %></span></h3>
     <div class="latest-change">
       <%= render "commit.html", build: @build %>
     </div>
