@@ -4,6 +4,9 @@ elixir:
   - 1.4
   - 1.5
 
+services:
+  - postgresql
+
 otp_release:
   - 19.3
 
