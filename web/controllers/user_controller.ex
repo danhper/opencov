@@ -16,7 +16,7 @@ defmodule Opencov.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case UserService.create_user(make_user_params(user_params), false) do
+    case UserService.create_user(make_user_params(user_params), invited?: false) do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "Please confirm your email address.")
