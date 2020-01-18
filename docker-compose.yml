@@ -9,7 +9,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
 
   opencov:
-    image: tuvistavie/opencov
+    image: danhper/opencov:latest
     ports:
       - "4000:4000"
     volumes:
