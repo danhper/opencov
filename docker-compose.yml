@@ -7,6 +7,7 @@ services:
       - ./postgresql-data:/var/lib/postgresql/data/pgdata
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: 112233
 
   opencov:
     image: danhper/opencov:latest
@@ -14,6 +15,3 @@ services:
       - "4000:4000"
     volumes:
       - ./config/local.sample.exs:/opencov/config/local.exs
-    command: mix phoenix.server
-    links:
-      - postgres

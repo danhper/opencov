@@ -51,9 +51,14 @@ Check [config/local.sample.exs](https://github.com/danhper/opencov/blob/master/c
 
 If you already have a database to use, you can simply start the application using docker:
 
+Setup database, run migrations and seeds
 ```
-$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov mix ecto.setup
-$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov mix phoenix.server
+$ docker run --rm -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov mix ecto.setup
+```
+
+Execute Phoenix Server
+```
+$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov
 ```
 
 This will start the server on the port you set in `local.exs`.
