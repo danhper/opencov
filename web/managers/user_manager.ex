@@ -12,15 +12,15 @@ defmodule Opencov.UserManager do
     |> validate_required(@required_fields)
     |> unique_constraint(:email)
     |> validate_email
-    |> assign_unconfirmed_email
-    |> unique_constraint(:unconfirmed_email)
-    |> pipe_when(opts[:generate_password], generate_password)
-    |> with_secure_password
+    # |> assign_unconfirmed_email
+    # |> unique_constraint(:unconfirmed_email)
+    # |> pipe_when(opts[:generate_password], generate_password)
+    # |> with_secure_password
   end
 
   def confirmation_changeset(model) do
     Ecto.Changeset.change(model)
-    |> put_change(:email, model.unconfirmed_email)
+    # |> put_change(:email, model.unconfirmed_email)
     |> put_change(:unconfirmed_email, nil)
     |> pipe_when(is_nil(model.confirmed_at), put_change(:confirmed_at, Timex.now))
   end
@@ -94,7 +94,7 @@ defmodule Opencov.UserManager do
   defp validate_domain(email) do
     allowed_domains = Opencov.SettingsManager.restricted_signup_domains
     domain = email |> String.split("@") |> List.last
-    if allowed_domains && not domain in allowed_domains do
+    if allowed_domains && domain not in allowed_domains do
       "only the following domains are allowed: #{Enum.join(allowed_domains, ",")}"
     end
   end

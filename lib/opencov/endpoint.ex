@@ -27,7 +27,9 @@ defmodule Opencov.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_opencov_key",
-    signing_salt: "DBdPx/m/"
+    encryption_salt: "aim4dej",
+    signing_salt: "qwmcoijdsdhf3",
+    key_length: 64
 
   plug Opencov.Router
 end

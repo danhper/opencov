@@ -6,7 +6,25 @@ defmodule Opencov.AuthController do
   alias Opencov.Repo
 
   def login(conn, _params) do
-    render(conn, "login.html", email: "", error: nil, can_signup: can_signup?())
+    redirect(conn, external: OpenIDConnect.authorization_uri(:keycloak))
+    # render(conn, "login.html", email: "", error: nil, can_signup: can_signup?())
+  end
+
+  def callback(conn, %{"code" => code}) do
+    with {:ok, tokens} <- OpenIDConnect.fetch_tokens(:keycloak, code),
+         {:ok, claims} <- OpenIDConnect.verify(:keycloak, tokens["id_token"]) do
+      permitted_roles = Application.get_all_env(:opencov)[:permitted_roles]
+      permitted = not MapSet.disjoint?(MapSet.new(permitted_roles), MapSet.new(claims["roles"]))
+      if permitted do
+        conn
+        |> Authentication.login(claims["email"], claims["name"], claims["roles"])
+        |> redirect(to: "/")
+      else
+        conn |> send_resp(401, "Unauthorized") 
+      end
+    else
+      _ -> send_resp(conn, 401, "")
+    end
   end
 
   def make_login(conn, %{"login" => %{"email" => email, "password" => password}}) do

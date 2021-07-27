@@ -16,7 +16,12 @@ defmodule Opencov.FileManager do
 
   defp normalize_params(%{"coverage" => coverage} = params) when is_list(coverage) do
     {lines, params} = Map.pop(params, "coverage")
-    Map.put(params, "coverage_lines", lines)
+    params = Map.put(params, "coverage_lines", lines)
+    if String.length(params["source"]) == 0 do
+      Map.replace(params, "source", "File is blank")
+    else
+      params
+    end
   end
   defp normalize_params(params), do: params
 

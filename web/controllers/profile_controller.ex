@@ -61,7 +61,7 @@ defmodule Opencov.ProfileController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Your password has been reset.")
-        |> Opencov.Authentication.login(user)
+        # |> Opencov.Authentication.login(user)
         |> redirect(to: "/")
       {:error, :not_found} -> password_reset_error(conn)
       {:error, changeset} ->

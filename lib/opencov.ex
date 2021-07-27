@@ -13,6 +13,7 @@ defmodule Opencov do
       worker(Opencov.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(Opencov.Worker, [arg1, arg2, arg3]),
+      worker(OpenIDConnect.Worker, [Application.get_env(:opencov, :openid_connect_providers)]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
@@ -26,5 +27,17 @@ defmodule Opencov do
   def config_change(changed, _new, removed) do
     Opencov.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp openid_config() do
+    config = Application.get_all_env(:openid)
+    [
+      # discovery_document_uri: "https://did.app/.well-known/openid-configuration",
+      client_id: config[:client_id],
+      client_secret: config[:client_secret],
+      redirect_uri: config[:redirect_uri],
+      response_type: "code",
+      scope: "openid"
+    ]
   end
 end

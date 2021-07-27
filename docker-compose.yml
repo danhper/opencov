@@ -1,17 +1,38 @@
 version: '2'
 
 services:
-  postgres:
-    image: postgres:9.5
+  db:
+    image: mariadb:10
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     volumes:
-      - ./postgresql-data:/var/lib/postgresql/data/pgdata
+      - db-data:/var/lib/mysql
+    expose:
+      - 3306
     environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_PASSWORD: 112233
+      MYSQL_ROOT_PASSWORD: coverage
+      MYSQL_DATABASE: opencov_prod
+    networks:
+      - internal
 
   opencov:
-    image: danhper/opencov:latest
+    command: sh -c "sh /opencov/create_env.sh && mix phx.server"
+    build: .
     ports:
-      - "4000:4000"
+      - "8000:4000"
     volumes:
-      - ./config/local.sample.exs:/opencov/config/local.exs
+      - ./lib:/opencov/lib
+      - ./web:/opencov/web
+      - ./config:/opencov/config
+    env_file:
+      - ./local.env
+    networks: 
+      - internal
+    depends_on: 
+      - db
+
+networks:
+  internal: 
+  
+volumes: 
+  db-data:

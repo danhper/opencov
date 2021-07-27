@@ -4,3 +4,5 @@ node_modules
 .git
 .tags
 priv/static/js
+mix.lock
+config/local.exs

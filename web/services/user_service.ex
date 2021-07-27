@@ -26,7 +26,7 @@ defmodule Opencov.UserService do
     end
   end
 
-  defp finalize_confirmation!(user) do
+  def finalize_confirmation!(user) do
     UserManager.confirmation_changeset(user) |> Repo.update!
   end
 

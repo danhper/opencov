@@ -48,6 +48,7 @@ defmodule Opencov.Router do
     pipe_through :anonymous_only
 
     get "/login", AuthController, :login
+    get "/login/callback", AuthController, :callback
     post "/login", AuthController, :make_login
     resources "/users", UserController, only: [:new, :create]
     get "/users/confirm", UserController, :confirm

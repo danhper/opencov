@@ -11,3 +11,7 @@ config/local.exs
 *.coverdata
 
 *.dump
+sp.crt
+sp.key
+keycloak.xml
+local.env

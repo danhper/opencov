@@ -11,7 +11,7 @@ defmodule Opencov.Plug.Authentication do
     if user_signed_in?(conn) do
       check_admin(conn, opts)
     else
-      redirect_with(conn, :info, "Please login", "/login")
+      redirect(conn, to: "/login")
     end
   end
 
