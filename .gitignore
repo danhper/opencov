@@ -14,4 +14,3 @@ config/local.exs
 sp.crt
 sp.key
 keycloak.xml
-local.env
