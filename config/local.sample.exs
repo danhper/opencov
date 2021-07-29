@@ -7,7 +7,7 @@ config :opencov, Opencov.Endpoint,
 
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.MySQL,
-  database: "opencov_prod",
+  database: "coverage_prod",
   username: "DB_USERNAME",
   password: "DB_PASSWORD",
   hostname: "DB_HOSTNAME"
