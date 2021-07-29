@@ -48,4 +48,4 @@ jobs:
           python-version: '3.x'
       - name: Initiate deployment
         run: |	
-          aws ecs update-service --cluster coverage-prod --service coverage-prod --force-new-deployment --task-definition coverage-prod
+          aws ecs update-service --cluster coverage-prod --service coverage-prod-web --force-new-deployment --task-definition coverage-prod
