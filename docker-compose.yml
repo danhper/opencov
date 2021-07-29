@@ -16,10 +16,10 @@ services:
       - internal
 
   opencov:
-    command: sh -c "sh /opencov/create_env.sh && mix phx.server"
+    # command: sh -c "sh /opencov/create_env.sh && mix phx.server"
     build: .
     ports:
-      - "8000:4000"
+      - "8000:80"
     volumes:
       - ./lib:/opencov/lib
       - ./web:/opencov/web

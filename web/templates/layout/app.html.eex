@@ -32,6 +32,10 @@
     </main>
   </div>
 
+  <div class="footer">
+    Powered by a fork of <a href="https://github.com/danhper/opencov">OpenCov</a>. © THON Technology
+  </div>
+
   <script src="<%= static_path(@conn, "/js/vendor.js") %>"></script>
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>

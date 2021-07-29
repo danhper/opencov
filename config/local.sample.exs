@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :opencov, Opencov.Endpoint,
-  http: [port: 4000],
+  http: [port: 80],
   url: [scheme: "SCHEME", host: "URLHOST", port: PORT],
   secret_key_base: "SECRET_KEY"
 
