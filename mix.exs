@@ -24,7 +24,7 @@ defmodule Opencov.Mixfile do
   end
 
   def application do
-    [mod: {Opencov, []}, extra_applications: [:logger]]
+    [mod: {Opencov, []}, extra_applications: [:logger, :crypto]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]

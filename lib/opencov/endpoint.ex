@@ -19,6 +19,8 @@ defmodule Opencov.Endpoint do
     plug(Plug.Logger)
   end
 
+  # plug :copy_req_body
+  plug Opencov.Plug.Github
   plug(Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
@@ -35,4 +37,9 @@ defmodule Opencov.Endpoint do
   )
 
   plug(Opencov.Router)
+
+  defp copy_req_body(conn, _) do
+    {:ok, body, _} = Plug.Conn.read_body(conn)
+    Plug.Conn.put_private(conn, :raw_body, body)
+  end
 end
