@@ -31,17 +31,20 @@ defmodule Opencov.GithubService do
   end
 
   def finish_check(commit, owner, repo) do
-    owner
-    |> GithubAuth.login_token()
-    |> Connection.new()
-    |> Checks.checks_create(owner, repo,
-      body: %{
-        name: "Open Coverage",
-        head_sha: commit,
-        conclusion: "success"
-      }
-    )
-    |> IO.inspect()
+    with {:ok, token} <-
+           owner
+           |> GithubAuth.login_token() do
+      token
+      |> Connection.new()
+      |> Checks.checks_create(owner, repo,
+        body: %{
+          name: "Open Coverage",
+          head_sha: commit,
+          conclusion: "success"
+        }
+      )
+      |> IO.inspect()
+    end
   end
 
   defp create_check(commit, %{"name" => repo, "owner" => %{"login" => owner}}) do

@@ -31,7 +31,7 @@ defmodule Opencov.Services.GithubAuth do
            app_token()
            |> Connection.new()
            |> Apps.apps_create_installation_access_token(installatin_id) do
-      token.token
+      {:ok, token.token}
     end
   end
 end
