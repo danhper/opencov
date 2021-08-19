@@ -16,7 +16,7 @@ defmodule Opencov.Services.Github.Checks do
         head_sha: commit,
         conclusion: "success",
         output: %{
-          title: "Code Coverage",
+          title: "Coverage at #{coverage}%",
           summary: "#{coverage}%"
         }
       }
@@ -32,7 +32,7 @@ defmodule Opencov.Services.Github.Checks do
         name: "Open Coverage",
         head_sha: commit,
         output: %{
-          title: "Code Coverage",
+          title: "Waiting for tests to finish.",
           summary: "Waiting for tests to finish."
         }
       }
