@@ -6,7 +6,7 @@ defmodule Opencov.Admin.DashboardController do
   def index(conn, _params) do
     users = Repo.latest(Opencov.User)
     projects = Repo.latest(Opencov.Project)
-    settings = Opencov.SettingsManager.get!
+    settings = Opencov.SettingsManager.get!()
     render(conn, "index.html", users: users, projects: projects, settings: settings)
   end
 end

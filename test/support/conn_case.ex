@@ -31,11 +31,17 @@ defmodule Opencov.ConnCase do
 
       def with_login(conn) do
         password = "foobar123"
-        user = build(:user)
-          |> Opencov.Factory.confirmed_user
+
+        user =
+          build(:user)
+          |> Opencov.Factory.confirmed_user()
           |> Opencov.Factory.with_secure_password(password)
-          |> Opencov.Repo.insert!
-        post conn, auth_path(conn, :login, %{"login" => %{"email" => user.email, "password" => password}})
+          |> Opencov.Repo.insert!()
+
+        post(
+          conn,
+          auth_path(conn, :login, %{"login" => %{"email" => user.email, "password" => password}})
+        )
       end
     end
   end

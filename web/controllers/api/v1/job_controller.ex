@@ -9,7 +9,7 @@ defmodule Opencov.Api.V1.JobController do
   end
 
   def create(conn, %{"json_file" => %Plug.Upload{path: filepath}}) do
-    json = filepath |> File.read! |> Jason.decode!
+    json = filepath |> File.read!() |> Jason.decode!()
     handle_create(conn, json)
   end
 
@@ -20,7 +20,7 @@ defmodule Opencov.Api.V1.JobController do
   defp handle_create(conn, %{"repo_token" => token} = params) do
     project = ProjectManager.find_by_token!(token)
     {:ok, {_, job}} = ProjectManager.add_job!(project, params)
-    render conn, "show.json", job: job
+    render(conn, "show.json", job: job)
   end
 
   defp handle_create(conn, _) do

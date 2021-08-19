@@ -27,7 +27,7 @@ defmodule Opencov.External.GitHub.Cache do
   end
 
   def handle_cast({:save_user, user}, state) do
-    expire = DateTime.to_unix(DateTime.utc_now) + @ttl
+    expire = DateTime.to_unix(DateTime.utc_now()) + @ttl
     new_state = put_in(state, [:users, user.id], {user.github_info, expire})
     {:noreply, new_state}
   end
@@ -37,12 +37,15 @@ defmodule Opencov.External.GitHub.Cache do
   end
 
   def handle_call({:fetch_user, user}, _from, state) do
-    current_timestamp = DateTime.to_unix(DateTime.utc_now)
+    current_timestamp = DateTime.to_unix(DateTime.utc_now())
+
     case state.users[user.id] do
       nil ->
         {:reply, :error, state}
+
       {_github_user, expires_at} when expires_at < current_timestamp ->
         {:reply, :error, pop_in(state, [:users, user.id]) |> elem(1)}
+
       {github_user, expires_at} when expires_at >= current_timestamp ->
         {:reply, {:ok, github_user}, state}
     end

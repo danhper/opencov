@@ -14,7 +14,7 @@ defmodule Opencov.Plug.FetchUser do
   end
 
   defp current_user(conn) do
-    if user_id = get_session(conn, Opencov.Authentication.user_id_key) do
+    if user_id = get_session(conn, Opencov.Authentication.user_id_key()) do
       Opencov.Repo.get(Opencov.User, user_id)
     end
   end

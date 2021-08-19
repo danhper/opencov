@@ -7,15 +7,22 @@ defmodule Opencov.BadgeCreator do
   @template_path Path.join(__DIR__, "templates/badge_template.eex")
   @authorized_formats ~w(png jpg svg)
 
-  EEx.function_from_file :defp, :template, @template_path, [:coverage_str, :width, :extra_width, :bg_color]
+  EEx.function_from_file(:defp, :template, @template_path, [
+    :coverage_str,
+    :width,
+    :extra_width,
+    :bg_color
+  ])
 
   def make_badge(coverage, options \\ []) do
-    {coverage, coverage_str, digits_num} = if is_nil(coverage) do
-      {nil, "NA", 2}
-    else
-      coverage = round(coverage)
-      {coverage, "#{coverage}%", coverage |> Integer.to_string |> String.length}
-    end
+    {coverage, coverage_str, digits_num} =
+      if is_nil(coverage) do
+        {nil, "NA", 2}
+      else
+        coverage = round(coverage)
+        {coverage, "#{coverage}%", coverage |> Integer.to_string() |> String.length()}
+      end
+
     extra_width = (digits_num - 1) * @extra_width
     width = @base_width + extra_width
     color = badge_color(coverage)
@@ -24,22 +31,31 @@ defmodule Opencov.BadgeCreator do
 
   defp get_image(svg, nil),
     do: get_image(svg, "png")
+
   defp get_image(svg, format) when format in @authorized_formats,
     do: get_image(svg, String.to_atom(format))
+
   defp get_image(svg, :svg),
     do: {:ok, :svg, svg}
+
   defp get_image(svg, format) when is_atom(format),
     do: transform(svg, format)
 
   def transform(svg, format) do
     dir = Temp.mkdir!("opencov")
-    {svg_path, output_path} = {Path.join(dir, "coverage.svg"), Path.join(dir, "coverage.#{format}")}
+
+    {svg_path, output_path} =
+      {Path.join(dir, "coverage.svg"), Path.join(dir, "coverage.#{format}")}
+
     File.write!(svg_path, svg)
+
     case make_output(svg_path, output_path) do
       {:ok, output} ->
         File.rm_rf!(dir)
         {:ok, format, output}
-      e -> e
+
+      e ->
+        e
     end
   end
 
@@ -53,14 +69,16 @@ defmodule Opencov.BadgeCreator do
   end
 
   defp badge_color(coverage) do
-    color = cond do
-      is_nil(coverage) -> "lightgrey"
-      coverage == 0    -> "red"
-      coverage < 80    -> "yellow"
-      coverage < 90    -> "yellowgreen"
-      coverage < 100   -> "green"
-      true             -> "brightgreen"
-    end
+    color =
+      cond do
+        is_nil(coverage) -> "lightgrey"
+        coverage == 0 -> "red"
+        coverage < 80 -> "yellow"
+        coverage < 90 -> "yellowgreen"
+        coverage < 100 -> "green"
+        true -> "brightgreen"
+      end
+
     hex_color(color)
   end
 

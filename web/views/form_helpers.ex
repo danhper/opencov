@@ -6,15 +6,19 @@ defmodule Opencov.FormHelpers do
   @input_default_opts [label: [], type: :text_input, attrs: [], args: []]
 
   def form_group(form, field, do: block) do
-    content_tag :div, block, [class: "form-group #{state_class(form, field)}"]
+    content_tag(:div, block, class: "form-group #{state_class(form, field)}")
   end
 
   def input(form, field, opts \\ []) do
     opts = Keyword.merge(@input_default_opts, opts)
+
     form_group form, field do
-      [make_label_tag(form, field, opts),
-       make_input_tag(form, field, opts),
-       error_tag(form, field)] |> Enum.reject(&is_nil/1)
+      [
+        make_label_tag(form, field, opts),
+        make_input_tag(form, field, opts),
+        error_tag(form, field)
+      ]
+      |> Enum.reject(&is_nil/1)
     end
   end
 
@@ -25,10 +29,12 @@ defmodule Opencov.FormHelpers do
   end
 
   defp make_input_tag(form, field, opts) do
-    {mod, fun} = case opts[:type] do
-      {_mod, _fun} = type -> type
-      fun -> {Phoenix.HTML.Form, fun}
-    end
+    {mod, fun} =
+      case opts[:type] do
+        {_mod, _fun} = type -> type
+        fun -> {Phoenix.HTML.Form, fun}
+      end
+
     args = [form, field] ++ opts[:args] ++ [add_class(opts[:attrs], "form-control")]
     apply(mod, fun, args)
   end

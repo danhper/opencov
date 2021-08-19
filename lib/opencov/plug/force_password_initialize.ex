@@ -17,6 +17,7 @@ defmodule Opencov.Plug.ForcePasswordInitialize do
 
   defp check_password_state(conn) do
     user = current_user(conn)
+
     if user.password_initialized or allowed_path?(conn) do
       conn
     else

@@ -8,7 +8,7 @@ defmodule Opencov.Admin.UserController do
   alias Opencov.UserManager
   alias Opencov.Repo
 
-  plug :scrub_params, "user" when action in [:create, :update]
+  plug(:scrub_params, "user" when action in [:create, :update])
 
   def index(conn, params) do
     paginator = Repo.paginate(User, params)
@@ -26,6 +26,7 @@ defmodule Opencov.Admin.UserController do
         conn
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: admin_user_path(conn, :show, user))
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -48,10 +49,13 @@ defmodule Opencov.Admin.UserController do
 
     case Repo.update(changeset) do
       {:ok, user} ->
-        redirect_path = NavigationHistory.last_path(conn, 1, default: admin_user_path(conn, :show, user))
+        redirect_path =
+          NavigationHistory.last_path(conn, 1, default: admin_user_path(conn, :show, user))
+
         conn
         |> put_flash(:info, "user updated successfully.")
         |> redirect(to: redirect_path)
+
       {:error, changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
     end
@@ -59,16 +63,17 @@ defmodule Opencov.Admin.UserController do
 
   def delete(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
+
     if current_user(conn).id == user.id do
       conn
-        |> put_flash(:error, "You cannot delete yourself.")
-        |> redirect(to: NavigationHistory.last_path(conn, default: admin_user_path(conn, :index)))
+      |> put_flash(:error, "You cannot delete yourself.")
+      |> redirect(to: NavigationHistory.last_path(conn, default: admin_user_path(conn, :index)))
     else
       Repo.delete!(user)
 
       conn
-        |> put_flash(:info, "User deleted successfully.")
-        |> redirect(to: admin_user_path(conn, :index))
+      |> put_flash(:info, "User deleted successfully.")
+      |> redirect(to: admin_user_path(conn, :index))
     end
   end
 end

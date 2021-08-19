@@ -15,6 +15,7 @@ defmodule Opencov.ProfileController do
         conn
         |> put_flash(:info, flash_message)
         |> redirect(to: redirect_path)
+
       {:error, assigns} ->
         render(conn, "edit.html", assigns)
     end
@@ -28,9 +29,13 @@ defmodule Opencov.ProfileController do
   def update_password(conn, %{"user" => user_params}) do
     user = current_user(conn)
     changeset = UserManager.password_update_changeset(user, user_params)
+
     case Repo.update(changeset) do
-      {:ok, _user} -> conn |> put_flash(:info, "Your password has been updated") |> redirect(to: "/")
-      {:error, changeset} -> render(conn, "edit_password.html", user: user, changeset: changeset)
+      {:ok, _user} ->
+        conn |> put_flash(:info, "Your password has been updated") |> redirect(to: "/")
+
+      {:error, changeset} ->
+        render(conn, "edit_password.html", user: user, changeset: changeset)
     end
   end
 
@@ -40,6 +45,7 @@ defmodule Opencov.ProfileController do
 
   def send_reset_password(conn, %{"user" => %{"email" => email}}) do
     Opencov.UserService.send_reset_password(email)
+
     conn
     |> put_flash(:info, "An email has been sent to reset your password.")
     |> redirect(to: auth_path(conn, :login))
@@ -50,7 +56,9 @@ defmodule Opencov.ProfileController do
       %User{} = user ->
         changeset = UserManager.changeset(user)
         render(conn, "reset_password.html", user: user, changeset: changeset, token: token)
-      _ -> password_reset_error(conn)
+
+      _ ->
+        password_reset_error(conn)
     end
   end
 
@@ -61,15 +69,25 @@ defmodule Opencov.ProfileController do
         |> put_flash(:info, "Your password has been reset.")
         |> Opencov.Authentication.login(user)
         |> redirect(to: "/")
-      {:error, :not_found} -> password_reset_error(conn)
+
+      {:error, :not_found} ->
+        password_reset_error(conn)
+
       {:error, changeset} ->
-        render(conn, "reset_password.html", user: changeset.data, changeset: changeset, token: token)
+        render(conn, "reset_password.html",
+          user: changeset.data,
+          changeset: changeset,
+          token: token
+        )
     end
   end
 
   defp password_reset_error(conn) do
     conn
-    |> put_flash(:error, "Could not reset your password. Check your email or try the process again.")
+    |> put_flash(
+      :error,
+      "Could not reset your password. Check your email or try the process again."
+    )
     |> redirect(to: auth_path(conn, :login))
   end
 end

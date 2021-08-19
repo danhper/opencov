@@ -6,10 +6,10 @@ defmodule Opencov.ProjectController do
   alias Opencov.Project
   alias Opencov.ProjectManager
 
-  plug :scrub_params, "project" when action in [:create, :update]
+  plug(:scrub_params, "project" when action in [:create, :update])
 
   def index(conn, _params) do
-    projects = Repo.all(Project) |> ProjectManager.preload_latest_build
+    projects = Repo.all(Project) |> ProjectManager.preload_latest_build()
     render(conn, "index.html", projects: projects)
   end
 
@@ -27,13 +27,14 @@ defmodule Opencov.ProjectController do
         conn
         |> put_flash(:info, "Project created successfully.")
         |> redirect(to: project_path(conn, :show, project))
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id) |> ProjectManager.preload_recent_builds
+    project = Repo.get!(Project, id) |> ProjectManager.preload_recent_builds()
     render(conn, "show.html", project: project)
   end
 
@@ -52,6 +53,7 @@ defmodule Opencov.ProjectController do
         conn
         |> put_flash(:error, "Project updated successfully.")
         |> redirect(to: project_path(conn, :show, project))
+
       {:error, changeset} ->
         render(conn, "edit.html", project: project, changeset: changeset)
     end
@@ -69,6 +71,7 @@ defmodule Opencov.ProjectController do
   def badge(conn, %{"project_id" => id, "format" => format}) do
     project = Repo.get!(Project, id)
     {:ok, badge} = Opencov.BadgeManager.get_or_create(project, format)
+
     conn
     |> put_resp_content_type(MIME.type(format))
     |> send_resp(200, badge.image)
