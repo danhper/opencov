@@ -59,3 +59,8 @@ config :opencov, :email,
     tls: :never,
     auth: :never
   ]
+
+config Opencov.Plug.Github,
+  secret: "my-secret",
+  path: "/api/v1/github_webhook",
+  action: {Opencov.GithubService, :handle}

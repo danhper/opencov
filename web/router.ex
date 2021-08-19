@@ -29,6 +29,7 @@ defmodule Opencov.Router do
   end
 
   pipeline :api do
+    plug Opencov.Plug.Github
     plug(:accepts, ["json"])
   end
 
