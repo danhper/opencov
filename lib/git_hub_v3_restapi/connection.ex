@@ -21,8 +21,10 @@ defmodule GitHubV3RESTAPI.Connection do
 
   Tesla.Env.client
   """
-  @spec new() :: Tesla.Env.client()
-  def new do
-    Tesla.client([])
+  @spec new(binary()) :: Tesla.Env.client()
+  def new(token) do
+    Tesla.client [
+      {Tesla.Middleware.BearerAuth, token: token}
+    ]
   end
 end

@@ -37,6 +37,8 @@ defmodule Opencov.Mixfile do
 
   defp deps do
     [
+      {:joken, "~> 2.0"},
+      {:ex_crypto, "~> 0.10"},
       {:stream_gzip, "~> 0.4"},
       {:comeonin, "~> 2.4"},
       {:gettext, "~> 0.11"},
