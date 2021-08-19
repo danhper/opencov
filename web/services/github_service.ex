@@ -31,17 +31,19 @@ defmodule Opencov.GithubService do
   end
 
   defp create_check(commit, %{"name" => repo, "owner" => %{"login" => owner}}) do
-    GithubAuth.token
+    GithubAuth.token()
     |> Connection.new()
-    |> Checks.checks_create(owner, repo, body: %{
-      name: "Open Coverage",
-      head_sha: commit
-    })
+    |> Checks.checks_create(owner, repo,
+      body: %{
+        name: "Open Coverage",
+        head_sha: commit
+      }
+    )
     |> IO.inspect()
   end
 
   defp install(%{"id" => repo_id, "full_name" => name, "html_url" => base_url}) do
-    with {:ok, %Project{} = new_project} =
+    with {:ok, %Project{} = new_project} <-
            Repo.insert(
              ProjectManager.changeset(%Project{}, %{
                name: name,
