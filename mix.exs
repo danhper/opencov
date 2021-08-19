@@ -4,7 +4,7 @@ defmodule Opencov.Mixfile do
   def project do
     [app: :opencov,
      version: "0.0.1",
-     elixir: "~> 1.4",
+     elixir: "~> 1.12",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
