@@ -26,6 +26,8 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
+config :phoenix, :json_library, Jason
+
 config :scrivener_html,
   routes_helper: Opencov.Router.Helpers
 

@@ -5,7 +5,7 @@ defmodule Opencov.FileController do
 
   def show(conn, %{"id" => id}) do
     file = Repo.get!(File, id) |> Opencov.Repo.preload(job: [build: :project])
-    file_json = Poison.encode!(file)
+    file_json = Jason.encode!(file)
     render(conn, "show.html", file: file, file_json: file_json)
   end
 end

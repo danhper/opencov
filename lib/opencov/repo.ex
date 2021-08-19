@@ -1,5 +1,5 @@
 defmodule Opencov.Repo do
-  use Ecto.Repo, otp_app: :opencov
+  use Ecto.Repo, otp_app: :opencov, adapter: Ecto.Adapters.Postgres
   use Scrivener, page_size: 10
 
   require Ecto.Query

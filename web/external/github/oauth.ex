@@ -45,7 +45,7 @@ defmodule Opencov.External.GitHub.OAuth do
   def get!(url, opts \\ []) do
     client = make_client(opts)
     OAuth2.Client.get!(client, url, Keyword.get(opts, :headers, []), opts).body
-    |> Poison.decode!
+    |> Jason.decode!
   end
 
   # Strategy Callbacks

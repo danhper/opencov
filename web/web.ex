@@ -19,7 +19,6 @@ defmodule Opencov.Web do
   def model do
     quote do
       use Ecto.Schema
-      use Timex.Ecto.Timestamps
       use Opencov.Core
 
       import Ecto.Changeset

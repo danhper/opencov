@@ -9,7 +9,7 @@ defmodule Opencov.Repo.Migrations.CreateJob do
       add :previous_coverage, :float
       add :previous_job_id, :integer
 
-      add :run_at, :utc_datetime
+      add :run_at, :utc_datetime_usec
       add :files_count, :integer
 
       timestamps()

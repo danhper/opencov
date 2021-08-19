@@ -19,7 +19,7 @@ defmodule Opencov.Repo.Migrations.CreateBuild do
       add :commit_message, :text
       add :branch, :string, null: false
 
-      add :build_started_at, :utc_datetime, null: false
+      add :build_started_at, :utc_datetime_usec, null: false
       add :completed, :boolean
 
       timestamps()

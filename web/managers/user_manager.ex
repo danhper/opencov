@@ -1,8 +1,6 @@
 defmodule Opencov.UserManager do
   use Opencov.Web, :manager
 
-  import SecurePassword, only: [with_secure_password: 1]
-
   @required_fields ~w(email)a
   @optional_fields ~w(admin name password)a
 
@@ -101,6 +99,62 @@ defmodule Opencov.UserManager do
     domain = email |> String.split("@") |> List.last
     if allowed_domains && not domain in allowed_domains do
       "only the following domains are allowed: #{Enum.join(allowed_domains, ",")}"
+    end
+  end
+
+  def with_secure_password(changeset, opts \\ []) do
+    opts = Keyword.merge(@default_secure_password_opts, opts)
+    if has_password(changeset) do
+      changeset = validate_password(changeset, opts)
+      if changeset.valid?, do: set_password_digest(changeset),
+      else: changeset
+    else
+      if !opts[:required] || changeset_data_loaded?(changeset), do: changeset,
+      else: add_error(changeset, :password, "can't be blank")
+    end
+  end
+
+  defp has_password(%Ecto.Changeset{params: nil}), do: false
+  defp has_password(changeset) do
+    password = get_change(changeset, :password)
+    is_binary(password) && String.length(password) > 0
+  end
+
+  defp validate_password(changeset, opts) do
+    changeset
+    |> check_min_length(opts[:min_length])
+    |> validate_confirmation(:password)
+  end
+
+  defp set_password_digest(changeset) do
+    hashed = Comeonin.Bcrypt.hashpwsalt(get_change(changeset, :password))
+    changeset
+      |> put_change(:password_digest, hashed)
+  end
+
+  defp changeset_data(changeset) do
+    case changeset do
+      # Ecto v2
+      %{data: data} -> data
+      # Ecto v1
+      %{model: data} -> data
+    end
+  end
+
+  defp check_min_length(changeset, min_length) when is_integer(min_length) do
+    validate_length(changeset, :password, min: min_length)
+  end
+  defp check_min_length(changeset, _min_length), do: changeset
+
+  defp changeset_data_loaded?(changeset) do
+    case changeset_data(changeset) do
+      # Backward compatibility
+      %{id: id} -> id
+
+      %{__meta__: %{state: :loaded}} ->
+        true
+      _ ->
+        false
     end
   end
 end

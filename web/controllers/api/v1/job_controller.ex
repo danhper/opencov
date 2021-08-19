@@ -4,12 +4,12 @@ defmodule Opencov.Api.V1.JobController do
   alias Opencov.ProjectManager
 
   def create(conn, %{"json" => json}) do
-    json = Poison.decode!(json)
+    json = Jason.decode!(json)
     handle_create(conn, json)
   end
 
   def create(conn, %{"json_file" => %Plug.Upload{path: filepath}}) do
-    json = filepath |> File.read! |> Poison.decode!
+    json = filepath |> File.read! |> Jason.decode!
     handle_create(conn, json)
   end
 

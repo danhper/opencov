@@ -13,11 +13,11 @@ defmodule Opencov.Repo.Migrations.CreateUser do
       add :github_access_token, :string
 
       add :confirmation_token, :string
-      add :confirmed_at, :utc_datetime
+      add :confirmed_at, :utc_datetime_usec
       add :unconfirmed_email, :string
 
       add :password_reset_token, :string
-      add :password_reset_sent_at, :utc_datetime
+      add :password_reset_sent_at, :utc_datetime_usec
 
       timestamps()
     end

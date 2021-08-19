@@ -6,7 +6,7 @@ defmodule Opencov.Job do
   schema "jobs" do
     field :coverage, :float, default: 0.0
     field :previous_job_id, :integer
-    field :run_at, :utc_datetime
+    field :run_at, :utc_datetime_usec
     field :files_count, :integer
     field :job_number, :integer
     field :previous_coverage, :float
