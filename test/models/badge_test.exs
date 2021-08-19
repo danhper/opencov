@@ -10,22 +10,22 @@ defmodule Opencov.BadgeTest do
   end
 
   test "default_format/0" do
-    assert Badge.default_format == "svg"
+    assert Badge.default_format() == "svg"
   end
 
   test "for_project/2", %{svg_badge: svg_badge, png_badge: png_badge} do
-    badge = Badge |> Badge.for_project(svg_badge.project) |> Repo.first!
+    badge = Badge |> Badge.for_project(svg_badge.project) |> Repo.first!()
     assert badge.id == svg_badge.id
 
-    badge = Badge |> Badge.for_project(png_badge.project.id) |> Repo.first!
+    badge = Badge |> Badge.for_project(png_badge.project.id) |> Repo.first!()
     assert badge.id == png_badge.id
   end
 
   test "with_format/2", %{svg_badge: svg_badge, png_badge: png_badge} do
-    badge = Badge |> Badge.with_format("svg") |> Repo.first!
+    badge = Badge |> Badge.with_format("svg") |> Repo.first!()
     assert badge.id == svg_badge.id
 
-    badge = Badge |> Badge.with_format(:png) |> Repo.first!
+    badge = Badge |> Badge.with_format(:png) |> Repo.first!()
     assert badge.id == png_badge.id
   end
 end

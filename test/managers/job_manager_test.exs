@@ -21,7 +21,7 @@ defmodule Opencov.JobManagerTest do
   end
 
   test "create_from_json!" do
-    dummy_coverage = Opencov.Fixtures.dummy_coverage
+    dummy_coverage = Opencov.Fixtures.dummy_coverage()
     job = JobManager.create_from_json!(insert(:build), dummy_coverage)
     assert job.id != nil
     assert Enum.count(job.files) == Enum.count(dummy_coverage["source_files"])
@@ -36,7 +36,10 @@ defmodule Opencov.JobManagerTest do
 
   test "set_previous_values when a previous job exists" do
     project = insert(:project)
-    previous_job = insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 1))
+
+    previous_job =
+      insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 1))
+
     job = insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 2))
     assert job.previous_job_id == previous_job.id
     assert job.previous_coverage == previous_job.coverage

@@ -37,13 +37,47 @@ source = """
  end
 """
 
-seed Opencov.File, fn file ->
+seed(Opencov.File, fn file ->
   file
   |> Map.put(:id, 1)
   |> Map.put(:name, "lib/opencov/plug/force_password_initialize.ex")
   |> Map.put(:job_id, 1)
-  |> Map.put(:coverage_lines, [nil,nil,nil,nil,nil,nil,0,nil,nil,nil,38,19,nil,19,nil,nil,nil,nil,19,19,19,nil,0,
-nil,nil,nil,nil,0,nil,nil,nil,nil,nil,nil])
+  |> Map.put(:coverage_lines, [
+    nil,
+    nil,
+    nil,
+    nil,
+    nil,
+    nil,
+    0,
+    nil,
+    nil,
+    nil,
+    38,
+    19,
+    nil,
+    19,
+    nil,
+    nil,
+    nil,
+    nil,
+    19,
+    19,
+    19,
+    nil,
+    0,
+    nil,
+    nil,
+    nil,
+    nil,
+    0,
+    nil,
+    nil,
+    nil,
+    nil,
+    nil,
+    nil
+  ])
   |> Map.put(:source, source)
   |> Map.put(:coverage, 66.7)
-end
+end)

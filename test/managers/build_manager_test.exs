@@ -15,7 +15,7 @@ defmodule Opencov.BuildManagerTest do
   end
 
   test "changeset with real params" do
-    params = Opencov.Fixtures.dummy_coverage
+    params = Opencov.Fixtures.dummy_coverage()
     changeset = BuildManager.changeset(build(:build, project: nil) |> with_project, params)
     assert changeset.valid?
 
@@ -48,14 +48,20 @@ defmodule Opencov.BuildManagerTest do
 
   test "previous_build when previous build exists" do
     previous_build = insert(:build) |> Repo.preload(:project)
-    build = insert(:build, project: previous_build.project, build_number: previous_build.build_number + 1)
+
+    build =
+      insert(:build,
+        project: previous_build.project,
+        build_number: previous_build.build_number + 1
+      )
+
     assert build.previous_build_id == previous_build.id
     assert build.previous_coverage == previous_build.coverage
   end
 
   test "get_or_create! when build does not exist" do
     project = insert(:project)
-    cov = Opencov.Fixtures.dummy_coverage
+    cov = Opencov.Fixtures.dummy_coverage()
     build = BuildManager.get_or_create!(project, cov)
     assert build.id
     assert build.commit_sha == cov["git"]["head"]["id"]

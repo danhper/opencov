@@ -4,8 +4,8 @@ defmodule Opencov.Types.JSONText do
   import Opencov.Types.JSON
 
   @json String.trim("""
-    {"foo":"bar"}
-  """)
+          {"foo":"bar"}
+        """)
 
   test "load" do
     assert load(@json) == {:ok, %{"foo" => "bar"}}
