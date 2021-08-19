@@ -125,8 +125,8 @@ jobs:
           COVERALLS_ENDPOINT: ${{ secrets.OPENCOV_ENDPOINT }}
         run: |
           MIX_ENV=test mix coveralls.post \
-          --sha="$SHA" \
-          --committer="$(git log -1 $SHA --pretty=format:'%cN')" \
-          --message="$(git log -1 $SHA --pretty=format:'%s')" \
-          --branch="$BRANCH" \
+          --sha "$SHA" \
+          --committer "$(git log -1 $SHA --pretty=format:'%cN')" \
+          --message "$(git log -1 $SHA --pretty=format:'%s')" \
+          --branch "$BRANCH" \
           --token "$TOKEN"
