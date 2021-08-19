@@ -6,7 +6,7 @@ defmodule Opencov.Repo.Migrations.CreateFile do
       add(:job_id, :integer, null: false)
       add(:name, :string, null: false)
       add(:source, :text, null: false)
-      add(:coverage_lines, :text, null: false)
+      add(:coverage_lines, {:array, :integer}, null: false)
       add(:coverage, :float, null: false)
       add(:previous_coverage, :float)
       add(:previous_file_id, :integer)
