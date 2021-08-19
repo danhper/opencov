@@ -59,7 +59,8 @@ defmodule Opencov.Mixfile do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.4"},
       {:plug_cowboy, "~> 2.0"},
-      {:ranch, "~> 1.8", override: true}
+      {:ranch, "~> 1.8", override: true},
+      {:meck, "~> 0.9", override: true}
     ]
   end
 
