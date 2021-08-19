@@ -11,8 +11,15 @@ defmodule Opencov.Mixfile do
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
+      deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      deps: deps()
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.json": :test
+      ]
     ]
   end
 
@@ -47,7 +54,7 @@ defmodule Opencov.Mixfile do
       {:oauth2, "~> 0.7"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:mix_test_watch, "~> 0.2", only: :dev},
-      {:excoveralls, "~> 0.6", only: :test},
+      {:excoveralls, "~> 0.10", only: :test},
       {:mock, "~> 0.3", only: :test},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},

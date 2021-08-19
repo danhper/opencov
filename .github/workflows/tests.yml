@@ -105,4 +105,9 @@ jobs:
             _build
             priv/plts
           key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
-      - run: mix test --trace --slowest 10
+      - run: mix coveralls.json --trace --slowest 10
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: cover/excoveralls.json
+          fail_ci_if_error: true
