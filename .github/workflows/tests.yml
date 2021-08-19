@@ -5,8 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        elixir: ['1.12.2']
-        otp: ['24.0']
+        elixir: ["1.12.2"]
+        otp: ["24.0"]
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.0
@@ -43,8 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        elixir: ['1.12.2']
-        otp: ['24.0']
+        elixir: ["1.12.2"]
+        otp: ["24.0"]
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.0
@@ -73,18 +73,24 @@ jobs:
   mix-test:
     runs-on: ubuntu-latest
     needs: dependencies
+    env:
+      MIX_ENV: test
     strategy:
       matrix:
-        elixir: ['1.12.2']
-        otp: ['24.0']
+        elixir: ["1.12.2"]
+        otp: ["24.0"]
     services:
       db:
         image: postgres:latest
-        ports: ['5432:5432']
+        ports: ["5432:5432"]
         env:
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF##*/})"
+        id: extract_branch
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.0
         with:
@@ -111,3 +117,16 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           files: cover/excoveralls.json
           fail_ci_if_error: true
+      - name: OpenCov
+        env:
+          SHA: ${{github.sha}}
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+          TOKEN: ${{ secrets.OPENCOV_TOKEN }}
+          COVERALLS_ENDPOINT: ${{ secrets.OPENCOV_ENDPOINT }}
+        run: |
+          MIX_ENV=test mix coveralls.post \
+          --sha="$SHA" \
+          --committer="$(git log -1 $SHA --pretty=format:'%cN')" \
+          --message="$(git log -1 $SHA --pretty=format:'%s')" \
+          --branch="$BRANCH" \
+          --token "$TOKEN"

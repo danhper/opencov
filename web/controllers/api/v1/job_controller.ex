@@ -8,13 +8,25 @@ defmodule Opencov.Api.V1.JobController do
     handle_create(conn, json)
   end
 
-  def create(conn, %{"json_file" => %Plug.Upload{path: filepath}}) do
-    json = filepath |> File.read!() |> Jason.decode!()
+  def create(conn, %{"json_file" => json_file}) do
+    json = json_file |> read_file() |> Jason.decode!()
     handle_create(conn, json)
   end
 
   def create(conn, _) do
     conn |> bad_request("request should have 'json' or 'json_file' parameter")
+  end
+
+  defp read_file(%Plug.Upload{content_type: "gzip/json", path: path}) do
+    path
+    |> File.stream!()
+    |> StreamGzip.gunzip()
+    |> Enum.into("")
+  end
+
+  defp read_file(%Plug.Upload{path: path}) do
+    path
+    |> File.read!()
   end
 
   defp handle_create(conn, %{"repo_token" => token} = params) do

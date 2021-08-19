@@ -14,7 +14,7 @@ defmodule Opencov.ProjectManager do
     |> validate_required(@required_fields)
     |> generate_token
     |> unique_constraint(:token, name: "projects_pkey")
-    |> unique_constraint(:repo_id, name: "projects_pkey")
+    |> unique_constraint(:repo_id, name: "projects_repo_id_index")
   end
 
   def generate_token(changeset) do

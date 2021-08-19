@@ -13,14 +13,19 @@ defmodule Opencov.Mixfile do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test,
-        "coveralls.json": :test
-      ]
+      preferred_cli_env:
+        cli_env_for(:test, [
+          "coveralls",
+          "coveralls.detail",
+          "coveralls.html",
+          "coveralls.json",
+          "coveralls.post"
+        ])
     ]
+  end
+
+  defp cli_env_for(env, tasks) do
+    Enum.reduce(tasks, [], fn key, acc -> Keyword.put(acc, :"#{key}", env) end)
   end
 
   def application do
@@ -32,6 +37,7 @@ defmodule Opencov.Mixfile do
 
   defp deps do
     [
+      {:stream_gzip, "~> 0.4"},
       {:comeonin, "~> 2.4"},
       {:gettext, "~> 0.11"},
       {:secure_random, "~> 0.2"},

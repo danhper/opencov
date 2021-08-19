@@ -1,0 +1,5 @@
+{
+  "skip_files": [
+    "lib/git_hub_v3_restapi"
+  ]
+}

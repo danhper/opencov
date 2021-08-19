@@ -3,6 +3,8 @@ defmodule Opencov.GithubService do
   alias Opencov.Repo
   alias Opencov.Project
   alias Opencov.ProjectManager
+  alias GitHubV3RESTAPI.Connection
+  alias GitHubV3RESTAPI.Api.Checks
 
   def handle("push", payload) do
     install(payload["repository"])
@@ -17,8 +19,16 @@ defmodule Opencov.GithubService do
     IO.inspect(pr)
   end
 
-  def handle(event, payload) do
+  def handle(event, _payload) do
     Logger.warn("Unhandled event: #{event}")
+  end
+
+  defp create_check(commit, %{"name" => repo, "owner" => %{"name" => owner}}) do
+    Connection.new()
+    |> Checks.checks_create(owner, repo, %{
+      name: "Open Coverage",
+      head_sha: commit
+    })
   end
 
   defp install(%{"id" => repo_id, "full_name" => name, "html_url" => base_url}) do
