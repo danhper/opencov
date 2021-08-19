@@ -1,6 +1,7 @@
 defmodule Opencov.ProjectManager do
   use Opencov.Web, :manager
   alias Opencov.Project
+  alias Opencov.GithubService
   import Opencov.Project
 
   import Ecto.Query
@@ -73,6 +74,11 @@ defmodule Opencov.ProjectManager do
     Opencov.Repo.transaction(fn ->
       build = Opencov.BuildManager.get_or_create!(project, params)
       job = Opencov.JobManager.create_from_json!(build, params)
+
+      with {owner, name} <- Project.name_and_owner(project) do
+        GithubService.finish_check(build.commit_sha, owner, name)
+      end
+
       {build, job}
     end)
   end

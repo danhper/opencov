@@ -24,4 +24,9 @@ defmodule Opencov.Project do
   def visibility_choices do
     ~w(public private internal)
   end
+
+  def name_and_owner(%Opencov.Project{name: name}) do
+    [owner, name] = name |> String.split("/")
+    {owner, name}
+  end
 end
