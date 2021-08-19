@@ -1,8 +1,6 @@
 defmodule Opencov.ProfileController do
   use Opencov.Web, :controller
 
-  import Opencov.Helpers.Authentication
-
   alias Opencov.User
   alias Opencov.UserManager
 

@@ -12,6 +12,9 @@ defmodule Opencov.User do
     field :confirmed_at, :utc_datetime
     field :unconfirmed_email, :string
 
+    field :github_access_token
+    field :github_info, :map, virtual: true
+
     field :password_reset_token, :string
     field :password_reset_sent_at, :utc_datetime
 

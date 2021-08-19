@@ -10,8 +10,13 @@ config :opencov, Opencov.Endpoint,
 
 config :opencov,
   badge_format: "svg",
-  base_url: nil,
+  base_url: "http://localhost:4000",
   ecto_repos: [Opencov.Repo]
+
+config :opencov, :github,
+  client_id: System.get_env("OPENCOV_GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("OPENCOV_GITHUB_CLIENT_SECRET"),
+  scope: "user,repo"
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

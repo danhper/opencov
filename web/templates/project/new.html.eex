@@ -9,6 +9,10 @@
     </span>
   </h2>
 
+  <div class="integrations">
+    <a href="#">Add from GitHub</a>
+  </div>
+
   <%= render "form.html", changeset: @changeset,
                           action: project_path(@conn, :create) %>
 </div>
