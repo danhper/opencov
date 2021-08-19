@@ -3,6 +3,10 @@ defmodule Opencov.UserManager do
 
   @required_fields ~w(email)a
   @optional_fields ~w(admin name password)a
+  @default_secure_password_opts [
+    min_length: 6,
+    required: true
+  ]
 
   def changeset(model, params \\ :invalid, opts \\ []) do
     model

@@ -7,4 +7,5 @@ defmodule Opencov.Types.JSON do
   def load(value), do: Jason.decode(value)
   def dump(value) when is_binary(value), do: {:ok, value}
   def dump(value), do: Jason.encode(value)
+  def equal?(value, other), do: Jason.encode(value) == Jason.encode(other)
 end

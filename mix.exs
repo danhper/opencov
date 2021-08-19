@@ -25,6 +25,7 @@ defmodule Opencov.Mixfile do
 
   defp deps do
     [
+      {:comeonin, "~> 2.4"},
       {:phoenix, "~> 1.2"},
       {:phoenix_ecto, "~> 4.0"},
       {:postgrex, "~> 0.15"},

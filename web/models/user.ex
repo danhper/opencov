@@ -25,4 +25,14 @@ defmodule Opencov.User do
 
     timestamps()
   end
+
+    @doc """
+  Checks if the model password if valid.
+  """
+  def authenticate(nil, _), do: Comeonin.Bcrypt.dummy_checkpw()
+  def authenticate(%{password_digest: nil}, _), do: Comeonin.Bcrypt.dummy_checkpw()
+  def authenticate(model, nil), do: authenticate(model, "")
+  def authenticate(model, password) do
+    Comeonin.Bcrypt.checkpw(password, model.password_digest) && model
+  end
 end
