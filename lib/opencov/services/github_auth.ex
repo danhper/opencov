@@ -3,7 +3,7 @@ defmodule Opencov.Services.GithubAuth do
 
   def now, do: Timex.now() |> Timex.to_unix()
 
-  def signer() do
+  def token() do
     signer = Joken.Signer.parse_config(:rs256)
 
     token_config =
