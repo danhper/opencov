@@ -60,7 +60,9 @@ defmodule Opencov.Mixfile do
       {:phoenix_live_dashboard, "~> 0.4"},
       {:plug_cowboy, "~> 2.0"},
       {:ranch, "~> 1.8", override: true},
-      {:meck, "~> 0.9", override: true}
+      {:meck, "~> 0.9", override: true},
+      {:tesla, "~> 1.2"},
+      {:poison, "~> 3.0"}
     ]
   end
 

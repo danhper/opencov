@@ -10,6 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 alias Opencov.Repo
+
 Repo.insert!(%Opencov.Settings{
   id: 1,
   signup_enabled: false,
