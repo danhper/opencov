@@ -4,7 +4,8 @@ defmodule Opencov.Types.JSON do
   def type, do: :json
 
   def cast(any), do: {:ok, any}
-  def load(value), do: Poison.decode(value)
+  def load(value), do: Jason.decode(value)
   def dump(value) when is_binary(value), do: {:ok, value}
-  def dump(value), do: Poison.encode(value)
+  def dump(value), do: Jason.encode(value)
+  def equal?(value, other), do: Jason.encode(value) == Jason.encode(other)
 end

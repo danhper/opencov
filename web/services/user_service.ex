@@ -7,12 +7,15 @@ defmodule Opencov.UserService do
   def create_user(user_params, opts) do
     options = [generate_password: opts[:invited?]]
     changeset = UserManager.changeset(%User{}, user_params, options)
+
     case Repo.insert(changeset) do
       {:ok, user} = res ->
         email = UserMailer.confirmation_email(user, opts ++ [registration: true])
         Opencov.AppMailer.send(email)
         res
-      err -> err
+
+      err ->
+        err
     end
   end
 
@@ -21,24 +24,31 @@ defmodule Opencov.UserService do
       %User{unconfirmed_email: m} = user when not is_nil(m) ->
         finalize_confirmation!(user)
         {:ok, user, "Your email has been confirmed successfully"}
-      %User{} = user -> {:ok, user, "You are already confirmed."}
-      _              -> {:error, "Could not find the user to confirm"}
+
+      %User{} = user ->
+        {:ok, user, "You are already confirmed."}
+
+      _ ->
+        {:error, "Could not find the user to confirm"}
     end
   end
 
   defp finalize_confirmation!(user) do
-    UserManager.confirmation_changeset(user) |> Repo.update!
+    UserManager.confirmation_changeset(user) |> Repo.update!()
   end
 
   def send_reset_password(email) do
     case Repo.get_by(User, email: email) do
       %User{} = user ->
         UserManager.password_reset_changeset(user)
-        |> Repo.update!
-        |> UserMailer.reset_password_email
-        |> Opencov.AppMailer.send
+        |> Repo.update!()
+        |> UserMailer.reset_password_email()
+        |> Opencov.AppMailer.send()
+
         :ok
-      _ -> :ok
+
+      _ ->
+        :ok
     end
   end
 
@@ -46,8 +56,10 @@ defmodule Opencov.UserService do
     case Repo.get_by(User, password_reset_token: token) do
       %User{} = user ->
         opts = [skip_password_validation: true, remove_reset_token: true]
-        UserManager.password_update_changeset(user, params, opts) |> Repo.update
-      _ -> {:error, :not_found}
+        UserManager.password_update_changeset(user, params, opts) |> Repo.update()
+
+      _ ->
+        {:error, :not_found}
     end
   end
 
@@ -59,6 +71,7 @@ defmodule Opencov.UserService do
       {:ok, user} ->
         send_confirmation_email_if_needed(user, changeset)
         {:ok, user, redirect_path, update_flash_message(changeset)}
+
       {:error, changeset} ->
         {:error, user: user, changeset: changeset}
     end

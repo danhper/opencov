@@ -4,7 +4,7 @@ defmodule Opencov.Admin.ProjectController do
   alias Opencov.Project
   alias Opencov.Repo
 
-  plug :scrub_params, "project" when action in [:create, :update]
+  plug(:scrub_params, "project" when action in [:create, :update])
 
   def index(conn, params) do
     paginator = Repo.paginate(Project, params)

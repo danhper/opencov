@@ -8,7 +8,7 @@ defmodule Opencov.Helpers.Display do
   def bool(_), do: "×"
 
   def atom(a) when is_atom(a) do
-    a |> Atom.to_string |> String.split("_") |> Enum.join(" ") |> String.capitalize
+    a |> Atom.to_string() |> String.split("_") |> Enum.join(" ") |> String.capitalize()
   end
 
   def text(text) do

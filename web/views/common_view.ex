@@ -5,11 +5,11 @@ defmodule Opencov.CommonView do
   def coverage_color(coverage) do
     cond do
       is_nil(coverage) -> "na"
-      coverage == 0    -> "none"
-      coverage < 80    -> "low"
-      coverage < 90    -> "normal"
-      coverage < 100   -> "good"
-      true             -> "great"
+      coverage == 0 -> "none"
+      coverage < 80 -> "low"
+      coverage < 90 -> "normal"
+      coverage < 100 -> "good"
+      true -> "great"
     end
   end
 
@@ -19,6 +19,7 @@ defmodule Opencov.CommonView do
 
   def coverage_diff(previous, current) do
     formatted_diff = abs(current - previous) |> format_coverage
+
     cond do
       previous == current -> "Coverage has not changed."
       previous > current -> "Coverage has decreased by #{formatted_diff}."
@@ -28,6 +29,7 @@ defmodule Opencov.CommonView do
 
   def repository_class(project) do
     url = project.base_url
+
     cond do
       String.contains?(url, "github.com") -> "fa-github"
       String.contains?(url, "bitbucket.org") -> "fa-bitbucket"
@@ -37,6 +39,7 @@ defmodule Opencov.CommonView do
 
   def commit_link(project, sha) do
     url = project.base_url
+
     cond do
       String.contains?(url, "bitbucket.org") -> "#{url}/commits/#{sha}"
       true -> "#{url}/commit/#{sha}"

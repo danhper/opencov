@@ -21,17 +21,19 @@ defmodule Opencov.FileTest do
     insert(:file, coverage_lines: [0, 0])
     insert(:file, coverage_lines: [100, 100])
     normal = insert(:file, coverage_lines: [50, 100, 0])
-    normal_only = File |> File.with_filters(["unperfect", "covered"]) |> Opencov.Repo.all
+    normal_only = File |> File.with_filters(["unperfect", "covered"]) |> Opencov.Repo.all()
     assert Enum.count(normal_only) == 1
     assert List.first(normal_only).id == normal.id
   end
 
   test "changed and cov_changed filters" do
-    previous_file = insert(:file, source: "print 'hello'", coverage_lines: [0, 100]) |> Repo.preload(:job)
+    previous_file =
+      insert(:file, source: "print 'hello'", coverage_lines: [0, 100]) |> Repo.preload(:job)
+
     file = insert(:file, coverage_lines: [0, 100], job: previous_file.job)
-    cov_changed = File |> File.with_filters(["cov_changed"]) |> Opencov.Repo.all
-    changed = File |> File.with_filters(["changed"]) |> Opencov.Repo.all
-    refute file.id in Enum.map(cov_changed, &(&1.id))
-    assert file.id in Enum.map(changed, &(&1.id))
+    cov_changed = File |> File.with_filters(["cov_changed"]) |> Opencov.Repo.all()
+    changed = File |> File.with_filters(["changed"]) |> Opencov.Repo.all()
+    refute file.id in Enum.map(cov_changed, & &1.id)
+    assert file.id in Enum.map(changed, & &1.id)
   end
 end

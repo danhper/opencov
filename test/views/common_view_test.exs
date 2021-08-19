@@ -30,9 +30,14 @@ defmodule Opencov.CommonViewTest do
   end
 
   test "repository_class" do
-    assert repository_class(build(:project, base_url: "https://github.com/tuvistavie/opencov")) == "fa-github"
-    assert repository_class(build(:project, base_url: "https://bitbucket.org/tuvistavie/opencov")) == "fa-bitbucket"
-    assert repository_class(build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")) == "fa-database"
+    assert repository_class(build(:project, base_url: "https://github.com/tuvistavie/opencov")) ==
+             "fa-github"
+
+    assert repository_class(build(:project, base_url: "https://bitbucket.org/tuvistavie/opencov")) ==
+             "fa-bitbucket"
+
+    assert repository_class(build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")) ==
+             "fa-database"
   end
 
   test "commit_link" do
@@ -41,6 +46,8 @@ defmodule Opencov.CommonViewTest do
     project = build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")
     assert commit_link(project, "foobar") == "https://gitlab.com/tuvistavie/opencov/commit/foobar"
     project = build(:project, base_url: "https://bitbucket.org/tuvistavie/opencov")
-    assert commit_link(project, "foobar") == "https://bitbucket.org/tuvistavie/opencov/commits/foobar"
+
+    assert commit_link(project, "foobar") ==
+             "https://bitbucket.org/tuvistavie/opencov/commits/foobar"
   end
 end

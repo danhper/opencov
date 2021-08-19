@@ -18,6 +18,7 @@ defmodule Opencov.FileManager do
     {lines, params} = Map.pop(params, "coverage")
     Map.put(params, "coverage_lines", lines)
   end
+
   defp normalize_params(params), do: params
 
   defp generate_coverage(changeset) do
@@ -29,13 +30,16 @@ defmodule Opencov.FileManager do
 
   defp set_previous_file(changeset),
     do: set_previous_file(changeset, job_for_changeset(changeset))
+
   defp set_previous_file(changeset, %Opencov.Job{previous_job_id: previous_job_id})
-      when not is_nil(previous_job_id) do
+       when not is_nil(previous_job_id) do
     file = find_previous_file(previous_job_id, changeset.changes.name)
     set_previous_file(changeset, file)
   end
+
   defp set_previous_file(changeset, %Opencov.File{id: id, coverage: coverage}),
     do: change(changeset, previous_file_id: id, previous_coverage: coverage)
+
   defp set_previous_file(changeset, _), do: changeset
 
   defp job_for_changeset(changeset) do
@@ -44,6 +48,6 @@ defmodule Opencov.FileManager do
   end
 
   defp find_previous_file(previous_job_id, name) do
-    File |> for_job(previous_job_id) |> with_name(name) |> Opencov.Repo.first
+    File |> for_job(previous_job_id) |> with_name(name) |> Opencov.Repo.first()
   end
 end

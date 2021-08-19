@@ -1,7 +1,8 @@
 # OpenCov
 
-[![Build Status](https://travis-ci.org/danhper/opencov.svg?branch=master)](https://travis-ci.org/danhper/opencov)
+![Build Status](https://github.com/yknx4/opencov/actions/workflows/tests.yml/badge.svg)
 [![Coverage Status](http://demo.opencov.com/projects/1/badge.svg)](http://demo.opencov.com/projects/1)
+[![codecov](https://codecov.io/gh/yknx4/opencov/branch/main/graph/badge.svg?token=Q9kaFXoFTn)](https://codecov.io/gh/yknx4/opencov)
 
 OpenCov is a self-hosted opensource test coverage history viewer.
 It is (mostly) compatible with [coveralls](https://coveralls.io/), so most

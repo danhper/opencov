@@ -20,5 +20,6 @@ defmodule Opencov.Core do
       unquote(left) |> unquote(condition)
     end
   end
+
   defmacro should_pipe(_, condition), do: condition
 end

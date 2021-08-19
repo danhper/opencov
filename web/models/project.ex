@@ -4,14 +4,14 @@ defmodule Opencov.Project do
   import Ecto.Query
 
   schema "projects" do
-    field :name, :string
-    field :token, :string
-    field :current_coverage, :float
-    field :base_url, :string
+    field(:name, :string)
+    field(:token, :string)
+    field(:current_coverage, :float)
+    field(:base_url, :string)
 
-    belongs_to :user, Opencov.User
-    has_many :builds, Opencov.Build
-    has_one :badge, Opencov.Badge
+    belongs_to(:user, Opencov.User)
+    has_many(:builds, Opencov.Build)
+    has_one(:badge, Opencov.Badge)
 
     timestamps()
   end

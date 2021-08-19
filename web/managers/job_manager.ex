@@ -27,7 +27,7 @@ defmodule Opencov.JobManager do
 
   defp set_job_number(changeset) do
     build_id = get_change(changeset, :build_id) || changeset.data.build_id
-    job = Job |> for_build(build_id) |> order_by(desc: :job_number) |> Repo.first
+    job = Job |> for_build(build_id) |> order_by(desc: :job_number) |> Repo.first()
     job_number = if job, do: job.job_number + 1, else: 1
     put_change(changeset, :job_number, job_number)
   end
@@ -37,19 +37,24 @@ defmodule Opencov.JobManager do
     job_number = get_change(changeset, :job_number)
     previous_build_id = Opencov.Repo.get!(Opencov.Build, build_id).previous_build_id
     previous_job = search_previous_job(previous_build_id, job_number)
+
     if previous_job do
-      change(changeset, %{previous_job_id: previous_job.id, previous_coverage: previous_job.coverage})
+      change(changeset, %{
+        previous_job_id: previous_job.id,
+        previous_coverage: previous_job.coverage
+      })
     else
       changeset
     end
   end
 
   defp search_previous_job(nil, _), do: nil
+
   defp search_previous_job(previous_build_id, job_number),
-    do: Job |> for_build(previous_build_id) |> where(job_number: ^job_number) |> Repo.first
+    do: Job |> for_build(previous_build_id) |> where(job_number: ^job_number) |> Repo.first()
 
   def update_coverage(job) do
-    job = change(job, coverage: compute_coverage(job)) |> Repo.update! |> Repo.preload(:build)
+    job = change(job, coverage: compute_coverage(job)) |> Repo.update!() |> Repo.preload(:build)
     Opencov.BuildManager.update_coverage(job.build)
     job
   end
@@ -57,10 +62,12 @@ defmodule Opencov.JobManager do
   def create_from_json!(build, params) do
     {source_files, params} = Map.pop(params, "source_files", [])
     params = Map.put(params, "files_count", Enum.count(source_files))
-    job = Ecto.build_assoc(build, :jobs) |> changeset(params) |> Repo.insert!
-    Enum.each source_files, fn file_params ->
-      Ecto.build_assoc(job, :files) |> FileManager.changeset(file_params) |> Repo.insert!
-    end
+    job = Ecto.build_assoc(build, :jobs) |> changeset(params) |> Repo.insert!()
+
+    Enum.each(source_files, fn file_params ->
+      Ecto.build_assoc(job, :files) |> FileManager.changeset(file_params) |> Repo.insert!()
+    end)
+
     job |> Repo.preload(:files) |> update_coverage
   end
 end

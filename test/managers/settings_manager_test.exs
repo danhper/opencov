@@ -4,7 +4,11 @@ defmodule Opencov.SettingsManagerTest do
   alias Opencov.Settings
   alias Opencov.SettingsManager
 
-  @valid_attrs %{default_project_visibility: "internal", restricted_signup_domains: "some content", signup_enabled: true}
+  @valid_attrs %{
+    default_project_visibility: "internal",
+    restricted_signup_domains: "some content",
+    signup_enabled: true
+  }
   @invalid_attrs %{default_project_visibility: "foobar"}
 
   test "changeset with valid attributes" do

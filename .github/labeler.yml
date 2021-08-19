@@ -1,0 +1,26 @@
+test:
+  - frontend/src/**/*.test.tsx
+  - frontend/src/**/*.test.ts
+  - e2e_tests/**/*.ts
+  - backend/spec/**/*
+
+backend:
+  - backend/**/*.rb
+
+frontend:
+  - frontend/**/*.ts
+  - frontend/**/*.tsx
+
+documentation:
+  - /**/*.md
+
+dependencies:
+  - package.json
+  - yarn.lock
+  - /**/package.json
+  - /**/yarn.lock
+  - backend/Gemfile
+  - backend/Gemfile.lock
+
+chore:
+  - .github/**/*

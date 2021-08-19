@@ -10,8 +10,7 @@ defmodule Opencov.AppMailer do
   end
 
   defp normalize_email(email) do
-    %{email | from: extract_address(email.from),
-              to: Enum.map(email.to, &extract_address/1)}
+    %{email | from: extract_address(email.from), to: Enum.map(email.to, &extract_address/1)}
   end
 
   defp sender() do
@@ -23,7 +22,7 @@ defmodule Opencov.AppMailer do
   end
 
   defp mailman_config() do
-    if Mix.env == :test do
+    if Mix.env() == :test do
       %Mailman.TestConfig{}
     else
       struct(Mailman.SmtpConfig, mail_config()[:smtp])

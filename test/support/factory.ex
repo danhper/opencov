@@ -4,8 +4,8 @@ defmodule Opencov.Factory do
 
   def project_factory do
     %Opencov.Project{
-      name: sequence(:name, &("name-#{&1}")),
-      base_url: sequence(:base_url, &("https://github.com/tuvistavie/name-#{&1}")),
+      name: sequence(:name, &"name-#{&1}"),
+      base_url: sequence(:base_url, &"https://github.com/tuvistavie/name-#{&1}"),
       current_coverage: 50.0
     }
   end
@@ -21,22 +21,22 @@ defmodule Opencov.Factory do
   def user_factory do
     %Opencov.User{
       id: sequence(:id, &(&1 + 2)),
-      name: sequence(:name, &("name-#{&1}")),
-      email: sequence(:email, &("email-#{&1}@example.com")),
+      name: sequence(:name, &"name-#{&1}"),
+      email: sequence(:email, &"email-#{&1}@example.com"),
       password: "my-secure-password"
     }
   end
 
   def build_factory do
     %Opencov.Build{
-      build_number: sequence(:build_number, &(&1)),
+      build_number: sequence(:build_number, & &1),
       project: build(:project)
     }
   end
 
   def job_factory do
     %Opencov.Job{
-      job_number: sequence(:job_number, &(&1)),
+      job_number: sequence(:job_number, & &1),
       build: build(:build)
     }
   end
@@ -44,7 +44,7 @@ defmodule Opencov.Factory do
   def file_factory do
     %Opencov.File{
       job: build(:job),
-      name: sequence(:name, &("file-#{&1}")),
+      name: sequence(:name, &"file-#{&1}"),
       source: "return 0",
       coverage_lines: []
     }
@@ -55,7 +55,7 @@ defmodule Opencov.Factory do
       project: build(:project),
       coverage: 50.0,
       image: "encoded_image",
-      format: to_string(Opencov.Badge.default_format)
+      format: to_string(Opencov.Badge.default_format())
     }
   end
 
@@ -67,11 +67,14 @@ defmodule Opencov.Factory do
     {job_id, file} = Map.pop(file, :job_id)
     job_id = job_id || file.job.id
     params = Map.from_struct(file)
-    job = if job_id do
-      Opencov.Repo.get(Opencov.Job, job_id)
-    else
-      insert(:job)
-    end
+
+    job =
+      if job_id do
+        Opencov.Repo.get(Opencov.Job, job_id)
+      else
+        insert(:job)
+      end
+
     file = Ecto.build_assoc(job, :files)
     Opencov.FileManager.changeset(file, params)
   end
@@ -80,11 +83,14 @@ defmodule Opencov.Factory do
     {project_id, build} = Map.pop(build, :project_id)
     project_id = project_id || build.project.id
     params = Map.from_struct(build)
-    project = if project_id do
-      Opencov.Repo.get(Opencov.Project, project_id)
-    else
-      insert(:project)
-    end
+
+    project =
+      if project_id do
+        Opencov.Repo.get(Opencov.Project, project_id)
+      else
+        insert(:project)
+      end
+
     build = Ecto.build_assoc(project, :builds)
     Opencov.BuildManager.changeset(build, params)
   end
@@ -93,11 +99,14 @@ defmodule Opencov.Factory do
     {build_id, job} = Map.pop(job, :build_id)
     build_id = build_id || job.build.id
     params = Map.from_struct(job)
-    build = if build_id do
-      Opencov.Repo.get(Opencov.Build, build_id)
-    else
-      insert(:build)
-    end
+
+    build =
+      if build_id do
+        Opencov.Repo.get(Opencov.Build, build_id)
+      else
+        insert(:build)
+      end
+
     job = Ecto.build_assoc(build, :jobs)
     Opencov.JobManager.changeset(job, params)
   end
@@ -105,11 +114,14 @@ defmodule Opencov.Factory do
   def make_changeset(%Opencov.Badge{} = badge) do
     {project_id, badge} = Map.pop(badge, :project_id)
     params = Map.from_struct(badge)
-    project = if project_id do
-      Opencov.Repo.get(Opencov.Project, project_id)
-    else
-      insert(:project)
-    end
+
+    project =
+      if project_id do
+        Opencov.Repo.get(Opencov.Project, project_id)
+      else
+        insert(:project)
+      end
+
     badge = Ecto.build_assoc(project, :badge)
     Opencov.BadgeManager.changeset(badge, params)
   end
@@ -129,7 +141,7 @@ defmodule Opencov.Factory do
   end
 
   def confirmed_user(user) do
-    %{user | confirmed_at: Timex.now, password_initialized: true}
+    %{user | confirmed_at: Timex.now(), password_initialized: true}
   end
 
   def params_for(factory_name, attrs \\ %{}) do

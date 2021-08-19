@@ -11,7 +11,7 @@ defmodule Opencov.Mailer do
   defmacro define_template(action, params, format) do
     quote bind_quoted: [action: action, params: params, format: format] do
       path = Opencov.Mailer.template_path(__MODULE__, action, format)
-      EEx.function_from_file :defp, String.to_atom("#{action}_#{format}"), path, params
+      EEx.function_from_file(:defp, String.to_atom("#{action}_#{format}"), path, params)
     end
   end
 

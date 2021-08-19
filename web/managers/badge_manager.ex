@@ -36,21 +36,22 @@ defmodule Opencov.BadgeManager do
   end
 
   defp create(project, format) do
-    make project, format, fn image ->
+    make(project, format, fn image ->
       params = %{image: image, format: to_string(format), coverage: project.current_coverage}
+
       Ecto.build_assoc(project, :badge)
       |> changeset(params)
-      |> Repo.insert!
-    end
+      |> Repo.insert!()
+    end)
   end
 
   defp find(project, format),
-    do: Badge |> for_project(project) |> with_format(format) |> Repo.first
+    do: Badge |> for_project(project) |> with_format(format) |> Repo.first()
 
   defp update(project, badge) do
-    make project, badge.format, fn image ->
+    make(project, badge.format, fn image ->
       changeset(badge, %{coverage: project.current_coverage, image: image})
-      |> Repo.update!
-    end
+      |> Repo.update!()
+    end)
   end
 end

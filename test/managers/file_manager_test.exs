@@ -28,7 +28,10 @@ defmodule Opencov.FileManagerTest do
 
   test "set_previous_file when a previous file exists" do
     project = insert(:project)
-    previous_job = insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 1))
+
+    previous_job =
+      insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 1))
+
     job = insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 2))
     assert job.previous_job_id == previous_job.id
 

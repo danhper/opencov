@@ -6,10 +6,12 @@ defmodule Opencov.ErrorView do
   end
 
   def render("404.json", assigns) do
-    message = case assigns.reason do
-      %Ecto.NoResultsError{} -> "could not find model"
-      _ -> "no such path"
-    end
+    message =
+      case assigns.reason do
+        %Ecto.NoResultsError{} -> "could not find model"
+        _ -> "no such path"
+      end
+
     %{error: message}
   end
 
@@ -20,6 +22,6 @@ defmodule Opencov.ErrorView do
   # In case no render clause matches or no
   # template is found, let's render it as 500
   def template_not_found(_template, assigns) do
-    render "500.html", assigns
+    render("500.html", assigns)
   end
 end

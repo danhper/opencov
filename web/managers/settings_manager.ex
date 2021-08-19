@@ -8,7 +8,7 @@ defmodule Opencov.SettingsManager do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> validate_inclusion(:default_project_visibility, Opencov.Project.visibility_choices)
+    |> validate_inclusion(:default_project_visibility, Opencov.Project.visibility_choices())
     |> normalize_domains
   end
 
@@ -26,9 +26,11 @@ defmodule Opencov.SettingsManager do
   end
 
   def restricted_signup_domains do
-    domains = get!().restricted_signup_domains
-    |> String.split
-    |> Enum.filter(&(String.contains?(&1, ".")))
+    domains =
+      get!().restricted_signup_domains
+      |> String.split()
+      |> Enum.filter(&String.contains?(&1, "."))
+
     if Enum.count(domains) > 0, do: domains, else: nil
   end
 end

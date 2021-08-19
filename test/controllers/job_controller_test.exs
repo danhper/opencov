@@ -9,19 +9,19 @@ defmodule Opencov.JobControllerTest do
   test "redirects when not logged in" do
     job = insert(:job)
     conn = build_conn()
-    conn = get conn, job_path(conn, :show, job)
+    conn = get(conn, job_path(conn, :show, job))
     assert redirected_to(conn) == auth_path(conn, :login)
   end
 
   test "shows chosen resource", %{conn: conn} do
     job = insert(:job)
-    conn = get conn, job_path(conn, :show, job)
+    conn = get(conn, job_path(conn, :show, job))
     assert html_response(conn, 200) =~ "#{job.job_number}"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_raise Ecto.NoResultsError, fn ->
-      get conn, job_path(conn, :show, -1)
+      get(conn, job_path(conn, :show, -1))
     end
   end
 end

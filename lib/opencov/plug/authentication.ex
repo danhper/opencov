@@ -25,8 +25,8 @@ defmodule Opencov.Plug.Authentication do
 
   defp redirect_with(conn, flash_type, flash_message, path) do
     conn
-      |> put_flash(flash_type, flash_message)
-      |> redirect(to: path)
-      |> halt
+    |> put_flash(flash_type, flash_message)
+    |> redirect(to: path)
+    |> halt
   end
 end

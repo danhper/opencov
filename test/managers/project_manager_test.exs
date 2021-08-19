@@ -34,7 +34,7 @@ defmodule Opencov.ProjectManagerTest do
 
   test "add_job!" do
     project = insert(:project)
-    cov = Opencov.Fixtures.dummy_coverage
+    cov = Opencov.Fixtures.dummy_coverage()
     {:ok, {build, job}} = ProjectManager.add_job!(project, cov)
     assert build.id
     assert job.id

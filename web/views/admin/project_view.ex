@@ -1,4 +1,3 @@
-
 defmodule Opencov.Admin.ProjectView do
   use Opencov.Web, :view
 

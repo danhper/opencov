@@ -23,7 +23,6 @@ defmodule Opencov.ChannelCase do
       alias Opencov.Repo
       import Ecto.Query, only: [from: 2]
 
-
       # The default endpoint for testing
       @endpoint Opencov.Endpoint
     end
