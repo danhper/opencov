@@ -19,7 +19,7 @@ defmodule Opencov.File do
     field(:source, :string)
     field(:coverage, :float)
     field(:previous_coverage, :float)
-    field(:coverage_lines, Opencov.Types.JSON)
+    field(:coverage_lines, {:array, :integer})
 
     belongs_to(:job, Job)
     belongs_to(:previous_file, Opencov.File)

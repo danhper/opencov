@@ -33,18 +33,11 @@ defmodule Opencov.Mixfile do
   defp deps do
     [
       {:comeonin, "~> 2.4"},
-      {:phoenix, "~> 1.2"},
-      {:phoenix_ecto, "~> 4.0"},
-      {:postgrex, "~> 0.15"},
-      {:phoenix_html, "~> 2.6"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
-      {:exgravatar, "~> 2.0"},
       {:secure_random, "~> 0.2"},
       {:temp, "~> 0.4"},
       {:timex, "~> 3.4"},
       {:scrivener_ecto, "~> 2.7"},
-      {:basic_auth, "~> 2.0"},
       {:navigation_history, "~> 0.2"},
       {:ex_machina, "~> 2.7"},
       {:mailman, "~> 0.4"},
@@ -52,13 +45,22 @@ defmodule Opencov.Mixfile do
       {:scrivener_html, "~> 1.3"},
       {:seedex, "~> 0.3"},
       {:oauth2, "~> 0.7"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:mix_test_watch, "~> 0.2", only: :dev},
       {:excoveralls, "~> 0.10", only: :test},
       {:mock, "~> 0.3", only: :test},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:jason, "~> 1.0"}
+      {:jason, "~> 1.0"},
+      {:phoenix, "~> 1.5.10", override: true},
+      {:phoenix_ecto, "~> 4.1"},
+      {:ecto_sql, "~> 3.4"},
+      {:postgrex, ">= 0.0.0"},
+      {:phoenix_html, "~> 3.0", override: true},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.4"},
+      {:plug_cowboy, "~> 2.0"},
+      {:ranch, "~> 1.8", override: true},
+      {:meck, "~> 0.9", override: true}
     ]
   end
 
