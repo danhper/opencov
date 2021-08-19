@@ -34,5 +34,6 @@ Repo.insert!(%Opencov.Project{
   base_url: "https://github.com/yknx4/opencov",
   current_coverage: 80.0,
   user_id: 1,
-  token: "very-secure-token"
+  token: "very-secure-token",
+  repo_id: "github_397960449"
 })

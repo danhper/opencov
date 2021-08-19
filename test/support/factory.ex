@@ -6,7 +6,8 @@ defmodule Opencov.Factory do
     %Opencov.Project{
       name: sequence(:name, &"name-#{&1}"),
       base_url: sequence(:base_url, &"https://github.com/tuvistavie/name-#{&1}"),
-      current_coverage: 50.0
+      current_coverage: 50.0,
+      repo_id: "github_2235234"
     }
   end
 

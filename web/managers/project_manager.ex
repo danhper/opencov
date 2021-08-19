@@ -6,13 +6,15 @@ defmodule Opencov.ProjectManager do
   import Ecto.Query
 
   @required_fields ~w(name base_url)a
-  @optional_fields ~w(token current_coverage)a
+  @optional_fields ~w(token current_coverage repo_id)a
 
   def changeset(model, params \\ :invalid) do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> generate_token
+    |> unique_constraint(:token, name: "projects_pkey")
+    |> unique_constraint(:repo_id, name: "projects_pkey")
   end
 
   def generate_token(changeset) do
