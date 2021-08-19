@@ -31,7 +31,8 @@ defmodule Opencov.GithubService do
   end
 
   defp create_check(commit, %{"name" => repo, "owner" => %{"login" => owner}}) do
-    GithubAuth.token()
+    owner
+    |> GithubAuth.login_token()
     |> Connection.new()
     |> Checks.checks_create(owner, repo,
       body: %{

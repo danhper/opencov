@@ -1,9 +1,12 @@
 defmodule Opencov.Services.GithubAuth do
   alias ExPublicKey.RSAPrivateKey
+  alias GitHubV3RESTAPI.Connection
+  alias GitHubV3RESTAPI.Api.Apps
+  alias GitHubV3RESTAPI.Model.Installation
 
   def now, do: Timex.now() |> Timex.to_unix()
 
-  def token() do
+  def app_token() do
     signer = Joken.Signer.parse_config(:rs256)
 
     token_config =
@@ -14,5 +17,21 @@ defmodule Opencov.Services.GithubAuth do
 
     {:ok, jwt, _} = Joken.generate_and_sign(token_config, %{}, signer)
     jwt
+  end
+
+  def login_token(login) do
+    with {:ok, installations} <-
+           app_token()
+           |> Connection.new()
+           |> Apps.apps_list_installations(),
+         %Installation{id: installatin_id} <-
+           installations
+           |> Enum.find(fn %{account: %{login: github_login}} -> github_login == login end),
+         {:ok, token} <-
+           app_token()
+           |> Connection.new()
+           |> Apps.apps_create_installation_access_token(installatin_id) do
+      token.token
+    end
   end
 end

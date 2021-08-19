@@ -60,7 +60,7 @@ defimpl Poison.Decoder, for: GitHubV3RESTAPI.Model.Installation do
 
   def decode(value, options) do
     value
-    |> deserialize(:account, :struct, GitHubV3RESTAPI.Model.AnyOfsimpleUserenterprise, options)
+    |> deserialize(:account, :struct, GitHubV3RESTAPI.Model.SimpleUser, options)
     |> deserialize(:permissions, :struct, GitHubV3RESTAPI.Model.AppPermissions, options)
     |> deserialize(:suspended_by, :struct, GitHubV3RESTAPI.Model.SimpleUser, options)
   end
