@@ -1,19 +1,51 @@
-FROM elixir:1.5-alpine
+FROM elixir:1.12.2-slim AS build
 
-RUN apk add --update-cache build-base git postgresql-client nodejs yarn
+# install build dependencies
+RUN apt update && apt install -y build-essential
 
-WORKDIR /opencov
+# prepare build dir
+WORKDIR /app
 
-ENV MIX_ENV prod
+# install hex + rebar
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
-RUN mix local.hex --force && mix local.rebar --force
+# set build ENV
+ENV MIX_ENV=prod
 
-COPY mix.exs mix.lock package.json yarn.lock ./
+# install mix dependencies
+COPY mix.exs mix.lock ./
+COPY config config
+RUN mix do deps.get, deps.compile
 
-RUN yarn install && mix deps.get
+# build assets
+# COPY assets/package.json assets/package-lock.json ./assets/
+# RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
 
-COPY . .
+COPY priv priv
+# COPY assets assets
+# RUN npm run --prefix ./assets deploy
+RUN mix phx.digest
 
-RUN mix compile && mix assets.compile
+# compile and build release
+COPY lib lib
+COPY web web
+# uncomment COPY if rel/ exists
+# COPY rel rel
+RUN mix do compile, release
 
-CMD ["mix", "phx.server"]
+# prepare release image
+FROM debian:buster AS app
+RUN apt update && apt install -y openssl
+
+WORKDIR /app
+
+# RUN chown nobody:nobody /app
+
+# USER nobody:nobody
+
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/opencov ./
+
+ENV HOME=/app
+
+CMD ["bin/opencov", "start"]

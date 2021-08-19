@@ -12,7 +12,7 @@ defmodule Opencov.Router do
     plug(NavigationHistory.Tracker, excluded_paths: ~w(/login /users/new))
 
     if Application.get_env(:opencov, :auth)[:enable] do
-      plug(BasicAuth, use_config: {:opencov, :auth})
+      plug(:basic_auth, use_config: {:opencov, :auth})
     end
   end
 
