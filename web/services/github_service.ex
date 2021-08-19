@@ -3,9 +3,9 @@ defmodule Opencov.GithubService do
   alias Opencov.Repo
   alias Opencov.Project
   alias Opencov.ProjectManager
-  alias GitHubV3RESTAPI.Connection
-  alias GitHubV3RESTAPI.Api.Checks
   alias Opencov.Services.GithubAuth
+  alias Opencov.Services.Github.Auth
+  alias Opencov.Services.Github.Checks
 
   def handle("push", payload) do
     install(payload["repository"])
@@ -23,7 +23,10 @@ defmodule Opencov.GithubService do
   end
 
   def handle_pr("synchronize", %{"after" => commit, "repository" => repo}) do
-    create_check(commit, repo)
+    with %{"name" => repo, "owner" => %{"login" => owner}} <- repo,
+         {:ok, token} <- Auth.login_token(owner) do
+      Checks.create_check(token, commit, owner, repo)
+    end
   end
 
   def handle_pr(event, _payload) do
@@ -45,19 +48,6 @@ defmodule Opencov.GithubService do
       )
       |> IO.inspect()
     end
-  end
-
-  defp create_check(commit, %{"name" => repo, "owner" => %{"login" => owner}}) do
-    owner
-    |> GithubAuth.login_token()
-    |> Connection.new()
-    |> Checks.checks_create(owner, repo,
-      body: %{
-        name: "Open Coverage",
-        head_sha: commit
-      }
-    )
-    |> IO.inspect()
   end
 
   defp install(%{"id" => repo_id, "full_name" => name, "html_url" => base_url}) do
