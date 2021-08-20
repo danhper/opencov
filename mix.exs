@@ -38,7 +38,6 @@ defmodule Opencov.Mixfile do
   defp deps do
     [
       {:joken, "~> 2.0"},
-      {:ex_crypto, "~> 0.10"},
       {:stream_gzip, "~> 0.4"},
       {:comeonin, "~> 2.4"},
       {:gettext, "~> 0.11"},
@@ -70,7 +69,8 @@ defmodule Opencov.Mixfile do
       {:ranch, "~> 1.8", override: true},
       {:meck, "~> 0.9", override: true},
       {:tesla, "~> 1.2"},
-      {:poison, "~> 3.0"}
+      {:poison, "~> 3.0"},
+      {:ex_octocat, github: "yknx4/ex_octocat", tag: "v1.1.4"}
     ]
   end
 

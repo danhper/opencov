@@ -1,7 +1,6 @@
 defmodule Opencov.ProjectManager do
   use Opencov.Web, :manager
   alias Opencov.Project
-  alias Opencov.GithubService
   alias Opencov.Services.Github.Auth
   alias Opencov.Services.Github.Checks
   import Opencov.Project

@@ -2,13 +2,13 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule GitHubV3RESTAPI.Api.Actions do
+defmodule ExOctocat.Api.Actions do
   @moduledoc """
   API calls for all endpoints tagged `Actions`.
   """
 
-  alias GitHubV3RESTAPI.Connection
-  import GitHubV3RESTAPI.RequestBuilder
+  alias ExOctocat.Connection
+  import ExOctocat.RequestBuilder
 
   @doc """
   Add repository access to a self-hosted runner group in an organization
@@ -16,10 +16,10 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
-  - repository_id (integer()): 
+  - repository_id (integer()):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -57,10 +57,10 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - secret_name (String.t): secret_name parameter
-  - repository_id (integer()): 
+  - repository_id (integer()):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -99,8 +99,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - runner_id (integer()): Unique identifier of the self-hosted runner.
   - opts (KeywordList): [optional] Optional parameters
@@ -140,9 +140,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -157,7 +157,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           integer(),
           keyword()
         ) ::
-          {:ok, Map.t()} | {:ok, GitHubV3RESTAPI.Model.BasicError.t()} | {:error, Tesla.Env.t()}
+          {:ok, Map.t()} | {:ok, ExOctocat.Model.BasicError.t()} | {:error, Tesla.Env.t()}
   def actions_approve_workflow_run(connection, owner, repo, run_id, _opts \\ []) do
     %{}
     |> method(:post)
@@ -167,8 +167,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
       {201, false},
-      {404, %GitHubV3RESTAPI.Model.BasicError{}},
-      {403, %GitHubV3RESTAPI.Model.BasicError{}}
+      {404, %ExOctocat.Model.BasicError{}},
+      {403, %ExOctocat.Model.BasicError{}}
     ])
   end
 
@@ -178,9 +178,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -213,12 +213,12 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - repository_id (integer()): 
+  - connection (ExOctocat.Connection): Connection to server
+  - repository_id (integer()):
   - environment_name (String.t): The name of the environment
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject140): 
+    - :body (InlineObject140):
   ## Returns
 
   {:ok, map()} on success
@@ -263,11 +263,11 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject30): 
+    - :body (InlineObject30):
   ## Returns
 
   {:ok, map()} on success
@@ -299,12 +299,12 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject62): 
+    - :body (InlineObject62):
   ## Returns
 
   {:ok, map()} on success
@@ -341,16 +341,16 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t} on success
+  {:ok, ExOctocat.Model.AuthenticationToken.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_create_registration_token_for_org(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
   def actions_create_registration_token_for_org(connection, org, _opts \\ []) do
     %{}
     |> method(:post)
@@ -359,7 +359,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {201, %GitHubV3RESTAPI.Model.AuthenticationToken{}}
+      {201, %ExOctocat.Model.AuthenticationToken{}}
     ])
   end
 
@@ -369,13 +369,13 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t} on success
+  {:ok, ExOctocat.Model.AuthenticationToken.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_create_registration_token_for_repo(
@@ -383,7 +383,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           String.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
   def actions_create_registration_token_for_repo(connection, owner, repo, _opts \\ []) do
     %{}
     |> method(:post)
@@ -392,7 +392,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {201, %GitHubV3RESTAPI.Model.AuthenticationToken{}}
+      {201, %ExOctocat.Model.AuthenticationToken{}}
     ])
   end
 
@@ -402,16 +402,16 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t} on success
+  {:ok, ExOctocat.Model.AuthenticationToken.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_create_remove_token_for_org(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
   def actions_create_remove_token_for_org(connection, org, _opts \\ []) do
     %{}
     |> method(:post)
@@ -420,7 +420,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {201, %GitHubV3RESTAPI.Model.AuthenticationToken{}}
+      {201, %ExOctocat.Model.AuthenticationToken{}}
     ])
   end
 
@@ -430,13 +430,13 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t} on success
+  {:ok, ExOctocat.Model.AuthenticationToken.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_create_remove_token_for_repo(
@@ -444,7 +444,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           String.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.AuthenticationToken.t()} | {:error, Tesla.Env.t()}
   def actions_create_remove_token_for_repo(connection, owner, repo, _opts \\ []) do
     %{}
     |> method(:post)
@@ -453,7 +453,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {201, %GitHubV3RESTAPI.Model.AuthenticationToken{}}
+      {201, %ExOctocat.Model.AuthenticationToken{}}
     ])
   end
 
@@ -463,17 +463,17 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject26): 
+    - :body (InlineObject26):
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.RunnerGroupsOrg.t} on success
+  {:ok, ExOctocat.Model.RunnerGroupsOrg.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_create_self_hosted_runner_group_for_org(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.RunnerGroupsOrg.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.RunnerGroupsOrg.t()} | {:error, Tesla.Env.t()}
   def actions_create_self_hosted_runner_group_for_org(connection, org, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -487,7 +487,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {201, %GitHubV3RESTAPI.Model.RunnerGroupsOrg{}}
+      {201, %ExOctocat.Model.RunnerGroupsOrg{}}
     ])
   end
 
@@ -497,12 +497,12 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - workflow_id (OneOfintegerstring): The ID of the workflow. You can also pass the workflow file name as a string.
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject63): 
+    - :body (InlineObject63):
   ## Returns
 
   {:ok, nil} on success
@@ -512,7 +512,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           Tesla.Env.client(),
           String.t(),
           String.t(),
-          GitHubV3RESTAPI.Model.OneOfintegerstring.t(),
+          ExOctocat.Model.OneOfintegerstring.t(),
           keyword()
         ) :: {:ok, nil} | {:error, Tesla.Env.t()}
   def actions_create_workflow_dispatch(connection, owner, repo, workflow_id, opts \\ []) do
@@ -538,9 +538,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - artifact_id (integer()): artifact_id parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -567,8 +567,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - repository_id (integer()): 
+  - connection (ExOctocat.Connection): Connection to server
+  - repository_id (integer()):
   - environment_name (String.t): The name of the environment
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
@@ -609,8 +609,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -637,9 +637,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -671,8 +671,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_id (integer()): Unique identifier of the self-hosted runner.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -703,9 +703,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - runner_id (integer()): Unique identifier of the self-hosted runner.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -737,8 +737,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -774,9 +774,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -808,9 +808,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -842,9 +842,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
-  - repository_id (integer()): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
+  - repository_id (integer()):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -879,9 +879,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - workflow_id (OneOfintegerstring): The ID of the workflow. You can also pass the workflow file name as a string.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -893,7 +893,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           Tesla.Env.client(),
           String.t(),
           String.t(),
-          GitHubV3RESTAPI.Model.OneOfintegerstring.t(),
+          ExOctocat.Model.OneOfintegerstring.t(),
           keyword()
         ) :: {:ok, nil} | {:error, Tesla.Env.t()}
   def actions_disable_workflow(connection, owner, repo, workflow_id, _opts \\ []) do
@@ -914,11 +914,11 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - artifact_id (integer()): artifact_id parameter
-  - archive_format (String.t): 
+  - archive_format (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -950,9 +950,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - job_id (integer()): job_id parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -984,9 +984,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -1018,9 +1018,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
-  - repository_id (integer()): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
+  - repository_id (integer()):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -1056,9 +1056,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - workflow_id (OneOfintegerstring): The ID of the workflow. You can also pass the workflow file name as a string.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -1070,7 +1070,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           Tesla.Env.client(),
           String.t(),
           String.t(),
-          GitHubV3RESTAPI.Model.OneOfintegerstring.t(),
+          ExOctocat.Model.OneOfintegerstring.t(),
           keyword()
         ) :: {:ok, nil} | {:error, Tesla.Env.t()}
   def actions_enable_workflow(connection, owner, repo, workflow_id, _opts \\ []) do
@@ -1091,16 +1091,16 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.SelectedActions.t} on success
+  {:ok, ExOctocat.Model.SelectedActions.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_allowed_actions_organization(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.SelectedActions.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.SelectedActions.t()} | {:error, Tesla.Env.t()}
   def actions_get_allowed_actions_organization(connection, org, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1108,7 +1108,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.SelectedActions{}}
+      {200, %ExOctocat.Model.SelectedActions{}}
     ])
   end
 
@@ -1118,13 +1118,13 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.SelectedActions.t} on success
+  {:ok, ExOctocat.Model.SelectedActions.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_allowed_actions_repository(
@@ -1132,7 +1132,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           String.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.SelectedActions.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.SelectedActions.t()} | {:error, Tesla.Env.t()}
   def actions_get_allowed_actions_repository(connection, owner, repo, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1140,7 +1140,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.SelectedActions{}}
+      {200, %ExOctocat.Model.SelectedActions{}}
     ])
   end
 
@@ -1150,18 +1150,18 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - artifact_id (integer()): artifact_id parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.Artifact.t} on success
+  {:ok, ExOctocat.Model.Artifact.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_artifact(Tesla.Env.client(), String.t(), String.t(), integer(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.Artifact.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.Artifact.t()} | {:error, Tesla.Env.t()}
   def actions_get_artifact(connection, owner, repo, artifact_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1169,7 +1169,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.Artifact{}}
+      {200, %ExOctocat.Model.Artifact{}}
     ])
   end
 
@@ -1179,17 +1179,17 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - repository_id (integer()): 
+  - connection (ExOctocat.Connection): Connection to server
+  - repository_id (integer()):
   - environment_name (String.t): The name of the environment
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.ActionsPublicKey.t} on success
+  {:ok, ExOctocat.Model.ActionsPublicKey.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_environment_public_key(Tesla.Env.client(), integer(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.ActionsPublicKey.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.ActionsPublicKey.t()} | {:error, Tesla.Env.t()}
   def actions_get_environment_public_key(connection, repository_id, environment_name, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1197,7 +1197,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.ActionsPublicKey{}}
+      {200, %ExOctocat.Model.ActionsPublicKey{}}
     ])
   end
 
@@ -1207,14 +1207,14 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - repository_id (integer()): 
+  - connection (ExOctocat.Connection): Connection to server
+  - repository_id (integer()):
   - environment_name (String.t): The name of the environment
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.ActionsSecret.t} on success
+  {:ok, ExOctocat.Model.ActionsSecret.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_environment_secret(
@@ -1223,7 +1223,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           String.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.ActionsSecret.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.ActionsSecret.t()} | {:error, Tesla.Env.t()}
   def actions_get_environment_secret(
         connection,
         repository_id,
@@ -1239,7 +1239,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.ActionsSecret{}}
+      {200, %ExOctocat.Model.ActionsSecret{}}
     ])
   end
 
@@ -1249,12 +1249,12 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.ActionsOrganizationPermissions.t} on success
+  {:ok, ExOctocat.Model.ActionsOrganizationPermissions.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_github_actions_permissions_organization(
@@ -1262,7 +1262,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           keyword()
         ) ::
-          {:ok, GitHubV3RESTAPI.Model.ActionsOrganizationPermissions.t()}
+          {:ok, ExOctocat.Model.ActionsOrganizationPermissions.t()}
           | {:error, Tesla.Env.t()}
   def actions_get_github_actions_permissions_organization(connection, org, _opts \\ []) do
     %{}
@@ -1271,7 +1271,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.ActionsOrganizationPermissions{}}
+      {200, %ExOctocat.Model.ActionsOrganizationPermissions{}}
     ])
   end
 
@@ -1281,13 +1281,13 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.ActionsRepositoryPermissions.t} on success
+  {:ok, ExOctocat.Model.ActionsRepositoryPermissions.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_github_actions_permissions_repository(
@@ -1296,7 +1296,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           keyword()
         ) ::
-          {:ok, GitHubV3RESTAPI.Model.ActionsRepositoryPermissions.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.ActionsRepositoryPermissions.t()} | {:error, Tesla.Env.t()}
   def actions_get_github_actions_permissions_repository(connection, owner, repo, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1304,7 +1304,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.ActionsRepositoryPermissions{}}
+      {200, %ExOctocat.Model.ActionsRepositoryPermissions{}}
     ])
   end
 
@@ -1314,14 +1314,14 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - job_id (integer()): job_id parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.Job.t} on success
+  {:ok, ExOctocat.Model.Job.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_job_for_workflow_run(
@@ -1330,7 +1330,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.Job.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.Job.t()} | {:error, Tesla.Env.t()}
   def actions_get_job_for_workflow_run(connection, owner, repo, job_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1338,7 +1338,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.Job{}}
+      {200, %ExOctocat.Model.Job{}}
     ])
   end
 
@@ -1348,16 +1348,16 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.ActionsPublicKey.t} on success
+  {:ok, ExOctocat.Model.ActionsPublicKey.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_org_public_key(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.ActionsPublicKey.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.ActionsPublicKey.t()} | {:error, Tesla.Env.t()}
   def actions_get_org_public_key(connection, org, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1365,7 +1365,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.ActionsPublicKey{}}
+      {200, %ExOctocat.Model.ActionsPublicKey{}}
     ])
   end
 
@@ -1375,17 +1375,17 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.OrganizationActionsSecret.t} on success
+  {:ok, ExOctocat.Model.OrganizationActionsSecret.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_org_secret(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.OrganizationActionsSecret.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.OrganizationActionsSecret.t()} | {:error, Tesla.Env.t()}
   def actions_get_org_secret(connection, org, secret_name, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1393,7 +1393,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.OrganizationActionsSecret{}}
+      {200, %ExOctocat.Model.OrganizationActionsSecret{}}
     ])
   end
 
@@ -1403,9 +1403,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -1419,7 +1419,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, list(GitHubV3RESTAPI.Model.PendingDeployment.t())} | {:error, Tesla.Env.t()}
+        ) :: {:ok, list(ExOctocat.Model.PendingDeployment.t())} | {:error, Tesla.Env.t()}
   def actions_get_pending_deployments_for_run(connection, owner, repo, run_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1427,7 +1427,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, [%GitHubV3RESTAPI.Model.PendingDeployment{}]}
+      {200, [%ExOctocat.Model.PendingDeployment{}]}
     ])
   end
 
@@ -1437,17 +1437,17 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.ActionsPublicKey.t} on success
+  {:ok, ExOctocat.Model.ActionsPublicKey.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_repo_public_key(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.ActionsPublicKey.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.ActionsPublicKey.t()} | {:error, Tesla.Env.t()}
   def actions_get_repo_public_key(connection, owner, repo, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1455,7 +1455,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.ActionsPublicKey{}}
+      {200, %ExOctocat.Model.ActionsPublicKey{}}
     ])
   end
 
@@ -1465,18 +1465,18 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.ActionsSecret.t} on success
+  {:ok, ExOctocat.Model.ActionsSecret.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_repo_secret(Tesla.Env.client(), String.t(), String.t(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.ActionsSecret.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.ActionsSecret.t()} | {:error, Tesla.Env.t()}
   def actions_get_repo_secret(connection, owner, repo, secret_name, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1484,7 +1484,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.ActionsSecret{}}
+      {200, %ExOctocat.Model.ActionsSecret{}}
     ])
   end
 
@@ -1494,9 +1494,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -1510,7 +1510,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, list(GitHubV3RESTAPI.Model.EnvironmentApprovals.t())} | {:error, Tesla.Env.t()}
+        ) :: {:ok, list(ExOctocat.Model.EnvironmentApprovals.t())} | {:error, Tesla.Env.t()}
   def actions_get_reviews_for_run(connection, owner, repo, run_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1518,7 +1518,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, [%GitHubV3RESTAPI.Model.EnvironmentApprovals{}]}
+      {200, [%ExOctocat.Model.EnvironmentApprovals{}]}
     ])
   end
 
@@ -1528,13 +1528,13 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_id (integer()): Unique identifier of the self-hosted runner.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.Runner.t} on success
+  {:ok, ExOctocat.Model.Runner.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_self_hosted_runner_for_org(
@@ -1542,7 +1542,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.Runner.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.Runner.t()} | {:error, Tesla.Env.t()}
   def actions_get_self_hosted_runner_for_org(connection, org, runner_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1550,7 +1550,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.Runner{}}
+      {200, %ExOctocat.Model.Runner{}}
     ])
   end
 
@@ -1560,14 +1560,14 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - runner_id (integer()): Unique identifier of the self-hosted runner.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.Runner.t} on success
+  {:ok, ExOctocat.Model.Runner.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_self_hosted_runner_for_repo(
@@ -1576,7 +1576,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.Runner.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.Runner.t()} | {:error, Tesla.Env.t()}
   def actions_get_self_hosted_runner_for_repo(connection, owner, repo, runner_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1584,7 +1584,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.Runner{}}
+      {200, %ExOctocat.Model.Runner{}}
     ])
   end
 
@@ -1594,13 +1594,13 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.RunnerGroupsOrg.t} on success
+  {:ok, ExOctocat.Model.RunnerGroupsOrg.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_self_hosted_runner_group_for_org(
@@ -1608,7 +1608,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.RunnerGroupsOrg.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.RunnerGroupsOrg.t()} | {:error, Tesla.Env.t()}
   def actions_get_self_hosted_runner_group_for_org(connection, org, runner_group_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1616,7 +1616,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.RunnerGroupsOrg{}}
+      {200, %ExOctocat.Model.RunnerGroupsOrg{}}
     ])
   end
 
@@ -1626,23 +1626,23 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - workflow_id (OneOfintegerstring): The ID of the workflow. You can also pass the workflow file name as a string.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.Workflow.t} on success
+  {:ok, ExOctocat.Model.Workflow.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_workflow(
           Tesla.Env.client(),
           String.t(),
           String.t(),
-          GitHubV3RESTAPI.Model.OneOfintegerstring.t(),
+          ExOctocat.Model.OneOfintegerstring.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.Workflow.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.Workflow.t()} | {:error, Tesla.Env.t()}
   def actions_get_workflow(connection, owner, repo, workflow_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1650,7 +1650,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.Workflow{}}
+      {200, %ExOctocat.Model.Workflow{}}
     ])
   end
 
@@ -1660,18 +1660,18 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.WorkflowRun.t} on success
+  {:ok, ExOctocat.Model.WorkflowRun.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_workflow_run(Tesla.Env.client(), String.t(), String.t(), integer(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.WorkflowRun.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.WorkflowRun.t()} | {:error, Tesla.Env.t()}
   def actions_get_workflow_run(connection, owner, repo, run_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1679,7 +1679,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.WorkflowRun{}}
+      {200, %ExOctocat.Model.WorkflowRun{}}
     ])
   end
 
@@ -1689,14 +1689,14 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.WorkflowRunUsage.t} on success
+  {:ok, ExOctocat.Model.WorkflowRunUsage.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_workflow_run_usage(
@@ -1705,7 +1705,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.WorkflowRunUsage.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.WorkflowRunUsage.t()} | {:error, Tesla.Env.t()}
   def actions_get_workflow_run_usage(connection, owner, repo, run_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1713,7 +1713,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.WorkflowRunUsage{}}
+      {200, %ExOctocat.Model.WorkflowRunUsage{}}
     ])
   end
 
@@ -1723,23 +1723,23 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - workflow_id (OneOfintegerstring): The ID of the workflow. You can also pass the workflow file name as a string.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.WorkflowUsage.t} on success
+  {:ok, ExOctocat.Model.WorkflowUsage.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_get_workflow_usage(
           Tesla.Env.client(),
           String.t(),
           String.t(),
-          GitHubV3RESTAPI.Model.OneOfintegerstring.t(),
+          ExOctocat.Model.OneOfintegerstring.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.WorkflowUsage.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.WorkflowUsage.t()} | {:error, Tesla.Env.t()}
   def actions_get_workflow_usage(connection, owner, repo, workflow_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -1747,7 +1747,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.WorkflowUsage{}}
+      {200, %ExOctocat.Model.WorkflowUsage{}}
     ])
   end
 
@@ -1757,19 +1757,19 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20013.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20013.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_artifacts_for_repo(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse20013.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse20013.t()} | {:error, Tesla.Env.t()}
   def actions_list_artifacts_for_repo(connection, owner, repo, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -1783,7 +1783,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20013{}}
+      {200, %ExOctocat.Model.InlineResponse20013{}}
     ])
   end
 
@@ -1793,19 +1793,19 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - repository_id (integer()): 
+  - connection (ExOctocat.Connection): Connection to server
+  - repository_id (integer()):
   - environment_name (String.t): The name of the environment
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20016.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20016.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_environment_secrets(Tesla.Env.client(), integer(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse20016.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse20016.t()} | {:error, Tesla.Env.t()}
   def actions_list_environment_secrets(connection, repository_id, environment_name, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -1819,7 +1819,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20016{}}
+      {200, %ExOctocat.Model.InlineResponse20016{}}
     ])
   end
 
@@ -1829,9 +1829,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
     - :filter (String.t): Filters jobs by their `completed_at` timestamp. Can be one of:   \\* `latest`: Returns jobs from the most recent execution of the workflow run.   \\* `all`: Returns all jobs for a workflow run, including from old executions of the workflow run.
@@ -1839,7 +1839,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20015.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20015.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_jobs_for_workflow_run(
@@ -1848,7 +1848,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse20015.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse20015.t()} | {:error, Tesla.Env.t()}
   def actions_list_jobs_for_workflow_run(connection, owner, repo, run_id, opts \\ []) do
     optional_params = %{
       :filter => :query,
@@ -1863,7 +1863,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20015{}}
+      {200, %ExOctocat.Model.InlineResponse20015{}}
     ])
   end
 
@@ -1873,18 +1873,18 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20010.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20010.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_org_secrets(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse20010.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse20010.t()} | {:error, Tesla.Env.t()}
   def actions_list_org_secrets(connection, org, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -1898,7 +1898,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20010{}}
+      {200, %ExOctocat.Model.InlineResponse20010{}}
     ])
   end
 
@@ -1908,15 +1908,15 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - opts (KeywordList): [optional] Optional parameters
     - :page (integer()): Page number of the results to fetch.
     - :per_page (integer()): Results per page (max 100)
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse2008.t} on success
+  {:ok, ExOctocat.Model.InlineResponse2008.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_repo_access_to_self_hosted_runner_group_in_org(
@@ -1924,7 +1924,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse2008.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse2008.t()} | {:error, Tesla.Env.t()}
   def actions_list_repo_access_to_self_hosted_runner_group_in_org(
         connection,
         org,
@@ -1943,7 +1943,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse2008{}}
+      {200, %ExOctocat.Model.InlineResponse2008{}}
     ])
   end
 
@@ -1953,19 +1953,19 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20016.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20016.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_repo_secrets(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse20016.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse20016.t()} | {:error, Tesla.Env.t()}
   def actions_list_repo_secrets(connection, owner, repo, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -1979,7 +1979,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20016{}}
+      {200, %ExOctocat.Model.InlineResponse20016{}}
     ])
   end
 
@@ -1989,19 +1989,19 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20017.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20017.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_repo_workflows(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse20017.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse20017.t()} | {:error, Tesla.Env.t()}
   def actions_list_repo_workflows(connection, owner, repo, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -2015,7 +2015,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20017{}}
+      {200, %ExOctocat.Model.InlineResponse20017{}}
     ])
   end
 
@@ -2025,8 +2025,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -2034,7 +2034,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_runner_applications_for_org(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, list(GitHubV3RESTAPI.Model.RunnerApplication.t())} | {:error, Tesla.Env.t()}
+          {:ok, list(ExOctocat.Model.RunnerApplication.t())} | {:error, Tesla.Env.t()}
   def actions_list_runner_applications_for_org(connection, org, _opts \\ []) do
     %{}
     |> method(:get)
@@ -2042,7 +2042,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, [%GitHubV3RESTAPI.Model.RunnerApplication{}]}
+      {200, [%ExOctocat.Model.RunnerApplication{}]}
     ])
   end
 
@@ -2052,9 +2052,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -2066,7 +2066,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           String.t(),
           keyword()
-        ) :: {:ok, list(GitHubV3RESTAPI.Model.RunnerApplication.t())} | {:error, Tesla.Env.t()}
+        ) :: {:ok, list(ExOctocat.Model.RunnerApplication.t())} | {:error, Tesla.Env.t()}
   def actions_list_runner_applications_for_repo(connection, owner, repo, _opts \\ []) do
     %{}
     |> method(:get)
@@ -2074,7 +2074,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, [%GitHubV3RESTAPI.Model.RunnerApplication{}]}
+      {200, [%ExOctocat.Model.RunnerApplication{}]}
     ])
   end
 
@@ -2084,15 +2084,15 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
     - :page (integer()): Page number of the results to fetch.
     - :per_page (integer()): Results per page (max 100)
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20011.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20011.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_selected_repos_for_org_secret(
@@ -2100,7 +2100,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           String.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse20011.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse20011.t()} | {:error, Tesla.Env.t()}
   def actions_list_selected_repos_for_org_secret(connection, org, secret_name, opts \\ []) do
     optional_params = %{
       :page => :query,
@@ -2114,7 +2114,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20011{}}
+      {200, %ExOctocat.Model.InlineResponse20011{}}
     ])
   end
 
@@ -2124,21 +2124,21 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse2006.t} on success
+  {:ok, ExOctocat.Model.InlineResponse2006.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_selected_repositories_enabled_github_actions_organization(
           Tesla.Env.client(),
           String.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse2006.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse2006.t()} | {:error, Tesla.Env.t()}
   def actions_list_selected_repositories_enabled_github_actions_organization(
         connection,
         org,
@@ -2156,7 +2156,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse2006{}}
+      {200, %ExOctocat.Model.InlineResponse2006{}}
     ])
   end
 
@@ -2166,18 +2166,18 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse2007.t} on success
+  {:ok, ExOctocat.Model.InlineResponse2007.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_self_hosted_runner_groups_for_org(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse2007.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse2007.t()} | {:error, Tesla.Env.t()}
   def actions_list_self_hosted_runner_groups_for_org(connection, org, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -2191,7 +2191,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse2007{}}
+      {200, %ExOctocat.Model.InlineResponse2007{}}
     ])
   end
 
@@ -2201,18 +2201,18 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse2009.t} on success
+  {:ok, ExOctocat.Model.InlineResponse2009.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_self_hosted_runners_for_org(Tesla.Env.client(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse2009.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse2009.t()} | {:error, Tesla.Env.t()}
   def actions_list_self_hosted_runners_for_org(connection, org, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -2226,7 +2226,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse2009{}}
+      {200, %ExOctocat.Model.InlineResponse2009{}}
     ])
   end
 
@@ -2236,15 +2236,15 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse2009.t} on success
+  {:ok, ExOctocat.Model.InlineResponse2009.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_self_hosted_runners_for_repo(
@@ -2252,7 +2252,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           String.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse2009.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse2009.t()} | {:error, Tesla.Env.t()}
   def actions_list_self_hosted_runners_for_repo(connection, owner, repo, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -2266,7 +2266,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse2009{}}
+      {200, %ExOctocat.Model.InlineResponse2009{}}
     ])
   end
 
@@ -2276,15 +2276,15 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse2003.t} on success
+  {:ok, ExOctocat.Model.InlineResponse2003.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_self_hosted_runners_in_group_for_org(
@@ -2292,7 +2292,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse2003.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse2003.t()} | {:error, Tesla.Env.t()}
   def actions_list_self_hosted_runners_in_group_for_org(
         connection,
         org,
@@ -2311,7 +2311,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse2003{}}
+      {200, %ExOctocat.Model.InlineResponse2003{}}
     ])
   end
 
@@ -2321,16 +2321,16 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20013.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20013.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_workflow_run_artifacts(
@@ -2339,7 +2339,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse20013.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse20013.t()} | {:error, Tesla.Env.t()}
   def actions_list_workflow_run_artifacts(connection, owner, repo, run_id, opts \\ []) do
     optional_params = %{
       :per_page => :query,
@@ -2353,7 +2353,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20013{}}
+      {200, %ExOctocat.Model.InlineResponse20013{}}
     ])
   end
 
@@ -2363,9 +2363,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - workflow_id (OneOfintegerstring): The ID of the workflow. You can also pass the workflow file name as a string.
   - opts (KeywordList): [optional] Optional parameters
     - :actor (String.t): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
@@ -2374,19 +2374,19 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     - :status (String.t): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`. For a list of the possible `status` and `conclusion` options, see \"[Create a check run](https://docs.github.com/rest/reference/checks#create-a-check-run).\"
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
-    - :created (DateTime.t): 
+    - :created (DateTime.t):
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20014.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20014.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_workflow_runs(
           Tesla.Env.client(),
           String.t(),
           String.t(),
-          GitHubV3RESTAPI.Model.OneOfintegerstring.t(),
+          ExOctocat.Model.OneOfintegerstring.t(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.InlineResponse20014.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.InlineResponse20014.t()} | {:error, Tesla.Env.t()}
   def actions_list_workflow_runs(connection, owner, repo, workflow_id, opts \\ []) do
     optional_params = %{
       :actor => :query,
@@ -2405,7 +2405,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20014{}}
+      {200, %ExOctocat.Model.InlineResponse20014{}}
     ])
   end
 
@@ -2415,9 +2415,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
     - :actor (String.t): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
     - :branch (String.t): Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
@@ -2425,14 +2425,14 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     - :status (String.t): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`. For a list of the possible `status` and `conclusion` options, see \"[Create a check run](https://docs.github.com/rest/reference/checks#create-a-check-run).\"
     - :per_page (integer()): Results per page (max 100)
     - :page (integer()): Page number of the results to fetch.
-    - :created (DateTime.t): 
+    - :created (DateTime.t):
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.InlineResponse20014.t} on success
+  {:ok, ExOctocat.Model.InlineResponse20014.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_list_workflow_runs_for_repo(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
-          {:ok, GitHubV3RESTAPI.Model.InlineResponse20014.t()} | {:error, Tesla.Env.t()}
+          {:ok, ExOctocat.Model.InlineResponse20014.t()} | {:error, Tesla.Env.t()}
   def actions_list_workflow_runs_for_repo(connection, owner, repo, opts \\ []) do
     optional_params = %{
       :actor => :query,
@@ -2451,7 +2451,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.InlineResponse20014{}}
+      {200, %ExOctocat.Model.InlineResponse20014{}}
     ])
   end
 
@@ -2461,9 +2461,9 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -2491,10 +2491,10 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
-  - repository_id (integer()): 
+  - repository_id (integer()):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -2531,10 +2531,10 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - secret_name (String.t): secret_name parameter
-  - repository_id (integer()): 
+  - repository_id (integer()):
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -2572,8 +2572,8 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - runner_id (integer()): Unique identifier of the self-hosted runner.
   - opts (KeywordList): [optional] Optional parameters
@@ -2612,12 +2612,12 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - run_id (integer()): The id of the workflow run.
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject61): 
+    - :body (InlineObject61):
   ## Returns
 
   {:ok, [%Deployment{}, ...]} on success
@@ -2629,7 +2629,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, list(GitHubV3RESTAPI.Model.Deployment.t())} | {:error, Tesla.Env.t()}
+        ) :: {:ok, list(ExOctocat.Model.Deployment.t())} | {:error, Tesla.Env.t()}
   def actions_review_pending_deployments_for_run(connection, owner, repo, run_id, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -2643,7 +2643,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, [%GitHubV3RESTAPI.Model.Deployment{}]}
+      {200, [%ExOctocat.Model.Deployment{}]}
     ])
   end
 
@@ -2653,10 +2653,10 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
-    - :body (SelectedActions): 
+    - :body (SelectedActions):
   ## Returns
 
   {:ok, nil} on success
@@ -2687,11 +2687,11 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
-    - :body (SelectedActions): 
+    - :body (SelectedActions):
   ## Returns
 
   {:ok, nil} on success
@@ -2726,10 +2726,10 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject24): 
+    - :body (InlineObject24):
   ## Returns
 
   {:ok, nil} on success
@@ -2763,11 +2763,11 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - owner (String.t): 
-  - repo (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - owner (String.t):
+  - repo (String.t):
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject60): 
+    - :body (InlineObject60):
   ## Returns
 
   {:ok, nil} on success
@@ -2802,11 +2802,11 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject28): 
+    - :body (InlineObject28):
   ## Returns
 
   {:ok, nil} on success
@@ -2846,11 +2846,11 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - secret_name (String.t): secret_name parameter
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject31): 
+    - :body (InlineObject31):
   ## Returns
 
   {:ok, nil} on success
@@ -2885,10 +2885,10 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject25): 
+    - :body (InlineObject25):
   ## Returns
 
   {:ok, nil} on success
@@ -2926,11 +2926,11 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject29): 
+    - :body (InlineObject29):
   ## Returns
 
   {:ok, nil} on success
@@ -2970,14 +2970,14 @@ defmodule GitHubV3RESTAPI.Api.Actions do
 
   ## Parameters
 
-  - connection (GitHubV3RESTAPI.Connection): Connection to server
-  - org (String.t): 
+  - connection (ExOctocat.Connection): Connection to server
+  - org (String.t):
   - runner_group_id (integer()): Unique identifier of the self-hosted runner group.
   - opts (KeywordList): [optional] Optional parameters
-    - :body (InlineObject27): 
+    - :body (InlineObject27):
   ## Returns
 
-  {:ok, GitHubV3RESTAPI.Model.RunnerGroupsOrg.t} on success
+  {:ok, ExOctocat.Model.RunnerGroupsOrg.t} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec actions_update_self_hosted_runner_group_for_org(
@@ -2985,7 +2985,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
           String.t(),
           integer(),
           keyword()
-        ) :: {:ok, GitHubV3RESTAPI.Model.RunnerGroupsOrg.t()} | {:error, Tesla.Env.t()}
+        ) :: {:ok, ExOctocat.Model.RunnerGroupsOrg.t()} | {:error, Tesla.Env.t()}
   def actions_update_self_hosted_runner_group_for_org(
         connection,
         org,
@@ -3004,7 +3004,7 @@ defmodule GitHubV3RESTAPI.Api.Actions do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      {200, %GitHubV3RESTAPI.Model.RunnerGroupsOrg{}}
+      {200, %ExOctocat.Model.RunnerGroupsOrg{}}
     ])
   end
 end
