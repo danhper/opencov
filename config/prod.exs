@@ -23,6 +23,11 @@ config :opencov, :auth,
 
 config :logger, level: :info
 
+config Opencov.Plug.Github,
+  secret: System.get_env("OPENCOV_GITHUB_WEBOOK_SECRET") || "super-secret",
+  path: "/api/v1/github_webhook",
+  action: {Opencov.GithubService, :handle}
+
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"
 end
