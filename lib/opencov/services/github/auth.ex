@@ -12,7 +12,7 @@ defmodule Opencov.Services.Github.Auth do
       %{}
       |> Joken.Config.add_claim("iat", fn -> now() - 60 end)
       |> Joken.Config.add_claim("exp", fn -> now() + 60 end)
-      |> Joken.Config.add_claim("iss", fn -> "133119" end)
+      |> Joken.Config.add_claim("iss", &github_client_id/0)
 
     {:ok, jwt, _} = Joken.generate_and_sign(token_config, %{}, signer)
     jwt
@@ -33,4 +33,10 @@ defmodule Opencov.Services.Github.Auth do
       {:ok, token.token}
     end
   end
+
+  defp config do
+    Application.get_env(:opencov, :github, [])
+  end
+
+  defp github_client_id, do: config() |> Keyword.get(:client_id, "")
 end
