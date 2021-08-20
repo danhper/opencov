@@ -1,1 +1,1 @@
-web: mix.sentry_recompile && mix phx.server
+web: mix sentry_recompile && mix phx.server
