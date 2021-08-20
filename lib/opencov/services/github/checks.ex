@@ -5,12 +5,19 @@ defmodule Librecov.Services.Github.Checks do
   alias Librecov.Build
   import Librecov.Helpers.Coverage
 
-  def finish_check(token, owner, repo, %Build{
-        coverage: coverage,
-        previous_coverage: previous_coverage,
-        commit_sha: commit
-      }) do
-    cov_dif = coverage_diff(coverage, previous_coverage) |> format_coverage()
+  def finish_check(
+        token,
+        owner,
+        repo,
+        %Build{
+          coverage: coverage,
+          previous_coverage: previous_coverage,
+          commit_sha: commit
+        },
+        base_coverage
+      ) do
+    real_previous_coverage = base_coverage || previous_coverage || 0.0
+    cov_dif = coverage_diff(coverage, real_previous_coverage) |> format_coverage()
     cov = coverage |> format_coverage()
 
     conn =
@@ -36,7 +43,7 @@ defmodule Librecov.Services.Github.Checks do
              body: %{
                name: "LibreCov/diff",
                head_sha: commit,
-               conclusion: coverage_diff(coverage, previous_coverage) |> diff_conclusion(),
+               conclusion: coverage_diff(coverage, real_previous_coverage) |> diff_conclusion(),
                output: %{
                  title: "Coverage changed #{cov_dif}",
                  summary: "changed #{cov_dif}"

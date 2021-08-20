@@ -82,7 +82,7 @@ defmodule Librecov.ProjectManager do
 
       with {owner, name} <- Project.name_and_owner(project),
            {:ok, token} <- Auth.login_token(owner) do
-        Checks.finish_check(token, owner, name, build)
+        Checks.finish_check(token, owner, name, build, project.current_coverage)
 
         unless is_nil(build.branch) or build.branch == "" do
           CommentTemplate.coverage_message(project, build, job)
