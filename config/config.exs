@@ -12,8 +12,7 @@ config :opencov,
   base_url: "http://localhost:4000",
   ecto_repos: [Opencov.Repo]
 
-config :opencov, :github,
-  client_id: System.get_env("OPENCOV_GITHUB_CLIENT_ID")
+config :opencov, :github, client_id: System.get_env("OPENCOV_GITHUB_CLIENT_ID")
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -48,6 +47,12 @@ config :opencov, :demo,
   enabled: System.get_env("OPENCOV_DEMO") == "true",
   email: "user@opencov.com",
   password: "password123"
+
+config :joken,
+  rs256: [
+    signer_alg: "RS256",
+    key_pem: System.get_env("OPENCOV_GITHUB_SECRET_KEY")
+  ]
 
 import_config "#{Mix.env()}.exs"
 
