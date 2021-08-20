@@ -37,6 +37,7 @@ defmodule Librecov.Mixfile do
 
   defp deps do
     [
+      {:plug_cloudflare, ">= 1.2.0"},
       {:joken, "~> 2.0"},
       {:stream_gzip, "~> 0.4"},
       {:comeonin, "~> 2.4"},
