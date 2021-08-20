@@ -1,7 +1,7 @@
 # OpenCov
 
 ![Build Status](https://github.com/yknx4/opencov/actions/workflows/tests.yml/badge.svg)
-[![Coverage Status](http://demo.opencov.com/projects/1/badge.svg)](http://demo.opencov.com/projects/1)
+[![Coverage Status](https://opencov-reloaded.herokuapp.com/projects/1/badge.svg)](https://opencov-reloaded.herokuapp.com/projects/1)
 [![codecov](https://codecov.io/gh/yknx4/opencov/branch/main/graph/badge.svg?token=Q9kaFXoFTn)](https://codecov.io/gh/yknx4/opencov)
 
 OpenCov is a self-hosted opensource test coverage history viewer.
@@ -10,7 +10,7 @@ coverage tools will work easily.
 
 ## Demo and screenshots
 
-A demo is available at http://demo.opencov.com, you can create an account or login with
+A demo is available at https://opencov-reloaded.herokuapp.com, you can create an account or login with
 
 * username: user@opencov.com
 * password: password123
@@ -44,7 +44,7 @@ NOTE: the demo is on a Heroku free dyno, so it may not always be available and m
 
 First, you will need to at least setup a database
 To configure the app, create a `local.exs` file and override the configuration you need.
-Check [config/local.sample.exs](https://github.com/danhper/opencov/blob/master/config/local.sample.exs) to see the available configurations.
+Check [config/local.sample.exs](https://github.com/yknx4/opencov/blob/master/config/local.sample.exs) to see the available configurations.
 
 ### Using docker
 
@@ -54,19 +54,19 @@ If you already have a database to use, you can simply start the application usin
 
 Setup database, run migrations and seeds
 ```
-$ docker run --rm -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov mix ecto.setup
+$ docker run --rm -v /absolute/path/to/local.exs:/opencov/config/local.exs yknx4/opencov mix ecto.setup
 ```
 
 Execute Phoenix Server
 ```
-$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs danhper/opencov
+$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs yknx4/opencov
 ```
 
 This will start the server on the port you set in `local.exs`.
 
 #### With docker-compose
 
-If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/danhper/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
+If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/yknx4/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
 
 Once you have your `docker-compose.yml` and `local.exs` ready, you can run
 
@@ -78,7 +78,7 @@ $ docker-compose up
 ### Manually
 
 ```
-$ git clone https://github.com/danhper/opencov.git
+$ git clone https://github.com/yknx4/opencov.git
 $ cd opencov
 $ cp /path/to/local.exs config/local.exs # local.exs must be in the `config` directory of the app
 
@@ -129,7 +129,7 @@ You should use it for your first login and the change the email and password.
 
 ## Sending test metrics
 
-A few languages are documented in [the wiki](https://github.com/danhper/opencov/wiki).
+A few languages are documented in [the wiki](https://github.com/yknx4/opencov/wiki).
 For other languages, coveralls instructions should work out of the box,
 you just need to set the URL to your OpenCov server and to explicitly set
 the token, even when using Travis.
@@ -140,6 +140,6 @@ The application is more or less stable. I have been using it
 for a little while now with coverage data from the 4 languages in the Wiki.
 
 The main missing feature is the ability to send coverage status on pull requests.
-The implementation is started in the [integrations branch](https://github.com/danhper/opencov/tree/integrations) but I could not find the time to finish it yet.
+The implementation is started in the [integrations branch](https://github.com/yknx4/opencov/tree/integrations) but I could not find the time to finish it yet.
 
 I am open to any other suggestions, and help is very welcome.
