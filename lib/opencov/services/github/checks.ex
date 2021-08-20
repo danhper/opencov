@@ -3,6 +3,7 @@ defmodule Librecov.Services.Github.Checks do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Checks
   alias Librecov.Build
+  import Librecov.Helpers.Coverage
 
   def finish_check(token, owner, repo, %Build{
         coverage: coverage,
@@ -65,9 +66,4 @@ defmodule Librecov.Services.Github.Checks do
   defp diff_conclusion(diff) when diff == 0, do: "neutral"
   defp diff_conclusion(diff) when diff < 0, do: "failure"
   defp diff_conclusion(diff) when diff > 0, do: "success"
-
-  defp format_coverage(coverage), do: "#{Float.round(coverage, 2)}%"
-
-  defp coverage_diff(coverage, nil), do: coverage
-  defp coverage_diff(coverage, previous_coverage), do: coverage - previous_coverage
 end

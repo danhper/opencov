@@ -1,0 +1,92 @@
+defmodule Librecov.Templates.CommentTemplate do
+  alias Librecov.Build
+  alias Librecov.Project
+  alias Librecov.Endpoint
+  alias Librecov.JobManager
+  alias Librecov.File
+  alias Librecov.Job
+  import Librecov.Router.Helpers
+  import Librecov.Helpers.Coverage
+
+  def coverage_message(
+        %Project{},
+        %Build{
+          id: build_id,
+          coverage: coverage,
+          previous_coverage: previous_coverage,
+          commit_sha: commit,
+          branch: branch
+        },
+        %Job{} = job
+      ) do
+    cov_dif = coverage_diff(coverage, previous_coverage)
+    report_url = build_path(Endpoint, :show, build_id)
+
+    files =
+      job
+      |> JobManager.preload_files()
+      |> Enum.filter(fn %File{coverage: coverage, previous_coverage: previous_coverage} ->
+        previous_coverage - coverage != 0
+      end)
+
+    """
+    # [Librecov](#{report_url}) Report
+    #{merge_message(cov_dif, branch, commit, report_url)}
+    #{diff_message(cov_dif, coverage)}
+    #{impacted_files_message(report_url, files)}
+    ------
+
+    [Continue to review full report at Librecov](#{report_url}).
+    > **Legend**
+    > `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+    > Powered by [Librecov](#{project_path(Endpoint, :index)}).
+    """
+  end
+
+  def merge_message(0.0, branch, commit, report_url),
+    do:
+      "> Merging [#{branch |> format_branch()}](#{report_url}) (#{commit |> format_commit()}) will **not change** coverage."
+
+  def merge_message(cov_dif, branch, commit, report_url),
+    do:
+      "> Merging [#{branch |> format_branch()}](#{report_url}) (#{commit |> format_commit()}) will **#{cov_dif |> diff_verb()}** coverage by `#{cov_dif |> format_coverage()}`."
+
+  def diff_message(0.0, _), do: "> The diff coverage is `n/a`."
+  def diff_message(_, coverage), do: "> The diff coverage is `#{coverage |> format_coverage()}`."
+
+  def impacted_files_message(_, []), do: ""
+
+  def impacted_files_message(report_url, files) do
+    """
+
+    | [Impacted Files](#{report_url}) | Coverage Δ | |
+    |---|---|---|
+    #{files |> Enum.map(&file_line/1) |> Enum.join("\n")}
+
+    """
+  end
+
+  defp file_line(%File{
+         id: file_id,
+         name: filename,
+         coverage: coverage,
+         previous_coverage: previous_coverage
+       }) do
+    cov_diff = coverage_diff(coverage, previous_coverage)
+
+    "| [#{filename}](#{file_path(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | |"
+  end
+
+  defp file_icon(diff) when diff >= 0.0 and diff <= 0.01, do: "ø"
+  defp file_icon(_diff), do: "Δ"
+
+  defp format_commit(commit), do: String.slice(commit, 0, 7)
+
+  defp format_branch(""), do: "this"
+  defp format_branch(nil), do: "this"
+  defp format_branch(branch), do: branch
+
+  defp diff_verb(diff) when diff == 0, do: "mantain"
+  defp diff_verb(diff) when diff < 0, do: "decrease"
+  defp diff_verb(diff) when diff > 0, do: "increase"
+end
