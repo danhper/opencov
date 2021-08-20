@@ -1,7 +1,7 @@
 FROM elixir:1.12.2-slim AS build
 
 # install build dependencies
-RUN apt update && apt install -y build-essential
+RUN apt update && apt install -y build-essential git
 
 # prepare build dir
 WORKDIR /app
