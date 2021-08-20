@@ -27,12 +27,22 @@ config :librecov, :auth,
   password: System.get_env("LIBRECOV_PASSWORD"),
   realm: System.get_env("LIBRECOV_REALM") || "Protected LibreCov"
 
-config :logger, level: :info
+config :logger, level: :info, backends: [:console, Sentry.LoggerBackend]
 
 config Librecov.Plug.Github,
   secret: System.get_env("LIBRECOV_GITHUB_WEBOOK_SECRET") || "super-secret",
   path: "/api/v1/github_webhook",
   action: {Librecov.GithubService, :handle}
+
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN"),
+  environment_name: System.get_env("RELEASE_LEVEL") || "development",
+  enable_source_code_context: true,
+  root_source_code_path: File.cwd!(),
+  tags: %{
+    env: "production"
+  },
+  included_environments: [:production]
 
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"
