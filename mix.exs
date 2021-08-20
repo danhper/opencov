@@ -80,7 +80,8 @@ defmodule Librecov.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "seedex.seed"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "assets.compile": [&compile_assets/1, "phx.digest"]
+      "assets.compile": [&compile_assets/1, "phx.digest"],
+      sentry_recompile: ["compile", "deps.compile sentry --force"]
     ]
   end
 
