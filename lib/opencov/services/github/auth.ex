@@ -1,8 +1,7 @@
 defmodule Opencov.Services.Github.Auth do
-  alias ExPublicKey.RSAPrivateKey
-  alias GitHubV3RESTAPI.Connection
-  alias GitHubV3RESTAPI.Api.Apps
-  alias GitHubV3RESTAPI.Model.Installation
+  alias ExOctocat.Connection
+  alias ExOctocat.Api.Apps
+  alias ExOctocat.Model.Installation
 
   def now, do: Timex.now() |> Timex.to_unix()
 
@@ -11,9 +10,9 @@ defmodule Opencov.Services.Github.Auth do
 
     token_config =
       %{}
-      |> Joken.Config.add_claim("iat", fn -> now - 60 end)
-      |> Joken.Config.add_claim("exp", fn -> now + 60 end)
-      |> Joken.Config.add_claim("iss", fn -> "133119" end)
+      |> Joken.Config.add_claim("iat", fn -> now() - 60 end)
+      |> Joken.Config.add_claim("exp", fn -> now() + 60 end)
+      |> Joken.Config.add_claim("iss", &github_client_id/0)
 
     {:ok, jwt, _} = Joken.generate_and_sign(token_config, %{}, signer)
     jwt
@@ -34,4 +33,10 @@ defmodule Opencov.Services.Github.Auth do
       {:ok, token.token}
     end
   end
+
+  defp config do
+    Application.get_env(:opencov, :github, [])
+  end
+
+  defp github_client_id, do: config() |> Keyword.get(:client_id, "")
 end

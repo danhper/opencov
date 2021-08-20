@@ -47,7 +47,7 @@ defmodule Opencov.Plug.Github do
   defp get_config(key) do
     case Application.get_env(Opencov.Plug.Github, key) do
       nil ->
-        Logger.warn("Opencob.Plug.Github config key #{inspect(key)} is not configured.")
+        Logger.debug("Opencob.Plug.Github config key #{inspect(key)} is not configured.")
         ""
 
       val ->

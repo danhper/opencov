@@ -12,6 +12,7 @@ config :opencov, Opencov.Endpoint,
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
+  ssl: true,
   pool_size: String.to_integer(System.get_env("POSTGRES_POOL_SIZE") || "10")
 
 config :opencov, :auth,
@@ -21,6 +22,11 @@ config :opencov, :auth,
   realm: System.get_env("OPENCOV_REALM") || "Protected OpenCov"
 
 config :logger, level: :info
+
+config Opencov.Plug.Github,
+  secret: System.get_env("OPENCOV_GITHUB_WEBOOK_SECRET") || "super-secret",
+  path: "/api/v1/github_webhook",
+  action: {Opencov.GithubService, :handle}
 
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"

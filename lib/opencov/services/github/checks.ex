@@ -1,11 +1,7 @@
 defmodule Opencov.Services.Github.Checks do
   require Logger
-  alias Opencov.Repo
-  alias Opencov.Project
-  alias Opencov.ProjectManager
-  alias GitHubV3RESTAPI.Connection
-  alias GitHubV3RESTAPI.Api.Checks
-  alias Opencov.Services.GithubAuth
+  alias ExOctocat.Connection
+  alias ExOctocat.Api.Checks
 
   def finish_check(token, commit, owner, repo, coverage) do
     token

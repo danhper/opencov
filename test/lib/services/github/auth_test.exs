@@ -6,9 +6,9 @@ defmodule Opencov.Services.Github.AuthTest do
   alias Opencov.Services.Github.Auth
 
   @installations_mocks [
-    %GitHubV3RESTAPI.Model.Installation{
+    %ExOctocat.Model.Installation{
       access_tokens_url: "https://api.github.com/app/installations/18960408/access_tokens",
-      account: %GitHubV3RESTAPI.Model.SimpleUser{
+      account: %ExOctocat.Model.SimpleUser{
         avatar_url: "https://avatars.githubusercontent.com/u/1848186?v=4",
         email: nil,
         events_url: "https://api.github.com/users/yknx4/events{/privacy}",
@@ -39,7 +39,7 @@ defmodule Opencov.Services.Github.AuthTest do
       has_multiple_single_files: false,
       html_url: "https://github.com/settings/installations/18960408",
       id: 18_960_408,
-      permissions: %GitHubV3RESTAPI.Model.AppPermissions{
+      permissions: %ExOctocat.Model.AppPermissions{
         actions: "read",
         administration: nil,
         checks: "write",
@@ -84,10 +84,10 @@ defmodule Opencov.Services.Github.AuthTest do
     }
   ]
 
-  @token_mock %GitHubV3RESTAPI.Model.InstallationToken{
+  @token_mock %ExOctocat.Model.InstallationToken{
     expires_at: "2021-08-20T00:51:16Z",
     has_multiple_single_files: nil,
-    permissions: %GitHubV3RESTAPI.Model.AppPermissions{
+    permissions: %ExOctocat.Model.AppPermissions{
       actions: "read",
       administration: nil,
       checks: "write",
@@ -136,7 +136,7 @@ defmodule Opencov.Services.Github.AuthTest do
   end
 
   test "make badge in other format" do
-    with_mock GitHubV3RESTAPI.Api.Apps,
+    with_mock ExOctocat.Api.Apps,
       apps_list_installations: fn _ ->
         {:ok, @installations_mocks}
       end,

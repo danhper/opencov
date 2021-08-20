@@ -8,6 +8,7 @@ defmodule Opencov.GithubService do
 
   def handle("pull_request", payload) do
     handle_pr(payload["action"], payload)
+    install(payload["repository"])
   end
 
   def handle(event, _payload) do
@@ -25,24 +26,8 @@ defmodule Opencov.GithubService do
     Logger.warn("Unhandled pr event: #{event}")
   end
 
-  def finish_check(commit, owner, repo) do
-    with {:ok, token} <-
-           owner
-           |> Auth.login_token() do
-      token
-      |> Connection.new()
-      |> Checks.checks_create(owner, repo,
-        body: %{
-          name: "Open Coverage",
-          head_sha: commit,
-          conclusion: "success"
-        }
-      )
-    end
-  end
-
   defp install(%{"id" => repo_id, "full_name" => name, "html_url" => base_url}) do
-    with {:ok, %Project{} = new_project} <-
+    with {:ok, %Project{}} <-
            Repo.insert(
              ProjectManager.changeset(%Project{}, %{
                name: name,

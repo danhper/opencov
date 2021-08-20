@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: 112233
 
   opencov:
-    image: danhper/opencov:latest
+    image: yknx4/opencov:latest
     ports:
       - "4000:4000"
     volumes:
