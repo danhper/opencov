@@ -21,7 +21,6 @@ defmodule Opencov.Services.Github.Checks do
         }
       }
     )
-    |> IO.inspect()
   end
 
   def create_check(token, commit, owner, repo) do
@@ -37,23 +36,5 @@ defmodule Opencov.Services.Github.Checks do
         }
       }
     )
-    |> IO.inspect()
-  end
-
-  def install(repo_id, name, base_url, user_id) do
-    with {:ok, %Project{} = new_project} <-
-           Repo.insert(
-             ProjectManager.changeset(%Project{}, %{
-               name: name,
-               base_url: base_url,
-               current_coverage: 0.0,
-               token: "oc_#{SecureRandom.urlsafe_base64(12)}",
-               user_id: user_id,
-               repo_id: "github_#{repo_id}"
-             })
-           ) do
-      Logger.info("Installed Repo #{name}")
-      new_project
-    end
   end
 end

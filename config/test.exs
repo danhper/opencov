@@ -41,3 +41,5 @@ config :joken,
     -----END RSA PRIVATE KEY-----
     """
   ]
+
+config :tesla, adapter: Tesla.Mock
