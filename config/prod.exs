@@ -12,6 +12,7 @@ config :opencov, Opencov.Endpoint,
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
+  ssl: true,
   pool_size: String.to_integer(System.get_env("POSTGRES_POOL_SIZE") || "10")
 
 config :opencov, :auth,
