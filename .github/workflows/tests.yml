@@ -37,6 +37,7 @@ jobs:
           mix deps.get
           mix deps.compile
           mix dialyzer --plt
+          mix compile
 
   static-code-analysis:
     needs: dependencies
