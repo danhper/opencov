@@ -1,6 +1,8 @@
 defmodule Librecov.Endpoint do
   use Phoenix.Endpoint, otp_app: :librecov
 
+  plug Plug.CloudFlare
+
   plug(Plug.Static,
     at: "/",
     from: :librecov,
