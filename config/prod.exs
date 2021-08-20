@@ -4,10 +4,16 @@ config :librecov, Librecov.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [
     scheme: System.get_env("LIBRECOV_SCHEME") || "https",
-    host: System.get_env("LIBRECOV_HOST") || "demo.librecov.com",
+    host: System.get_env("LIBRECOV_HOST") || "librecov.com",
     port: System.get_env("LIBRECOV_PORT") || 443
   ],
-  secret_key_base: System.get_env("SECRET_KEY_BASE")
+  static_url: [
+    scheme: System.get_env("LIBRECOV_SCHEME") || "https",
+    host: System.get_env("LIBRECOV_CDN_HOST") || "cdn.librecov.com",
+    port: System.get_env("LIBRECOV_PORT") || 443
+  ],
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  check_origin: false
 
 config :librecov, Librecov.Repo,
   adapter: Ecto.Adapters.Postgres,
