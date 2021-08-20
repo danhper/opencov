@@ -44,7 +44,7 @@ config :sentry,
   tags: %{
     env: "production"
   },
-  included_environments: [:production]
+  included_environments: ["production"]
 
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"
