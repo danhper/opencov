@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :librecov, Librecov.Endpoint,
-  http: [port: {:system, "PORT"}],
+  http: [port: {:system, "PORT"}, compress: true],
   url: [
     scheme: System.get_env("LIBRECOV_SCHEME") || "https",
     host: System.get_env("LIBRECOV_HOST") || "librecov.com",
