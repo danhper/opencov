@@ -2,7 +2,7 @@ name: CI to GHCR
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   REGISTRY: ghcr.io

@@ -44,7 +44,7 @@ NOTE: the demo is on a Heroku free dyno, so it may not always be available and m
 
 First, you will need to at least setup a database
 To configure the app, create a `local.exs` file and override the configuration you need.
-Check [config/local.sample.exs](https://github.com/yknx4/opencov/blob/master/config/local.sample.exs) to see the available configurations.
+Check [config/local.sample.exs](https://github.com/yknx4/opencov/blob/main/config/local.sample.exs) to see the available configurations.
 
 ### Using docker
 
@@ -66,7 +66,7 @@ This will start the server on the port you set in `local.exs`.
 
 #### With docker-compose
 
-If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/yknx4/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
+If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/yknx4/opencov/blob/main/docker-compose.yml) for a sample `docker-compose.yml` file.
 
 Once you have your `docker-compose.yml` and `local.exs` ready, you can run
 

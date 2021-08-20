@@ -256,7 +256,7 @@
         "committer_email": "daniel@claudetech.com",
         "message": "Change coveralls endpoint."
       },
-      "branch": "master",
+      "branch": "main",
       "remotes": [
         {
           "name": "origin",
@@ -525,7 +525,7 @@
         "committer_email": "daniel@claudetech.com",
         "message": "Change coveralls endpoint."
       },
-      "branch": "master",
+      "branch": "main",
       "remotes": [
         {
           "name": "origin",
@@ -794,7 +794,7 @@
         "committer_email": "daniel@claudetech.com",
         "message": "Change coveralls endpoint."
       },
-      "branch": "master",
+      "branch": "main",
       "remotes": [
         {
           "name": "origin",
@@ -1063,7 +1063,7 @@
         "committer_email": "daniel@claudetech.com",
         "message": "Change coveralls endpoint."
       },
-      "branch": "master",
+      "branch": "main",
       "remotes": [
         {
           "name": "origin",

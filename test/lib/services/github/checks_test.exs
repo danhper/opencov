@@ -85,7 +85,7 @@ defmodule Opencov.Services.Github.ChecksTests do
           }
         },
         "base" => %{
-          "ref" => "master",
+          "ref" => "main",
           "sha" => "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
           "repo" => %{
             "id" => 526,
