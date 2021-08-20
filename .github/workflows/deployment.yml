@@ -1,0 +1,16 @@
+name: Production Deploy
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "opencov-reloaded" #Must be unique in Heroku
+          heroku_email: "yknx.4.b@gmail.com"
