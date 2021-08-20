@@ -37,7 +37,9 @@ defmodule Librecov.ProjectManager do
   end
 
   def update_coverage(project) do
-    coverage = (Librecov.Build.last_for_project(Librecov.Build, project) |> Repo.first!()).coverage
+    coverage =
+      (Librecov.Build.last_for_project(Librecov.Build, project) |> Repo.first!()).coverage
+
     Repo.update!(change(project, current_coverage: coverage))
   end
 
