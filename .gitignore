@@ -11,3 +11,4 @@ config/local.exs
 *.coverdata
 
 *.dump
+*.pem

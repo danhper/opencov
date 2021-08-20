@@ -35,6 +35,8 @@ defmodule Opencov.Router do
   scope "/api/v1", Opencov.Api.V1, as: :api_v1 do
     pipe_through(:api)
 
+    # forward("/github_webhook", Opencov.Plug.Github, [], )
+    # post("/github_webhook", GithubController, :webhook)
     resources("/jobs", JobController, only: [:create])
   end
 

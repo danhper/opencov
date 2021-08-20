@@ -1,18 +1,23 @@
 defmodule Opencov.ProjectManager do
   use Opencov.Web, :manager
   alias Opencov.Project
+  alias Opencov.GithubService
+  alias Opencov.Services.Github.Auth
+  alias Opencov.Services.Github.Checks
   import Opencov.Project
 
   import Ecto.Query
 
   @required_fields ~w(name base_url)a
-  @optional_fields ~w(token current_coverage)a
+  @optional_fields ~w(token current_coverage repo_id)a
 
   def changeset(model, params \\ :invalid) do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> generate_token
+    |> unique_constraint(:token, name: "projects_pkey")
+    |> unique_constraint(:repo_id, name: "projects_repo_id_index")
   end
 
   def generate_token(changeset) do
@@ -71,6 +76,12 @@ defmodule Opencov.ProjectManager do
     Opencov.Repo.transaction(fn ->
       build = Opencov.BuildManager.get_or_create!(project, params)
       job = Opencov.JobManager.create_from_json!(build, params)
+
+      with {owner, name} <- Project.name_and_owner(project),
+           {:ok, token} <- Auth.login_token(owner) do
+        Checks.finish_check(token, build.commit_sha, owner, name, job.coverage)
+      end
+
       {build, job}
     end)
   end

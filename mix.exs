@@ -13,18 +13,23 @@ defmodule Opencov.Mixfile do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test,
-        "coveralls.json": :test
-      ]
+      preferred_cli_env:
+        cli_env_for(:test, [
+          "coveralls",
+          "coveralls.detail",
+          "coveralls.html",
+          "coveralls.json",
+          "coveralls.post"
+        ])
     ]
   end
 
+  defp cli_env_for(env, tasks) do
+    Enum.reduce(tasks, [], fn key, acc -> Keyword.put(acc, :"#{key}", env) end)
+  end
+
   def application do
-    [mod: {Opencov, []}, extra_applications: [:logger]]
+    [mod: {Opencov, []}, extra_applications: [:logger, :crypto]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -32,6 +37,9 @@ defmodule Opencov.Mixfile do
 
   defp deps do
     [
+      {:joken, "~> 2.0"},
+      {:ex_crypto, "~> 0.10"},
+      {:stream_gzip, "~> 0.4"},
       {:comeonin, "~> 2.4"},
       {:gettext, "~> 0.11"},
       {:secure_random, "~> 0.2"},
@@ -60,7 +68,9 @@ defmodule Opencov.Mixfile do
       {:phoenix_live_dashboard, "~> 0.4"},
       {:plug_cowboy, "~> 2.0"},
       {:ranch, "~> 1.8", override: true},
-      {:meck, "~> 0.9", override: true}
+      {:meck, "~> 0.9", override: true},
+      {:tesla, "~> 1.2"},
+      {:poison, "~> 3.0"}
     ]
   end
 

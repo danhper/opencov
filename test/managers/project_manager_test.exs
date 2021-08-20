@@ -1,8 +1,18 @@
 defmodule Opencov.ProjectManagerTest do
   use Opencov.ManagerCase
+  import Tesla.Mock
 
   alias Opencov.Project
   alias Opencov.ProjectManager
+
+  setup do
+    mock(fn
+      %{method: :get, url: "https://api.github.com/app/installations"} ->
+        json(%{}, status: 200)
+    end)
+
+    :ok
+  end
 
   test "changeset with valid attributes" do
     changeset = ProjectManager.changeset(%Project{}, params_for(:project))

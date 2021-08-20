@@ -3,8 +3,6 @@ defmodule Opencov.FileService do
 
   alias Opencov.File
 
-  # FIXME: we should make file distinct by name instead but this is not yet
-  # supported by scrivener
   def files_with_filter([job | _], params), do: files_with_filter(job, params)
 
   def files_with_filter(job, params) do

@@ -83,10 +83,10 @@ defmodule Opencov.UserManager do
   end
 
   defp validate_email_format(email) do
-    if not Regex.match?(~r/@/, email) do
-      "the email is not valid"
-    else
+    if Regex.match?(~r/@/, email) do
       validate_domain(email)
+    else
+      "the email is not valid"
     end
   end
 

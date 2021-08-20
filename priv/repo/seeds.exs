@@ -10,6 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 alias Opencov.Repo
+
 Repo.insert!(%Opencov.Settings{
   id: 1,
   signup_enabled: false,
@@ -33,5 +34,6 @@ Repo.insert!(%Opencov.Project{
   base_url: "https://github.com/yknx4/opencov",
   current_coverage: 80.0,
   user_id: 1,
-  token: "very-secure-token"
+  token: "very-secure-token",
+  repo_id: "github_397960449"
 })
