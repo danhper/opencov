@@ -109,7 +109,8 @@ defmodule Opencov.Plugs.GithubTest do
     Application.put_env(Opencov.Plug.Github, :secret, "1234")
 
     hexdigest =
-      "sha1=" <> (:crypto.mac(:hmac, :sha, "1234", ~s({"foo":"bar"})) |> Base.encode16(case: :lower))
+      "sha1=" <>
+        (:crypto.mac(:hmac, :sha, "1234", ~s({"foo":"bar"})) |> Base.encode16(case: :lower))
 
     conn =
       conn(:get, "/gh-webhook", ~s({"foo":"bar"}))

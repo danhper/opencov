@@ -5,12 +5,12 @@ defmodule Opencov.ProjectManagerTest do
   alias Opencov.Project
   alias Opencov.ProjectManager
 
-
   setup do
     mock(fn
       %{method: :get, url: "https://api.github.com/app/installations"} ->
         json(%{}, status: 200)
     end)
+
     :ok
   end
 
