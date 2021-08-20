@@ -74,8 +74,12 @@ defmodule Librecov.Templates.CommentTemplate do
        }) do
     cov_diff = coverage_diff(coverage, previous_coverage)
 
-    "| [#{filename}](#{file_path(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | |"
+    "| [#{filename}](#{file_path(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | #{cov_diff |> diff_emoji()} |"
   end
+
+  defp diff_emoji(diff) when diff == 0, do: ""
+  defp diff_emoji(diff) when diff < 0, do: "⬇️"
+  defp diff_emoji(diff) when diff > 0, do: "⬆️"
 
   defp file_icon(diff) when diff >= 0.0 and diff <= 0.01, do: "ø"
   defp file_icon(_diff), do: "Δ"
