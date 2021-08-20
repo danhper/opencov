@@ -7,10 +7,11 @@ defmodule Opencov do
     import Supervisor.Spec, warn: false
 
     children = [
+      {Phoenix.PubSub, name: OpenCov.PubSub},
       # Start the endpoint when the application starts
-      supervisor(Opencov.Endpoint, []),
+      {Opencov.Endpoint, []},
       # Start the Ecto repository
-      worker(Opencov.Repo, [])
+      {Opencov.Repo, []}
       # Here you could define other workers and supervisors as children
       # worker(Opencov.Worker, [arg1, arg2, arg3]),
     ]
