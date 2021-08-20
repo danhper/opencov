@@ -3,6 +3,7 @@ defmodule Librecov.ProjectManager do
   alias Librecov.Project
   alias Librecov.Services.Github.Auth
   alias Librecov.Services.Github.Checks
+  alias Librecov.Services.Github.Comments
   alias Librecov.Templates.CommentTemplate
   import Librecov.Project
 
@@ -83,8 +84,10 @@ defmodule Librecov.ProjectManager do
            {:ok, token} <- Auth.login_token(owner) do
         Checks.finish_check(token, owner, name, build)
 
-        CommentTemplate.coverage_message(project, build, job)
-        |> IO.inspect()
+        unless is_nil(build.branch) do
+          CommentTemplate.coverage_message(project, build, job)
+          |> Comments.add_pr_comment(token, owner, name, build.branch)
+        end
       end
 
       {build, job}
