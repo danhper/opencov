@@ -118,6 +118,7 @@ jobs:
           files: cover/excoveralls.json
           fail_ci_if_error: true
       - name: OpenCov
+        continue-on-error: true
         env:
           SHA: ${{github.sha}}
           BRANCH: ${{ steps.extract_branch.outputs.branch }}
