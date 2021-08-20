@@ -118,36 +118,54 @@ defmodule Librecov.Services.Github.ChecksTests do
   }
 
   test "it finishes a check with nil previous coverage" do
-    {:ok, checks} = Checks.finish_check("asdfasdf", "github", "hello-world", @base_build)
+    {:ok, checks} = Checks.finish_check("asdfasdf", "github", "hello-world", @base_build, nil)
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)
   end
 
   test "it finishes a check with 0 diff coverage" do
     {:ok, checks} =
-      Checks.finish_check("asdfasdf", "github", "hello-world", %Build{
-        @base_build
-        | previous_coverage: @base_build.coverage
-      })
+      Checks.finish_check(
+        "asdfasdf",
+        "github",
+        "hello-world",
+        %Build{
+          @base_build
+          | previous_coverage: @base_build.coverage
+        },
+        @base_build.coverage
+      )
 
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)
   end
 
   test "it finishes a check with positive diff coverage" do
     {:ok, checks} =
-      Checks.finish_check("asdfasdf", "github", "hello-world", %Build{
-        @base_build
-        | previous_coverage: 99.99999
-      })
+      Checks.finish_check(
+        "asdfasdf",
+        "github",
+        "hello-world",
+        %Build{
+          @base_build
+          | previous_coverage: 99.99999
+        },
+        99.99999
+      )
 
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)
   end
 
   test "it finishes a check with negative diff coverage" do
     {:ok, checks} =
-      Checks.finish_check("asdfasdf", "github", "hello-world", %Build{
-        @base_build
-        | previous_coverage: 90.4321
-      })
+      Checks.finish_check(
+        "asdfasdf",
+        "github",
+        "hello-world",
+        %Build{
+          @base_build
+          | previous_coverage: 90.4321
+        },
+        90.4321
+      )
 
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)
   end
