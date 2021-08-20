@@ -1,11 +1,13 @@
 defmodule Librecov.ProjectManager do
   use Librecov.Web, :manager
+  require Logger
   alias Librecov.Project
   alias Librecov.Services.Github.Auth
   alias Librecov.Services.Github.Checks
   alias Librecov.Services.Github.Comments
   alias Librecov.Templates.CommentTemplate
   import Librecov.Project
+  alias Librecov.Repo
 
   import Ecto.Query
 
@@ -81,12 +83,23 @@ defmodule Librecov.ProjectManager do
       job = Librecov.JobManager.create_from_json!(build, params)
 
       with {owner, name} <- Project.name_and_owner(project),
-           {:ok, token} <- Auth.login_token(owner) do
-        Checks.finish_check(token, owner, name, build, project.current_coverage)
+           {:ok, token} <- Auth.login_token(owner),
+           %Librecov.Build{} = updated_build <- Repo.reload(build) do
+        Logger.debug("""
+        Build##{updated_build.id}
+        Coverage: #{updated_build.coverage}
+        Previous Coverages: #{updated_build.previous_coverage}
+        Job##{job.id}
+        Coverage: #{job.coverage}
+        Previous Coverages: #{job.previous_coverage}
+        Files Count: #{job.files_count}
+        """)
 
-        unless is_nil(build.branch) or build.branch == "" do
-          CommentTemplate.coverage_message(project, build, job)
-          |> Comments.add_pr_comment(token, owner, name, build.branch)
+        Checks.finish_check(token, owner, name, updated_build, project.current_coverage)
+
+        unless is_nil(updated_build.branch) or updated_build.branch == "" do
+          CommentTemplate.coverage_message(project, updated_build, job)
+          |> Comments.add_pr_comment(token, owner, name, updated_build.branch)
         end
       end
 

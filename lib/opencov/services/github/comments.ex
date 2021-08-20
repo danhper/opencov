@@ -29,8 +29,6 @@ defmodule Librecov.Services.Github.Comments do
         )
 
       e ->
-        IO.inspect(e)
-
         raise(
           "Error processing add_pr_comment(pr_message, #{token}, #{owner}, #{repo}, #{branch})."
         )
