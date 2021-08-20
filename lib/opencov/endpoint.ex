@@ -20,7 +20,8 @@ defmodule Opencov.Endpoint do
   end
 
   # plug :copy_req_body
-  plug Opencov.Plug.Github
+  plug(Opencov.Plug.Github)
+
   plug(Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],

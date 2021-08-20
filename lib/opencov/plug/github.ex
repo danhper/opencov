@@ -11,6 +11,7 @@ defmodule Opencov.Plug.Github do
   """
   def call(conn, options) do
     path = get_config(options, :path)
+
     case conn.request_path do
       ^path ->
         secret = get_config(options, :secret)
@@ -27,7 +28,8 @@ defmodule Opencov.Plug.Github do
           conn |> send_resp(403, "Forbidden") |> halt()
         end
 
-      _ -> conn
+      _ ->
+        conn
     end
   end
 
@@ -45,10 +47,11 @@ defmodule Opencov.Plug.Github do
   defp get_config(key) do
     case Application.get_env(Opencov.Plug.Github, key) do
       nil ->
-        Logger.warn "Opencob.Plug.Github config key #{inspect key} is not configured."
+        Logger.warn("Opencob.Plug.Github config key #{inspect(key)} is not configured.")
         ""
 
-      val -> val
+      val ->
+        val
     end
   end
 end
