@@ -2,8 +2,6 @@ defmodule Librecov.Services.Github.Comments do
   require Logger
   alias ExOctocat.Connection
   alias ExOctocat.Api.Issues
-  alias Librecov.Build
-  import Librecov.Helpers.Coverage
   alias Librecov.Services.Github.PullRequests
   alias ExOctocat.Model.PullRequestSimple
 
