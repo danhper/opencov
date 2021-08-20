@@ -38,5 +38,4 @@ defmodule Opencov.Endpoint do
   )
 
   plug(Opencov.Router)
-
 end

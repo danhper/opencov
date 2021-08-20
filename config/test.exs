@@ -29,7 +29,7 @@ config :opencov, Opencov.Repo,
 config :joken,
   rs256: [
     signer_alg: "RS256",
-    key_pem:  """
+    key_pem: """
     -----BEGIN RSA PRIVATE KEY-----
     MIIBOQIBAAJAeDkTVci2/P3lt1yFWzB9YeoPFKmbp8aGAKjs8pZesurawbmo3QIk
     DGQmrTmTjDDTbhGRyvuTn7ggB2p62F0nLQIDAQABAkASMLCYPjJRvSjQwZL75S5T
