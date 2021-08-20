@@ -98,6 +98,7 @@ defmodule Librecov.Templates.CommentTemplate do
 
   defp format_branch(""), do: "this"
   defp format_branch(nil), do: "this"
+  defp format_branch("refs/heads/" <> branch), do: branch
   defp format_branch(branch), do: branch
 
   defp diff_verb(diff) when diff == 0, do: "mantain"
