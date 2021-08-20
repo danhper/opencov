@@ -68,7 +68,7 @@ defmodule Librecov.JobManager do
       Ecto.build_assoc(job, :files) |> FileManager.changeset(file_params) |> Repo.insert!()
     end)
 
-    job |> preload_files |> update_coverage
+    job |> Repo.preload(:files) |> update_coverage
   end
 
   def preload_files(job_or_jobs) do
