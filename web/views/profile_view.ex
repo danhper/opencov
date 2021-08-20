@@ -1,3 +1,3 @@
-defmodule Opencov.ProfileView do
-  use Opencov.Web, :view
+defmodule Librecov.ProfileView do
+  use Librecov.Web, :view
 end

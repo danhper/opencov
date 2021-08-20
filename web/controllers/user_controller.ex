@@ -1,11 +1,11 @@
-defmodule Opencov.UserController do
-  use Opencov.Web, :controller
+defmodule Librecov.UserController do
+  use Librecov.Web, :controller
 
-  alias Opencov.User
-  alias Opencov.UserManager
-  import Opencov.Helpers.Authentication
+  alias Librecov.User
+  alias Librecov.UserManager
+  import Librecov.Helpers.Authentication
 
-  alias Opencov.UserService
+  alias Librecov.UserService
 
   plug(:scrub_params, "user" when action in [:create, :update])
   plug(:check_signup when action in [:new, :create])
@@ -47,7 +47,7 @@ defmodule Opencov.UserController do
       conn |> redirect(to: auth_path(conn, :login))
     else
       conn
-      |> Opencov.Authentication.login(user)
+      |> Librecov.Authentication.login(user)
       |> redirect(to: profile_path(conn, :edit_password))
     end
   end
@@ -62,7 +62,7 @@ defmodule Opencov.UserController do
   end
 
   defp check_signup(conn, _) do
-    if Opencov.SettingsManager.get!().signup_enabled do
+    if Librecov.SettingsManager.get!().signup_enabled do
       conn
     else
       conn

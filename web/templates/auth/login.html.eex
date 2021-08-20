@@ -7,7 +7,7 @@
 
   <%= if demo?() do %>
     <small>This is a demo, you can enter with the prefilled email/password
-      (email: user@opencov.com, password: password123)
+      (email: user@librecov.com, password: password123)
     </small>
   <% end %>
 

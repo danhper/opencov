@@ -1,4 +1,4 @@
-defmodule Opencov.CommonView do
+defmodule Librecov.CommonView do
   def format_coverage(num) when is_float(num), do: "#{Float.round(num, 1)}%"
   def format_coverage(_), do: "NA"
 

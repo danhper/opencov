@@ -1,5 +1,5 @@
-defmodule Opencov.BuildView do
-  use Opencov.Web, :view
+defmodule Librecov.BuildView do
+  use Librecov.Web, :view
 
-  import Opencov.CommonView
+  import Librecov.CommonView
 end

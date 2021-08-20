@@ -1,13 +1,13 @@
-defmodule Opencov.ProjectView do
-  use Opencov.Web, :view
+defmodule Librecov.ProjectView do
+  use Librecov.Web, :view
 
-  import Opencov.CommonView
+  import Librecov.CommonView
 
   def project_badge_path(conn, project) do
-    project_badge_path(conn, :badge, project, Application.get_env(:opencov, :badge_format))
+    project_badge_path(conn, :badge, project, Application.get_env(:librecov, :badge_format))
   end
 
   def project_badge_url(conn, project) do
-    project_badge_url(conn, :badge, project, Application.get_env(:opencov, :badge_format))
+    project_badge_url(conn, :badge, project, Application.get_env(:librecov, :badge_format))
   end
 end

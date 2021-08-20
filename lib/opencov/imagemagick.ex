@@ -1,6 +1,6 @@
-defmodule Opencov.ImageMagick do
+defmodule Librecov.ImageMagick do
   def convert(args) do
-    command = Application.get_env(:opencov, :imagemagick_convert_path) || "convert"
+    command = Application.get_env(:librecov, :imagemagick_convert_path) || "convert"
     System.cmd(command, args)
   end
 end

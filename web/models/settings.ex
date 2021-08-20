@@ -1,5 +1,5 @@
-defmodule Opencov.Settings do
-  use Opencov.Web, :model
+defmodule Librecov.Settings do
+  use Librecov.Web, :model
 
   schema "settings" do
     field(:signup_enabled, :boolean, default: false)

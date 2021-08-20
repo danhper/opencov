@@ -1,9 +1,9 @@
-defmodule Opencov.File do
-  use Opencov.Web, :model
+defmodule Librecov.File do
+  use Librecov.Web, :model
 
   import Ecto.Query
 
-  defimpl Jason.Encoder, for: Opencov.File do
+  defimpl Jason.Encoder, for: Librecov.File do
     def encode(model, opts) do
       model
       |> Map.take([:name, :source])
@@ -12,7 +12,7 @@ defmodule Opencov.File do
     end
   end
 
-  alias Opencov.Job
+  alias Librecov.Job
 
   schema "files" do
     field(:name, :string)
@@ -22,7 +22,7 @@ defmodule Opencov.File do
     field(:coverage_lines, {:array, :integer})
 
     belongs_to(:job, Job)
-    belongs_to(:previous_file, Opencov.File)
+    belongs_to(:previous_file, Librecov.File)
 
     timestamps()
   end
@@ -51,10 +51,10 @@ defmodule Opencov.File do
   # defp reverse_order(:asc), do: :desc
   # defp reverse_order(:desc), do: :asc
 
-  def for_job(query \\ Opencov.File, job)
+  def for_job(query \\ Librecov.File, job)
 
   def for_job(query, jobs) when is_list(jobs), do: query |> where([f], f.job_id in ^jobs)
-  def for_job(query, %Opencov.Job{id: job_id}), do: for_job(query, job_id)
+  def for_job(query, %Librecov.Job{id: job_id}), do: for_job(query, job_id)
   def for_job(query, job_id), do: query |> where([f], f.job_id == ^job_id)
 
   def with_filters(query, [filter | rest]), do: with_filters(with_filter(query, filter), rest)

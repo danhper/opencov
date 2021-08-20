@@ -1,5 +1,5 @@
-defmodule Opencov.Job do
-  use Opencov.Web, :model
+defmodule Librecov.Job do
+  use Librecov.Web, :model
 
   import Ecto.Query
 
@@ -11,19 +11,19 @@ defmodule Opencov.Job do
     field(:job_number, :integer)
     field(:previous_coverage, :float)
 
-    belongs_to(:build, Opencov.Build)
-    has_one(:previous_job, Opencov.Job)
-    has_many(:files, Opencov.File)
+    belongs_to(:build, Librecov.Build)
+    has_one(:previous_job, Librecov.Job)
+    has_many(:files, Librecov.File)
 
     timestamps()
   end
 
   def compute_coverage(job) do
     lines = Enum.flat_map(job.files, & &1.coverage_lines)
-    Opencov.File.compute_coverage(lines)
+    Librecov.File.compute_coverage(lines)
   end
 
-  def for_build(query, %Opencov.Build{id: id}), do: for_build(query, id)
+  def for_build(query, %Librecov.Build{id: id}), do: for_build(query, id)
 
   def for_build(query, build_id) when is_integer(build_id),
     do: query |> where(build_id: ^build_id)

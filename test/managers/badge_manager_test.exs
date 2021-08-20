@@ -1,7 +1,7 @@
-defmodule Opencov.BadgeManagerTest do
-  use Opencov.ModelCase
+defmodule Librecov.BadgeManagerTest do
+  use Librecov.ModelCase
 
-  alias Opencov.BadgeManager
+  alias Librecov.BadgeManager
 
   @format :svg
 

@@ -1,4 +1,4 @@
-defmodule Opencov.Plug.FetchUser do
+defmodule Librecov.Plug.FetchUser do
   import Plug.Conn
 
   def init(opts) do
@@ -14,8 +14,8 @@ defmodule Opencov.Plug.FetchUser do
   end
 
   defp current_user(conn) do
-    if user_id = get_session(conn, Opencov.Authentication.user_id_key()) do
-      Opencov.Repo.get(Opencov.User, user_id)
+    if user_id = get_session(conn, Librecov.Authentication.user_id_key()) do
+      Librecov.Repo.get(Librecov.User, user_id)
     end
   end
 end

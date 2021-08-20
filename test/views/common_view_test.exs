@@ -1,7 +1,7 @@
-defmodule Opencov.CommonViewTest do
-  use Opencov.ConnCase, async: true
+defmodule Librecov.CommonViewTest do
+  use Librecov.ConnCase, async: true
 
-  import Opencov.CommonView
+  import Librecov.CommonView
 
   test "coverage_color" do
     assert coverage_color(nil) == "na"
@@ -30,24 +30,24 @@ defmodule Opencov.CommonViewTest do
   end
 
   test "repository_class" do
-    assert repository_class(build(:project, base_url: "https://github.com/tuvistavie/opencov")) ==
+    assert repository_class(build(:project, base_url: "https://github.com/tuvistavie/librecov")) ==
              "fa-github"
 
-    assert repository_class(build(:project, base_url: "https://bitbucket.org/tuvistavie/opencov")) ==
+    assert repository_class(build(:project, base_url: "https://bitbucket.org/tuvistavie/librecov")) ==
              "fa-bitbucket"
 
-    assert repository_class(build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")) ==
+    assert repository_class(build(:project, base_url: "https://gitlab.com/tuvistavie/librecov")) ==
              "fa-database"
   end
 
   test "commit_link" do
-    project = build(:project, base_url: "https://github.com/tuvistavie/opencov")
-    assert commit_link(project, "foobar") == "https://github.com/tuvistavie/opencov/commit/foobar"
-    project = build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")
-    assert commit_link(project, "foobar") == "https://gitlab.com/tuvistavie/opencov/commit/foobar"
-    project = build(:project, base_url: "https://bitbucket.org/tuvistavie/opencov")
+    project = build(:project, base_url: "https://github.com/tuvistavie/librecov")
+    assert commit_link(project, "foobar") == "https://github.com/tuvistavie/librecov/commit/foobar"
+    project = build(:project, base_url: "https://gitlab.com/tuvistavie/librecov")
+    assert commit_link(project, "foobar") == "https://gitlab.com/tuvistavie/librecov/commit/foobar"
+    project = build(:project, base_url: "https://bitbucket.org/tuvistavie/librecov")
 
     assert commit_link(project, "foobar") ==
-             "https://bitbucket.org/tuvistavie/opencov/commits/foobar"
+             "https://bitbucket.org/tuvistavie/librecov/commits/foobar"
   end
 end

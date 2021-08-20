@@ -1,6 +1,6 @@
 import Seedex
 
-seed(Opencov.Job, fn job ->
+seed(Librecov.Job, fn job ->
   job
   |> Map.put(:id, 1)
   |> Map.put(:build_id, 1)
@@ -10,7 +10,7 @@ seed(Opencov.Job, fn job ->
   |> Map.put(:run_at, Timex.now())
 end)
 
-seed(Opencov.Job, fn job ->
+seed(Librecov.Job, fn job ->
   job
   |> Map.put(:id, 2)
   |> Map.put(:build_id, 2)

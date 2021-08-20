@@ -1,5 +1,5 @@
-defmodule Opencov.JobControllerTest do
-  use Opencov.ConnCase
+defmodule Librecov.JobControllerTest do
+  use Librecov.ConnCase
 
   setup do
     conn = build_conn() |> with_login

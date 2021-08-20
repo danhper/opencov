@@ -1,5 +1,5 @@
-defmodule Opencov.ErrorView do
-  use Opencov.Web, :view
+defmodule Librecov.ErrorView do
+  use Librecov.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

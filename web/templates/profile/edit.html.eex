@@ -5,7 +5,7 @@
     </span>
   </h2>
 
-  <%= render Opencov.UserView, "form.html", changeset: @changeset,
+  <%= render Librecov.UserView, "form.html", changeset: @changeset,
                                             action: profile_path(@conn, :update),
                                             show_password: false,
                                             is_admin: false %>

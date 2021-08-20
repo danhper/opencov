@@ -1,8 +1,8 @@
-defmodule Opencov.Services.Github.ChecksTests do
+defmodule Librecov.Services.Github.ChecksTests do
   use ExUnit.Case
   import Tesla.Mock
 
-  alias Opencov.Services.Github.Checks
+  alias Librecov.Services.Github.Checks
 
   @create_check %{
     "id" => 4,

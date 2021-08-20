@@ -1,5 +1,5 @@
-defmodule Opencov.Api.V1.JobControllerTest do
-  use Opencov.ConnCase
+defmodule Librecov.Api.V1.JobControllerTest do
+  use Librecov.ConnCase
   import Tesla.Mock
 
   setup do
@@ -18,13 +18,13 @@ defmodule Opencov.Api.V1.JobControllerTest do
   end
 
   test "returns 400 when project token not given", %{conn: conn} do
-    payload = Jason.encode!(%{json: Jason.encode!(Opencov.Fixtures.dummy_coverage())})
+    payload = Jason.encode!(%{json: Jason.encode!(Librecov.Fixtures.dummy_coverage())})
     conn = post(conn, api_v1_job_path(conn, :create), payload)
     assert json_response(conn, 400)
   end
 
   test "returns 404 when inexistent token given", %{conn: conn} do
-    data = Map.put(Opencov.Fixtures.dummy_coverage(), "repo_token", "i-dont-exist")
+    data = Map.put(Librecov.Fixtures.dummy_coverage(), "repo_token", "i-dont-exist")
     payload = Jason.encode!(%{json: Jason.encode!(data)})
 
     assert_raise Ecto.NoResultsError, fn ->
@@ -34,23 +34,23 @@ defmodule Opencov.Api.V1.JobControllerTest do
 
   test "creates job when project exists", %{conn: conn} do
     project = insert(:project)
-    data = Map.put(Opencov.Fixtures.dummy_coverage(), "repo_token", project.token)
+    data = Map.put(Librecov.Fixtures.dummy_coverage(), "repo_token", project.token)
     payload = Jason.encode!(%{json: Jason.encode!(data)})
     conn = post(conn, api_v1_job_path(conn, :create), payload)
     assert json_response(conn, 200)
-    build = Opencov.Build.for_commit(project, data["git"]) |> Opencov.Repo.first()
+    build = Librecov.Build.for_commit(project, data["git"]) |> Librecov.Repo.first()
     assert build
-    job = List.first(Opencov.Repo.preload(build, :jobs).jobs)
+    job = List.first(Librecov.Repo.preload(build, :jobs).jobs)
     assert job
     assert job.files_count == Enum.count(data["source_files"])
   end
 
   test "works with multipart data", %{conn: conn} do
     project = insert(:project)
-    data = Map.put(Opencov.Fixtures.dummy_coverage(), "repo_token", project.token)
+    data = Map.put(Librecov.Fixtures.dummy_coverage(), "repo_token", project.token)
 
     {:ok, file_path} =
-      Temp.open(%{prefix: "opencov", suffix: ".json"}, &IO.write(&1, Jason.encode!(data)))
+      Temp.open(%{prefix: "librecov", suffix: ".json"}, &IO.write(&1, Jason.encode!(data)))
 
     upload = %Plug.Upload{
       path: file_path,
@@ -61,7 +61,7 @@ defmodule Opencov.Api.V1.JobControllerTest do
     conn = put_req_header(conn, "content-type", "multipart/form-data")
     conn = post(conn, api_v1_job_path(conn, :create), %{json_file: upload})
     assert json_response(conn, 200)
-    assert Opencov.Build.for_commit(project, data["git"]) |> Opencov.Repo.first()
+    assert Librecov.Build.for_commit(project, data["git"]) |> Librecov.Repo.first()
     File.rm!(file_path)
   end
 end

@@ -1,8 +1,8 @@
-defmodule Opencov.BuildController do
-  use Opencov.Web, :controller
+defmodule Librecov.BuildController do
+  use Librecov.Web, :controller
 
-  alias Opencov.Build
-  alias Opencov.FileService
+  alias Librecov.Build
+  alias Librecov.FileService
 
   def show(conn, %{"id" => id} = params) do
     build = Repo.get!(Build, id) |> Repo.preload([:jobs, :project])

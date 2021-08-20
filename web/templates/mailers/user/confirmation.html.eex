@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>
     <%= if opts[:registration] do %>
-      Welcome to Opencov
+      Welcome to Librecov
     <% else %>
       Please confirm your email
     <% end %>
@@ -26,7 +26,7 @@
       <% else %>
         Thank you for registering to
       <% end %>
-       Opencov@<a href="<%= base_url %>"><%= base_url %></a>.
+       Librecov@<a href="<%= base_url %>"><%= base_url %></a>.
     </p>
     <p>
       Your login address is:

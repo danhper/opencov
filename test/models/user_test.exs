@@ -1,3 +1,3 @@
-defmodule Opencov.UserTest do
-  use Opencov.ModelCase
+defmodule Librecov.UserTest do
+  use Librecov.ModelCase
 end

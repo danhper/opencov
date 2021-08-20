@@ -1,15 +1,15 @@
-defmodule Opencov.ManagerCase do
+defmodule Librecov.ManagerCase do
   use ExUnit.CaseTemplate
 
   using do
     quote do
-      alias Opencov.Repo
-      import Opencov.Factory
-      import Opencov.ManagerCase
+      alias Librecov.Repo
+      import Librecov.Factory
+      import Librecov.ManagerCase
     end
   end
 
   setup _tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Opencov.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Librecov.Repo)
   end
 end

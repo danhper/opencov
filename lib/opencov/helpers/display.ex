@@ -1,4 +1,4 @@
-defmodule Opencov.Helpers.Display do
+defmodule Librecov.Helpers.Display do
   def display(nil), do: "-"
   def display(value) when is_boolean(value), do: bool(value)
   def display(value) when is_atom(value), do: atom(value)

@@ -1,3 +1,3 @@
-defmodule Opencov.Admin.SettingsView do
-  use Opencov.Web, :view
+defmodule Librecov.Admin.SettingsView do
+  use Librecov.Web, :view
 end

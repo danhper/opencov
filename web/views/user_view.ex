@@ -1,3 +1,3 @@
-defmodule Opencov.UserView do
-  use Opencov.Web, :view
+defmodule Librecov.UserView do
+  use Librecov.Web, :view
 end

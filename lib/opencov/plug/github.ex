@@ -1,4 +1,4 @@
-defmodule Opencov.Plug.Github do
+defmodule Librecov.Plug.Github do
   import Plug.Conn
   require Logger
 
@@ -45,7 +45,7 @@ defmodule Opencov.Plug.Github do
   end
 
   defp get_config(key) do
-    case Application.get_env(Opencov.Plug.Github, key) do
+    case Application.get_env(Librecov.Plug.Github, key) do
       nil ->
         Logger.debug("Opencob.Plug.Github config key #{inspect(key)} is not configured.")
         ""

@@ -1,4 +1,4 @@
-defmodule Opencov.Repo.Migrations.CreateBadge do
+defmodule Librecov.Repo.Migrations.CreateBadge do
   use Ecto.Migration
 
   def change do

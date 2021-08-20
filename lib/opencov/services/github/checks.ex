@@ -1,4 +1,4 @@
-defmodule Opencov.Services.Github.Checks do
+defmodule Librecov.Services.Github.Checks do
   require Logger
   alias ExOctocat.Connection
   alias ExOctocat.Api.Checks

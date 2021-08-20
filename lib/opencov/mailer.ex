@@ -1,16 +1,16 @@
-defmodule Opencov.Mailer do
+defmodule Librecov.Mailer do
   @templates_base_path Path.join(__DIR__, "../../web/templates/mailers")
 
   defmacro __using__(_opts) do
     quote do
       require EEx
-      import Opencov.Mailer
+      import Librecov.Mailer
     end
   end
 
   defmacro define_template(action, params, format) do
     quote bind_quoted: [action: action, params: params, format: format] do
-      path = Opencov.Mailer.template_path(__MODULE__, action, format)
+      path = Librecov.Mailer.template_path(__MODULE__, action, format)
       EEx.function_from_file(:defp, String.to_atom("#{action}_#{format}"), path, params)
     end
   end
@@ -41,7 +41,7 @@ defmodule Opencov.Mailer do
   defp module_path(module) do
     module
     |> Atom.to_string()
-    |> String.replace(~r/^Elixir\.Opencov\./, "")
+    |> String.replace(~r/^Elixir\.Librecov\./, "")
     |> String.replace(".", "/")
     |> Macro.underscore()
     |> String.replace(~r/_mailer$/, "")

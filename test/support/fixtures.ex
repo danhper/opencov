@@ -1,4 +1,4 @@
-defmodule Opencov.Fixtures do
+defmodule Librecov.Fixtures do
   @coverages_path Path.join(__DIR__, "../fixtures/dummy-coverages.json")
   @coverages @coverages_path |> File.read!() |> Jason.decode!()
 

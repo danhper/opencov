@@ -1,5 +1,5 @@
-defmodule Opencov.FileControllerTest do
-  use Opencov.ConnCase
+defmodule Librecov.FileControllerTest do
+  use Librecov.ConnCase
 
   setup do
     conn = build_conn() |> with_login

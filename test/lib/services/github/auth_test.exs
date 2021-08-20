@@ -1,9 +1,9 @@
-defmodule Opencov.Services.Github.AuthTest do
+defmodule Librecov.Services.Github.AuthTest do
   use ExUnit.Case
 
   import Mock
 
-  alias Opencov.Services.Github.Auth
+  alias Librecov.Services.Github.Auth
 
   @installations_mocks [
     %ExOctocat.Model.Installation{
@@ -32,7 +32,7 @@ defmodule Opencov.Services.Github.AuthTest do
         url: "https://api.github.com/users/yknx4"
       },
       app_id: 133_119,
-      app_slug: "yknxopencov",
+      app_slug: "yknxlibrecov",
       contact_email: nil,
       created_at: "2021-08-19T18:22:24.000Z",
       events: ["pull_request", "push", "repository", "status"],

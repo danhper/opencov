@@ -1,9 +1,9 @@
-defmodule Opencov.Mixfile do
+defmodule Librecov.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :opencov,
+      app: :librecov,
       version: "0.0.1",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -29,7 +29,7 @@ defmodule Opencov.Mixfile do
   end
 
   def application do
-    [mod: {Opencov, []}, extra_applications: [:logger, :crypto]]
+    [mod: {Librecov, []}, extra_applications: [:logger, :crypto]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]

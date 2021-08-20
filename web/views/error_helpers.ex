@@ -1,4 +1,4 @@
-defmodule Opencov.ErrorHelpers do
+defmodule Librecov.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -40,9 +40,9 @@ defmodule Opencov.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(Opencov.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(Librecov.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(Opencov.Gettext, "errors", msg, opts)
+      Gettext.dgettext(Librecov.Gettext, "errors", msg, opts)
     end
   end
 end

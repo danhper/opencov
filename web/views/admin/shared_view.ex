@@ -1,3 +1,3 @@
-defmodule Opencov.Admin.SharedView do
-  use Opencov.Web, :view
+defmodule Librecov.Admin.SharedView do
+  use Librecov.Web, :view
 end

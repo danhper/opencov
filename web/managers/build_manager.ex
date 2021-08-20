@@ -1,8 +1,8 @@
-defmodule Opencov.BuildManager do
-  use Opencov.Web, :manager
+defmodule Librecov.BuildManager do
+  use Librecov.Web, :manager
 
-  alias Opencov.Build
-  import Opencov.Build
+  alias Librecov.Build
+  import Librecov.Build
 
   @required_fields ~w(build_number)a
   @optional_fields ~w(commit_sha commit_message committer_name committer_email branch
@@ -34,7 +34,7 @@ defmodule Opencov.BuildManager do
   def update_coverage(build) do
     coverage = build |> Repo.preload(:jobs) |> compute_coverage
     build = Repo.update!(change(build, coverage: coverage))
-    Opencov.ProjectManager.update_coverage(Repo.preload(build, :project).project)
+    Librecov.ProjectManager.update_coverage(Repo.preload(build, :project).project)
     build
   end
 
@@ -72,6 +72,6 @@ defmodule Opencov.BuildManager do
       get_change(changeset, :build_number),
       get_change(changeset, :branch)
     )
-    |> Opencov.Repo.first()
+    |> Librecov.Repo.first()
   end
 end

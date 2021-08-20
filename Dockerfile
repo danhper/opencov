@@ -44,8 +44,8 @@ WORKDIR /app
 
 # USER nobody:nobody
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/opencov ./
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/librecov ./
 
 ENV HOME=/app
 
-CMD ["bin/opencov", "start"]
+CMD ["bin/librecov", "start"]

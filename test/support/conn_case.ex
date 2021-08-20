@@ -1,4 +1,4 @@
-defmodule Opencov.ConnCase do
+defmodule Librecov.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -21,23 +21,23 @@ defmodule Opencov.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
 
-      alias Opencov.Repo
+      alias Librecov.Repo
       import Ecto.Query, only: [from: 2]
-      import Opencov.Factory
+      import Librecov.Factory
 
-      import Opencov.Router.Helpers
+      import Librecov.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint Opencov.Endpoint
+      @endpoint Librecov.Endpoint
 
       def with_login(conn) do
         password = "foobar123"
 
         user =
           build(:user)
-          |> Opencov.Factory.confirmed_user()
-          |> Opencov.Factory.with_secure_password(password)
-          |> Opencov.Repo.insert!()
+          |> Librecov.Factory.confirmed_user()
+          |> Librecov.Factory.with_secure_password(password)
+          |> Librecov.Repo.insert!()
 
         post(
           conn,
@@ -48,6 +48,6 @@ defmodule Opencov.ConnCase do
   end
 
   setup _tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Opencov.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Librecov.Repo)
   end
 end

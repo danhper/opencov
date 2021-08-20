@@ -1,6 +1,6 @@
 import Seedex
 
-seed(Opencov.Build, fn build ->
+seed(Librecov.Build, fn build ->
   build
   |> Map.put(:id, 1)
   |> Map.put(:project_id, 1)
@@ -16,7 +16,7 @@ seed(Opencov.Build, fn build ->
   |> Map.put(:build_number, 1)
 end)
 
-seed(Opencov.Build, fn build ->
+seed(Librecov.Build, fn build ->
   build
   |> Map.put(:id, 2)
   |> Map.put(:project_id, 1)

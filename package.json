@@ -1,5 +1,5 @@
 {
-  "name": "opencov",
+  "name": "librecov",
   "version": "0.1.0",
   "description": "Open sourced coverage tool",
   "main": "index.js",

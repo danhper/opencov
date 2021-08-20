@@ -1,8 +1,8 @@
-defmodule Opencov.UserManagerTest do
-  use Opencov.ManagerCase
+defmodule Librecov.UserManagerTest do
+  use Librecov.ManagerCase
 
-  alias Opencov.User
-  alias Opencov.UserManager
+  alias Librecov.User
+  alias Librecov.UserManager
 
   test "changeset with valid attributes" do
     changeset =

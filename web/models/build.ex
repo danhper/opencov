@@ -1,5 +1,5 @@
-defmodule Opencov.Build do
-  use Opencov.Web, :model
+defmodule Librecov.Build do
+  use Librecov.Web, :model
 
   @git_defaults %{
     "branch" => nil,
@@ -26,9 +26,9 @@ defmodule Opencov.Build do
     field(:service_job_id, :string)
     field(:service_job_pull_request, :string)
 
-    belongs_to(:project, Opencov.Project)
-    has_many(:jobs, Opencov.Job)
-    has_one(:previous_build, Opencov.Build, foreign_key: :previous_build_id)
+    belongs_to(:project, Librecov.Project)
+    has_many(:jobs, Librecov.Job)
+    has_one(:previous_build, Librecov.Build, foreign_key: :previous_build_id)
 
     timestamps()
   end
@@ -52,7 +52,7 @@ defmodule Opencov.Build do
   end
 
   def query_for_project(project_id) do
-    for_project(Opencov.Build, project_id)
+    for_project(Librecov.Build, project_id)
   end
 
   def for_project(query, project_id) do
@@ -102,7 +102,7 @@ defmodule Opencov.Build do
 
   def for_commit(project, %{"branch" => branch, "head" => %{"id" => sha}})
       when is_binary(branch) and is_binary(sha) and byte_size(branch) > 0 and byte_size(sha) > 0 do
-    Opencov.Build
+    Librecov.Build
     |> for_project(project.id)
     |> where([b], b.branch == ^branch and b.commit_sha == ^sha)
   end

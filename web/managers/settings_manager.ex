@@ -1,5 +1,5 @@
-defmodule Opencov.SettingsManager do
-  use Opencov.Web, :manager
+defmodule Librecov.SettingsManager do
+  use Librecov.Web, :manager
 
   @required_fields ~w()a
   @optional_fields ~w(restricted_signup_domains signup_enabled default_project_visibility)a
@@ -8,7 +8,7 @@ defmodule Opencov.SettingsManager do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> validate_inclusion(:default_project_visibility, Opencov.Project.visibility_choices())
+    |> validate_inclusion(:default_project_visibility, Librecov.Project.visibility_choices())
     |> normalize_domains
   end
 
@@ -22,7 +22,7 @@ defmodule Opencov.SettingsManager do
 
   def get!() do
     # TODO: cache the value
-    Opencov.Repo.first!(Opencov.Settings)
+    Librecov.Repo.first!(Librecov.Settings)
   end
 
   def restricted_signup_domains do

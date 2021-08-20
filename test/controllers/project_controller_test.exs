@@ -1,9 +1,9 @@
-defmodule Opencov.ProjectControllerTest do
-  use Opencov.ConnCase
+defmodule Librecov.ProjectControllerTest do
+  use Librecov.ConnCase
 
   import Mock
 
-  alias Opencov.Project
+  alias Librecov.Project
   @valid_attrs Map.take(params_for(:project), [:name, :base_url])
   @invalid_attrs %{name: nil}
 
@@ -85,7 +85,7 @@ defmodule Opencov.ProjectControllerTest do
     assert List.first(get_resp_header(conn, "content-type")) =~ "image/svg+xml"
     assert conn.resp_body =~ "80"
 
-    with_mock Opencov.BadgeCreator, make_badge: fn _, _ -> {:ok, :png, "badge"} end do
+    with_mock Librecov.BadgeCreator, make_badge: fn _, _ -> {:ok, :png, "badge"} end do
       conn = get(conn, project_badge_path(conn, :badge, project, "png"))
       assert List.first(get_resp_header(conn, "content-type")) =~ "image/png"
     end

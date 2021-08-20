@@ -1,5 +1,5 @@
-defmodule Opencov.Badge do
-  use Opencov.Web, :model
+defmodule Librecov.Badge do
+  use Librecov.Web, :model
 
   import Ecto.Query
 
@@ -8,12 +8,12 @@ defmodule Opencov.Badge do
     field(:format, :string)
     field(:coverage, :float)
 
-    belongs_to(:project, Opencov.Project)
+    belongs_to(:project, Librecov.Project)
 
     timestamps()
   end
 
-  def for_project(query, %Opencov.Project{id: project_id}),
+  def for_project(query, %Librecov.Project{id: project_id}),
     do: for_project(query, project_id)
 
   def for_project(query, project_id) when is_integer(project_id),
@@ -26,5 +26,5 @@ defmodule Opencov.Badge do
     do: query |> where(format: ^format)
 
   def default_format(),
-    do: Application.get_env(:opencov, :badge_format)
+    do: Application.get_env(:librecov, :badge_format)
 end

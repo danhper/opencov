@@ -1,8 +1,8 @@
-defmodule Opencov.Admin.SettingsController do
-  use Opencov.Web, :controller
+defmodule Librecov.Admin.SettingsController do
+  use Librecov.Web, :controller
 
-  alias Opencov.SettingsManager
-  alias Opencov.Repo
+  alias Librecov.SettingsManager
+  alias Librecov.Repo
 
   # plug :scrub_params, "settings" when action in [:update]
 

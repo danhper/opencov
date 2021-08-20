@@ -1,4 +1,4 @@
-defmodule Opencov.Repo.Migrations.CreateUser do
+defmodule Librecov.Repo.Migrations.CreateUser do
   use Ecto.Migration
 
   def change do

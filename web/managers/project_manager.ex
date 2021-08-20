@@ -1,9 +1,9 @@
-defmodule Opencov.ProjectManager do
-  use Opencov.Web, :manager
-  alias Opencov.Project
-  alias Opencov.Services.Github.Auth
-  alias Opencov.Services.Github.Checks
-  import Opencov.Project
+defmodule Librecov.ProjectManager do
+  use Librecov.Web, :manager
+  alias Librecov.Project
+  alias Librecov.Services.Github.Auth
+  alias Librecov.Services.Github.Checks
+  import Librecov.Project
 
   import Ecto.Query
 
@@ -37,13 +37,13 @@ defmodule Opencov.ProjectManager do
   end
 
   def update_coverage(project) do
-    coverage = (Opencov.Build.last_for_project(Opencov.Build, project) |> Repo.first!()).coverage
+    coverage = (Librecov.Build.last_for_project(Librecov.Build, project) |> Repo.first!()).coverage
     Repo.update!(change(project, current_coverage: coverage))
   end
 
   def preload_latest_build(projects) do
     query =
-      from(b in Opencov.Build,
+      from(b in Librecov.Build,
         join: p in assoc(b, :project),
         where:
           b.completed and
@@ -61,20 +61,20 @@ defmodule Opencov.ProjectManager do
         order_by: [desc: b.inserted_at]
       )
 
-    Opencov.Repo.preload(projects, builds: query)
+    Librecov.Repo.preload(projects, builds: query)
   end
 
   def preload_recent_builds(projects) do
     query =
-      from(b in Opencov.Build, where: b.completed, order_by: [desc: b.inserted_at], limit: 10)
+      from(b in Librecov.Build, where: b.completed, order_by: [desc: b.inserted_at], limit: 10)
 
-    Opencov.Repo.preload(projects, builds: query)
+    Librecov.Repo.preload(projects, builds: query)
   end
 
   def add_job!(project, params) do
-    Opencov.Repo.transaction(fn ->
-      build = Opencov.BuildManager.get_or_create!(project, params)
-      job = Opencov.JobManager.create_from_json!(build, params)
+    Librecov.Repo.transaction(fn ->
+      build = Librecov.BuildManager.get_or_create!(project, params)
+      job = Librecov.JobManager.create_from_json!(build, params)
 
       with {owner, name} <- Project.name_and_owner(project),
            {:ok, token} <- Auth.login_token(owner) do

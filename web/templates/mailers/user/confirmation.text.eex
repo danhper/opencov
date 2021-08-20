@@ -1,9 +1,9 @@
 Hi <%= user.name %>,
 <%= if opts[:registration] do %>
   <%= if opts[:invited] do %>
-    You have been invited to join Opencov@<%= base_url %>
+    You have been invited to join Librecov@<%= base_url %>
   <% else %>
-    Thank you for registering to Opencov@<%= base_url %>
+    Thank you for registering to Librecov@<%= base_url %>
   <% end %>
 
   Your login address is: <%= user.email %>

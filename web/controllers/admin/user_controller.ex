@@ -1,12 +1,12 @@
-defmodule Opencov.Admin.UserController do
-  use Opencov.Web, :controller
+defmodule Librecov.Admin.UserController do
+  use Librecov.Web, :controller
 
-  import Opencov.Helpers.Authentication
+  import Librecov.Helpers.Authentication
 
-  alias Opencov.UserService
-  alias Opencov.User
-  alias Opencov.UserManager
-  alias Opencov.Repo
+  alias Librecov.UserService
+  alias Librecov.User
+  alias Librecov.UserManager
+  alias Librecov.Repo
 
   plug(:scrub_params, "user" when action in [:create, :update])
 
