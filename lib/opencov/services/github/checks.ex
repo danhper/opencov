@@ -20,6 +20,15 @@ defmodule Librecov.Services.Github.Checks do
     cov_dif = coverage_diff(coverage, real_previous_coverage) |> format_coverage()
     cov = coverage |> format_coverage()
 
+    Logger.info("""
+    Repo: #{owner}/#{repo}
+    Commit: #{commit}
+    Coverage: #{cov}
+    Coverage diff: #{cov_dif}
+    Project Previous Coverage: #{base_coverage}
+    Build Previous Coverage: #{previous_coverage}
+    """)
+
     conn =
       token
       |> Connection.new()
