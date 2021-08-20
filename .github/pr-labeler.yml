@@ -1,3 +1,3 @@
-feature: ['*/feature/*', 'feature/*']
-bug: ["*/*fix*", 'fix/*', 'bug/*']
-chore: ["*/*chore*", 'chore/*']
+feature: ['feature/*']
+bug: ['fix/*', 'bug/*']
+chore: ['chore/*']

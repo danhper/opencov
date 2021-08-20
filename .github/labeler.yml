@@ -1,15 +1,13 @@
 test:
-  - frontend/src/**/*.test.tsx
-  - frontend/src/**/*.test.ts
-  - e2e_tests/**/*.ts
-  - backend/spec/**/*
+  - test/**
 
 backend:
-  - backend/**/*.rb
+  - lib/**/*.ex
+  - web/**/*.ex
 
 frontend:
-  - frontend/**/*.ts
-  - frontend/**/*.tsx
+  - web/static/**/*
+  - web/views/**/*
 
 documentation:
   - /**/*.md
@@ -19,8 +17,10 @@ dependencies:
   - yarn.lock
   - /**/package.json
   - /**/yarn.lock
-  - backend/Gemfile
-  - backend/Gemfile.lock
+  - mix.exs
+  - mix.lock
 
 chore:
   - .github/**/*
+  - priv/**/*.ex
+  - priv/**/*.exs
