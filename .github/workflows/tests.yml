@@ -119,17 +119,16 @@ jobs:
           files: cover/excoveralls.json
           fail_ci_if_error: true
       - name: LibreCov
-        continue-on-error: true
         env:
           SHA: ${{github.sha}}
           BRANCH: ${{ github.ref }}
           TOKEN: ${{ secrets.OPENCOV_TOKEN }}
           COVERALLS_ENDPOINT: ${{ secrets.OPENCOV_ENDPOINT }}
-          RUN_NUMBER: ${{github.run_number}}
+          RUN_NUMBER: ${{ github.run_id }}
         run: |
           MIX_ENV=test mix coveralls.post \
-          --service_name github-actions \
-          --service_number "$RUN_NUMBER" \
+          --name github-actions \
+          --build "$RUN_NUMBER" \
           --sha "$SHA" \
           --committer "$(git log -1 $SHA --pretty=format:'%cN')" \
           --message "$(git log -1 $SHA --pretty=format:'%s')" \
