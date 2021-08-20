@@ -3,6 +3,7 @@ defmodule Librecov.ProjectManager do
   alias Librecov.Project
   alias Librecov.Services.Github.Auth
   alias Librecov.Services.Github.Checks
+  alias Librecov.Templates.CommentTemplate
   import Librecov.Project
 
   import Ecto.Query
@@ -81,6 +82,9 @@ defmodule Librecov.ProjectManager do
       with {owner, name} <- Project.name_and_owner(project),
            {:ok, token} <- Auth.login_token(owner) do
         Checks.finish_check(token, owner, name, build)
+
+        CommentTemplate.coverage_message(project, build, job)
+        |> IO.inspect()
       end
 
       {build, job}
