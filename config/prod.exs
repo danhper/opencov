@@ -1,5 +1,7 @@
 use Mix.Config
 
+config :tesla, Tesla.Middleware.Logger, filter_headers: ["authorization"]
+
 config :librecov, Librecov.Endpoint,
   http: [port: {:system, "PORT"}, compress: true],
   url: [

@@ -19,7 +19,7 @@ defmodule Librecov.Api.V1.JobController do
 
   defp read_file(%Plug.Upload{content_type: "gzip/json", path: path}) do
     path
-    |> File.stream!([:compressed])
+    |> File.stream!([], 2048)
     |> StreamGzip.gunzip()
     |> Enum.into("")
   end

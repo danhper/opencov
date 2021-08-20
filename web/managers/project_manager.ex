@@ -84,7 +84,7 @@ defmodule Librecov.ProjectManager do
            {:ok, token} <- Auth.login_token(owner) do
         Checks.finish_check(token, owner, name, build)
 
-        unless is_nil(build.branch) do
+        unless is_nil(build.branch) or build.branch == "" do
           CommentTemplate.coverage_message(project, build, job)
           |> Comments.add_pr_comment(token, owner, name, build.branch)
         end

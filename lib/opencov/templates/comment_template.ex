@@ -9,7 +9,9 @@ defmodule Librecov.Templates.CommentTemplate do
   import Librecov.Helpers.Coverage
 
   def coverage_message(
-        %Project{},
+        %Project{
+          current_coverage: project_coverage
+        },
         %Build{
           id: build_id,
           coverage: coverage,
@@ -19,14 +21,19 @@ defmodule Librecov.Templates.CommentTemplate do
         },
         %Job{} = job
       ) do
-    cov_dif = coverage_diff(coverage, previous_coverage)
-    report_url = build_path(Endpoint, :show, build_id)
+    real_previous_coverage = project_coverage || previous_coverage || 0.0
+    cov_dif = coverage_diff(coverage, real_previous_coverage)
 
-    files =
+    report_url = build_url(Endpoint, :show, build_id)
+
+    job =
       job
       |> JobManager.preload_files()
+
+    files =
+      job.files
       |> Enum.filter(fn %File{coverage: coverage, previous_coverage: previous_coverage} ->
-        previous_coverage - coverage != 0
+        coverage_diff(coverage, previous_coverage) != 0
       end)
 
     """
@@ -39,9 +46,12 @@ defmodule Librecov.Templates.CommentTemplate do
     [Continue to review full report at Librecov](#{report_url}).
     > **Legend**
     > `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
-    > Powered by [Librecov](#{project_path(Endpoint, :index)}).
+    > Powered by [Librecov](#{project_url(Endpoint, :index)}).
     """
   end
+
+  def merge_message(_, nil, _, _), do: ""
+  def merge_message(_, _, nil, _), do: ""
 
   def merge_message(0.0, branch, commit, report_url),
     do:
@@ -74,7 +84,7 @@ defmodule Librecov.Templates.CommentTemplate do
        }) do
     cov_diff = coverage_diff(coverage, previous_coverage)
 
-    "| [#{filename}](#{file_path(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | #{cov_diff |> diff_emoji()} |"
+    "| [#{filename}](#{file_url(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | #{cov_diff |> diff_emoji()} |"
   end
 
   defp diff_emoji(diff) when diff == 0, do: ""

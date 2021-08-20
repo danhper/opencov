@@ -34,7 +34,14 @@ defmodule Librecov.BuildManager do
   def update_coverage(build) do
     coverage = build |> Repo.preload(:jobs) |> compute_coverage
     build = Repo.update!(change(build, coverage: coverage))
-    Librecov.ProjectManager.update_coverage(Repo.preload(build, :project).project)
+
+    if(
+      build.branch == "master" or build.branch == "main" or build.branch == "" or
+        is_nil(build.branch)
+    ) do
+      Librecov.ProjectManager.update_coverage(Repo.preload(build, :project).project)
+    end
+
     build
   end
 
