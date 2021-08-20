@@ -1,4 +1,4 @@
-defmodule Opencov.Authentication do
+defmodule Librecov.Authentication do
   import Plug.Conn, only: [put_session: 3, delete_session: 2]
 
   @user_id_key :user_id

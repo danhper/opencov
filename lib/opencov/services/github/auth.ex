@@ -1,4 +1,4 @@
-defmodule Opencov.Services.Github.Auth do
+defmodule Librecov.Services.Github.Auth do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Apps
   alias ExOctocat.Model.Installation
@@ -35,7 +35,7 @@ defmodule Opencov.Services.Github.Auth do
   end
 
   defp config do
-    Application.get_env(:opencov, :github, [])
+    Application.get_env(:librecov, :github, [])
   end
 
   defp github_client_id, do: config() |> Keyword.get(:client_id, "")

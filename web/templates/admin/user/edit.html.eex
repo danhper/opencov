@@ -12,7 +12,7 @@
   </h2>
 
   <div class="user-form">
-    <%= render Opencov.UserView, "form.html",
+    <%= render Librecov.UserView, "form.html",
                 changeset: @changeset,
                 action: admin_user_path(@conn, :update, @user),
                 show_password: true,

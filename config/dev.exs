@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :opencov, Opencov.Endpoint,
+config :librecov, Librecov.Endpoint,
   http: [port: System.get_env("PORT") || 4000],
   debug_errors: true,
   code_reloader: true,
@@ -23,7 +23,7 @@ config :opencov, Opencov.Endpoint,
   ]
 
 # Watch static and templates for browser reloading.
-config :opencov, Opencov.Endpoint,
+config :librecov, Librecov.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -42,16 +42,16 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :opencov, Opencov.Repo,
+config :librecov, Librecov.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "opencov_dev",
+  database: "librecov_dev",
   hostname: "localhost",
   pool_size: 10
 
-config :opencov, :email,
-  sender: "OpenCov <info@opencov.com>",
+config :librecov, :email,
+  sender: "LibreCov <info@librecov.com>",
   smtp: [
     relay: "127.0.0.1",
     port: 1025,
@@ -60,7 +60,7 @@ config :opencov, :email,
     auth: :never
   ]
 
-config Opencov.Plug.Github,
+config Librecov.Plug.Github,
   secret: "my-secret",
   path: "/api/v1/github_webhook",
-  action: {Opencov.GithubService, :handle}
+  action: {Librecov.GithubService, :handle}

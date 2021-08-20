@@ -1,7 +1,7 @@
-defmodule Opencov.Api.V1.JobController do
-  use Opencov.Web, :controller
+defmodule Librecov.Api.V1.JobController do
+  use Librecov.Web, :controller
 
-  alias Opencov.ProjectManager
+  alias Librecov.ProjectManager
 
   def create(conn, %{"json" => json}) do
     json = Jason.decode!(json)

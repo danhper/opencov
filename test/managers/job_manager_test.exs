@@ -1,8 +1,8 @@
-defmodule Opencov.JobManagerTest do
-  use Opencov.ModelCase
+defmodule Librecov.JobManagerTest do
+  use Librecov.ModelCase
 
-  alias Opencov.Job
-  alias Opencov.JobManager
+  alias Librecov.Job
+  alias Librecov.JobManager
 
   test "changeset with valid attributes" do
     changeset = JobManager.changeset(%Job{}, Map.put(params_for(:job), :build_id, 1))
@@ -21,7 +21,7 @@ defmodule Opencov.JobManagerTest do
   end
 
   test "create_from_json!" do
-    dummy_coverage = Opencov.Fixtures.dummy_coverage()
+    dummy_coverage = Librecov.Fixtures.dummy_coverage()
     job = JobManager.create_from_json!(insert(:build), dummy_coverage)
     assert job.id != nil
     assert Enum.count(job.files) == Enum.count(dummy_coverage["source_files"])

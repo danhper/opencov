@@ -1,7 +1,7 @@
-defmodule Opencov.BuildTest do
-  use Opencov.ModelCase
+defmodule Librecov.BuildTest do
+  use Librecov.ModelCase
 
-  alias Opencov.Build
+  alias Librecov.Build
 
   test "current_for_project when no build exist" do
     insert(:build, completed: false)

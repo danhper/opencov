@@ -39,7 +39,7 @@
         </td>
         <td>
           <%= if file.previous_coverage do %>
-            <%= render Opencov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
+            <%= render Librecov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
           <% end %>
         </td>
         <td><%= link file.name, to: file_path(@conn, :show, file) %></td>

@@ -3,7 +3,7 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">
         <i class="fa fa-check"></i>
-        OpenCov
+        LibreCov
       </a>
     </div>
     <%= if user_signed_in?(@conn) do %>

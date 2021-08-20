@@ -60,10 +60,10 @@
         </td>
         <td>
           <%= if build.previous_coverage do %>
-            <%= render Opencov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
+            <%= render Librecov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
           <% end %>
         </td>
-        <td><%= render Opencov.BuildView, "commit.html", build: %{build|project: @project} %></td>
+        <td><%= render Librecov.BuildView, "commit.html", build: %{build|project: @project} %></td>
         <td><%= build.committer_name %></td>
         <td><%= human_time_ago(build.inserted_at) %></td>
         <td><%= build.service_name %></td>

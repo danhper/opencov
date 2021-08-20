@@ -1,7 +1,7 @@
-defmodule Opencov.BadgeTest do
-  use Opencov.ModelCase
+defmodule Librecov.BadgeTest do
+  use Librecov.ModelCase
 
-  alias Opencov.Badge
+  alias Librecov.Badge
 
   setup do
     svg_badge = insert(:badge, format: "svg") |> Repo.preload(:project)

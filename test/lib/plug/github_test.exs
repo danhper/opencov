@@ -1,4 +1,4 @@
-defmodule Opencov.Plugs.GithubTest do
+defmodule Librecov.Plugs.GithubTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
@@ -6,7 +6,7 @@ defmodule Opencov.Plugs.GithubTest do
   defmodule DemoPlug do
     use Plug.Builder
 
-    plug(Opencov.Plug.Github,
+    plug(Librecov.Plug.Github,
       secret: "secret",
       path: "/gh-webhook",
       action: {__MODULE__, :gh_webhook}
@@ -67,7 +67,7 @@ defmodule Opencov.Plugs.GithubTest do
     defmodule DemoPlugParamPresendence do
       use Plug.Builder
 
-      plug(Opencov.Plug.Github,
+      plug(Librecov.Plug.Github,
         secret: "secret",
         path: "/gh-webhook",
         action: {__MODULE__, :gh_webhook}
@@ -78,7 +78,7 @@ defmodule Opencov.Plugs.GithubTest do
       end
     end
 
-    Application.put_env(Opencov.Plug.Github, :secret, "wrong")
+    Application.put_env(Librecov.Plug.Github, :secret, "wrong")
 
     hexdigest =
       "sha1=" <>
@@ -99,14 +99,14 @@ defmodule Opencov.Plugs.GithubTest do
     defmodule DemoPlugApplicationSecret do
       use Plug.Builder
 
-      plug(Opencov.Plug.Github, path: "/gh-webhook", action: {__MODULE__, :gh_webhook})
+      plug(Librecov.Plug.Github, path: "/gh-webhook", action: {__MODULE__, :gh_webhook})
 
       def gh_webhook(_conn, payload) do
         Process.put(:payload, payload)
       end
     end
 
-    Application.put_env(Opencov.Plug.Github, :secret, "1234")
+    Application.put_env(Librecov.Plug.Github, :secret, "1234")
 
     hexdigest =
       "sha1=" <>
@@ -127,14 +127,14 @@ defmodule Opencov.Plugs.GithubTest do
     defmodule DemoPlugNoSecret do
       use Plug.Builder
 
-      plug(Opencov.Plug.Github, path: "/gh-webhook", action: {__MODULE__, :gh_webhook})
+      plug(Librecov.Plug.Github, path: "/gh-webhook", action: {__MODULE__, :gh_webhook})
 
       def gh_webhook(_conn, payload) do
         Process.put(:payload, payload)
       end
     end
 
-    Application.delete_env(Opencov.Plug.Github, :secret)
+    Application.delete_env(Librecov.Plug.Github, :secret)
 
     hexdigest =
       "sha1=" <> (:crypto.mac(:hmac, :sha, "", ~s({"foo":"bar"})) |> Base.encode16(case: :lower))

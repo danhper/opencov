@@ -1,4 +1,4 @@
-defmodule Opencov.AppMailer do
+defmodule Librecov.AppMailer do
   def send(email) do
     email = %{email | from: sender()}
     message = generate_message(email)
@@ -18,7 +18,7 @@ defmodule Opencov.AppMailer do
   end
 
   defp mail_config do
-    Application.get_env(:opencov, :email, [])
+    Application.get_env(:librecov, :email, [])
   end
 
   defp mailman_config() do

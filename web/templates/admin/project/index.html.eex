@@ -37,7 +37,7 @@
 
   <%= if @paginator.total_pages > 1 do %>
     <div class="text-centered">
-      <%= pagination_links @conn, @paginator, path: &Opencov.Router.Helpers.admin_project_path/3 %>
+      <%= pagination_links @conn, @paginator, path: &Librecov.Router.Helpers.admin_project_path/3 %>
     </div>
   <% end %>
 </div>

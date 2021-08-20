@@ -1,5 +1,5 @@
-defmodule Opencov.Admin.DashboardView do
-  use Opencov.Web, :view
+defmodule Librecov.Admin.DashboardView do
+  use Librecov.Web, :view
 
-  alias Opencov.Helpers.Display
+  alias Librecov.Helpers.Display
 end

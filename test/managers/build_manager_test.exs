@@ -1,8 +1,8 @@
-defmodule Opencov.BuildManagerTest do
-  use Opencov.ManagerCase
+defmodule Librecov.BuildManagerTest do
+  use Librecov.ManagerCase
 
-  alias Opencov.Build
-  alias Opencov.BuildManager
+  alias Librecov.Build
+  alias Librecov.BuildManager
 
   test "changeset with valid attributes" do
     changeset = BuildManager.changeset(%Build{}, Map.put(params_for(:build), :project_id, 1))
@@ -15,7 +15,7 @@ defmodule Opencov.BuildManagerTest do
   end
 
   test "changeset with real params" do
-    params = Opencov.Fixtures.dummy_coverage()
+    params = Librecov.Fixtures.dummy_coverage()
     changeset = BuildManager.changeset(build(:build, project: nil) |> with_project, params)
     assert changeset.valid?
 
@@ -61,7 +61,7 @@ defmodule Opencov.BuildManagerTest do
 
   test "get_or_create! when build does not exist" do
     project = insert(:project)
-    cov = Opencov.Fixtures.dummy_coverage()
+    cov = Librecov.Fixtures.dummy_coverage()
     build = BuildManager.get_or_create!(project, cov)
     assert build.id
     assert build.commit_sha == cov["git"]["head"]["id"]

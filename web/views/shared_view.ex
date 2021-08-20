@@ -1,5 +1,5 @@
-defmodule Opencov.SharedView do
-  use Opencov.Web, :view
+defmodule Librecov.SharedView do
+  use Librecov.Web, :view
 
-  import Opencov.CommonView
+  import Librecov.CommonView
 end

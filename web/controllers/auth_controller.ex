@@ -1,9 +1,9 @@
-defmodule Opencov.AuthController do
-  use Opencov.Web, :controller
+defmodule Librecov.AuthController do
+  use Librecov.Web, :controller
 
-  alias Opencov.Authentication
-  alias Opencov.User
-  alias Opencov.Repo
+  alias Librecov.Authentication
+  alias Librecov.User
+  alias Librecov.Repo
 
   def login(conn, _params) do
     render(conn, "login.html", email: "", error: nil, can_signup: can_signup?())
@@ -40,7 +40,7 @@ defmodule Opencov.AuthController do
   end
 
   defp can_signup?() do
-    Opencov.SettingsManager.get!().signup_enabled
+    Librecov.SettingsManager.get!().signup_enabled
   end
 
   def logout(conn, _params) do

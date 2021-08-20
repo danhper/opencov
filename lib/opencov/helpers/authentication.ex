@@ -1,4 +1,4 @@
-defmodule Opencov.Helpers.Authentication do
+defmodule Librecov.Helpers.Authentication do
   def current_user(conn) do
     Map.fetch!(conn.assigns, :current_user)
   end

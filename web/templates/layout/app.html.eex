@@ -7,13 +7,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>OpenCov</title>
+    <title>LibreCov</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/js/vendor.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/js/theme.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/js/app.css") %>">
   </head>
 
-  <body class="opencov">
+  <body class="librecov">
 
   <div class="container-fluid body-wrapper">
     <%= render "header.html", conn: @conn %>

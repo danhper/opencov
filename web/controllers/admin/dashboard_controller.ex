@@ -1,12 +1,12 @@
-defmodule Opencov.Admin.DashboardController do
-  use Opencov.Web, :controller
+defmodule Librecov.Admin.DashboardController do
+  use Librecov.Web, :controller
 
-  alias Opencov.Repo
+  alias Librecov.Repo
 
   def index(conn, _params) do
-    users = Repo.latest(Opencov.User)
-    projects = Repo.latest(Opencov.Project)
-    settings = Opencov.SettingsManager.get!()
+    users = Repo.latest(Librecov.User)
+    projects = Repo.latest(Librecov.Project)
+    settings = Librecov.SettingsManager.get!()
     render(conn, "index.html", users: users, projects: projects, settings: settings)
   end
 end

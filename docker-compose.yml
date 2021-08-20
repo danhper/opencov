@@ -9,9 +9,9 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: 112233
 
-  opencov:
-    image: yknx4/opencov:latest
+  librecov:
+    image: yknx4/librecov:latest
     ports:
       - "4000:4000"
     volumes:
-      - ./config/local.sample.exs:/opencov/config/local.exs
+      - ./config/local.sample.exs:/librecov/config/local.exs

@@ -1,10 +1,10 @@
-defmodule Opencov.JobManager do
-  use Opencov.Web, :manager
+defmodule Librecov.JobManager do
+  use Librecov.Web, :manager
 
   import Ecto.Query
-  import Opencov.Job
-  alias Opencov.Job
-  alias Opencov.FileManager
+  import Librecov.Job
+  alias Librecov.Job
+  alias Librecov.FileManager
 
   @required_fields ~w(build_id)a
   @optional_fields ~w(run_at job_number files_count)a
@@ -35,7 +35,7 @@ defmodule Opencov.JobManager do
   defp set_previous_values(changeset) do
     build_id = get_change(changeset, :build_id) || changeset.data.build_id
     job_number = get_change(changeset, :job_number)
-    previous_build_id = Opencov.Repo.get!(Opencov.Build, build_id).previous_build_id
+    previous_build_id = Librecov.Repo.get!(Librecov.Build, build_id).previous_build_id
     previous_job = search_previous_job(previous_build_id, job_number)
 
     if previous_job do
@@ -55,7 +55,7 @@ defmodule Opencov.JobManager do
 
   def update_coverage(job) do
     job = change(job, coverage: compute_coverage(job)) |> Repo.update!() |> Repo.preload(:build)
-    Opencov.BuildManager.update_coverage(job.build)
+    Librecov.BuildManager.update_coverage(job.build)
     job
   end
 

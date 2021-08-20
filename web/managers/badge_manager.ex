@@ -1,10 +1,10 @@
-defmodule Opencov.BadgeManager do
-  use Opencov.Web, :manager
+defmodule Librecov.BadgeManager do
+  use Librecov.Web, :manager
 
-  alias Opencov.Badge
-  alias Opencov.BadgeCreator
+  alias Librecov.Badge
+  alias Librecov.BadgeCreator
 
-  import Opencov.Badge
+  import Librecov.Badge
 
   @required_fields ~w(image format project_id)a
   @optional_fields ~w(coverage)a

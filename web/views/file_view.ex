@@ -1,7 +1,7 @@
-defmodule Opencov.FileView do
-  use Opencov.Web, :view
+defmodule Librecov.FileView do
+  use Librecov.Web, :view
 
-  import Opencov.CommonView
+  import Librecov.CommonView
   import Scrivener.HTML
 
   @max_length 20

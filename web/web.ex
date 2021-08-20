@@ -1,12 +1,12 @@
-defmodule Opencov.Web do
+defmodule Librecov.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Opencov.Web, :controller
-      use Opencov.Web, :view
+      use Librecov.Web, :controller
+      use Librecov.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,7 +19,7 @@ defmodule Opencov.Web do
   def model do
     quote do
       use Ecto.Schema
-      use Opencov.Core
+      use Librecov.Core
 
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
@@ -28,8 +28,8 @@ defmodule Opencov.Web do
 
   def manager do
     quote do
-      alias Opencov.Repo
-      use Opencov.Core
+      alias Librecov.Repo
+      use Librecov.Core
 
       import Ecto.Changeset
     end
@@ -37,7 +37,7 @@ defmodule Opencov.Web do
 
   def service do
     quote do
-      alias Opencov.Repo
+      alias Librecov.Repo
     end
   end
 
@@ -45,11 +45,11 @@ defmodule Opencov.Web do
     quote do
       use Phoenix.Controller
 
-      alias Opencov.Repo
+      alias Librecov.Repo
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Opencov.Router.Helpers
-      import Opencov.Helpers.Authentication
+      import Librecov.Router.Helpers
+      import Librecov.Helpers.Authentication
     end
   end
 
@@ -63,9 +63,9 @@ defmodule Opencov.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Opencov.Router.Helpers
-      import Opencov.ErrorHelpers
-      import Opencov.FormHelpers
+      import Librecov.Router.Helpers
+      import Librecov.ErrorHelpers
+      import Librecov.FormHelpers
     end
   end
 
@@ -82,14 +82,14 @@ defmodule Opencov.Web do
     quote do
       use Phoenix.Channel
 
-      alias Opencov.Repo
+      alias Librecov.Repo
       import Ecto.Query, only: [from: 1, from: 2]
     end
   end
 
   def mailer do
     quote do
-      use Opencov.Mailer
+      use Librecov.Mailer
     end
   end
 

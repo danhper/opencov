@@ -1,18 +1,18 @@
-# OpenCov
+# LibreCov
 
-![Build Status](https://github.com/yknx4/opencov/actions/workflows/tests.yml/badge.svg)
-[![Coverage Status](https://opencov-reloaded.herokuapp.com/projects/1/badge.svg)](https://opencov-reloaded.herokuapp.com/projects/1)
-[![codecov](https://codecov.io/gh/yknx4/opencov/branch/main/graph/badge.svg?token=Q9kaFXoFTn)](https://codecov.io/gh/yknx4/opencov)
+![Build Status](https://github.com/yknx4/librecov/actions/workflows/tests.yml/badge.svg)
+[![Coverage Status](https://www.librecov.com/projects/1/badge.svg)](https://www.librecov.com/projects/1)
+[![codecov](https://codecov.io/gh/yknx4/librecov/branch/main/graph/badge.svg?token=Q9kaFXoFTn)](https://codecov.io/gh/yknx4/librecov)
 
-OpenCov is a self-hosted opensource test coverage history viewer.
+LibreCov is a self-hosted opensource test coverage history viewer.
 It is (mostly) compatible with [coveralls](https://coveralls.io/), so most
 coverage tools will work easily.
 
 ## Demo and screenshots
 
-A demo is available at https://opencov-reloaded.herokuapp.com, you can create an account or login with
+A demo is available at https://www.librecov.com, you can create an account or login with
 
-* username: user@opencov.com
+* username: user@librecov.com
 * password: password123
 
 For "security" reasons, the user is not admin.
@@ -44,7 +44,7 @@ NOTE: the demo is on a Heroku free dyno, so it may not always be available and m
 
 First, you will need to at least setup a database
 To configure the app, create a `local.exs` file and override the configuration you need.
-Check [config/local.sample.exs](https://github.com/yknx4/opencov/blob/master/config/local.sample.exs) to see the available configurations.
+Check [config/local.sample.exs](https://github.com/yknx4/librecov/blob/main/config/local.sample.exs) to see the available configurations.
 
 ### Using docker
 
@@ -54,32 +54,32 @@ If you already have a database to use, you can simply start the application usin
 
 Setup database, run migrations and seeds
 ```
-$ docker run --rm -v /absolute/path/to/local.exs:/opencov/config/local.exs yknx4/opencov mix ecto.setup
+$ docker run --rm -v /absolute/path/to/local.exs:/librecov/config/local.exs yknx4/librecov mix ecto.setup
 ```
 
 Execute Phoenix Server
 ```
-$ docker run -v /absolute/path/to/local.exs:/opencov/config/local.exs yknx4/opencov
+$ docker run -v /absolute/path/to/local.exs:/librecov/config/local.exs yknx4/librecov
 ```
 
 This will start the server on the port you set in `local.exs`.
 
 #### With docker-compose
 
-If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/yknx4/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
+If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/yknx4/librecov/blob/main/docker-compose.yml) for a sample `docker-compose.yml` file.
 
 Once you have your `docker-compose.yml` and `local.exs` ready, you can run
 
 ```
-$ docker-compose run opencov mix ecto.setup
+$ docker-compose run librecov mix ecto.setup
 $ docker-compose up
 ```
 
 ### Manually
 
 ```
-$ git clone https://github.com/yknx4/opencov.git
-$ cd opencov
+$ git clone https://github.com/yknx4/librecov.git
+$ cd librecov
 $ cp /path/to/local.exs config/local.exs # local.exs must be in the `config` directory of the app
 
 $ npm install # (or yarn install)
@@ -88,7 +88,7 @@ $ mix ecto.setup
 $ mix phoenix.server
 ```
 
-This should start OpenCov at port 4000.
+This should start LibreCov at port 4000.
 
 If you want to setup the server for production, you will need to run the above commands
 with `MIX_ENV=prod` and to run
@@ -104,8 +104,8 @@ before starting the server.
 You should also be able to deploy to Heroku by simply git pushing this repository.
 You will need to set the following environment variables using `heroku config:set`
 
-* `OPENCOV_PORT`
-* `OPENCOV_SCHEME`
+* `LIBRECOV_PORT`
+* `LIBRECOV_SCHEME`
 * `SECRET_KEY_BASE`
 * `SMTP_USER`
 * `SMTP_PASSWORD`
@@ -129,9 +129,9 @@ You should use it for your first login and the change the email and password.
 
 ## Sending test metrics
 
-A few languages are documented in [the wiki](https://github.com/yknx4/opencov/wiki).
+A few languages are documented in [the wiki](https://github.com/yknx4/librecov/wiki).
 For other languages, coveralls instructions should work out of the box,
-you just need to set the URL to your OpenCov server and to explicitly set
+you just need to set the URL to your LibreCov server and to explicitly set
 the token, even when using Travis.
 
 ## Development status
@@ -140,6 +140,6 @@ The application is more or less stable. I have been using it
 for a little while now with coverage data from the 4 languages in the Wiki.
 
 The main missing feature is the ability to send coverage status on pull requests.
-The implementation is started in the [integrations branch](https://github.com/yknx4/opencov/tree/integrations) but I could not find the time to finish it yet.
+The implementation is started in the [integrations branch](https://github.com/yknx4/librecov/tree/integrations) but I could not find the time to finish it yet.
 
 I am open to any other suggestions, and help is very welcome.

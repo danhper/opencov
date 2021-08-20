@@ -1,10 +1,10 @@
-defmodule Opencov.GithubService do
+defmodule Librecov.GithubService do
   require Logger
-  alias Opencov.Repo
-  alias Opencov.Project
-  alias Opencov.ProjectManager
-  alias Opencov.Services.Github.Auth
-  alias Opencov.Services.Github.Checks
+  alias Librecov.Repo
+  alias Librecov.Project
+  alias Librecov.ProjectManager
+  alias Librecov.Services.Github.Auth
+  alias Librecov.Services.Github.Checks
 
   def handle("pull_request", payload) do
     handle_pr(payload["action"], payload)

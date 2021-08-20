@@ -1,9 +1,9 @@
-defmodule Opencov.Endpoint do
-  use Phoenix.Endpoint, otp_app: :opencov
+defmodule Librecov.Endpoint do
+  use Phoenix.Endpoint, otp_app: :librecov
 
   plug(Plug.Static,
     at: "/",
-    from: :opencov,
+    from: :librecov,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
   )
@@ -20,7 +20,7 @@ defmodule Opencov.Endpoint do
   end
 
   # plug :copy_req_body
-  plug(Opencov.Plug.Github)
+  plug(Librecov.Plug.Github)
 
   plug(Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
@@ -33,9 +33,9 @@ defmodule Opencov.Endpoint do
 
   plug(Plug.Session,
     store: :cookie,
-    key: "_opencov_key",
+    key: "_librecov_key",
     signing_salt: "DBdPx/m/"
   )
 
-  plug(Opencov.Router)
+  plug(Librecov.Router)
 end

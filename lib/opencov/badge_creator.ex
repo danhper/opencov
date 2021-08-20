@@ -1,4 +1,4 @@
-defmodule Opencov.BadgeCreator do
+defmodule Librecov.BadgeCreator do
   require EEx
 
   # values and SVG are taken from https://github.com/badges/shields
@@ -42,7 +42,7 @@ defmodule Opencov.BadgeCreator do
     do: transform(svg, format)
 
   def transform(svg, format) do
-    dir = Temp.mkdir!("opencov")
+    dir = Temp.mkdir!("librecov")
 
     {svg_path, output_path} =
       {Path.join(dir, "coverage.svg"), Path.join(dir, "coverage.#{format}")}
@@ -61,7 +61,7 @@ defmodule Opencov.BadgeCreator do
 
   defp make_output(svg_path, output_path) do
     try do
-      Opencov.ImageMagick.convert([svg_path, output_path])
+      Librecov.ImageMagick.convert([svg_path, output_path])
       File.read(output_path)
     rescue
       ErlangError -> {:error, "failed to run convert"}

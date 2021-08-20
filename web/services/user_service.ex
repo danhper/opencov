@@ -1,8 +1,8 @@
-defmodule Opencov.UserService do
-  alias Opencov.User
-  alias Opencov.UserManager
-  alias Opencov.UserMailer
-  alias Opencov.Repo
+defmodule Librecov.UserService do
+  alias Librecov.User
+  alias Librecov.UserManager
+  alias Librecov.UserMailer
+  alias Librecov.Repo
 
   def create_user(user_params, opts) do
     options = [generate_password: opts[:invited?]]
@@ -11,7 +11,7 @@ defmodule Opencov.UserService do
     case Repo.insert(changeset) do
       {:ok, user} = res ->
         email = UserMailer.confirmation_email(user, opts ++ [registration: true])
-        Opencov.AppMailer.send(email)
+        Librecov.AppMailer.send(email)
         res
 
       err ->
@@ -43,7 +43,7 @@ defmodule Opencov.UserService do
         UserManager.password_reset_changeset(user)
         |> Repo.update!()
         |> UserMailer.reset_password_email()
-        |> Opencov.AppMailer.send()
+        |> Librecov.AppMailer.send()
 
         :ok
 
@@ -64,10 +64,10 @@ defmodule Opencov.UserService do
   end
 
   def update_user(%{"user" => user_params}, user) do
-    redirect_path = Opencov.Router.Helpers.profile_path(Opencov.Endpoint, :show)
-    changeset = Opencov.UserManager.changeset(user, user_params)
+    redirect_path = Librecov.Router.Helpers.profile_path(Librecov.Endpoint, :show)
+    changeset = Librecov.UserManager.changeset(user, user_params)
 
-    case Opencov.Repo.update(changeset) do
+    case Librecov.Repo.update(changeset) do
       {:ok, user} ->
         send_confirmation_email_if_needed(user, changeset)
         {:ok, user, redirect_path, update_flash_message(changeset)}
@@ -82,8 +82,8 @@ defmodule Opencov.UserService do
   end
 
   defp send_confirmation_email(user) do
-    email = Opencov.UserMailer.confirmation_email(user)
-    Opencov.AppMailer.send(email)
+    email = Librecov.UserMailer.confirmation_email(user)
+    Librecov.AppMailer.send(email)
   end
 
   defp update_flash_message(changeset) do

@@ -1,4 +1,4 @@
-defmodule Opencov.Repo.Migrations.CreateProject do
+defmodule Librecov.Repo.Migrations.CreateProject do
   use Ecto.Migration
 
   def change do

@@ -1,7 +1,7 @@
-defmodule Opencov.JobViewTest do
-  use Opencov.ConnCase, async: true
+defmodule Librecov.JobViewTest do
+  use Librecov.ConnCase, async: true
 
-  import Opencov.JobView
+  import Librecov.JobView
 
   test "job_time when run_at absent" do
     job = insert(:job)

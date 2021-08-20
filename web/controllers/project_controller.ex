@@ -1,10 +1,10 @@
-defmodule Opencov.ProjectController do
-  use Opencov.Web, :controller
+defmodule Librecov.ProjectController do
+  use Librecov.Web, :controller
 
-  import Opencov.Helpers.Authentication
+  import Librecov.Helpers.Authentication
 
-  alias Opencov.Project
-  alias Opencov.ProjectManager
+  alias Librecov.Project
+  alias Librecov.ProjectManager
 
   plug(:scrub_params, "project" when action in [:create, :update])
 
@@ -70,7 +70,7 @@ defmodule Opencov.ProjectController do
 
   def badge(conn, %{"project_id" => id, "format" => format}) do
     project = Repo.get!(Project, id)
-    {:ok, badge} = Opencov.BadgeManager.get_or_create(project, format)
+    {:ok, badge} = Librecov.BadgeManager.get_or_create(project, format)
 
     conn
     |> put_resp_content_type(MIME.type(format))

@@ -1,5 +1,5 @@
-defmodule Opencov.Plug.AnonymousOnly do
-  import Opencov.Helpers.Authentication
+defmodule Librecov.Plug.AnonymousOnly do
+  import Librecov.Helpers.Authentication
   import Plug.Conn, only: [halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
 

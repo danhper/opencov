@@ -1,7 +1,7 @@
-defmodule Opencov.Plug.Authentication do
+defmodule Librecov.Plug.Authentication do
   import Plug.Conn
   import Phoenix.Controller, only: [redirect: 2, put_flash: 3]
-  import Opencov.Helpers.Authentication
+  import Librecov.Helpers.Authentication
 
   def init(opts) do
     opts

@@ -1,6 +1,6 @@
 import Seedex
 
-seed(Opencov.Settings, fn settings ->
+seed(Librecov.Settings, fn settings ->
   settings
   |> Map.put(:id, 1)
   |> Map.put(:signup_enabled, false)

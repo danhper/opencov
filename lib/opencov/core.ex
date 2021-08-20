@@ -1,13 +1,13 @@
-defmodule Opencov.Core do
+defmodule Librecov.Core do
   defmacro __using__(_opts) do
     quote do
-      import Opencov.Core, only: [pipe_when: 3]
+      import Librecov.Core, only: [pipe_when: 3]
     end
   end
 
   defmacro pipe_when(left, condition, fun) do
     quote do
-      if Opencov.Core.should_pipe(left, unquote(condition)) do
+      if Librecov.Core.should_pipe(left, unquote(condition)) do
         unquote(left) |> unquote(fun)
       else
         unquote(left)

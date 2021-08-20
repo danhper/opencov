@@ -1,5 +1,5 @@
-defmodule Opencov.FormHelpers do
-  import Opencov.ErrorHelpers
+defmodule Librecov.FormHelpers do
+  import Librecov.ErrorHelpers
   import Phoenix.HTML.Tag
   import Phoenix.HTML.Form
 
@@ -24,7 +24,7 @@ defmodule Opencov.FormHelpers do
 
   defp make_label_tag(form, field, opts) do
     scope = to_string(opts[:scope] || form.name)
-    text = Gettext.dgettext(Opencov.Gettext, scope, to_string(field))
+    text = Gettext.dgettext(Librecov.Gettext, scope, to_string(field))
     label(form, field, text, add_class(opts[:label], "form-label"))
   end
 

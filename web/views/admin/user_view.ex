@@ -1,7 +1,7 @@
-defmodule Opencov.Admin.UserView do
-  use Opencov.Web, :view
+defmodule Librecov.Admin.UserView do
+  use Librecov.Web, :view
 
   import Scrivener.HTML
-  alias Opencov.Helpers.Display
-  alias Opencov.Helpers.Datetime
+  alias Librecov.Helpers.Display
+  alias Librecov.Helpers.Datetime
 end

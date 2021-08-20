@@ -1,4 +1,4 @@
-defmodule Opencov.Helpers.Datetime do
+defmodule Librecov.Helpers.Datetime do
   def format(datetime, :short) do
     Timex.format!(datetime, "%Y/%m/%d %H:%M", :strftime)
   end

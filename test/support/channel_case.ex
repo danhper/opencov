@@ -1,4 +1,4 @@
-defmodule Opencov.ChannelCase do
+defmodule Librecov.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,15 +20,15 @@ defmodule Opencov.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias Opencov.Repo
+      alias Librecov.Repo
       import Ecto.Query, only: [from: 2]
 
       # The default endpoint for testing
-      @endpoint Opencov.Endpoint
+      @endpoint Librecov.Endpoint
     end
   end
 
   setup _tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Opencov.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Librecov.Repo)
   end
 end

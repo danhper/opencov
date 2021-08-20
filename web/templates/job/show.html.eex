@@ -16,13 +16,13 @@
   </span>
 </h2>
 
-<%= render Opencov.FileView,
+<%= render Librecov.FileView,
            "list.html",
            conn: @conn,
            paginator: @paginator,
            files: @files,
            order: @order,
            filters: @filters,
-           path_fn: &Opencov.Router.Helpers.job_path/4,
+           path_fn: &Librecov.Router.Helpers.job_path/4,
            path_args: [@conn, :show, @job]
           %>

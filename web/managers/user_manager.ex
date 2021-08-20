@@ -1,5 +1,5 @@
-defmodule Opencov.UserManager do
-  use Opencov.Web, :manager
+defmodule Librecov.UserManager do
+  use Librecov.Web, :manager
 
   @required_fields ~w(email)a
   @optional_fields ~w(admin name password)a
@@ -56,7 +56,7 @@ defmodule Opencov.UserManager do
     user = changeset.data
 
     if !user.password_initialized or
-         Opencov.User.authenticate(user, get_change(changeset, :current_password)) do
+         Librecov.User.authenticate(user, get_change(changeset, :current_password)) do
       delete_change(changeset, :current_password)
     else
       add_error(changeset, :current_password, "is invalid")
@@ -102,7 +102,7 @@ defmodule Opencov.UserManager do
   end
 
   defp validate_domain(email) do
-    allowed_domains = Opencov.SettingsManager.restricted_signup_domains()
+    allowed_domains = Librecov.SettingsManager.restricted_signup_domains()
     domain = email |> String.split("@") |> List.last()
 
     if allowed_domains && domain not in allowed_domains do

@@ -9,16 +9,16 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-alias Opencov.Repo
+alias Librecov.Repo
 
-Repo.insert!(%Opencov.Settings{
+Repo.insert!(%Librecov.Settings{
   id: 1,
   signup_enabled: false,
   restricted_signup_domains: "",
   default_project_visibility: "internal"
 })
 
-Repo.insert!(%Opencov.User{
+Repo.insert!(%Librecov.User{
   id: 1,
   email: "admin@test.com",
   password_digest: "$2b$12$hlXtMVOFfd2PxsmyDCEmwuPlHk8M1kOpOBozLSj5GO1Tn6COpHKG.",
@@ -28,10 +28,10 @@ Repo.insert!(%Opencov.User{
   admin: true
 })
 
-Repo.insert!(%Opencov.Project{
+Repo.insert!(%Librecov.Project{
   id: 1,
-  name: "yknx4/opencov",
-  base_url: "https://github.com/yknx4/opencov",
+  name: "yknx4/librecov",
+  base_url: "https://github.com/yknx4/librecov",
   current_coverage: 80.0,
   user_id: 1,
   token: "very-secure-token",

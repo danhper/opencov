@@ -1,4 +1,4 @@
-defmodule Opencov.Exgravatar do
+defmodule Librecov.Exgravatar do
   @moduledoc """
   An Elixir module for generating [Gravatar](http://gravatar.com) urls.
   """

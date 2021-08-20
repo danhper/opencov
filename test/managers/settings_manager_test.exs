@@ -1,8 +1,8 @@
-defmodule Opencov.SettingsManagerTest do
-  use Opencov.ManagerCase
+defmodule Librecov.SettingsManagerTest do
+  use Librecov.ManagerCase
 
-  alias Opencov.Settings
-  alias Opencov.SettingsManager
+  alias Librecov.Settings
+  alias Librecov.SettingsManager
 
   @valid_attrs %{
     default_project_visibility: "internal",

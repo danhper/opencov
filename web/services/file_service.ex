@@ -1,7 +1,7 @@
-defmodule Opencov.FileService do
-  use Opencov.Web, :service
+defmodule Librecov.FileService do
+  use Librecov.Web, :service
 
-  alias Opencov.File
+  alias Librecov.File
 
   def files_with_filter([job | _], params), do: files_with_filter(job, params)
 
@@ -15,7 +15,7 @@ defmodule Opencov.FileService do
       |> File.with_filters(filters)
       |> File.sort_by(order_field, order_direction)
 
-    paginator = query |> Opencov.Repo.paginate(params)
+    paginator = query |> Librecov.Repo.paginate(params)
 
     [
       filters: filters,

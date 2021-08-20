@@ -1,4 +1,4 @@
-defmodule Opencov.ModelCase do
+defmodule Librecov.ModelCase do
   @moduledoc """
   This module defines the test case to be used by
   model tests.
@@ -16,15 +16,15 @@ defmodule Opencov.ModelCase do
 
   using do
     quote do
-      alias Opencov.Repo
+      alias Librecov.Repo
       import Ecto.Query, only: [from: 2]
-      import Opencov.Factory
-      import Opencov.ModelCase
+      import Librecov.Factory
+      import Librecov.ModelCase
     end
   end
 
   setup _tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Opencov.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Librecov.Repo)
   end
 
   @doc """

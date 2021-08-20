@@ -1,9 +1,9 @@
-defmodule Opencov.ProjectManagerTest do
-  use Opencov.ManagerCase
+defmodule Librecov.ProjectManagerTest do
+  use Librecov.ManagerCase
   import Tesla.Mock
 
-  alias Opencov.Project
-  alias Opencov.ProjectManager
+  alias Librecov.Project
+  alias Librecov.ProjectManager
 
   setup do
     mock(fn
@@ -44,13 +44,13 @@ defmodule Opencov.ProjectManagerTest do
 
   test "add_job!" do
     project = insert(:project)
-    cov = Opencov.Fixtures.dummy_coverage()
+    cov = Librecov.Fixtures.dummy_coverage()
     {:ok, {build, job}} = ProjectManager.add_job!(project, cov)
     assert build.id
     assert job.id
     assert build.commit_sha == cov["git"]["head"]["id"]
     assert Enum.count(Repo.preload(job, :files).files) == Enum.count(cov["source_files"])
-    assert Repo.get!(Opencov.Build, build.id).coverage == job.coverage
-    assert Repo.get!(Opencov.Project, project.id).current_coverage == job.coverage
+    assert Repo.get!(Librecov.Build, build.id).coverage == job.coverage
+    assert Repo.get!(Librecov.Project, project.id).current_coverage == job.coverage
   end
 end

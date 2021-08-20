@@ -1,5 +1,5 @@
-defmodule Opencov.User do
-  use Opencov.Web, :model
+defmodule Librecov.User do
+  use Librecov.Web, :model
 
   schema "users" do
     field(:email, :string)
@@ -21,7 +21,7 @@ defmodule Opencov.User do
     field(:password_confirmation, :string, virtual: true)
     field(:password_digest, :string)
 
-    has_many(:projects, Opencov.Project)
+    has_many(:projects, Librecov.Project)
 
     timestamps()
   end

@@ -1,7 +1,7 @@
-defmodule Opencov.FileManager do
-  use Opencov.Web, :manager
-  import Opencov.File
-  alias Opencov.File
+defmodule Librecov.FileManager do
+  use Librecov.Web, :manager
+  import Librecov.File
+  alias Librecov.File
 
   @required_fields ~w(name source coverage_lines)a
   @optional_fields ~w(job_id)a
@@ -31,23 +31,23 @@ defmodule Opencov.FileManager do
   defp set_previous_file(changeset),
     do: set_previous_file(changeset, job_for_changeset(changeset))
 
-  defp set_previous_file(changeset, %Opencov.Job{previous_job_id: previous_job_id})
+  defp set_previous_file(changeset, %Librecov.Job{previous_job_id: previous_job_id})
        when not is_nil(previous_job_id) do
     file = find_previous_file(previous_job_id, changeset.changes.name)
     set_previous_file(changeset, file)
   end
 
-  defp set_previous_file(changeset, %Opencov.File{id: id, coverage: coverage}),
+  defp set_previous_file(changeset, %Librecov.File{id: id, coverage: coverage}),
     do: change(changeset, previous_file_id: id, previous_coverage: coverage)
 
   defp set_previous_file(changeset, _), do: changeset
 
   defp job_for_changeset(changeset) do
     job_id = get_change(changeset, :job_id) || changeset.data.job_id
-    Repo.get(Opencov.Job, job_id)
+    Repo.get(Librecov.Job, job_id)
   end
 
   defp find_previous_file(previous_job_id, name) do
-    File |> for_job(previous_job_id) |> with_name(name) |> Opencov.Repo.first()
+    File |> for_job(previous_job_id) |> with_name(name) |> Librecov.Repo.first()
   end
 end

@@ -1,5 +1,5 @@
-defmodule Opencov.Api.V1.JobView do
-  use Opencov.Web, :view
+defmodule Librecov.Api.V1.JobView do
+  use Librecov.Web, :view
 
   @attributes ~w(id project_id build_id coverage)a
 

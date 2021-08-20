@@ -1,8 +1,8 @@
-defmodule Opencov.Admin.ProjectController do
-  use Opencov.Web, :controller
+defmodule Librecov.Admin.ProjectController do
+  use Librecov.Web, :controller
 
-  alias Opencov.Project
-  alias Opencov.Repo
+  alias Librecov.Project
+  alias Librecov.Repo
 
   plug(:scrub_params, "project" when action in [:create, :update])
 

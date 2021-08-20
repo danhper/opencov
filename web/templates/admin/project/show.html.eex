@@ -20,5 +20,5 @@
       <dd><%= Datetime.format(@project.inserted_at, :dateonly) %></dd>
     </dl>
   </div>
-  <%= render Opencov.Admin.SharedView, "actions.html", conn: @conn, resource: @project, path_fn: &Opencov.Router.Helpers.project_path/3 %>
+  <%= render Librecov.Admin.SharedView, "actions.html", conn: @conn, resource: @project, path_fn: &Librecov.Router.Helpers.project_path/3 %>
 </div>

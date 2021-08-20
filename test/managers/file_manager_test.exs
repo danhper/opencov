@@ -1,8 +1,8 @@
-defmodule Opencov.FileManagerTest do
-  use Opencov.ModelCase
+defmodule Librecov.FileManagerTest do
+  use Librecov.ModelCase
 
-  alias Opencov.File
-  alias Opencov.FileManager
+  alias Librecov.File
+  alias Librecov.FileManager
 
   @coverage_lines [0, nil, 3, nil, 0, 1]
 

@@ -117,7 +117,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           files: cover/excoveralls.json
           fail_ci_if_error: true
-      - name: OpenCov
+      - name: LibreCov
         continue-on-error: true
         env:
           SHA: ${{github.sha}}

@@ -1,7 +1,7 @@
-defmodule Opencov.JobView do
-  use Opencov.Web, :view
+defmodule Librecov.JobView do
+  use Librecov.Web, :view
 
-  import Opencov.CommonView
+  import Librecov.CommonView
 
   def job_time(job) do
     job.run_at || job.inserted_at

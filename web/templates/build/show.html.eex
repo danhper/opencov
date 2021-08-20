@@ -49,10 +49,10 @@
           </td>
           <td>
             <%= if job.previous_coverage do %>
-              <%= render Opencov.SharedView, "coverage_diff.html", diff: job.coverage - job.previous_coverage %>
+              <%= render Librecov.SharedView, "coverage_diff.html", diff: job.coverage - job.previous_coverage %>
             <% end %>
           </td>
-          <td><%= job |> Opencov.JobView.job_time |> human_time_ago %></td>
+          <td><%= job |> Librecov.JobView.job_time |> human_time_ago %></td>
           <td><%= job.files_count %></td>
         </tr>
         <% end %>
@@ -61,13 +61,13 @@
   </div>
 </div>
 
-<%= render Opencov.FileView,
+<%= render Librecov.FileView,
            "list.html",
            conn: @conn,
            paginator: @paginator,
            files: @files,
            order: @order,
            filters: @filters,
-           path_fn: &Opencov.Router.Helpers.build_path/4,
+           path_fn: &Librecov.Router.Helpers.build_path/4,
            path_args: [@conn, :show, @build]
            %>

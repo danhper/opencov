@@ -1,8 +1,8 @@
-defmodule Opencov.ProfileController do
-  use Opencov.Web, :controller
+defmodule Librecov.ProfileController do
+  use Librecov.Web, :controller
 
-  alias Opencov.User
-  alias Opencov.UserManager
+  alias Librecov.User
+  alias Librecov.UserManager
 
   def show(conn, _params) do
     user = current_user(conn)
@@ -10,7 +10,7 @@ defmodule Opencov.ProfileController do
   end
 
   def update(conn, params) do
-    case Opencov.UserService.update_user(params, current_user(conn)) do
+    case Librecov.UserService.update_user(params, current_user(conn)) do
       {:ok, _user, redirect_path, flash_message} ->
         conn
         |> put_flash(:info, flash_message)
@@ -44,7 +44,7 @@ defmodule Opencov.ProfileController do
   end
 
   def send_reset_password(conn, %{"user" => %{"email" => email}}) do
-    Opencov.UserService.send_reset_password(email)
+    Librecov.UserService.send_reset_password(email)
 
     conn
     |> put_flash(:info, "An email has been sent to reset your password.")
@@ -63,11 +63,11 @@ defmodule Opencov.ProfileController do
   end
 
   def finalize_reset_password(conn, %{"user" => %{"password_reset_token" => token} = user_params}) do
-    case Opencov.UserService.finalize_reset_password(user_params) do
+    case Librecov.UserService.finalize_reset_password(user_params) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Your password has been reset.")
-        |> Opencov.Authentication.login(user)
+        |> Librecov.Authentication.login(user)
         |> redirect(to: "/")
 
       {:error, :not_found} ->
