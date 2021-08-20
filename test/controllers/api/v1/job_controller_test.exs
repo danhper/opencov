@@ -1,7 +1,12 @@
 defmodule Opencov.Api.V1.JobControllerTest do
   use Opencov.ConnCase
+  import Tesla.Mock
 
   setup do
+    mock(fn
+      %{method: :get, url: "https://api.github.com/app/installations"} ->
+        json(%{}, status: 200)
+    end)
     conn = build_conn() |> put_req_header("content-type", "application/json")
     {:ok, conn: conn}
   end

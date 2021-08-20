@@ -3,7 +3,6 @@ defmodule Opencov.GithubService do
   alias Opencov.Repo
   alias Opencov.Project
   alias Opencov.ProjectManager
-  alias Opencov.Services.GithubAuth
   alias Opencov.Services.Github.Auth
   alias Opencov.Services.Github.Checks
 
@@ -36,7 +35,7 @@ defmodule Opencov.GithubService do
   def finish_check(commit, owner, repo) do
     with {:ok, token} <-
            owner
-           |> GithubAuth.login_token() do
+           |> Auth.login_token() do
       token
       |> Connection.new()
       |> Checks.checks_create(owner, repo,
