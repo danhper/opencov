@@ -6,13 +6,6 @@ defmodule Opencov.GithubService do
   alias Opencov.Services.Github.Auth
   alias Opencov.Services.Github.Checks
 
-  def handle("push", payload) do
-    install(payload["repository"])
-    IO.inspect(payload)
-    pr = payload["pull_request"]
-    IO.inspect(pr)
-  end
-
   def handle("pull_request", payload) do
     handle_pr(payload["action"], payload)
   end
@@ -45,7 +38,6 @@ defmodule Opencov.GithubService do
           conclusion: "success"
         }
       )
-      |> IO.inspect()
     end
   end
 

@@ -40,9 +40,10 @@ defmodule Opencov.CommonView do
   def commit_link(project, sha) do
     url = project.base_url
 
-    cond do
-      String.contains?(url, "bitbucket.org") -> "#{url}/commits/#{sha}"
-      true -> "#{url}/commit/#{sha}"
+    if String.contains?(url, "bitbucket.org") do
+      "#{url}/commits/#{sha}"
+    else
+      "#{url}/commit/#{sha}"
     end
   end
 end

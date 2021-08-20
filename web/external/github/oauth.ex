@@ -1,15 +1,15 @@
 defmodule Opencov.External.GitHub.OAuth do
   use OAuth2.Strategy
 
-  @config Application.get_all_env(:opencov)
-  @gh_config Application.get_env(:opencov, :github)
+  @base_url Application.compile_env(:opencov, :base_url)
+  @gh_config Application.compile_env(:opencov, :github)
 
   def client do
     OAuth2.Client.new(
       strategy: __MODULE__,
       client_id: @gh_config[:client_id],
       client_secret: @gh_config[:client_secret],
-      redirect_uri: Path.join(@config[:base_url], "integrations/github/callback"),
+      redirect_uri: Path.join(@base_url, "integrations/github/callback"),
       site: "https://api.github.com",
       authorize_url: "https://github.com/login/oauth/authorize",
       token_url: "https://github.com/login/oauth/access_token"
