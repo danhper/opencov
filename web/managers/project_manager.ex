@@ -80,7 +80,7 @@ defmodule Librecov.ProjectManager do
 
       with {owner, name} <- Project.name_and_owner(project),
            {:ok, token} <- Auth.login_token(owner) do
-        Checks.finish_check(token, build.commit_sha, owner, name, job.coverage)
+        Checks.finish_check(token, owner, name, build)
       end
 
       {build, job}
