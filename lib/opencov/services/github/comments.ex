@@ -7,10 +7,10 @@ defmodule Librecov.Services.Github.Comments do
 
   def add_pr_comment(pr_message, token, owner, repo, branch) do
     case token |> PullRequests.find_prs_for_branch(owner, repo, branch) do
-      [] ->
+      {:ok, []} ->
         Logger.info("No pull requests found for branch #{branch}")
 
-      prs when is_list(prs) ->
+      {:ok, prs} when is_list(prs) ->
         prs |> Enum.each(&add_pr_message(token, pr_message, &1))
 
       {_, e} when is_exception(e) ->
@@ -37,8 +37,15 @@ defmodule Librecov.Services.Github.Comments do
         number: issue_number,
         base: %{repo: %{name: repo, owner: %{login: owner}}}
       }) do
-    token
-    |> Connection.new()
-    |> Issues.issues_create_comment(owner, repo, issue_number, body: pr_message)
+    Logger.info("Sending pr_message to #{owner}/#{repo}##{issue_number}.")
+
+    {:ok, %{id: id}} =
+      token
+      |> Connection.new()
+      |> Issues.issues_create_comment(owner, repo, issue_number, body: %{body: pr_message})
+
+    Logger.info(
+      "Succesfully sent message to #{owner}/#{repo}##{issue_number}. IssueComment##{id}"
+    )
   end
 end
