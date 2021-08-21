@@ -28,14 +28,14 @@ defmodule Librecov.Plug.MultipartJob do
     handle(content_type, conn)
   end
 
-  def handle("application/json", %{params: %{"json" => json}} = conn) when is_binary(json) do
-    conn
-    |> put_parsed_job(json)
-  end
-
   def handle("multipart/form-data", %{params: %{"json_file" => file}} = conn) do
     conn
     |> put_parsed_job(file |> read_file())
+  end
+
+  def handle(_, %{params: %{"json" => json}} = conn) when is_binary(json) do
+    conn
+    |> put_parsed_job(json)
   end
 
   def handle(content_type, conn) do
