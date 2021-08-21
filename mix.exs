@@ -37,6 +37,7 @@ defmodule Librecov.Mixfile do
 
   defp deps do
     [
+      {:deep_merge, "~> 1.0"},
       {:sentry, "~> 8.0"},
       {:plug_cloudflare, ">= 1.2.0"},
       {:joken, "~> 2.0"},

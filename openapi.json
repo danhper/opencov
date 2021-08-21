@@ -104,6 +104,136 @@
           }
         ]
       }
+    },
+    "/upload/v2": {
+      "post": {
+        "summary": "Your POST endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "post-upload-v2",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "commit",
+            "required": true,
+            "description": "The destination commit sha for the report."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "token",
+            "description": "A UUID token used to identify the project.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "branch",
+            "description": "The target branch for the report. This value may be overridden during the Codecov discovery process."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "build",
+            "description": "The build number provided by your CI service."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "job",
+            "description": "The job number provided by your CI service."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "build_url",
+            "description": "The http url to link back to your CI provider."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name",
+            "description": "A custom name for this specific upload."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "slug",
+            "description": "The owner/repo slug name of the project."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "yaml",
+            "description": "The relative path to the codecov.yml in this project."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "codecov-v2"
+            },
+            "in": "query",
+            "name": "service",
+            "description": "The CI service name. See below for acceptable values."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "flags",
+            "description": "Used for Flags. Can be one or more flags. E.g., flags=unit or flags=unit,java"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "pr",
+            "description": "The pull request number this commit is currently found in."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": "LCOV Coverage"
+        },
+        "description": "Upload via Codecov V2"
+      }
     }
   },
   "components": {
@@ -114,10 +244,12 @@
         "properties": {
           "service_job_id": {
             "type": "string",
+            "minLength": 1,
             "description": "A unique identifier of the job on the service specified by service_name.\n"
           },
           "service_name": {
             "type": "string",
+            "minLength": 1,
             "description": "The CI service or other environment in which the test suite was run. This can be anything, but certain services have special features (travis-ci, travis-pro, or coveralls-ruby).\n"
           },
           "git": {
@@ -157,14 +289,17 @@
               "remotes": {
                 "type": "array",
                 "uniqueItems": true,
+                "minItems": 1,
                 "items": {
                   "type": "object",
                   "properties": {
                     "name": {
-                      "type": "string"
+                      "type": "string",
+                      "minLength": 1
                     },
                     "url": {
-                      "type": "string"
+                      "type": "string",
+                      "minLength": 1
                     }
                   },
                   "required": [
@@ -192,7 +327,8 @@
                 },
                 "source_digest": {
                   "type": "string",
-                  "description": "The MD5 digest of the full source code of this file.\n"
+                  "description": "The MD5 digest of the full source code of this file.\n",
+                  "nullable": true
                 },
                 "coverage": {
                   "type": "array",
@@ -206,7 +342,10 @@
                   "type": "array",
                   "description": "The branch data for this file for the file’s job. Each branch is represented by 4 elements in the array:\n\n[line-number, block-number, branch-number, hits, line-number-2, block-number-2, branch-number-2, hits-2,...]\nAcceptable values in the array:\n\nPositive integers if the branch is covered, representing the number of times the branch is hit during the test suite.",
                   "items": {
-                    "type": "number"
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
                   }
                 },
                 "source": {

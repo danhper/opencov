@@ -12,4 +12,14 @@ defmodule Librecov.Fixtures do
   end
 
   def dummy_lcov(), do: @sample_lcov
+
+  def dummy_codecov() do
+    """
+    file.ex\nfile2.ex
+    <<<<<< EOF
+    # path=/my/coverage/lcov.info
+    #{dummy_lcov()}
+    <<<<<< EOF
+    """
+  end
 end

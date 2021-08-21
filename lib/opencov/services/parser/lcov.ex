@@ -16,12 +16,12 @@ defmodule Librecov.Parser.Lcov do
   defp lcov_object_to_map(lcov_object) do
     total_lines = lcov_object["lines"]["found"]
 
-    %SourceFile{
+    SourceFile.cast_and_validate!(%{
       name: lcov_object["file"],
       source: Range.new(1, total_lines) |> Enum.map(fn _ -> "MISSING" end) |> Enum.join("\n"),
       coverage: details_to_coverage(lcov_object["lines"]["details"], total_lines),
       branches: details_to_branches(lcov_object["branches"]["details"])
-    }
+    })
   end
 
   defp details_to_coverage(details, total) do
