@@ -13,13 +13,15 @@ defmodule Librecov.Services.Github.Comments do
     case token |> PullRequests.find_prs_for_branch(owner, repo, branch) do
       {:ok, []} ->
         Logger.info("No pull requests found for branch #{branch}")
+        {:error, :pr_not_found}
 
       {:ok, prs} when is_list(prs) ->
-        prs |> Enum.each(&add_pr_message(token, pr_message, &1))
+        {:ok, prs |> Enum.map(&add_pr_message(token, pr_message, &1))}
 
       {_, e} when is_exception(e) ->
         Logger.error(e |> Exception.message())
         Sentry.capture_exception(e)
+        {:error, e}
 
       {_, %{message: message}} ->
         Logger.error(message)
@@ -29,6 +31,7 @@ defmodule Librecov.Services.Github.Comments do
         )
 
       e ->
+        IO.inspect(e)
         raise(
           "Error processing add_pr_comment(pr_message, #{token}, #{owner}, #{repo}, #{branch})."
         )
@@ -41,7 +44,7 @@ defmodule Librecov.Services.Github.Comments do
       }) do
     Logger.info("Sending pr_message to #{owner}/#{repo}##{issue_number}.")
 
-    {:ok, %{id: id}} =
+    {:ok, %{id: id} = comment} =
       token
       |> Connection.new()
       |> Issues.issues_create_comment(owner, repo, issue_number, body: %{body: pr_message})
@@ -49,5 +52,7 @@ defmodule Librecov.Services.Github.Comments do
     Logger.info(
       "Succesfully sent message to #{owner}/#{repo}##{issue_number}. IssueComment##{id}"
     )
+
+    comment
   end
 end
