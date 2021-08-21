@@ -73,11 +73,11 @@ defmodule Librecov.BuildManager do
     build = query_for_project(project.id) |> order_by_build_number |> Repo.first()
     if(build, do: build.build_number + 1, else: 1)
   end
+
   defp fetch_build_number(_, number), do: number
 
   defp fetch_job_number(x) when x in [nil, ""], do: nil
   defp fetch_job_number(x), do: x
-
 
   defp add_previous_values(changeset) do
     project_id = changeset.data.project_id || get_change(changeset, :project_id)
