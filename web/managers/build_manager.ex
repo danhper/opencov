@@ -66,7 +66,6 @@ defmodule Librecov.BuildManager do
     completed = Map.get(params, "parallel", false) == false
     build_number = fetch_build_number(project, Map.get(params, "service_number"))
     job_number = fetch_build_number(project, Map.get(params, "service_job_id"))
-    IO.inspect(build_number)
     %{"completed" => completed, "build_number" => build_number, "job_number" => job_number}
   end
 
