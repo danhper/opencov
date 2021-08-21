@@ -19,7 +19,7 @@ defmodule Librecov.Templates.CommentTemplate do
           branch: branch
         } = build
       ) do
-    build = Repo.preload(build, :jobs)
+    build = Librecov.Repo.preload(build, :jobs)
     real_previous_coverage = project_coverage || previous_coverage || 0.0
     cov_dif = coverage_diff(coverage, real_previous_coverage)
 
