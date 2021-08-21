@@ -98,6 +98,15 @@ jobs:
           access_token: ${{ github.token }}
       - name: Checkout Github repo
         uses: actions/checkout@v2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install NPM Packages (Global)
+        run: yarn install
+
+      - uses: c-hive/gha-yarn-cache@v2
       - name: Sets up an Erlang/OTP environment
         uses: erlef/setup-beam@v1
         with:
