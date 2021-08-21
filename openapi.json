@@ -114,12 +114,10 @@
         "properties": {
           "service_job_id": {
             "type": "string",
-            "minLength": 1,
             "description": "A unique identifier of the job on the service specified by service_name.\n"
           },
           "service_name": {
             "type": "string",
-            "minLength": 1,
             "description": "The CI service or other environment in which the test suite was run. This can be anything, but certain services have special features (travis-ci, travis-pro, or coveralls-ruby).\n"
           },
           "git": {
@@ -159,17 +157,14 @@
               "remotes": {
                 "type": "array",
                 "uniqueItems": true,
-                "minItems": 1,
                 "items": {
                   "type": "object",
                   "properties": {
                     "name": {
-                      "type": "string",
-                      "minLength": 1
+                      "type": "string"
                     },
                     "url": {
-                      "type": "string",
-                      "minLength": 1
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -187,19 +182,16 @@
           "source_files": {
             "type": "array",
             "uniqueItems": true,
-            "minItems": 1,
             "description": "An array of source files, including their coverage data.\n",
             "items": {
               "type": "object",
               "properties": {
                 "name": {
                   "type": "string",
-                  "minLength": 1,
                   "description": "Represents the file path of this source file. Must be unique in the job. Can include slashes. The file type for syntax highlighting will be determined from the file extension in this parameter.\n"
                 },
                 "source_digest": {
                   "type": "string",
-                  "minLength": 1,
                   "description": "The MD5 digest of the full source code of this file.\n"
                 },
                 "coverage": {
