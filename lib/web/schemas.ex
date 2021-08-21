@@ -29,6 +29,14 @@ defmodule Librecov.Web.Schemas do
 
     OpenApiSpex.schema(ApiSpec.spec().components.schemas["Job"])
 
+    def from_params_and_body(params, body) do
+      source_files = SourceGenerator.digest!(body)
+
+      job_definition = JobGenerator.digest!(params)
+
+      %Job{job_definition | source_files: source_files}
+    end
+
     def cast_and_validate(params) do
       Cast.cast(@schema, params, %{})
     end

@@ -12,11 +12,8 @@ defmodule Librecov.CodecovController do
   alias Librecov.ProjectManager
 
   def v2(conn, params) do
-    source_files = SourceGenerator.digest!(conn.body_params)
-
-    job_definition = JobGenerator.digest!(params |> Parameters.cast_and_validate!())
-
-    job_definition = %Job{job_definition | source_files: source_files}
+    job_definition =
+      Job.from_params_and_body(params |> Parameters.cast_and_validate!(), conn.body_params)
 
     project = ProjectManager.find_by_token!(params.token)
 
