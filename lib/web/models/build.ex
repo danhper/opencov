@@ -120,6 +120,6 @@ defmodule Librecov.Build do
     build.jobs
     |> Enum.map(fn j -> j.coverage end)
     |> Enum.reject(fn n -> is_nil(n) or n == 0 end)
-    |> Enum.min(0.0)
+    |> Enum.min(fn -> 0.0 end)
   end
 end
