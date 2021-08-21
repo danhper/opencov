@@ -1,5 +1,7 @@
 defmodule Librecov.Web.ApiSpec do
   alias OpenApiSpex.OpenApi
+
+
   @behaviour OpenApi
   @oaspec "openapi.json"
           |> File.read!()

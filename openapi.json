@@ -92,7 +92,7 @@
                     ],
                     "properties": {
                       "build_num": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "status": {
                         "type": "string",
