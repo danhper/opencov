@@ -34,12 +34,17 @@ defmodule Librecov.Api.V1.JobControllerTest do
 
   test "creates job when project exists", %{conn: conn} do
     project = insert(:project)
-    data = Map.put(Librecov.Fixtures.dummy_coverage(), "repo_token", project.token)
+
+    data =
+      Map.put(Librecov.Fixtures.dummy_coverage(), "repo_token", project.token)
+      |> Map.put("parallel", nil)
+
     payload = Jason.encode!(%{json: Jason.encode!(data)})
     conn = post(conn, api_v1_job_path(conn, :create), payload)
     assert json_response(conn, 200)
     build = Librecov.Build.for_commit(project, data["git"]) |> Librecov.Repo.first()
     assert build
+    assert build.completed == true
     job = List.first(Librecov.Repo.preload(build, :jobs).jobs)
     assert job
     assert job.files_count == Enum.count(data["source_files"])

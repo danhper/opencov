@@ -64,8 +64,8 @@ defmodule Librecov.BuildManager do
 
   def info_for(project, params) do
     completed = Map.get(params, "parallel", false) != true
-    build_number = fetch_build_number(project, Map.get(params, "service_number"))
-    job_number = fetch_build_number(project, Map.get(params, "service_job_id"))
+    build_number = fetch_build_number(project, Map.get(params, "service_job_id"))
+    job_number = Map.get(params, "service_number") |> fetch_job_number
     %{"completed" => completed, "build_number" => build_number, "job_number" => job_number}
   end
 
@@ -73,6 +73,9 @@ defmodule Librecov.BuildManager do
     build = query_for_project(project.id) |> order_by_build_number |> Repo.first()
     if(build, do: build.build_number + 1, else: 1)
   end
+
+  defp fetch_job_number(x) when x in [nil, ""], do: nil
+  defp fetch_job_number(x), do: x
 
   defp fetch_build_number(_, number), do: number
 
