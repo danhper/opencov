@@ -12,15 +12,15 @@ defmodule Librecov.Api.V1.JobControllerTest do
     {:ok, conn: conn}
   end
 
-  test "returns 400 when data not sent", %{conn: conn} do
+  test "returns 422 when data not sent", %{conn: conn} do
     conn = post(conn, api_v1_job_path(conn, :create), "")
-    assert json_response(conn, 400)
+    assert json_response(conn, 422)
   end
 
-  test "returns 400 when project token not given", %{conn: conn} do
+  test "returns 422 when project token not given", %{conn: conn} do
     payload = Jason.encode!(%{json: Jason.encode!(Librecov.Fixtures.dummy_coverage())})
     conn = post(conn, api_v1_job_path(conn, :create), payload)
-    assert json_response(conn, 400)
+    assert json_response(conn, 422)
   end
 
   test "returns 404 when inexistent token given", %{conn: conn} do

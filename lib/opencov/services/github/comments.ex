@@ -30,7 +30,7 @@ defmodule Librecov.Services.Github.Comments do
           "Error processing add_pr_comment(pr_message, #{token}, #{owner}, #{repo}, #{branch}): #{message}."
         )
 
-      e ->
+      _ ->
         raise(
           "Error processing add_pr_comment(pr_message, #{token}, #{owner}, #{repo}, #{branch})."
         )

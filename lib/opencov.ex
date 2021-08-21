@@ -28,4 +28,5 @@ defmodule Librecov do
     Librecov.Endpoint.config_change(changed, removed)
     :ok
   end
+
 end
