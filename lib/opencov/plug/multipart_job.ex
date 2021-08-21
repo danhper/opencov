@@ -25,7 +25,6 @@ defmodule Librecov.Plug.MultipartJob do
           nil
       end
 
-    IO.inspect(content_type)
     handle(content_type, conn)
   end
 
