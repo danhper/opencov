@@ -16,6 +16,8 @@ defmodule Librecov.CodecovController do
   def v2(conn, params) do
     {:ok, data, _conn_details} = Plug.Conn.read_body(conn)
 
+    [file_structure | files] = data |> String.split("\n<<<<<< EOF\n")
+
     {:ok, file_path} = Temp.open("my-file", &IO.write(&1, data))
 
     {result, code} =
@@ -45,11 +47,20 @@ defmodule Librecov.CodecovController do
 
     project = ProjectManager.find_by_token!(params["token"])
     {:ok, {_, job}} = ProjectManager.add_job!(project, cv |> Jason.encode!() |> Jason.decode!())
-    IO.inspect(conn)
+
+    IO.inspect(file_structure |> String.split("\n"))
+    files |> Enum.map(&parse_uploaded_files/1) |> Enum.each(&IO.inspect/1)
 
     conn
     |> put_view(Librecov.Api.V1.JobView)
     |> render("show.json", job: job)
+  end
+
+  defp parse_uploaded_files(""), do: nil
+
+  defp parse_uploaded_files(file_str) do
+    ["# path=" <> filename, file] = String.split(file_str, "\n", parts: 2)
+    [filename, file]
   end
 
   defp lcov_object_to_map(lcov_object) do
