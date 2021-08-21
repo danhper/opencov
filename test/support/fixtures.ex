@@ -20,6 +20,9 @@ defmodule Librecov.Fixtures do
     # path=/my/coverage/lcov.info
     #{dummy_lcov()}
     <<<<<< EOF
+    # path=/my/coverage/2/lcov.info
+    #{dummy_lcov()}
+    <<<<<< EOF
     """
   end
 end

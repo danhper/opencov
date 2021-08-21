@@ -70,7 +70,7 @@ defmodule Librecov.Web.Schemas do
           if original.name == override.name do
             %SourceFile{
               original
-              | coverage: merge_coverage(original.coverage, override.coverage),
+              | coverage: merge_coverage_list(original.coverage, override.coverage),
                 branches: merge_branches(original.branches, override.branches)
             }
           else
@@ -82,9 +82,12 @@ defmodule Librecov.Web.Schemas do
           end
         end
 
-        defp merge_coverage(coverage1, coverage2) do
+        defp merge_coverage_list(nil, coverage2), do: coverage2
+        defp merge_coverage_list(coverage1, nil), do: coverage1
+
+        defp merge_coverage_list(coverage1, coverage2) do
           List.zip([coverage1, coverage2])
-          |> Enum.map(fn {a, b} -> a + b end)
+          |> Enum.map(fn {a, b} -> merge_coverage(a, b) end)
         end
 
         # [line, block, branch, taken]
@@ -96,6 +99,11 @@ defmodule Librecov.Web.Schemas do
         defp merge_branch([l, bl, br, ta], [_, _, _, ta2]) do
           [l, bl, br, ta + ta2]
         end
+
+        defp merge_coverage(nil, nil), do: nil
+        defp merge_coverage(nil, n), do: n
+        defp merge_coverage(n, nil), do: n
+        defp merge_coverage(n, n2), do: n + n2
       end
     end
   end

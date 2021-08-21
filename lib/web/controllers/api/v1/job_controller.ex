@@ -13,7 +13,7 @@ defmodule Librecov.Api.V1.JobController do
 
   def create(%{body_params: json} = conn, _) do
     JobLogger.log_query(conn)
-    JobLogger.log(%Job{ source_files: []} |> Map.merge(json))
+    JobLogger.log(%Job{source_files: []} |> Map.merge(json))
     handle_create(conn, json |> Jason.encode!() |> Jason.decode!())
   end
 

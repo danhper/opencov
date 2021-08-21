@@ -7,6 +7,8 @@ defmodule Librecov.Helpers.JobLogger do
   end
 
   def log(%Job{} = job) do
-    Logger.info("job: #{job |> Map.from_struct() |> Map.delete(:source_files) |> Jason.encode!(pretty: true)}")
+    Logger.info(
+      "job: #{job |> Map.from_struct() |> Map.delete(:source_files) |> Jason.encode!(pretty: true)}"
+    )
   end
 end

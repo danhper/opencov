@@ -3,6 +3,7 @@ defmodule Librecov.Digest.CodecovV2 do
   alias Librecov.Parser.Lcov
   alias Librecov.Web.Schemas.CodecovV2.Parameters
   alias Librecov.Web.Schemas.Job
+  alias Librecov.Web.Schemas.Job.SourceFile
 
   def parameters_to_job(params) do
     %{
@@ -50,7 +51,7 @@ defmodule Librecov.Digest.CodecovV2 do
     def digest!(body) do
       case digest(body) do
         {:ok, result} ->
-          result
+          result |> CodecovV2.dedup_files()
 
         e ->
           raise e
@@ -82,6 +83,16 @@ defmodule Librecov.Digest.CodecovV2 do
                 |> Enum.join("\n\n")
       end
     end
+  end
+
+  def dedup_files(files) do
+    files
+    |> Enum.group_by(fn f -> f.name end)
+    |> Enum.into([])
+    |> Keyword.values()
+    |> Enum.map(fn sfs ->
+      sfs |> Enum.map(&struct!(SourceFile, &1)) |> Enum.reduce(&DeepMerge.deep_merge/2)
+    end)
   end
 
   def valid_sourcefile({:ok, _}), do: true
