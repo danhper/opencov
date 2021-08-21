@@ -66,7 +66,7 @@ defmodule Librecov.Web.Schemas do
       end
 
       defimpl DeepMerge.Resolver, for: SourceFile do
-        def resolve(original = %SourceFile{}, override = %SourceFile{}, _resolver) do
+        def resolve(%SourceFile{} = original, %SourceFile{} = override, _resolver) do
           if original.name == override.name do
             %SourceFile{
               original

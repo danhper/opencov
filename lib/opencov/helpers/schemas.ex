@@ -22,15 +22,13 @@ defmodule Librecov.Helpers.Schemas do
         name: name,
         required: required
       }) do
-    cond do
-      required ->
-        %Schema{
-          schema
-          | required: [name | prev_required || []]
-        }
-
-      true ->
+    if required do
+      %Schema{
         schema
+        | required: [name | prev_required || []]
+      }
+    else
+      schema
     end
   end
 end

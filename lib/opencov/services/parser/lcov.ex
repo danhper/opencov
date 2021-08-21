@@ -32,11 +32,6 @@ defmodule Librecov.Parser.Lcov do
         _ -> nil
       end
     end)
-
-    details
-    |> Enum.reduce([], fn %{"hit" => hit, "line" => line}, acc ->
-      acc |> List.insert_at(line - 1, hit)
-    end)
   end
 
   defp details_to_branches(details) do
