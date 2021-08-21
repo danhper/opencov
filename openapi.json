@@ -1,0 +1,284 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "jobs",
+    "version": "1.0",
+    "contact": {
+      "name": "Ale Ornelas",
+      "url": "https://github.com/yknx4/librecov",
+      "email": "contact@librecov.com"
+    },
+    "description": "LibreCov Api Definition"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "development"
+    },
+    {
+      "url": "https://librecov.com",
+      "description": "production"
+    }
+  ],
+  "paths": {
+    "/api/v1/jobs": {
+      "post": {
+        "summary": "Post Job",
+        "operationId": "post-api-v1-jobs",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Each coverage job on Coveralls consists of a reference to a repository, and a set of source files with their associated coverage data.\n\nAt its simplest level, a coverage job on Coveralls consists of two items: the source code of a file and which lines were covered. The source code is stored as a string, and the line-by-line coverage data is stored as an array. Just toss this information in a JSON hash, and – boom! – you’ve got your source file.",
+        "tags": [
+          "jobs"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Job"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhook": {
+      "post": {
+        "summary": "Webhook Post",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "get-webhook",
+        "security": [
+          {
+            "repo_token": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "build_num": {
+                        "type": "number"
+                      },
+                      "status": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "build_num",
+                      "status"
+                    ]
+                  }
+                },
+                "required": [
+                  "payload"
+                ]
+              }
+            }
+          }
+        },
+        "description": "When your CI is building in parallel, you’ll want your coverage results to be merged after all have completed.",
+        "tags": [
+          "jobs"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "repo_token",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Job": {
+        "description": "A hash representing the coverage data from a single run of a test suite. You must specify either repo_token or a service name and job id.",
+        "type": "object",
+        "properties": {
+          "service_job_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "A unique identifier of the job on the service specified by service_name.\n"
+          },
+          "service_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The CI service or other environment in which the test suite was run. This can be anything, but certain services have special features (travis-ci, travis-pro, or coveralls-ruby).\n"
+          },
+          "git": {
+            "type": "object",
+            "properties": {
+              "head": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "committer_name",
+                  "message"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "author_name": {
+                    "type": "string"
+                  },
+                  "author_email": {
+                    "type": "string"
+                  },
+                  "committer_name": {
+                    "type": "string"
+                  },
+                  "committer_email": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              },
+              "branch": {
+                "type": "string"
+              },
+              "remotes": {
+                "type": "array",
+                "uniqueItems": true,
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "url": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "url"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "head",
+              "branch"
+            ]
+          },
+          "source_files": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "description": "An array of source files, including their coverage data.\n",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Represents the file path of this source file. Must be unique in the job. Can include slashes. The file type for syntax highlighting will be determined from the file extension in this parameter.\n"
+                },
+                "source_digest": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "The MD5 digest of the full source code of this file.\n"
+                },
+                "coverage": {
+                  "type": "array",
+                  "description": "The coverage data for this file for the file’s job.The item at index 0 represents the coverage for line 1 of the source code.\n\nAcceptable values in the array:\n\nA positive integer if the line is covered, representing the number of times the line is hit during the test suite.\n0 if the line is not covered by the test suite.\nnull to indicate the line is not relevant to code coverage (it may be whitespace or a comment).",
+                  "items": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                },
+                "branches": {
+                  "type": "array",
+                  "description": "The branch data for this file for the file’s job. Each branch is represented by 4 elements in the array:\n\n[line-number, block-number, branch-number, hits, line-number-2, block-number-2, branch-number-2, hits-2,...]\nAcceptable values in the array:\n\nPositive integers if the branch is covered, representing the number of times the branch is hit during the test suite.",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "source": {
+                  "type": "string",
+                  "description": "The contents of the source file.\n"
+                }
+              },
+              "required": [
+                "name",
+                "coverage"
+              ]
+            }
+          },
+          "repo_token": {
+            "type": "string",
+            "description": "The secret token for your repository, found at the bottom of your repository’s page on LibreCov."
+          },
+          "service_number": {
+            "type": "string",
+            "description": "The build number. Will default to chronological numbering from builds on repo.\n"
+          },
+          "service_pull_request": {
+            "type": "string",
+            "description": "The associated pull request ID of the build. Used for updating the status and/or commenting."
+          },
+          "parallel": {
+            "type": "boolean",
+            "description": "If this is set, the build will not be considered done until a webhook has been sent to https://coveralls.io/webhook?repo_token=…",
+            "default": false,
+            "nullable": true
+          },
+          "flag_name": {
+            "type": "string",
+            "description": "If this is set, the job being reported will be named in the view and have it’s own independent status reported to your VCS provider."
+          },
+          "commit_sha": {
+            "type": "string",
+            "description": "The current SHA of the commit being built to override the “git” parameter."
+          },
+          "run_at": {
+            "type": "string",
+            "description": "A timestamp of when the job ran. Must be parsable by Ruby.",
+            "example": "2021-08-20T18:26:18+00:00",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "service_name",
+          "source_files",
+          "repo_token"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "repo_token": {
+        "name": "Repo Token",
+        "type": "apiKey",
+        "in": "query"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "jobs"
+    }
+  ]
+}

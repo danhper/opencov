@@ -535,7 +535,8 @@
     },
     "run_at": "2015-10-27T13:17:26.893Z",
     "service_name": "travis-ci",
-    "service_job_id": "87664791"
+    "service_job_id": "87664791",
+    "service_number": "753"
   },
   {
     "source_files": [
@@ -804,7 +805,8 @@
     },
     "run_at": "2015-10-27T13:17:28.033Z",
     "service_name": "travis-ci",
-    "service_job_id": "87664792"
+    "service_job_id": "87664792",
+    "service_number": "753"
   },
   {
     "source_files": [
@@ -1073,6 +1075,7 @@
     },
     "run_at": "2015-10-27T13:17:37.422Z",
     "service_name": "travis-ci",
-    "service_job_id": "87664790"
+    "service_job_id": "87664790",
+    "service_number": "753"
   }
 ]

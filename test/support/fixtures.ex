@@ -6,7 +6,7 @@ defmodule Librecov.Fixtures do
     @coverages
   end
 
-  def dummy_coverage do
-    Enum.at(dummy_coverages(), 0)
+  def dummy_coverage(at \\ 0) do
+    Enum.at(dummy_coverages(), at)
   end
 end

@@ -124,11 +124,10 @@ jobs:
           BRANCH: ${{ github.ref }}
           TOKEN: ${{ secrets.OPENCOV_TOKEN }}
           COVERALLS_ENDPOINT: ${{ secrets.OPENCOV_ENDPOINT }}
-          RUN_NUMBER: ${{ github.run_id }}
         run: |
           MIX_ENV=test mix coveralls.post \
-          --name github-actions \
-          --build "$RUN_NUMBER" \
+          --name github \
+          --build "$GITHUB_RUN_ID" \
           --sha "$SHA" \
           --committer "$(git log -1 $SHA --pretty=format:'%cN')" \
           --message "$(git log -1 $SHA --pretty=format:'%s')" \

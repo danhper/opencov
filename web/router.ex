@@ -30,6 +30,7 @@ defmodule Librecov.Router do
 
   pipeline :api do
     plug(:accepts, ["json"])
+    plug(OpenApiSpex.Plug.PutApiSpec, module: Librecov.Web.ApiSpec)
   end
 
   scope "/api/v1", Librecov.Api.V1, as: :api_v1 do
@@ -44,6 +45,11 @@ defmodule Librecov.Router do
     pipe_through(:browser)
 
     get("/projects/:project_id/badge.:format", ProjectController, :badge, as: :project_badge)
+  end
+
+  scope "/", Librecov do
+    pipe_through(:api)
+    post("/webhook", WebhookController, :create)
   end
 
   scope "/", Librecov do

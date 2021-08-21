@@ -17,6 +17,18 @@ defmodule Librecov.BuildManager do
     |> prepare_changes(&add_previous_values/1)
   end
 
+  def complete_changeset(model, params) do
+    model
+    |> cast(params, [:completed])
+    |> validate_required([:completed])
+  end
+
+  def mark_as_complete!(build_number) do
+    Repo.get_by!(Build, build_number: build_number)
+    |> complete_changeset(%{completed: true})
+    |> Repo.update!()
+  end
+
   def create_from_json!(project, params) do
     params = Map.merge(params, info_for(project, params))
     build = Ecto.build_assoc(project, :builds)
@@ -50,19 +62,22 @@ defmodule Librecov.BuildManager do
       else: put_change(changeset, :build_started_at, DateTime.utc_now())
   end
 
-  # TODO: fetch build/job numbers from CI APIs
-  # def info_for(_project, %{"service_name" => "travis-ci"}), do: %{"build_number" => 1, "job_number" => 1}
-  def info_for(_project, %{"service_number" => service_number, "service_job_id" => service_job_id}),
-      do: %{"build_number" => service_number, "job_number" => service_job_id}
-
   def info_for(project, params) do
-    fallback_info_for(project, params)
+    completed = Map.get(params, "parallel", false) != true
+    build_number = fetch_build_number(project, Map.get(params, "service_job_id"))
+    job_number = Map.get(params, "service_number") |> fetch_job_number
+    %{"completed" => completed, "build_number" => build_number, "job_number" => job_number}
   end
 
-  defp fallback_info_for(project, _params) do
+  defp fetch_build_number(project, x) when x in [nil, ""] do
     build = query_for_project(project.id) |> order_by_build_number |> Repo.first()
-    if build, do: %{"build_number" => build.build_number + 1}, else: %{"build_number" => 1}
+    if(build, do: build.build_number + 1, else: 1)
   end
+
+  defp fetch_build_number(_, number), do: number
+
+  defp fetch_job_number(x) when x in [nil, ""], do: nil
+  defp fetch_job_number(x), do: x
 
   defp add_previous_values(changeset) do
     project_id = changeset.data.project_id || get_change(changeset, :project_id)
