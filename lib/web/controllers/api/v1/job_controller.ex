@@ -1,6 +1,8 @@
 defmodule Librecov.Api.V1.JobController do
   use Librecov.Web, :controller
   alias Librecov.Web.ApiSpec
+  alias Librecov.Helpers.JobLogger
+  alias Librecov.Web.Schemas.Job
 
   plug(Librecov.Plug.MultipartJob)
   plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
@@ -10,6 +12,8 @@ defmodule Librecov.Api.V1.JobController do
   alias Librecov.ProjectManager
 
   def create(%{body_params: json} = conn, _) do
+    JobLogger.log_query(conn)
+    JobLogger.log(%Job{ source_files: []} |> Map.merge(json))
     handle_create(conn, json |> Jason.encode!() |> Jason.decode!())
   end
 

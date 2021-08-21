@@ -3,6 +3,7 @@ defmodule Librecov.CodecovController do
   alias Librecov.Web.ApiSpec
   alias Librecov.Web.Schemas.CodecovV2.Parameters
   alias Librecov.Web.Schemas.Job
+  alias Librecov.Helpers.JobLogger
 
   plug(Librecov.Plug.PlainText)
   plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
@@ -14,6 +15,9 @@ defmodule Librecov.CodecovController do
   def v2(conn, params) do
     job_definition =
       Job.from_params_and_body(params |> Parameters.cast_and_validate!(), conn.body_params)
+
+    JobLogger.log_query(conn)
+    JobLogger.log(job_definition)
 
     project = ProjectManager.find_by_token!(params.token)
 
