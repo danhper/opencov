@@ -3,7 +3,6 @@ defmodule Librecov.WebhookController do
   alias Librecov.Web.ApiSpec
   alias Librecov.BuildManager
 
-  plug(Librecov.Plug.MultipartJob)
   plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
 
   def open_api_operation(:create), do: ApiSpec.spec().paths["/webhook"].post
