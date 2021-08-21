@@ -4,8 +4,6 @@ defmodule Librecov.Templates.CommentTemplate do
   alias Librecov.Endpoint
   alias Librecov.JobManager
   alias Librecov.File
-  alias Librecov.Job
-  alias Librecov.Repo
   import Librecov.Router.Helpers
   import Librecov.Helpers.Coverage
 
