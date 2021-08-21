@@ -12,7 +12,7 @@ defmodule Librecov.Build do
     field(:build_number, :integer)
     field(:previous_build_id, :integer)
     field(:coverage, :float, default: 0.0)
-    field(:completed, :boolean, default: true)
+    field(:completed, :boolean, default: false)
     field(:previous_coverage, :float)
     field(:build_started_at, :utc_datetime_usec)
 

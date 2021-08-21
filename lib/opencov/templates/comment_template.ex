@@ -5,6 +5,7 @@ defmodule Librecov.Templates.CommentTemplate do
   alias Librecov.JobManager
   alias Librecov.File
   alias Librecov.Job
+  alias Librecov.Repo
   import Librecov.Router.Helpers
   import Librecov.Helpers.Coverage
 
@@ -18,22 +19,25 @@ defmodule Librecov.Templates.CommentTemplate do
           previous_coverage: previous_coverage,
           commit_sha: commit,
           branch: branch
-        },
-        %Job{} = job
+        } = build
       ) do
+    build = Repo.preload(build, :jobs)
     real_previous_coverage = project_coverage || previous_coverage || 0.0
     cov_dif = coverage_diff(coverage, real_previous_coverage)
 
     report_url = build_url(Endpoint, :show, build_id)
 
-    job =
-      job
+    jobs =
+      build.jobs
       |> JobManager.preload_files()
 
     files =
-      job.files
-      |> Enum.filter(fn %File{coverage: coverage, previous_coverage: previous_coverage} ->
-        coverage_diff(coverage, previous_coverage) != 0
+      jobs
+      |> Enum.flat_map(fn job ->
+        job.files
+        |> Enum.filter(fn %File{coverage: coverage, previous_coverage: previous_coverage} ->
+          coverage_diff(coverage, previous_coverage) != 0
+        end)
       end)
 
     """

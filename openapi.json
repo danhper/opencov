@@ -46,8 +46,8 @@
       }
     },
     "/webhook": {
-      "get": {
-        "summary": "Your GET endpoint",
+      "post": {
+        "summary": "Webhook Post",
         "responses": {
           "200": {
             "description": "OK"
@@ -93,6 +93,16 @@
         "description": "When your CI is building in parallel, you’ll want your coverage results to be merged after all have completed.",
         "tags": [
           "jobs"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "repo_token",
+            "required": true
+          }
         ]
       }
     }
