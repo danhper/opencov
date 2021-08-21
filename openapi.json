@@ -65,26 +65,57 @@
               "schema": {
                 "description": "",
                 "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "repo_token": "githubToken",
+                    "repo_name": "process.env.GITHUB_REPOSITORY",
+                    "payload": {
+                      "build_num": 12345,
+                      "status": "done"
+                    }
+                  }
+                },
                 "properties": {
+                  "repo_token": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "repo_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
                   "payload": {
                     "type": "object",
+                    "required": [
+                      "build_num",
+                      "status"
+                    ],
                     "properties": {
                       "build_num": {
                         "type": "number"
                       },
                       "status": {
-                        "type": "string"
+                        "type": "string",
+                        "minLength": 1
                       }
-                    },
-                    "required": [
-                      "build_num",
-                      "status"
-                    ]
+                    }
                   }
                 },
                 "required": [
                   "payload"
                 ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "repo_token": "1234",
+                    "repo_name": "asdf",
+                    "payload": {
+                      "build_num": 1234,
+                      "status": "done"
+                    }
+                  }
+                }
               }
             }
           }
@@ -99,8 +130,7 @@
               "type": "string"
             },
             "in": "query",
-            "name": "repo_token",
-            "required": true
+            "name": "repo_token"
           }
         ]
       }

@@ -10,9 +10,8 @@ defmodule Librecov.WebhookController do
 
   alias Librecov.ProjectManager
 
-  def create(%{body_params: %{payload: %{build_num: build_num, status: "done"}}} = conn, %{
-        repo_token: token
-      }) do
+  def create(%{body_params: %{payload: %{build_num: build_num, status: "done"}} = body} = conn, _) do
+    token = Map.get(body, :repo_token) || Map.get(conn.query_params, "repo_token")
     project = ProjectManager.find_by_token!(token)
     build = BuildManager.mark_as_complete!(build_num)
     ProjectManager.perform_github_integrations(project, build)
