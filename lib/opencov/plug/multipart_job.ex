@@ -14,8 +14,18 @@ defmodule Librecov.Plug.MultipartJob do
 
   @impl Plug
   def call(conn, _) do
-    [content_type] = Conn.get_req_header(conn, "content-type")
+    content_type =
+      case Conn.get_req_header(conn, "content-type") do
+        [header_value | _] ->
+          header_value
+          |> String.split(";")
+          |> Enum.at(0)
 
+        _ ->
+          nil
+      end
+
+    IO.inspect(content_type)
     handle(content_type, conn)
   end
 

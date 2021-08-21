@@ -73,8 +73,7 @@
                         "type": "number"
                       },
                       "status": {
-                        "type": "string",
-                        "minLength": 1
+                        "type": "string"
                       }
                     },
                     "required": [
@@ -130,42 +129,32 @@
                 "type": "object",
                 "required": [
                   "id",
-                  "author_name",
-                  "author_email",
                   "committer_name",
-                  "committer_email",
                   "message"
                 ],
                 "properties": {
                   "id": {
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                   },
                   "author_name": {
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                   },
                   "author_email": {
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                   },
                   "committer_name": {
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                   },
                   "committer_email": {
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                   },
                   "message": {
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                   }
                 }
               },
               "branch": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "remotes": {
                 "type": "array",
@@ -192,8 +181,7 @@
             },
             "required": [
               "head",
-              "branch",
-              "remotes"
+              "branch"
             ]
           },
           "source_files": {
@@ -254,7 +242,9 @@
           },
           "parallel": {
             "type": "boolean",
-            "description": "If this is set, the build will not be considered done until a webhook has been sent to https://coveralls.io/webhook?repo_token=…"
+            "description": "If this is set, the build will not be considered done until a webhook has been sent to https://coveralls.io/webhook?repo_token=…",
+            "default": false,
+            "nullable": true
           },
           "flag_name": {
             "type": "string",
