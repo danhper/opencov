@@ -14,8 +14,6 @@ defmodule Librecov.Api.V1.JobController do
   end
 
   def create(conn, params) do
-    IO.inspect(conn)
-    IO.inspect(params)
     conn |> bad_request("request should have 'json' or 'json_file' parameter")
   end
 
