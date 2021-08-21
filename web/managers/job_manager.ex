@@ -70,4 +70,8 @@ defmodule Librecov.JobManager do
 
     job |> Repo.preload(:files) |> update_coverage
   end
+
+  def preload_files(job_or_jobs) do
+    job_or_jobs |> Repo.preload(:files)
+  end
 end

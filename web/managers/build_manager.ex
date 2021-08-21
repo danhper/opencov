@@ -1,4 +1,5 @@
 defmodule Librecov.BuildManager do
+  require Logger
   use Librecov.Web, :manager
 
   alias Librecov.Build
@@ -34,7 +35,12 @@ defmodule Librecov.BuildManager do
   def update_coverage(build) do
     coverage = build |> Repo.preload(:jobs) |> compute_coverage
     build = Repo.update!(change(build, coverage: coverage))
-    Librecov.ProjectManager.update_coverage(Repo.preload(build, :project).project)
+
+    if build.branch == "master" or build.branch == "main" or build.branch == "" or
+         is_nil(build.branch) do
+      Librecov.ProjectManager.update_coverage(Repo.preload(build, :project).project)
+    end
+
     build
   end
 
@@ -46,7 +52,12 @@ defmodule Librecov.BuildManager do
 
   # TODO: fetch build/job numbers from CI APIs
   # def info_for(_project, %{"service_name" => "travis-ci"}), do: %{"build_number" => 1, "job_number" => 1}
-  def info_for(project, params), do: fallback_info_for(project, params)
+  def info_for(_project, %{"service_number" => service_number, "service_job_id" => service_job_id}),
+      do: %{"build_number" => service_number, "job_number" => service_job_id}
+
+  def info_for(project, params) do
+    fallback_info_for(project, params)
+  end
 
   defp fallback_info_for(project, _params) do
     build = query_for_project(project.id) |> order_by_build_number |> Repo.first()

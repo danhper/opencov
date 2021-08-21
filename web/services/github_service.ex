@@ -12,7 +12,7 @@ defmodule Librecov.GithubService do
   end
 
   def handle(event, _payload) do
-    Logger.warn("Unhandled event: #{event}")
+    Logger.debug("Unhandled event: #{event}")
   end
 
   def handle_pr("synchronize", %{"after" => commit, "repository" => repo}) do

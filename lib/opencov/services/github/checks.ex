@@ -3,14 +3,31 @@ defmodule Librecov.Services.Github.Checks do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Checks
   alias Librecov.Build
+  import Librecov.Helpers.Coverage
 
-  def finish_check(token, owner, repo, %Build{
-        coverage: coverage,
-        previous_coverage: previous_coverage,
-        commit_sha: commit
-      }) do
-    cov_dif = coverage_diff(coverage, previous_coverage) |> format_coverage()
+  def finish_check(
+        token,
+        owner,
+        repo,
+        %Build{
+          coverage: coverage,
+          previous_coverage: previous_coverage,
+          commit_sha: commit
+        },
+        base_coverage
+      ) do
+    real_previous_coverage = base_coverage || previous_coverage || 0.0
+    cov_dif = coverage_diff(coverage, real_previous_coverage) |> format_coverage()
     cov = coverage |> format_coverage()
+
+    Logger.info("""
+    Repo: #{owner}/#{repo}
+    Commit: #{commit}
+    Coverage: #{cov}
+    Coverage diff: #{cov_dif}
+    Project Previous Coverage: #{base_coverage}
+    Build Previous Coverage: #{previous_coverage}
+    """)
 
     conn =
       token
@@ -35,7 +52,7 @@ defmodule Librecov.Services.Github.Checks do
              body: %{
                name: "LibreCov/diff",
                head_sha: commit,
-               conclusion: coverage_diff(coverage, previous_coverage) |> diff_conclusion(),
+               conclusion: coverage_diff(coverage, real_previous_coverage) |> diff_conclusion(),
                output: %{
                  title: "Coverage changed #{cov_dif}",
                  summary: "changed #{cov_dif}"
@@ -65,9 +82,4 @@ defmodule Librecov.Services.Github.Checks do
   defp diff_conclusion(diff) when diff == 0, do: "neutral"
   defp diff_conclusion(diff) when diff < 0, do: "failure"
   defp diff_conclusion(diff) when diff > 0, do: "success"
-
-  defp format_coverage(coverage), do: "#{Float.round(coverage, 2)}%"
-
-  defp coverage_diff(coverage, nil), do: coverage
-  defp coverage_diff(coverage, previous_coverage), do: coverage - previous_coverage
 end
