@@ -1,7 +1,6 @@
 defmodule Librecov.CodecovController do
   use Librecov.Web, :controller
   alias Librecov.Web.ApiSpec
-  alias Librecov.Digest.CodecovV2
   alias Librecov.Web.Schemas.CodecovV2.Parameters
   alias Librecov.Web.Schemas.Job
 
