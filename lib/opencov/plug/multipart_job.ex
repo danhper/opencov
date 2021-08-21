@@ -38,7 +38,7 @@ defmodule Librecov.Plug.MultipartJob do
     |> put_parsed_job(json)
   end
 
-  def handle(content_type, conn) do
+  def handle(_content_type, conn) do
     conn
   end
 
