@@ -50,23 +50,23 @@ defmodule Librecov.Templates.CommentTemplate do
     """
   end
 
-  def merge_message(_, nil, _, _), do: ""
-  def merge_message(_, _, nil, _), do: ""
+  defp merge_message(_, nil, _, _), do: ""
+  defp merge_message(_, _, nil, _), do: ""
 
-  def merge_message(0.0, branch, commit, report_url),
+  defp merge_message(0.0, branch, commit, report_url),
     do:
       "> Merging [#{branch |> format_branch()}](#{report_url}) (#{commit |> format_commit()}) will **not change** coverage."
 
-  def merge_message(cov_dif, branch, commit, report_url),
+  defp merge_message(cov_dif, branch, commit, report_url),
     do:
       "> Merging [#{branch |> format_branch()}](#{report_url}) (#{commit |> format_commit()}) will **#{cov_dif |> diff_verb()}** coverage by `#{cov_dif |> format_coverage()}`."
 
-  def diff_message(0.0, _), do: "> The diff coverage is `n/a`."
-  def diff_message(_, coverage), do: "> The diff coverage is `#{coverage |> format_coverage()}`."
+  defp diff_message(0.0, _), do: "> The diff coverage is `n/a`."
+  defp diff_message(_, coverage), do: "> The diff coverage is `#{coverage |> format_coverage()}`."
 
-  def impacted_files_message(_, []), do: ""
+  defp impacted_files_message(_, []), do: ""
 
-  def impacted_files_message(report_url, files) do
+  defp impacted_files_message(report_url, files) do
     """
 
     | [Impacted Files](#{report_url}) | Coverage Δ | |
