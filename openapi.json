@@ -244,6 +244,14 @@
             "in": "query",
             "name": "pr",
             "description": "The pull request number this commit is currently found in."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "package",
+            "description": "Uploader-version"
           }
         ],
         "requestBody": {
