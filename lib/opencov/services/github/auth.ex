@@ -6,7 +6,6 @@ defmodule Librecov.Services.Github.Auth do
   alias Librecov.Services.Github.AuthData
 
   def with_auth_data(nil, _), do: {:error, :nil_input}
-  def with_auth_data(nil, nil, _), do: {:error, :nil_input}
 
   def with_auth_data(%Project{} = project, block) do
     with {owner, repo} <- Project.name_and_owner(project) do
@@ -14,8 +13,10 @@ defmodule Librecov.Services.Github.Auth do
     end
   end
 
+  def with_auth_data(nil, nil, _), do: {:error, :nil_input}
+
   def with_auth_data(owner, repo, block) do
-    with {:ok, token} <- Auth.login_token(owner) do
+    with {:ok, token} <- login_token(owner) do
       apply(block, [%AuthData{token: token, owner: owner, repo: repo}])
     end
   end

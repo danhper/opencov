@@ -3,7 +3,6 @@ defmodule Librecov.Subscriber.GithubSubscriber do
   alias EventBus.Model.Event
   alias Librecov.Build
   alias Librecov.Repo
-  alias Librecov.Project
   alias Librecov.Services.Github.Auth
   alias Librecov.Services.Github.Checks
   alias Librecov.Services.Github.Comments
