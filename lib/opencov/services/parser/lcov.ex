@@ -27,12 +27,12 @@ defmodule Librecov.Parser.Lcov do
   defp details_to_coverage(details, total) do
     Range.new(1, total)
     |> Enum.map(fn line_no ->
-      case details |> Enum.find(fn %{"line" => line} -> line == line_no end) do
-        %{"hit" => hit} -> hit
-        _ -> nil
-      end
+      details |> Enum.find(fn %{"line" => line} -> line == line_no end) |> extract_hits()
     end)
   end
+
+  def extract_hits(%{"hit" => hit}), do: hit
+  def extract_hits(_), do: nil
 
   defp details_to_branches(details) do
     details
