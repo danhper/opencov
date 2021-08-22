@@ -29,7 +29,7 @@ defmodule Librecov.Mixfile do
   end
 
   def application do
-    [mod: {Librecov, []}, extra_applications: [:logger, :crypto]]
+    [mod: {Librecov, []}, extra_applications: [:logger, :crypto, :event_bus]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -37,6 +37,11 @@ defmodule Librecov.Mixfile do
 
   defp deps do
     [
+      {:sobelow, "~> 0.8", only: :dev},
+      {:event_bus_logger, "~> 0.1.6"},
+      {:elixir_uuid, "~> 1.2"},
+      {:event_bus,
+       github: "yknx4/event_bus", ref: "49027b459afc325ebf71a1e5001fb8718b4e7d80", override: true},
       {:mutex, "~> 1.3"},
       {:deep_merge, "~> 1.0"},
       {:sentry, "~> 8.0"},

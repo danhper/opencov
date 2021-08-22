@@ -3,18 +3,20 @@ defmodule Librecov.Services.Github.Checks do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Checks
   alias Librecov.Build
+  alias Librecov.Project
+  alias Librecov.Services.Github.AuthData
   import Librecov.Helpers.Coverage
 
   def finish_check(
-        token,
-        owner,
-        repo,
+        %AuthData{token: token, owner: owner, repo: repo},
         %Build{
           coverage: coverage,
           previous_coverage: previous_coverage,
-          commit_sha: commit
-        },
-        base_coverage
+          commit_sha: commit,
+          project: %Project{
+            current_coverage: base_coverage
+          }
+        }
       ) do
     real_previous_coverage = base_coverage || previous_coverage || 0.0
     cov_dif = coverage_diff(coverage, real_previous_coverage) |> format_coverage()
@@ -64,7 +66,7 @@ defmodule Librecov.Services.Github.Checks do
     end
   end
 
-  def create_check(token, commit, owner, repo) do
+  def create_check(%AuthData{token: token, owner: owner, repo: repo}, commit) do
     token
     |> Connection.new()
     |> Checks.checks_create(owner, repo,

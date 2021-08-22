@@ -1,5 +1,6 @@
 defmodule Librecov.Build do
   use Librecov.Web, :model
+  import Librecov.Queries.BuildQueries
 
   @git_defaults %{
     "branch" => nil,
@@ -49,14 +50,6 @@ defmodule Librecov.Build do
 
   def last_for_project(query, project) do
     query |> for_project(project.id) |> order_by_build_number |> first
-  end
-
-  def query_for_project(project_id) do
-    for_project(Librecov.Build, project_id)
-  end
-
-  def for_project(query, project_id) do
-    query |> where([b], b.project_id == ^project_id)
   end
 
   def order_by_build_number(query) do

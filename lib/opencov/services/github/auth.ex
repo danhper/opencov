@@ -2,6 +2,24 @@ defmodule Librecov.Services.Github.Auth do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Apps
   alias ExOctocat.Model.Installation
+  alias Librecov.Project
+  alias Librecov.Services.Github.AuthData
+
+  def with_auth_data(nil, _), do: {:error, :nil_input}
+
+  def with_auth_data(%Project{} = project, block) do
+    with {owner, repo} <- Project.name_and_owner(project) do
+      with_auth_data(owner, repo, block)
+    end
+  end
+
+  def with_auth_data(nil, nil, _), do: {:error, :nil_input}
+
+  def with_auth_data(owner, repo, block) do
+    with {:ok, token} <- login_token(owner) do
+      apply(block, [%AuthData{token: token, owner: owner, repo: repo}])
+    end
+  end
 
   def now, do: Timex.now() |> Timex.to_unix()
 

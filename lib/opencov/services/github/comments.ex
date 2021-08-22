@@ -3,14 +3,22 @@ defmodule Librecov.Services.Github.Comments do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Issues
   alias Librecov.Services.Github.PullRequests
-  alias ExOctocat.Model.PullRequestSimple
+  alias Librecov.Build
+  alias Librecov.Services.Github.AuthData
 
-  def add_pr_comment(_, _, _, _, nil) do
-    Logger.warn("Skipping because branch is nil.")
+  def add_pr_comment(pr_message, %AuthData{token: token} = auth, %Build{
+        service_job_pull_request: pr
+      })
+      when is_binary(pr) and pr != "" do
+    with {:ok, pr} <- PullRequests.get_pr(auth, pr) do
+      add_pr_message(token, pr_message, pr)
+    end
   end
 
-  def add_pr_comment(pr_message, token, owner, repo, branch) do
-    case token |> PullRequests.find_prs_for_branch(owner, repo, branch) do
+  def add_pr_comment(pr_message, %AuthData{token: token, owner: owner, repo: repo} = auth, %Build{
+        branch: branch
+      }) do
+    case PullRequests.find_prs_for_branch(auth, branch) do
       {:ok, []} ->
         Logger.info("No pull requests found for branch #{branch}")
         {:error, :pr_not_found}
@@ -37,7 +45,7 @@ defmodule Librecov.Services.Github.Comments do
     end
   end
 
-  def add_pr_message(token, pr_message, %PullRequestSimple{
+  def add_pr_message(token, pr_message, %{
         number: issue_number,
         base: %{repo: %{name: repo, owner: %{login: owner}}}
       }) do

@@ -1,4 +1,5 @@
 defmodule Librecov.Endpoint do
+  use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :librecov
 
   plug(Plug.CloudFlare)

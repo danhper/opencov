@@ -1,10 +1,12 @@
 defmodule Librecov do
   use Application
+  alias Librecov.Subscriber.GithubSubscriber
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
+    Logger.add_backend(Sentry.LoggerBackend)
 
     children = [
       {Mutex, name: LibreCov.JobLock},
@@ -20,7 +22,12 @@ defmodule Librecov do
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Librecov.Supervisor]
-    Supervisor.start_link(children, opts)
+    s = Supervisor.start_link(children, opts)
+
+    EventBus.subscribe({Librecov.Subscriber.BuildSubscriber, [:inserted, :updated]})
+    EventBus.subscribe({GithubSubscriber, GithubSubscriber.topics()})
+
+    s
   end
 
   # Tell Phoenix to update the endpoint configuration
