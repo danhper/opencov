@@ -6,6 +6,9 @@ defmodule Librecov.Templates.CommentTemplate do
   alias Librecov.File
   import Librecov.Router.Helpers
   import Librecov.Helpers.Coverage
+  alias ExOctocat.Model.PullRequest
+  alias Librecov.Repo
+  alias Librecov.Queries.BuildQueries
 
   def coverage_message(
         %Build{
@@ -15,41 +18,62 @@ defmodule Librecov.Templates.CommentTemplate do
           commit_sha: commit,
           branch: branch,
           project: %Project{
+            id: project_id,
             current_coverage: project_coverage
           }
-        } = build
+        } = build,
+        %PullRequest{
+          head: %{user: %{login: username}},
+          base: %{ref: base_branch, sha: base_commit}
+        }
       ) do
     build = Librecov.Repo.preload(build, :jobs)
-    real_previous_coverage = project_coverage || previous_coverage || 0.0
+
+    base_build =
+      project_id |> BuildQueries.latest_for_project_branch(base_branch) |> Repo.one() ||
+        project_id |> BuildQueries.latest_for_project_commit(base_commit) |> Repo.one()
+
+    real_previous_coverage = base_build.coverage || previous_coverage || project_coverage || 0.0
     cov_dif = coverage_diff(coverage, real_previous_coverage)
 
     report_url = build_url(Endpoint, :show, build_id)
 
-    jobs =
-      build.jobs
-      |> JobManager.preload_files()
-
-    files =
-      jobs
-      |> Enum.flat_map(fn job ->
-        job.files
-        |> Enum.filter(fn %File{coverage: coverage, previous_coverage: previous_coverage} ->
-          coverage_diff(coverage, previous_coverage) != 0
-        end)
-      end)
-
-    """
+    header = """
     # [Librecov](#{report_url}) Report
+    Hey @#{username}
     #{merge_message(cov_dif, branch, commit, report_url)}
     #{diff_message(cov_dif, coverage)}
-    #{impacted_files_message(report_url, files)}
-    ------
-
-    [Continue to review full report at Librecov](#{report_url}).
-    > **Legend**
-    > `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
-    > Powered by [Librecov](#{project_url(Endpoint, :index)}).
     """
+
+    if(is_nil(base_build)) do
+      header
+    else
+      base_files =
+        base_build.jobs
+        |> JobManager.preload_files()
+        |> Map.take(:files)
+
+      files =
+        build.jobs
+        |> JobManager.preload_files()
+        |> Map.take(:files)
+
+      both_files =
+        files
+        |> Enum.map(fn f -> {f, base_files |> Enum.find(&(&1.name == f.name))} end)
+        |> Enum.filter(fn {f1, f2} -> is_nil(f2) || f1.coverage != f2.coverage end)
+
+      """
+      #{header}
+      #{impacted_files_message(report_url, both_files)}
+      ------
+
+      [Continue to review full report at Librecov](#{report_url}).
+      > **Legend**
+      > `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+      > Powered by [Librecov](#{project_url(Endpoint, :index)}).
+      """
+    end
   end
 
   defp merge_message(_, nil, _, _), do: ""
@@ -73,17 +97,25 @@ defmodule Librecov.Templates.CommentTemplate do
 
     | [Impacted Files](#{report_url}) | Coverage Δ | |
     |---|---|---|
-    #{files |> Enum.map(&file_line/1) |> Enum.join("\n")}
+    #{files |> Enum.map(&files_line/1) |> Enum.join("\n")}
 
     """
   end
 
-  defp file_line(%File{
-         id: file_id,
-         name: filename,
-         coverage: coverage,
-         previous_coverage: previous_coverage
-       }) do
+  defp files_line({%File{} = file, %File{coverage: previous_coverage}}),
+    do: file_line(file, previous_coverage)
+
+  defp files_line({%File{} = file, nil}),
+    do: file_line(file, 0.0)
+
+  defp file_line(
+         %File{
+           id: file_id,
+           name: filename,
+           coverage: coverage
+         },
+         previous_coverage
+       ) do
     cov_diff = coverage_diff(coverage, previous_coverage)
 
     "| [#{filename}](#{file_url(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | #{cov_diff |> diff_emoji()} |"

@@ -6,6 +6,7 @@ defmodule Librecov.Subscriber.GithubSubscriber do
   alias Librecov.Services.Github.Auth
   alias Librecov.Services.Github.Checks
   alias Librecov.Services.Github.Comments
+  alias Librecov.Services.Github.PullRequests
   alias Librecov.Templates.CommentTemplate
   alias Librecov.Services.Github.AuthData
 
@@ -58,7 +59,10 @@ defmodule Librecov.Subscriber.GithubSubscriber do
   def perform_github_integrations(%AuthData{} = auth, %Build{} = build) do
     Checks.finish_check(auth, build)
 
-    CommentTemplate.coverage_message(build)
-    |> Comments.add_pr_comment(auth, build)
+    with {:ok, prs} <- PullRequests.find_prs_for_build(auth, build) do
+      prs
+      |> Enum.map(&CommentTemplate.coverage_message(build, &1))
+      |> Enum.map(&Comments.add_pr_comment(&1, auth, build))
+    end
   end
 end

@@ -4,6 +4,7 @@ defmodule Librecov.BuildManager do
 
   alias Librecov.Build
   import Librecov.Build
+  import Librecov.Queries.BuildQueries
 
   @required_fields ~w(build_number)a
   @optional_fields ~w(commit_sha commit_message committer_name committer_email branch

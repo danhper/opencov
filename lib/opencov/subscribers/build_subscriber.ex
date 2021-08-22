@@ -10,11 +10,12 @@ defmodule Librecov.Subscriber.BuildSubscriber do
     end
   end
 
-  def process(%Event{topic: :inserted, data: %Build{completed: true} = build}) do
+  def process(%Event{topic: :inserted, data: %Build{completed: true, coverage: coverage} = build})
+      when coverage > 0.0 do
     %Event{id: UUID.uuid1(), topic: :build_finished, data: build} |> EventBus.notify()
   end
 
-  def process(%Event{topic: :updated, data: {%Build{} = build, %{completed: true}}}) do
+  def process(%Event{topic: :updated, data: {%Build{completed: true} = build, %{coverage: _}}}) do
     %Event{id: UUID.uuid1(), topic: :build_finished, data: build} |> EventBus.notify()
   end
 
