@@ -4,6 +4,6 @@ defmodule Librecov.WebhookView do
   @attributes ~w(id project_id build_number coverage completed)a
 
   def render("show.json", %{build: build}) do
-    build |> Map.take(@attributes)
+    build |> Map.take(@attributes) |> Map.merge(%{done: true})
   end
 end

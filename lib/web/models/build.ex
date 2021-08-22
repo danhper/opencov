@@ -107,12 +107,19 @@ defmodule Librecov.Build do
     |> where([b], b.branch == ^branch and b.commit_sha == ^sha)
   end
 
+  def for_commit(project, %{"branch" => branch, "head" => %{"id" => sha}})
+      when is_binary(branch) and is_binary(sha) and byte_size(branch) == 0 and byte_size(sha) > 0 do
+    Librecov.Build
+    |> for_project(project.id)
+    |> where([b], b.branch in [nil, ""] and b.commit_sha == ^sha)
+  end
+
   def for_commit(_, _), do: nil
 
   def compute_coverage(build) do
     build.jobs
     |> Enum.map(fn j -> j.coverage end)
     |> Enum.reject(fn n -> is_nil(n) or n == 0 end)
-    |> Enum.min()
+    |> Enum.min(fn -> 0.0 end)
   end
 end

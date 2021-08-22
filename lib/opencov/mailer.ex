@@ -1,5 +1,5 @@
 defmodule Librecov.Mailer do
-  @templates_base_path Path.join(__DIR__, "../../web/templates/mailers")
+  @templates_base_path Path.join(__DIR__, "../web/templates/mailers")
 
   defmacro __using__(_opts) do
     quote do

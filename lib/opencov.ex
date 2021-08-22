@@ -7,6 +7,7 @@ defmodule Librecov do
     import Supervisor.Spec, warn: false
 
     children = [
+      {Mutex, name: LibreCov.JobLock},
       {Phoenix.PubSub, name: LibreCov.PubSub},
       # Start the endpoint when the application starts
       {Librecov.Endpoint, []},
