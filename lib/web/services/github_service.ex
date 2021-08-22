@@ -5,6 +5,7 @@ defmodule Librecov.GithubService do
   alias Librecov.ProjectManager
   alias Librecov.Services.Github.Auth
   alias Librecov.Services.Github.Checks
+  alias EventBus.Model.Event
 
   def handle("pull_request", payload) do
     handle_pr(payload["action"], payload)
@@ -15,7 +16,9 @@ defmodule Librecov.GithubService do
     Logger.debug("Unhandled event: #{event}")
   end
 
-  def handle_pr("synchronize", %{"after" => commit, "repository" => repo}) do
+  def handle_pr("synchronize", %{"after" => commit, "repository" => repo} = payload) do
+    %Event{id: UUID.uuid1(), topic: :pull_request_synced, data: payload} |> EventBus.notify()
+
     with %{"name" => repo, "owner" => %{"login" => owner}} <- repo,
          {:ok, token} <- Auth.login_token(owner) do
       Checks.create_check(token, commit, owner, repo)

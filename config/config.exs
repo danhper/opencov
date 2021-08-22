@@ -54,6 +54,12 @@ config :joken,
     key_pem: System.get_env("LIBRECOV_GITHUB_SECRET_KEY")
   ]
 
+config :event_bus, topics: [
+  :pull_request_synced,
+  :build_started,
+  :build_finished
+]
+
 import_config "#{Mix.env()}.exs"
 
 local_config_path = Path.expand("local.exs", __DIR__)

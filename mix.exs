@@ -29,7 +29,7 @@ defmodule Librecov.Mixfile do
   end
 
   def application do
-    [mod: {Librecov, []}, extra_applications: [:logger, :crypto]]
+    [mod: {Librecov, []}, extra_applications: [:logger, :crypto, :event_bus]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -37,6 +37,8 @@ defmodule Librecov.Mixfile do
 
   defp deps do
     [
+      {:elixir_uuid, "~> 1.2"},
+      {:event_bus, "~> 1.6.2"},
       {:mutex, "~> 1.3"},
       {:deep_merge, "~> 1.0"},
       {:sentry, "~> 8.0"},
