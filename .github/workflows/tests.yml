@@ -88,10 +88,10 @@ jobs:
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF##*/})"
-        id: extract_branch
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v4.8
+
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.0
         with:
@@ -130,7 +130,7 @@ jobs:
       - name: LibreCov
         env:
           SHA: ${{github.sha}}
-          BRANCH: ${{ github.ref }}
+          BRANCH: ${{ steps.branch-name.outputs.current_branch }}
           TOKEN: ${{ secrets.OPENCOV_TOKEN }}
           COVERALLS_ENDPOINT: ${{ secrets.OPENCOV_ENDPOINT }}
         run: |
