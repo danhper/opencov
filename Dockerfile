@@ -29,7 +29,6 @@ RUN mix phx.digest
 
 # compile and build release
 COPY lib lib
-COPY web web
 COPY openapi.json openapi.json
 # uncomment COPY if rel/ exists
 # COPY rel rel
