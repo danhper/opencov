@@ -56,7 +56,8 @@ config :joken,
 
 config :event_bus, topics: [
   :pull_request_synced,
-  :build_started,
+  :inserted,
+  :updated,
   :build_finished
 ]
 

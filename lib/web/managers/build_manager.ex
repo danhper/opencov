@@ -26,13 +26,15 @@ defmodule Librecov.BuildManager do
   def mark_as_complete!(build_number) do
     Repo.get_by!(Build, build_number: build_number)
     |> complete_changeset(%{completed: true})
-    |> Repo.update!()
+    |> Repo.update_and_notify!()
   end
 
   def create_from_json!(project, params) do
     params = Map.merge(params, info_for(project, params))
     build = Ecto.build_assoc(project, :builds)
-    Repo.insert!(changeset(build, params))
+    build = Repo.insert_and_notify!(changeset(build, params))
+
+    build
   end
 
   def get_or_create!(project, params) do
@@ -55,7 +57,7 @@ defmodule Librecov.BuildManager do
 
   def update_coverage(build) do
     coverage = build |> Repo.preload(:jobs) |> compute_coverage
-    build = Repo.update!(change(build, coverage: coverage))
+    build = Repo.update_and_notify!(change(build, coverage: coverage))
 
     if build.branch == "master" or build.branch == "main" or build.branch == "" or
          is_nil(build.branch) do

@@ -8,15 +8,15 @@ defmodule Librecov.Templates.CommentTemplate do
   import Librecov.Helpers.Coverage
 
   def coverage_message(
-        %Project{
-          current_coverage: project_coverage
-        },
         %Build{
           id: build_id,
           coverage: coverage,
           previous_coverage: previous_coverage,
           commit_sha: commit,
-          branch: branch
+          branch: branch,
+          project: %Project{
+            current_coverage: project_coverage
+          }
         } = build
       ) do
     build = Librecov.Repo.preload(build, :jobs)

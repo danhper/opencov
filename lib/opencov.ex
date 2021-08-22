@@ -20,7 +20,12 @@ defmodule Librecov do
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Librecov.Supervisor]
-    Supervisor.start_link(children, opts)
+    s = Supervisor.start_link(children, opts)
+
+    EventBus.subscribe({Librecov.Subscriber.BuildSubscriber, [:inserted, :updated]})
+    EventBus.subscribe({Librecov.Subscriber.GithubSubscriber, [:build_finished]})
+
+    s
   end
 
   # Tell Phoenix to update the endpoint configuration

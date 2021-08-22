@@ -3,6 +3,7 @@ defmodule Librecov.Services.Github.CommentsTests do
   import Tesla.Mock
 
   alias Librecov.Services.Github.Comments
+  alias Librecov.Build
 
   @github_pulls [
     %{
@@ -605,7 +606,7 @@ defmodule Librecov.Services.Github.CommentsTests do
         "qwerqwer",
         "github",
         "hello-world",
-        "new-commit"
+        %Build{branch: "new-commit"}
       )
 
     assert comment.body == "Me too"
@@ -619,7 +620,7 @@ defmodule Librecov.Services.Github.CommentsTests do
         "qwerqwer",
         "github",
         "hello-world",
-        "invalid-branch"
+        %Build{branch: "invalid-branch"}
       )
   end
 end

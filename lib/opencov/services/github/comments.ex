@@ -4,12 +4,13 @@ defmodule Librecov.Services.Github.Comments do
   alias ExOctocat.Api.Issues
   alias Librecov.Services.Github.PullRequests
   alias ExOctocat.Model.PullRequestSimple
+  alias Librecov.Build
 
   def add_pr_comment(_, _, _, _, nil) do
     Logger.warn("Skipping because branch is nil.")
   end
 
-  def add_pr_comment(pr_message, token, owner, repo, branch) do
+  def add_pr_comment(pr_message, token, owner, repo, %Build{branch: branch}) do
     case token |> PullRequests.find_prs_for_branch(owner, repo, branch) do
       {:ok, []} ->
         Logger.info("No pull requests found for branch #{branch}")

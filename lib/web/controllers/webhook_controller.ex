@@ -19,7 +19,6 @@ defmodule Librecov.WebhookController do
     )
 
     build = BuildManager.mark_as_complete!(build_num)
-    ProjectManager.perform_github_integrations(project, build)
     render(conn, "show.json", build: build)
   end
 end

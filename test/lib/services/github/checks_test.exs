@@ -3,6 +3,7 @@ defmodule Librecov.Services.Github.ChecksTests do
   import Tesla.Mock
 
   alias Librecov.Services.Github.Checks
+  alias Librecov.Project
   alias Librecov.Build
 
   @create_check %{
@@ -118,7 +119,12 @@ defmodule Librecov.Services.Github.ChecksTests do
   }
 
   test "it finishes a check with nil previous coverage" do
-    {:ok, checks} = Checks.finish_check("asdfasdf", "github", "hello-world", @base_build, nil)
+    {:ok, checks} =
+      Checks.finish_check("asdfasdf", "github", "hello-world", %Build{
+        @base_build
+        | project: %Project{current_coverage: nil}
+      })
+
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)
   end
 
@@ -130,9 +136,9 @@ defmodule Librecov.Services.Github.ChecksTests do
         "hello-world",
         %Build{
           @base_build
-          | previous_coverage: @base_build.coverage
-        },
-        @base_build.coverage
+          | previous_coverage: @base_build.coverage,
+            project: %Project{current_coverage: @base_build.coverage}
+        }
       )
 
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)
@@ -146,9 +152,9 @@ defmodule Librecov.Services.Github.ChecksTests do
         "hello-world",
         %Build{
           @base_build
-          | previous_coverage: 99.99999
-        },
-        99.99999
+          | previous_coverage: 99.99999,
+            project: %Project{current_coverage: 99.99999}
+        }
       )
 
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)
@@ -162,9 +168,9 @@ defmodule Librecov.Services.Github.ChecksTests do
         "hello-world",
         %Build{
           @base_build
-          | previous_coverage: 90.4321
-        },
-        90.4321
+          | previous_coverage: 90.4321,
+            project: %Project{current_coverage: 90.4321}
+        }
       )
 
     checks |> Enum.each(fn check -> assert Map.has_key?(check, :id) end)

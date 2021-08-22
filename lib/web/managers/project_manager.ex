@@ -83,44 +83,8 @@ defmodule Librecov.ProjectManager do
         build = Librecov.BuildManager.get_or_create!(project, params)
         job = Librecov.JobManager.create_from_json!(build, params)
 
-        perform_github_integrations(project, build)
-
         {build, job}
       end)
     end)
-  end
-
-  def perform_github_integrations(_, %Librecov.Build{id: build_id, branch: invalid})
-      when invalid in [nil, ""] do
-    Logger.info(
-      "Skipping perform_github_integrations for Build##{build_id} because branch is empty."
-    )
-  end
-
-  def perform_github_integrations(%Project{} = project, %Librecov.Build{completed: true} = build) do
-    with {owner, name} <- Project.name_and_owner(project),
-         {:ok, token} <- Auth.login_token(owner),
-         %Librecov.Build{} = updated_build <- Repo.reload(build) do
-      Logger.debug("""
-      Build##{updated_build.id}
-      Coverage: #{updated_build.coverage}
-      Previous Coverages: #{updated_build.previous_coverage}
-      """)
-
-      Checks.finish_check(token, owner, name, updated_build, project.current_coverage)
-
-      unless is_nil(updated_build.branch) or updated_build.branch == "" do
-        CommentTemplate.coverage_message(project, updated_build)
-        |> Comments.add_pr_comment(token, owner, name, updated_build.branch)
-      end
-    end
-  end
-
-  def perform_github_integrations(_, %Librecov.Build{id: build_id, build_number: number}) do
-    Logger.info(
-      "Waiting for Build##{build_id}/#{number} to be completed before triggering github integrations."
-    )
-
-    {:ok, :skipped_github}
   end
 end

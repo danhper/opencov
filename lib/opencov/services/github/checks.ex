@@ -3,6 +3,7 @@ defmodule Librecov.Services.Github.Checks do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Checks
   alias Librecov.Build
+  alias Librecov.Project
   import Librecov.Helpers.Coverage
 
   def finish_check(
@@ -12,9 +13,11 @@ defmodule Librecov.Services.Github.Checks do
         %Build{
           coverage: coverage,
           previous_coverage: previous_coverage,
-          commit_sha: commit
-        },
-        base_coverage
+          commit_sha: commit,
+          project: %Project{
+            current_coverage: base_coverage
+          }
+        }
       ) do
     real_previous_coverage = base_coverage || previous_coverage || 0.0
     cov_dif = coverage_diff(coverage, real_previous_coverage) |> format_coverage()
