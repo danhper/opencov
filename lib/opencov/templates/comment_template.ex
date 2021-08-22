@@ -45,7 +45,7 @@ defmodule Librecov.Templates.CommentTemplate do
     #{diff_message(cov_dif, coverage)}
     """
 
-    if(is_nil(base_build)) do
+    if is_nil(base_build) do
       header
     else
       base_files =
