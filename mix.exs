@@ -37,6 +37,7 @@ defmodule Librecov.Mixfile do
 
   defp deps do
     [
+      {:sobelow, "~> 0.8", only: :dev},
       {:event_bus_logger, "~> 0.1.6"},
       {:elixir_uuid, "~> 1.2"},
       {:event_bus, "~> 1.6.2"},
