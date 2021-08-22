@@ -13,3 +13,4 @@ config/local.exs
 *.dump
 *.pem
 cover
+.elixir_ls
