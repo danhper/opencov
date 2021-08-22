@@ -53,13 +53,11 @@ defmodule Librecov.Templates.CommentTemplate do
         base_build
         |> Repo.preload([:jobs])
         |> Map.get(:jobs)
-        |> JobManager.preload_files()
-        |> Map.get(:files)
+        |> get_jobs_files
 
       files =
         build.jobs
-        |> JobManager.preload_files()
-        |> Map.get(:files)
+        |> get_jobs_files
 
       both_files =
         files
@@ -77,6 +75,18 @@ defmodule Librecov.Templates.CommentTemplate do
       > Powered by [Librecov](#{project_url(Endpoint, :index)}).
       """
     end
+  end
+
+  # TODO: This is flaky on parallel builds that may duplicate files
+  def get_jobs_files(jobs) do
+    jobs
+    |> JobManager.preload_files()
+    |> Enum.flat_map(fn job ->
+      job.files
+      |> Enum.filter(fn %File{coverage: coverage, previous_coverage: previous_coverage} ->
+        coverage_diff(coverage, previous_coverage) != 0
+      end)
+    end)
   end
 
   defp merge_message(_, nil, _, _), do: ""
