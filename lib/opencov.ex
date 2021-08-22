@@ -5,6 +5,7 @@ defmodule Librecov do
   # for more information on OTP Applications
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
+    Logger.add_backend(Sentry.LoggerBackend)
 
     children = [
       {Mutex, name: LibreCov.JobLock},

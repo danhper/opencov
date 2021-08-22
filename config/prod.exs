@@ -29,7 +29,9 @@ config :librecov, :auth,
   password: System.get_env("LIBRECOV_PASSWORD"),
   realm: System.get_env("LIBRECOV_REALM") || "Protected LibreCov"
 
-config :logger, level: :info, backends: [:console, Sentry.LoggerBackend]
+config :logger, :console, metadata: :all
+
+config :logger, level: :info
 
 config Librecov.Plug.Github,
   secret: System.get_env("LIBRECOV_GITHUB_WEBOOK_SECRET") || "super-secret",
@@ -38,13 +40,17 @@ config Librecov.Plug.Github,
 
 config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
-  environment_name: :prod,
   enable_source_code_context: true,
   root_source_code_path: File.cwd!(),
   tags: %{
     env: "production"
-  },
-  included_environments: [:prod]
+  }
+
+config :logger, Sentry.LoggerBackend,
+  level: :error,
+  excluded_domains: [],
+  metadata: [:foo_bar],
+  capture_log_messages: true
 
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"
