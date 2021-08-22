@@ -116,9 +116,9 @@ defmodule Librecov.ProjectManager do
     end
   end
 
-  def perform_github_integrations(_, %Librecov.Build{id: build_id}) do
+  def perform_github_integrations(_, %Librecov.Build{id: build_id, build_number: number}) do
     Logger.info(
-      "Waiting for Build##{build_id} to be completed before triggering github integrations."
+      "Waiting for Build##{build_id}/#{number} to be completed before triggering github integrations."
     )
 
     {:ok, :skipped_github}
