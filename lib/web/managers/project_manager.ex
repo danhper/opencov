@@ -79,12 +79,14 @@ defmodule Librecov.ProjectManager do
 
   def add_job!(project, params) do
     Librecov.Repo.transaction(fn ->
-      build = Librecov.BuildManager.get_or_create!(project, params)
-      job = Librecov.JobManager.create_from_json!(build, params)
+      Mutex.under(LibreCov.JobLock, :add_job, fn ->
+        build = Librecov.BuildManager.get_or_create!(project, params)
+        job = Librecov.JobManager.create_from_json!(build, params)
 
-      perform_github_integrations(project, build)
+        perform_github_integrations(project, build)
 
-      {build, job}
+        {build, job}
+      end)
     end)
   end
 
