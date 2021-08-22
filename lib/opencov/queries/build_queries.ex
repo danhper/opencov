@@ -4,7 +4,7 @@ defmodule Librecov.Queries.BuildQueries do
 
   def latest_for_project_commit(project_id, commit) do
     query_for_project(project_id)
-    |> where([b], b.commit == ^commit)
+    |> where([b], b.commit_sha == ^commit)
     |> latest()
   end
 
