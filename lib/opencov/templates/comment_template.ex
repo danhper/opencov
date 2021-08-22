@@ -119,7 +119,7 @@ defmodule Librecov.Templates.CommentTemplate do
     do: file_line(file, previous_coverage)
 
   defp files_line({%File{} = file, nil}),
-    do: file_line(file, 0.0)
+    do: file_line(file, 100.0)
 
   defp file_line(
          %File{
