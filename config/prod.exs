@@ -52,6 +52,12 @@ config :logger, Sentry.LoggerBackend,
   metadata: [:foo_bar],
   capture_log_messages: true
 
+config :event_bus_logger,
+  enabled: {:system, "EB_LOGGER_ENABLED", "true"},
+  level: {:system, "EB_LOGGER_LEVEL", :info},
+  topics: {:system, "EB_LOGGER_TOPICS", ".*"},
+  light_logging: {:system, "EB_LOGGER_LIGHT", "false"}
+
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"
 end
