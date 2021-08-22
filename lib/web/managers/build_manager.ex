@@ -36,7 +36,16 @@ defmodule Librecov.BuildManager do
   end
 
   def get_or_create!(project, params) do
-    current_build = current_for_project(Build, project) |> Repo.first()
+    # TODO: Allow to handle a better variety of params
+    build_number = params |> Map.get("service_job_id")
+
+    current_build =
+      if is_nil(build_number) do
+        current_for_project(Build, project) |> Repo.first()
+      else
+        Repo.get_by(Build, build_number: build_number)
+      end
+
     git_params = Map.get(params, "git", %{})
 
     if build = current_build || Repo.first(for_commit(project, git_params)),
