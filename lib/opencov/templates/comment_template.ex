@@ -32,7 +32,9 @@ defmodule Librecov.Templates.CommentTemplate do
       project_id |> BuildQueries.latest_for_project_branch(base_branch) |> Repo.one() ||
         project_id |> BuildQueries.latest_for_project_commit(base_commit) |> Repo.one()
 
-    real_previous_coverage = Map.get(base_build || %{}, :coverage) || previous_coverage || project_coverage || 0.0
+    real_previous_coverage =
+      Map.get(base_build || %{}, :coverage) || previous_coverage || project_coverage || 0.0
+
     cov_dif = coverage_diff(coverage, real_previous_coverage)
 
     report_url = build_url(Endpoint, :show, build_id)
@@ -48,7 +50,9 @@ defmodule Librecov.Templates.CommentTemplate do
       header
     else
       base_files =
-        base_build.jobs
+        base_build
+        |> Repo.preload([:jobs])
+        |> Map.take(:jobs)
         |> JobManager.preload_files()
         |> Map.take(:files)
 

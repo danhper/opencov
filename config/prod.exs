@@ -59,6 +59,9 @@ config :event_bus_logger,
   topics: {:system, "EB_LOGGER_TOPICS", ".*"},
   light_logging: {:system, "EB_LOGGER_LIGHT", "false"}
 
+config :event_bus,
+  error_handler: {Librecov.Helpers.SentryErrorLogger, :log}
+
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"
 end
