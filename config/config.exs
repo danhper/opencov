@@ -54,12 +54,13 @@ config :joken,
     key_pem: System.get_env("LIBRECOV_GITHUB_SECRET_KEY")
   ]
 
-config :event_bus, topics: [
-  :pull_request_synced,
-  :inserted,
-  :updated,
-  :build_finished
-]
+config :event_bus,
+  topics: [
+    :pull_request_synced,
+    :inserted,
+    :updated,
+    :build_finished
+  ]
 
 import_config "#{Mix.env()}.exs"
 
