@@ -52,14 +52,14 @@ defmodule Librecov.Templates.CommentTemplate do
       base_files =
         base_build
         |> Repo.preload([:jobs])
-        |> Map.take(:jobs)
+        |> Map.get(:jobs)
         |> JobManager.preload_files()
-        |> Map.take(:files)
+        |> Map.get(:files)
 
       files =
         build.jobs
         |> JobManager.preload_files()
-        |> Map.take(:files)
+        |> Map.get(:files)
 
       both_files =
         files
