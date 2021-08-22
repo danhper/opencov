@@ -2,10 +2,6 @@ defmodule Librecov.ProjectManager do
   use Librecov.Web, :manager
   require Logger
   alias Librecov.Project
-  alias Librecov.Services.Github.Auth
-  alias Librecov.Services.Github.Checks
-  alias Librecov.Services.Github.Comments
-  alias Librecov.Templates.CommentTemplate
   import Librecov.Project
   alias Librecov.Repo
 

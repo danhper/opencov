@@ -29,7 +29,7 @@ config :librecov, :auth,
   password: System.get_env("LIBRECOV_PASSWORD"),
   realm: System.get_env("LIBRECOV_REALM") || "Protected LibreCov"
 
-config :logger, :console, metadata: :all
+config :logger, :console, metadata: [:request_id, :mfa]
 
 config :logger, level: :info
 
@@ -49,7 +49,6 @@ config :sentry,
 config :logger, Sentry.LoggerBackend,
   level: :error,
   excluded_domains: [],
-  metadata: [:foo_bar],
   capture_log_messages: true
 
 config :event_bus_logger,

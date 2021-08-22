@@ -18,11 +18,6 @@ defmodule Librecov.GithubService do
 
   def handle_pr("synchronize", %{"after" => commit, "repository" => repo} = payload) do
     %Event{id: UUID.uuid1(), topic: :pull_request_synced, data: payload} |> EventBus.notify()
-
-    with %{"name" => repo, "owner" => %{"login" => owner}} <- repo,
-         {:ok, token} <- Auth.login_token(owner) do
-      Checks.create_check(token, commit, owner, repo)
-    end
   end
 
   def handle_pr(event, _payload) do

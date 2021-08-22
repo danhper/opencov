@@ -1,5 +1,6 @@
 defmodule Librecov do
   use Application
+  alias Librecov.Subscriber.GithubSubscriber
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -24,7 +25,7 @@ defmodule Librecov do
     s = Supervisor.start_link(children, opts)
 
     EventBus.subscribe({Librecov.Subscriber.BuildSubscriber, [:inserted, :updated]})
-    EventBus.subscribe({Librecov.Subscriber.GithubSubscriber, [:build_finished]})
+    EventBus.subscribe({GithubSubscriber, GithubSubscriber.topics()})
 
     s
   end

@@ -7,9 +7,7 @@ defmodule Librecov.Services.Github.Checks do
   import Librecov.Helpers.Coverage
 
   def finish_check(
-        token,
-        owner,
-        repo,
+        %AuthData{token: token, owner: owner, repo: repo},
         %Build{
           coverage: coverage,
           previous_coverage: previous_coverage,
@@ -67,7 +65,7 @@ defmodule Librecov.Services.Github.Checks do
     end
   end
 
-  def create_check(token, commit, owner, repo) do
+  def create_check(%AuthData{token: token, owner: owner, repo: repo}, commit) do
     token
     |> Connection.new()
     |> Checks.checks_create(owner, repo,
