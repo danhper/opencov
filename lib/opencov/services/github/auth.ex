@@ -5,6 +5,9 @@ defmodule Librecov.Services.Github.Auth do
   alias Librecov.Project
   alias Librecov.Services.Github.AuthData
 
+  def with_auth_data(nil, _), do: {:error, :nil_input}
+  def with_auth_data(nil, nil, _), do: {:error, :nil_input}
+
   def with_auth_data(%Project{} = project, block) do
     with {owner, repo} <- Project.name_and_owner(project) do
       with_auth_data(owner, repo, block)

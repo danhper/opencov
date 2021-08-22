@@ -4,6 +4,7 @@ defmodule Librecov.Services.Github.CommentsTests do
 
   alias Librecov.Services.Github.Comments
   alias Librecov.Build
+  alias Librecov.Services.Github.AuthData
 
   @github_pulls [
     %{
@@ -599,13 +600,17 @@ defmodule Librecov.Services.Github.CommentsTests do
     :ok
   end
 
+  @base_auth %AuthData{
+    owner: "github",
+    repo: "hello-world",
+    token: "qwerqwer"
+  }
+
   test "it adds a pr comment when pr is found" do
     {:ok, [comment]} =
       Comments.add_pr_comment(
         "Me too",
-        "qwerqwer",
-        "github",
-        "hello-world",
+        @base_auth,
         %Build{branch: "new-commit"}
       )
 
@@ -617,9 +622,7 @@ defmodule Librecov.Services.Github.CommentsTests do
     {:error, :pr_not_found} =
       Comments.add_pr_comment(
         "Me too",
-        "qwerqwer",
-        "github",
-        "hello-world",
+        @base_auth,
         %Build{branch: "invalid-branch"}
       )
   end
