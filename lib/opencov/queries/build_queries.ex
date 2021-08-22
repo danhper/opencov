@@ -27,7 +27,7 @@ defmodule Librecov.Queries.BuildQueries do
 
   def latest(query) do
     query
-    |> order_by([b], desc: b.created_at)
+    |> order_by([b], desc: b.inserted_at)
     |> limit(1)
   end
 
