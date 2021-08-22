@@ -6,7 +6,7 @@ defmodule Librecov.Services.Github.Auth do
   alias Librecov.Services.Github.AuthData
 
   def with_auth_data(%Project{} = project, block) do
-    with {owner, repo} <- Project.name_and_owner(build.project) do
+    with {owner, repo} <- Project.name_and_owner(project) do
       with_auth_data(owner, repo, block)
     end
   end

@@ -1,10 +1,8 @@
 defmodule Librecov.GithubService do
   require Logger
-  alias Librecov.Repo
   alias Librecov.Project
+  alias Librecov.Repo
   alias Librecov.ProjectManager
-  alias Librecov.Services.Github.Auth
-  alias Librecov.Services.Github.Checks
   alias EventBus.Model.Event
 
   def handle("pull_request", payload) do
@@ -16,7 +14,7 @@ defmodule Librecov.GithubService do
     Logger.debug("Unhandled event: #{event}")
   end
 
-  def handle_pr("synchronize", %{"after" => commit, "repository" => repo} = payload) do
+  def handle_pr("synchronize", payload) do
     %Event{id: UUID.uuid1(), topic: :pull_request_synced, data: payload} |> EventBus.notify()
   end
 

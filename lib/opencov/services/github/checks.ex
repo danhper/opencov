@@ -4,6 +4,7 @@ defmodule Librecov.Services.Github.Checks do
   alias ExOctocat.Api.Checks
   alias Librecov.Build
   alias Librecov.Project
+  alias Librecov.Services.Github.AuthData
   import Librecov.Helpers.Coverage
 
   def finish_check(

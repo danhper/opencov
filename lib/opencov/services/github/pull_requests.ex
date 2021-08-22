@@ -10,9 +10,9 @@ defmodule Librecov.Services.Github.PullRequests do
     |> Pulls.pulls_get(owner, repo, pr)
   end
 
-  def find_prs_for_branch(%AuthData{token: token, owner: owner, repo: repo}, branch)
+  def find_prs_for_branch(_, branch)
       when branch in [nil, ""],
-      do: []
+      do: {:ok, []}
 
   def find_prs_for_branch(%AuthData{token: token, owner: owner, repo: repo}, branch) do
     token
