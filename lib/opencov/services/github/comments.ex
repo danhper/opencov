@@ -3,7 +3,6 @@ defmodule Librecov.Services.Github.Comments do
   alias ExOctocat.Connection
   alias ExOctocat.Api.Issues
   alias Librecov.Services.Github.PullRequests
-  alias ExOctocat.Model.PullRequestSimple
   alias Librecov.Build
   alias Librecov.Services.Github.AuthData
 
@@ -46,7 +45,7 @@ defmodule Librecov.Services.Github.Comments do
     end
   end
 
-  def add_pr_message(token, pr_message, %PullRequestSimple{
+  def add_pr_message(token, pr_message, %{
         number: issue_number,
         base: %{repo: %{name: repo, owner: %{login: owner}}}
       }) do

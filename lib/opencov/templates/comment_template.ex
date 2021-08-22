@@ -6,7 +6,6 @@ defmodule Librecov.Templates.CommentTemplate do
   alias Librecov.File
   import Librecov.Router.Helpers
   import Librecov.Helpers.Coverage
-  alias ExOctocat.Model.PullRequest
   alias Librecov.Repo
   alias Librecov.Queries.BuildQueries
 
@@ -22,7 +21,7 @@ defmodule Librecov.Templates.CommentTemplate do
             current_coverage: project_coverage
           }
         } = build,
-        %PullRequest{
+        %{
           head: %{user: %{login: username}},
           base: %{ref: base_branch, sha: base_commit}
         }
