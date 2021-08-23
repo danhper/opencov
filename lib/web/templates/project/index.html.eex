@@ -2,7 +2,7 @@
   <h2 class="row">
     <span class="media-body">Projects</span>
 
-    <%= link to: project_path(@conn, :new), class: "btn btn-primary media-right" do %>
+    <%= link to: Routes.project_path(@conn, :new), class: "btn btn-primary media-right" do %>
       <i class="fa fa-plus-circle"></i>
       Add project
     <% end %>
@@ -13,7 +13,7 @@
       <li class="project">
         <main class="clearfix">
           <div class="content">
-            <h3><%= link project.name, to: project_path(@conn, :show, project) %></h3>
+            <h3><%= link project.name, to: Routes.project_path(@conn, :show, project) %></h3>
           </div>
           <div class="coverage <%= coverage_color(project.current_coverage) %>">
             <%= format_coverage(project.current_coverage) %>
@@ -21,7 +21,7 @@
         </main>
         <% latest_build = List.first(project.builds) %>
         <%= if latest_build && latest_build.commit_message do %>
-          <%= link latest_build.commit_message, to: build_path(@conn, :show, latest_build) %>
+          <%= link latest_build.commit_message, to: Routes.build_path(@conn, :show, latest_build) %>
           <%= if latest_build.branch do %>
             on branch <%= latest_build.branch %>
           <% end %>

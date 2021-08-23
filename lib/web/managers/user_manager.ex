@@ -3,10 +3,6 @@ defmodule Librecov.UserManager do
 
   @required_fields ~w(email)a
   @optional_fields ~w(admin name password)a
-  @default_secure_password_opts [
-    min_length: 6,
-    required: true
-  ]
 
   def changeset(model, params \\ :invalid, opts \\ []) do
     model
@@ -56,7 +52,8 @@ defmodule Librecov.UserManager do
     user = changeset.data
 
     if !user.password_initialized or
-         Librecov.User.authenticate(user, get_change(changeset, :current_password)) do
+         Argon2.hash_pwd_salt(get_change(changeset, :password)) ==
+           get_change(changeset, :current_password) do
       delete_change(changeset, :current_password)
     else
       add_error(changeset, :current_password, "is invalid")
@@ -111,8 +108,6 @@ defmodule Librecov.UserManager do
   end
 
   def with_secure_password(changeset, opts \\ []) do
-    opts = Keyword.merge(@default_secure_password_opts, opts)
-
     if has_password(changeset) do
       changeset = validate_password(changeset, opts)
 
@@ -140,7 +135,7 @@ defmodule Librecov.UserManager do
   end
 
   defp set_password_digest(changeset) do
-    hashed = Comeonin.Bcrypt.hashpwsalt(get_change(changeset, :password))
+    hashed = Argon2.hash_pwd_salt(get_change(changeset, :password))
 
     changeset
     |> put_change(:password_digest, hashed)

@@ -1,4 +1,4 @@
-<%= form_for @conn, auth_path(@conn, :login), [as: :login], fn f -> %>
+<%= form_for @conn,Routes.session_path(@conn, :new), [as: :login], fn f -> %>
   <%= if @error do %>
     <div class="alert alert-danger">
       <%= @error %>
@@ -21,7 +21,7 @@
   </div>
 <% end %>
 
-<p><%= link "Forgot your password?", to: profile_path(@conn, :reset_password_request) %></p>
+<p><%= link "Forgot your password?", to: Routes.profile_path(@conn, :reset_password_request) %></p>
 <%= if @can_signup do %>
-  <p><%= link "Create an account", to: user_path(@conn, :new) %></p>
+  <p><%= link "Create an account", to: Routes.user_path(@conn, :new) %></p>
 <% end %>

@@ -18,14 +18,14 @@
           <div class="name"><%= @user.github_info["name"] %></div>
         </div>
         <div class="remove">
-          <%= link "Remove integration", to: github_path(@conn, :delete),
+          <%= link "Remove integration", to: Routes.github_path(@conn, :delete),
                                          method: :delete,
                                          class: "btn btn-xs btn-danger",
                                          data: [confirm: "Are you sure you want to remove this integration?"] %>
         </div>
       </div>
     <% else %>
-      <%= link "Add GitHub integration", to: github_path(@conn, :new), class: "btn btn-default" %>
+      <%= link "Add GitHub integration", to: Routes.github_path(@conn, :new), class: "btn btn-default" %>
     <% end %>
   </main>
 </div>

@@ -1,9 +1,9 @@
 <div class="admin create-user">
   <h2 class="row breadcrumb">
     <span class="media-body">
-      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <%= link "Admin", to: Routes.admin_dashboard_path(@conn, :index) %>
       <span class="separator">></span>
-      <%= link "Users", to: admin_user_path(@conn, :index) %>
+      <%= link "Users", to: Routes.admin_user_path(@conn, :index) %>
       <span class="separator">></span>
       <span>new</span>
     </span>
@@ -13,7 +13,7 @@
 <div class="user-form">
   <%= render Librecov.UserView, "form.html",
               changeset: @changeset,
-              action: admin_user_path(@conn, :create),
+              action: Routes.admin_user_path(@conn, :create),
               show_password: false,
               is_admin: true %>
 </div>

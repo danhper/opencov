@@ -48,7 +48,6 @@ defmodule Librecov.Mixfile do
       {:plug_cloudflare, ">= 1.2.0"},
       {:joken, "~> 2.0"},
       {:stream_gzip, "~> 0.4"},
-      {:comeonin, "~> 2.4"},
       {:gettext, "~> 0.11"},
       {:secure_random, "~> 0.2"},
       {:temp, "~> 0.4"},
@@ -60,8 +59,6 @@ defmodule Librecov.Mixfile do
       {:eiconv, "~> 1.0"},
       {:scrivener_html, "~> 1.3"},
       {:seedex, "~> 0.3"},
-      {:oauth2, "~> 0.7"},
-      {:mix_test_watch, "~> 0.2", only: :dev},
       {:excoveralls, "~> 0.10", only: :test},
       {:mock, "~> 0.3", only: :test},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
@@ -80,7 +77,16 @@ defmodule Librecov.Mixfile do
       {:tesla, "~> 1.2"},
       {:poison, "~> 3.0"},
       {:ex_octocat, github: "yknx4/ex_octocat", tag: "v1.1.4.1"},
-      {:open_api_spex, "~> 3.10"}
+      {:open_api_spex, "~> 3.10"},
+      {:ueberauth, "~> 0.6"},
+      {:ueberauth_github,
+       github: "ueberauth/ueberauth_github", ref: "0617af32b52b77e64f261da36b13b5c5d1616ab1"},
+      {:ueberauth_identity, "~> 0.2"},
+      {:guardian, "~> 2.2"},
+      {:guardian_db, "~> 2.1"},
+      {:guardian_phoenix, "~> 2.0"},
+      {:argon2_elixir, "~> 2.0"},
+      {:ecto_resource, "~> 1.1.0"}
     ]
   end
 

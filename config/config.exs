@@ -62,6 +62,25 @@ config :event_bus,
     :build_finished
   ]
 
+config :ueberauth, Ueberauth,
+  providers: [
+    github:
+      {Ueberauth.Strategy.Github,
+       [default_scope: "repo,read:org,read:public_key,read:user", send_redirect_uri: false]},
+    identity:
+      {Ueberauth.Strategy.Identity,
+       [
+         param_nesting: "account",
+         request_path: "/register",
+         callback_path: "/register",
+         callback_methods: ["POST"]
+       ]}
+  ]
+
+config :librecov, Librecov.Authentication,
+  issuer: "librecov",
+  secret_key: System.get_env("GUARDIAN_SECRET_KEY")
+
 import_config "#{Mix.env()}.exs"
 
 local_config_path = Path.expand("local.exs", __DIR__)

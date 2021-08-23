@@ -1,12 +1,12 @@
 <div class="admin project-list">
   <h2 class="row breadcrumb">
     <span class="media-body">
-      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <%= link "Admin", to: Routes.admin_dashboard_path(@conn, :index) %>
       <span class="separator">></span>
       <span>Projects</span>
     </span>
     <span class="coverage media-right">
-      <%= link "Create project", to: project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+      <%= link "Create project", to: Routes.project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
     </span>
   </h2>
 
@@ -23,12 +23,12 @@
     <tbody>
     <%= for project <- @projects do %>
       <tr>
-        <td><%= link project.name, to: admin_project_path(@conn, :show, project) %></td>
+        <td><%= link project.name, to: Routes.admin_project_path(@conn, :show, project) %></td>
         <td><%= link project.base_url, to: project.base_url, target: "_blank" %></td>
         <td><%= Datetime.format(project.inserted_at, :dateonly) %></td>
         <td class="text-right">
-          <%= link "Edit", to: project_path(@conn, :edit, project), class: "btn btn-default btn-xs" %>
-          <%= link "Delete", to: project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+          <%= link "Edit", to: Routes.project_path(@conn, :edit, project), class: "btn btn-default btn-xs" %>Routes.project_path(@conn
+          <%= link "Delete", to: Routes.project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
         </td>
       </tr>
     <% end %>

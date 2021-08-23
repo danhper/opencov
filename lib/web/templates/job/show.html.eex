@@ -1,9 +1,9 @@
 <h2 class="row breadcrumb">
   <span class="media-body">
-    <%= link @job.build.project.name, to: project_path(@conn, :show, @job.build.project) %>
+    <%= link @job.build.project.name, to: Routes.project_path(@conn, :show, @job.build.project) %>
     <span class="separator">></span>
     <span class="build-number">
-      <%= link "#{@job.build.build_number}", to: build_path(@conn, :show, @job.build) %>
+      <%= link "#{@job.build.build_number}", to: Routes.build_path(@conn, :show, @job.build) %>
     </span>
     <span class="separator">.</span>
     <span class="job-number">

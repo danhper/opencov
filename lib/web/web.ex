@@ -48,8 +48,7 @@ defmodule Librecov.Web do
       alias Librecov.Repo
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Librecov.Router.Helpers
-      import Librecov.Helpers.Authentication
+      alias Librecov.Router.Helpers, as: Routes
     end
   end
 
@@ -63,7 +62,7 @@ defmodule Librecov.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Librecov.Router.Helpers
+      alias Librecov.Router.Helpers, as: Routes
       import Librecov.ErrorHelpers
       import Librecov.FormHelpers
     end

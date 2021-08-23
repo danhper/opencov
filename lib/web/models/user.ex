@@ -1,5 +1,6 @@
 defmodule Librecov.User do
   use Librecov.Web, :model
+  alias Librecov.User.Authorization
 
   schema "users" do
     field(:email, :string)
@@ -10,9 +11,6 @@ defmodule Librecov.User do
     field(:confirmed_at, :utc_datetime_usec)
     field(:unconfirmed_email, :string)
 
-    field(:github_access_token)
-    field(:github_info, :map, virtual: true)
-
     field(:password_reset_token, :string)
     field(:password_reset_sent_at, :utc_datetime_usec)
 
@@ -22,18 +20,32 @@ defmodule Librecov.User do
     field(:password_digest, :string)
 
     has_many(:projects, Librecov.Project)
+    has_many(:authorizations, Authorization)
 
     timestamps()
   end
 
-  @doc """
-  Checks if the model password if valid.
-  """
-  def authenticate(nil, _), do: Comeonin.Bcrypt.dummy_checkpw()
-  def authenticate(%{password_digest: nil}, _), do: Comeonin.Bcrypt.dummy_checkpw()
-  def authenticate(model, nil), do: authenticate(model, "")
+  def changeset(struct, params) do
+    struct
+    |> cast(params, [:email, :password])
+    |> validate_required([:email, :password])
+    |> validate_confirmation(:password, required: true)
+    |> unique_constraint(:email, name: "users_email_index")
+    |> put_encrypted_password()
+  end
 
-  def authenticate(model, password) do
-    Comeonin.Bcrypt.checkpw(password, model.password_digest) && model
+  defp put_encrypted_password(%{valid?: true, changes: %{password: pw}} = changeset) do
+    put_change(changeset, :password_digest, Argon2.hash_pwd_salt(pw))
+  end
+
+  defp put_encrypted_password(changeset) do
+    changeset
+  end
+
+  def oauth_signup_changeset(struct, %Ueberauth.Auth{info: info}) do
+    struct
+    |> cast(info |> Map.from_struct(), [:email, :name])
+    |> validate_required([:email])
+    |> unique_constraint(:email)
   end
 end

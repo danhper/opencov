@@ -41,7 +41,9 @@ defmodule Librecov.ConnCase do
 
         post(
           conn,
-          auth_path(conn, :login, %{"login" => %{"email" => user.email, "password" => password}})
+          session_path(conn, :create, %{
+            "account" => %{"email" => user.email, "password" => password}
+          })
         )
       end
     end

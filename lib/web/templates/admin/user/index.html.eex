@@ -1,12 +1,12 @@
 <div class="admin user-list">
   <h2 class="row breadcrumb">
     <span class="media-body">
-      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <%= link "Admin", to: Routes.admin_dashboard_path(@conn, :index) %>
       <span class="separator">></span>
       <span>Users</span>
     </span>
     <span class="coverage media-right">
-      <%= link "Create user", to: admin_user_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+      <%= link "Create user", to: Routes.admin_user_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
     </span>
   </h2>
 
@@ -24,13 +24,13 @@
     <tbody>
     <%= for user <- @users do %>
       <tr>
-        <td><%= link user.name, to: admin_user_path(@conn, :show, user) %></td>
+        <td><%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %></td>
         <td><%= user.email %></td>
         <td><%= Display.bool(!is_nil(user.confirmed_at)) %></td>
         <td><%= Display.bool(user.admin) %></td>
         <td class="text-right">
-          <%= link "Edit", to: admin_user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %>
-          <%= link "Delete", to: admin_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+          <%= link "Edit", to: Routes.admin_user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %>Routes.admin_user_path(@conn
+          <%= link "Delete", to: Routes.admin_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
         </td>
       </tr>
     <% end %>

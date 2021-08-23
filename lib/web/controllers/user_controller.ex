@@ -3,7 +3,6 @@ defmodule Librecov.UserController do
 
   alias Librecov.User
   alias Librecov.UserManager
-  import Librecov.Helpers.Authentication
 
   alias Librecov.UserService
 
@@ -20,7 +19,7 @@ defmodule Librecov.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "Please confirm your email address.")
-        |> redirect(to: auth_path(conn, :login))
+        |> redirect(to: Routes.auth_path(conn, :login))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -44,16 +43,20 @@ defmodule Librecov.UserController do
 
   defp finalize_confirm(conn, user) do
     if user.password_initialized do
-      conn |> redirect(to: auth_path(conn, :login))
+      conn |> redirect(to: Routes.auth_path(conn, :login))
     else
       conn
       |> Librecov.Authentication.login(user)
-      |> redirect(to: profile_path(conn, :edit_password))
+      |> redirect(to: Routes.profile_path(conn, :edit_password))
     end
   end
 
   defp redirect_to_top_with_error(conn, err) do
-    redirect_path = if user_signed_in?(conn), do: "/", else: auth_path(conn, :login)
+    redirect_path =
+      if Librecov.Authentication.authenticated?(conn),
+        do: "/",
+        else: Routes.auth_path(conn, :login)
+
     conn |> put_flash(:error, err) |> redirect(to: redirect_path)
   end
 
@@ -70,7 +73,7 @@ defmodule Librecov.UserController do
         :info,
         "Signup is disabled. Contact your administrator if you need an account."
       )
-      |> redirect(to: auth_path(conn, :login))
+      |> redirect(to: Routes.auth_path(conn, :login))
       |> halt
     end
   end

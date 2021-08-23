@@ -1,7 +1,7 @@
 <div class="new-project">
   <h2 class="breadcrumb row">
     <span class="media-body">
-      <%= link "Projects", to: project_path(@conn, :index) %>
+      <%= link "Projects", to: Routes.project_path(@conn, :index) %>
       <span class="separator">></span>
       <span>
         new
@@ -14,5 +14,5 @@
   </div>
 
   <%= render "form.html", changeset: @changeset,
-                          action: project_path(@conn, :create) %>
+                          action: Routes.project_path(@conn, :create) %>
 </div>
