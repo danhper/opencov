@@ -6,6 +6,7 @@ defmodule Librecov.Services.Github.Checks do
   alias Librecov.Project
   alias Librecov.Services.Github.AuthData
   import Librecov.Helpers.Coverage
+  import Librecov.Helpers.Number
 
   def finish_check(
         %AuthData{token: token, owner: owner, repo: repo},
@@ -81,7 +82,7 @@ defmodule Librecov.Services.Github.Checks do
     )
   end
 
-  defp diff_conclusion(diff) when diff == 0, do: "neutral"
+  defp diff_conclusion(diff) when is_zero(diff), do: "neutral"
   defp diff_conclusion(diff) when diff < 0, do: "failure"
   defp diff_conclusion(diff) when diff > 0, do: "success"
 end
