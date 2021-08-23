@@ -46,7 +46,7 @@ config :sentry,
   tags: %{
     env: "production"
   },
-  included_environments: [:prod]
+  included_environments: [:prod, :staging]
 
 config :logger, Sentry.LoggerBackend,
   level: :error,
