@@ -3,20 +3,11 @@
 ![Build Status](https://github.com/yknx4/librecov/actions/workflows/tests.yml/badge.svg)
 [![Coverage Status](https://www.librecov.com/projects/1/badge.svg)](https://www.librecov.com/projects/1)
 [![codecov](https://codecov.io/gh/yknx4/librecov/branch/main/graph/badge.svg?token=Q9kaFXoFTn)](https://codecov.io/gh/yknx4/librecov)
+[![codebeat badge](https://codebeat.co/badges/c1031e2a-2da1-4bd3-9654-26999b8c6478)](https://codebeat.co/projects/github-com-yknx4-librecov-main)
 
 LibreCov is a self-hosted opensource test coverage history viewer.
 It is (mostly) compatible with [coveralls](https://coveralls.io/), so most
 coverage tools will work easily.
-
-## Demo and screenshots
-
-A demo is available at https://www.librecov.com, you can create an account or login with
-
-* username: user@librecov.com
-* password: password123
-
-For "security" reasons, the user is not admin.
-NOTE: the demo is on a Heroku free dyno, so it may not always be available and might be very slow.
 
 ### Projects list
 
@@ -53,13 +44,15 @@ Check [config/local.sample.exs](https://github.com/yknx4/librecov/blob/main/conf
 If you already have a database to use, you can simply start the application using docker:
 
 Setup database, run migrations and seeds
+
 ```
-$ docker run --rm -v /absolute/path/to/local.exs:/librecov/config/local.exs yknx4/librecov mix ecto.setup
+docker run --rm -v /absolute/path/to/local.exs:/librecov/config/local.exs yknx4/librecov mix ecto.setup
 ```
 
 Execute Phoenix Server
+
 ```
-$ docker run -v /absolute/path/to/local.exs:/librecov/config/local.exs yknx4/librecov
+docker run -v /absolute/path/to/local.exs:/librecov/config/local.exs yknx4/librecov
 ```
 
 This will start the server on the port you set in `local.exs`.
@@ -71,21 +64,21 @@ If you do not have a database, you can start one with `docker` and `docker-compo
 Once you have your `docker-compose.yml` and `local.exs` ready, you can run
 
 ```
-$ docker-compose run librecov mix ecto.setup
-$ docker-compose up
+docker-compose run librecov mix ecto.setup
+docker-compose up
 ```
 
 ### Manually
 
 ```
-$ git clone https://github.com/yknx4/librecov.git
-$ cd librecov
-$ cp /path/to/local.exs config/local.exs # local.exs must be in the `config` directory of the app
+git clone https://github.com/yknx4/librecov.git
+cd librecov
+cp /path/to/local.exs config/local.exs # local.exs must be in the `config` directory of the app
 
-$ npm install # (or yarn install)
-$ mix deps.get
-$ mix ecto.setup
-$ mix phoenix.server
+npm install # (or yarn install)
+mix deps.get
+mix ecto.setup
+mix phoenix.server
 ```
 
 This should start LibreCov at port 4000.
@@ -94,7 +87,7 @@ If you want to setup the server for production, you will need to run the above c
 with `MIX_ENV=prod` and to run
 
 ```
-$ mix assets.compile
+mix assets.compile
 ```
 
 before starting the server.
@@ -104,16 +97,16 @@ before starting the server.
 You should also be able to deploy to Heroku by simply git pushing this repository.
 You will need to set the following environment variables using `heroku config:set`
 
-* `LIBRECOV_PORT`
-* `LIBRECOV_SCHEME`
-* `SECRET_KEY_BASE`
-* `SMTP_USER`
-* `SMTP_PASSWORD`
+- `LIBRECOV_PORT`
+- `LIBRECOV_SCHEME`
+- `SECRET_KEY_BASE`
+- `SMTP_USER`
+- `SMTP_PASSWORD`
 
 You will need to run
 
 ```
-$ heroku run mix ecto.setup
+heroku run mix ecto.setup
 ```
 
 before you can use your application.
@@ -122,8 +115,8 @@ before you can use your application.
 
 In all setups, `mix ecto.setup` creates the following admin user
 
-* email: admin@example.com
-* password: p4ssw0rd
+- email: admin@example.com
+- password: p4ssw0rd
 
 You should use it for your first login and the change the email and password.
 
