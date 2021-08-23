@@ -24,13 +24,13 @@
 
     <div class="col-xs-4 dropdown">
       <a id="badge-trigger" href="javascript:void(0)" data-toggle="dropdown">
-        <img src="<%=Routes.project_badge_path(@conn, @project) %>" />
+        <img src="<%=Routes.project_badge_path(@conn, :badge, @project, "svg") %>" />
         Get badge
       </a>
       <click-safe class="badges dropdown-menu" aria-labelledby="badge-trigger">
         <badges
           project-url="<%= Routes.project_url(@conn, :show, @project) %>"
-          badge-url="<%= Routes.project_badge_url(@conn, @project) %>" />
+          badge-url="<%= Routes.project_badge_url(@conn, :badge, @project, "svg") %>" />
       </click-safe>
     </div>
   </div>

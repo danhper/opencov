@@ -1,5 +1,6 @@
 defmodule Librecov.User do
   use Librecov.Web, :model
+  alias Librecov.User.Authorization
 
   schema "users" do
     field(:email, :string)
@@ -10,9 +11,6 @@ defmodule Librecov.User do
     field(:confirmed_at, :utc_datetime_usec)
     field(:unconfirmed_email, :string)
 
-    field(:github_access_token)
-    field(:github_info, :map, virtual: true)
-
     field(:password_reset_token, :string)
     field(:password_reset_sent_at, :utc_datetime_usec)
 
@@ -22,6 +20,7 @@ defmodule Librecov.User do
     field(:password_digest, :string)
 
     has_many(:projects, Librecov.Project)
+    has_many(:authorizations, Authorization)
 
     timestamps()
   end
@@ -43,9 +42,9 @@ defmodule Librecov.User do
     changeset
   end
 
-  def oauth_changeset(struct, params) do
+  def oauth_signup_changeset(struct, %Ueberauth.Auth{info: info}) do
     struct
-    |> cast(params, [:email])
+    |> cast(info |> Map.from_struct(), [:email, :name])
     |> validate_required([:email])
     |> unique_constraint(:email)
   end

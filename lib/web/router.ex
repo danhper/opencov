@@ -74,8 +74,6 @@ defmodule Librecov.Router do
   scope "/", Librecov do
     pipe_through [:browser, :guardian, :browser_auth]
 
-    get("/", ProjectController, :index)
-
     get("/profile", ProfileController, :show)
     put("/profile", ProfileController, :update)
     get("/profile/password/edit", ProfileController, :edit_password)

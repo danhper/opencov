@@ -1,4 +1,4 @@
-<%= form_for @conn,Routes.auth_path(@conn, :login), [as: :login], fn f -> %>
+<%= form_for @conn,Routes.session_path(@conn, :new), [as: :login], fn f -> %>
   <%= if @error do %>
     <div class="alert alert-danger">
       <%= @error %>

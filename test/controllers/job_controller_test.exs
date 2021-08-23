@@ -10,7 +10,7 @@ defmodule Librecov.JobControllerTest do
     job = insert(:job)
     conn = build_conn()
     conn = get(conn, job_path(conn, :show, job))
-    assert redirected_to(conn) == auth_path(conn, :login)
+    assert redirected_to(conn) == session_path(conn, :new)
   end
 
   test "shows chosen resource", %{conn: conn} do

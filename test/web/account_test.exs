@@ -1,5 +1,5 @@
 defmodule Librecov.UsersTest do
-  use Librecov.DataCase
+  use Librecov.ModelCase
 
   alias Librecov.Services.Users
   alias Librecov.User
@@ -53,6 +53,7 @@ defmodule Librecov.UsersTest do
 
   defp valid_account_params do
     %Ueberauth.Auth{
+      provider: :identity,
       credentials: %Ueberauth.Auth.Credentials{
         other: %{
           password: "superdupersecret",
