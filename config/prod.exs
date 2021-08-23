@@ -40,7 +40,7 @@ config Librecov.Plug.Github,
 
 config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
-  environment_name: :prod,
+  environment_name: System.get_env("RELEASE_LEVEL") || :prod,
   enable_source_code_context: true,
   root_source_code_path: File.cwd!(),
   tags: %{
