@@ -6,7 +6,7 @@
   </h2>
 
   <%= render Librecov.UserView, "form.html", changeset: @changeset,
-                                            action: profile_path(@conn, :update),
+                                            action: Routes.profile_path(@conn, :update),
                                             show_password: false,
                                             is_admin: false %>
 </div>

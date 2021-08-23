@@ -1,51 +1,31 @@
 defmodule Librecov.AuthController do
   use Librecov.Web, :controller
-
+  alias Librecov.Services.Users
   alias Librecov.Authentication
-  alias Librecov.User
-  alias Librecov.Repo
 
-  def login(conn, _params) do
-    render(conn, "login.html", email: "", error: nil, can_signup: can_signup?())
+  plug Ueberauth
+
+  def request(conn, _params) do
+    # Present an authentication challenge to the user
   end
 
-  def make_login(conn, %{"login" => %{"email" => email, "password" => password}}) do
-    if user = User.authenticate(Repo.get_by(User, email: email), password) do
-      login_if_confirmed(conn, user)
-    else
-      render(conn, "login.html",
-        email: email,
-        error: "Wrong email or password",
-        can_signup: can_signup?()
-      )
+  def callback(%{assigns: %{ueberauth_auth: auth_data}} = conn, _params) do
+    case Users.get_or_register(auth_data) do
+      {:ok, account} ->
+        conn
+        |> Authentication.log_in(account)
+        |> redirect(to: Routes.profile_path(conn, :show))
+
+      {:error, _error_changeset} ->
+        conn
+        |> put_flash(:error, "Authentication failed.")
+        |> redirect(to: Routes.registration_path(conn, :new))
     end
   end
 
-  def make_login(conn, _params) do
-    render(conn, "login.html", email: "", error: "You need to provide your email and password")
-  end
-
-  defp login_if_confirmed(conn, user) do
-    if is_nil(user.confirmed_at) do
-      render(conn, "login.html",
-        email: user.email,
-        error: "Please confirm your email",
-        can_signup: can_signup?()
-      )
-    else
-      conn
-      |> Authentication.login(user)
-      |> redirect(to: NavigationHistory.last_path(conn, default: "/"))
-    end
-  end
-
-  defp can_signup?() do
-    Librecov.SettingsManager.get!().signup_enabled
-  end
-
-  def logout(conn, _params) do
+  def callback(%{assigns: %{ueberauth_failure: _}} = conn, _params) do
     conn
-    |> Authentication.logout()
-    |> redirect(to: auth_path(conn, :login))
+    |> put_flash(:error, "Authentication failed.")
+    |> redirect(to: Routes.registration_path(conn, :new))
   end
 end

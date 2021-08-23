@@ -7,25 +7,16 @@ defmodule Librecov.Router do
     plug(:fetch_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug(Librecov.Plug.FetchUser)
-    plug(Librecov.Plug.ForcePasswordInitialize)
+
     plug(NavigationHistory.Tracker, excluded_paths: ~w(/login /users/new))
-
-    if Application.get_env(:librecov, :auth)[:enable] do
-      plug(:basic_auth, use_config: {:librecov, :auth})
-    end
   end
 
-  pipeline :anonymous_only do
-    plug(Librecov.Plug.AnonymousOnly)
+  pipeline :guardian do
+    plug Librecov.Authentication.Pipeline
   end
 
-  pipeline :authenticate do
-    plug(Librecov.Plug.Authentication)
-  end
-
-  pipeline :authenticate_admin do
-    plug(Librecov.Plug.Authentication, admin: true)
+  pipeline :browser_auth do
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   pipeline :api do
@@ -33,11 +24,16 @@ defmodule Librecov.Router do
     plug(OpenApiSpex.Plug.PutApiSpec, module: Librecov.Web.ApiSpec)
   end
 
+  scope "/auth", Librecov do
+    pipe_through [:browser, :guardian]
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end
+
   scope "/api/v1", Librecov.Api.V1, as: :api_v1 do
     pipe_through(:api)
 
-    # forward("/github_webhook", Librecov.Plug.Github, [], )
-    # post("/github_webhook", GithubController, :webhook)
     resources("/jobs", JobController, only: [:create])
   end
 
@@ -54,11 +50,18 @@ defmodule Librecov.Router do
   end
 
   scope "/", Librecov do
-    pipe_through(:browser)
-    pipe_through(:anonymous_only)
+    pipe_through [:browser, :guardian]
 
-    get("/login", AuthController, :login)
-    post("/login", AuthController, :make_login)
+    get "/", PageController, :index
+    get "/register", RegistrationController, :new
+    post "/register", RegistrationController, :create
+    get "/login", SessionController, :new
+    delete "/logout", SessionController, :delete
+  end
+
+  scope "/", Librecov do
+    pipe_through [:browser, :guardian]
+
     resources("/users", UserController, only: [:new, :create])
     get("/users/confirm", UserController, :confirm)
     get("/profile/password/reset_request", ProfileController, :reset_password_request)
@@ -68,10 +71,7 @@ defmodule Librecov.Router do
   end
 
   scope "/", Librecov do
-    pipe_through(:browser)
-    pipe_through(:authenticate)
-
-    delete("/logout", AuthController, :logout)
+    pipe_through [:browser, :guardian, :browser_auth]
 
     get("/", ProjectController, :index)
 
@@ -88,10 +88,9 @@ defmodule Librecov.Router do
   end
 
   scope "/admin", Librecov.Admin, as: :admin do
-    pipe_through(:browser)
-    pipe_through(:authenticate_admin)
+    pipe_through [:browser, :guardian, :browser_auth]
 
-    get("/", DashboardController, :index)
+    get("/dashboard", DashboardController, :index)
 
     resources("/users", UserController)
     resources("/projects", ProjectController, only: [:index, :show])

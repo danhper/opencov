@@ -10,7 +10,7 @@ defmodule Librecov do
 
     children = [
       {Mutex, name: LibreCov.JobLock},
-      {Phoenix.PubSub, name: LibreCov.PubSub},
+      {Phoenix.PubSub, name: Librecov.PubSub},
       # Start the endpoint when the application starts
       {Librecov.Endpoint, []},
       # Start the Ecto repository

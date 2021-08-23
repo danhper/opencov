@@ -42,7 +42,7 @@
             <%= render Librecov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
           <% end %>
         </td>
-        <td><%= link file.name, to: file_path(@conn, :show, file) %></td>
+        <td><%= link file.name, to: Routes.file_path(@conn, :show, file) %></td>
       </tr>
   <% end %>
     </tbody>

@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="column column-50 column-offset-25">
+    <h1>Log In</h1>
+    <%= form_for @changeset, @action, [as: :account], fn f -> %>
+      <%= label f, :email, "Email address" %>
+      <%= email_input f, :email %>
+      <%= error_tag f, :email %>
+
+      <%= label f, :password, "Password" %>
+      <%= password_input f, :password %>
+      <%= error_tag f, :password %>
+
+      <%= submit "Log In", class: "button button-primary" %>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="column column-50 column-offset-25">
+    <p>
+      Need an account?
+      <%= link "Register here", to: Routes.registration_path(@conn, :new) %>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="column column-50 column-offset-25">
+    <%= render(YauthWeb.SessionView, "social_links.html", assigns) %>
+  </div>
+</div>

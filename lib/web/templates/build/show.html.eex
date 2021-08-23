@@ -1,7 +1,7 @@
 <div class="single-build">
   <h2 class="row breadcrumb">
     <span class="media-body">
-      <%= link @build.project.name, to: project_path(@conn, :show, @build.project) %>
+      <%= link @build.project.name, to: Routes.project_path(@conn, :show, @build.project) %>
       <span class="separator">></span>
       <span class="build-number">
         #<%= @build.build_number %>
@@ -43,7 +43,7 @@
       <tbody>
         <%= for job <- @build.jobs do %>
         <tr>
-          <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
+          <td><%= link "##{job.job_number}", to: Routes.job_path(@conn, :show, job) %></td>
           <td>
             <%= format_coverage(job.coverage) %>
           </td>

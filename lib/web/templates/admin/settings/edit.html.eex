@@ -1,13 +1,13 @@
 <div class="admin edit-settings">
   <h2 class="row breadcrumb">
     <span class="media-body">
-      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <%= link "Admin", to: Routes.admin_dashboard_path(@conn, :index) %>
       <span class="separator">></span>
       <span>Settings</span>
     </span>
   </h2>
 
-<%= form_for @changeset, admin_settings_path(@conn, :update), [class: "full-page"], fn f -> %>
+<%= form_for @changeset,Routes.admin_settings_path(@conn, :update), [class: "full-page"], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below:</p>

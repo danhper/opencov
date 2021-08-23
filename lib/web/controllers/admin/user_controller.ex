@@ -25,7 +25,7 @@ defmodule Librecov.Admin.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: admin_user_path(conn, :show, user))
+        |> redirect(to: Routes.admin_user_path(conn, :show, user))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -50,7 +50,7 @@ defmodule Librecov.Admin.UserController do
     case Repo.update(changeset) do
       {:ok, user} ->
         redirect_path =
-          NavigationHistory.last_path(conn, 1, default: admin_user_path(conn, :show, user))
+          NavigationHistory.last_path(conn, 1, default: Routes.admin_user_path(conn, :show, user))
 
         conn
         |> put_flash(:info, "user updated successfully.")
@@ -67,13 +67,15 @@ defmodule Librecov.Admin.UserController do
     if current_user(conn).id == user.id do
       conn
       |> put_flash(:error, "You cannot delete yourself.")
-      |> redirect(to: NavigationHistory.last_path(conn, default: admin_user_path(conn, :index)))
+      |> redirect(
+        to: NavigationHistory.last_path(conn, default: Routes.admin_user_path(conn, :index))
+      )
     else
       Repo.delete!(user)
 
       conn
       |> put_flash(:info, "User deleted successfully.")
-      |> redirect(to: admin_user_path(conn, :index))
+      |> redirect(to: Routes.admin_user_path(conn, :index))
     end
   end
 end

@@ -1,9 +1,9 @@
 <div class="admin user-show">
   <h2 class="row breadcrumb">
     <span class="media-body">
-      <%= link "Admin", to: admin_dashboard_path(@conn, :index) %>
+      <%= link "Admin", to: Routes.admin_dashboard_path(@conn, :index) %>
       <span class="separator">></span>
-      <span><%= link "Users", to: admin_user_path(@conn, :index) %></span>
+      <span><%= link "Users", to: Routes.admin_user_path(@conn, :index) %></span>
       <span class="separator">></span>
       <span><%= @user.name %></span>
     </span>

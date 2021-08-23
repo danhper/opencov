@@ -85,7 +85,8 @@ defmodule Librecov.Mixfile do
       {:guardian, "~> 2.2"},
       {:guardian_db, "~> 2.1"},
       {:guardian_phoenix, "~> 2.0"},
-      {:argon2_elixir, "~> 2.0"}
+      {:argon2_elixir, "~> 2.0"},
+      {:ecto_resource, "~> 1.1.0"}
     ]
   end
 

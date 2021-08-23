@@ -26,14 +26,27 @@ defmodule Librecov.User do
     timestamps()
   end
 
-  @doc """
-  Checks if the model password if valid.
-  """
-  def authenticate(nil, _), do: Comeonin.Bcrypt.dummy_checkpw()
-  def authenticate(%{password_digest: nil}, _), do: Comeonin.Bcrypt.dummy_checkpw()
-  def authenticate(model, nil), do: authenticate(model, "")
+  def changeset(struct, params) do
+    struct
+    |> cast(params, [:email, :password])
+    |> validate_required([:email, :password])
+    |> validate_confirmation(:password, required: true)
+    |> unique_constraint(:email)
+    |> put_encrypted_password()
+  end
 
-  def authenticate(model, password) do
-    Comeonin.Bcrypt.checkpw(password, model.password_digest) && model
+  defp put_encrypted_password(%{valid?: true, changes: %{password: pw}} = changeset) do
+    put_change(changeset, :password_digest, Argon2.hash_pwd_salt(pw))
+  end
+
+  defp put_encrypted_password(changeset) do
+    changeset
+  end
+
+  def oauth_changeset(struct, params) do
+    struct
+    |> cast(params, [:email])
+    |> validate_required([:email])
+    |> unique_constraint(:email)
   end
 end

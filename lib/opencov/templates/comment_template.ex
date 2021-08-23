@@ -4,7 +4,7 @@ defmodule Librecov.Templates.CommentTemplate do
   alias Librecov.Endpoint
   alias Librecov.JobManager
   alias Librecov.File
-  import Librecov.Router.Helpers
+  alias Librecov.Router.Helpers, as: Routes
   import Librecov.Helpers.Coverage
   import Librecov.Helpers.Number
   alias Librecov.Repo
@@ -38,7 +38,7 @@ defmodule Librecov.Templates.CommentTemplate do
 
     cov_dif = coverage_diff(coverage, real_previous_coverage)
 
-    report_url = build_url(Endpoint, :show, build_id)
+    report_url = Routes.build_url(Endpoint, :show, build_id)
 
     header = """
     # [Librecov](#{report_url}) Report
@@ -73,7 +73,7 @@ defmodule Librecov.Templates.CommentTemplate do
       [Continue to review full report at Librecov](#{report_url}).
       > **Legend**
       > `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
-      > Powered by [Librecov](#{project_url(Endpoint, :index)}).
+      > Powered by [Librecov](#{Routes.project_url(Endpoint, :index)}).
       """
     end
   end
@@ -127,7 +127,7 @@ defmodule Librecov.Templates.CommentTemplate do
        ) do
     cov_diff = coverage_diff(coverage, previous_coverage)
 
-    "| [#{filename}](#{file_url(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | #{cov_diff |> diff_emoji()} |"
+    "| [#{filename}](#{Routes.file_url(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | #{cov_diff |> diff_emoji()} |"
   end
 
   defp diff_emoji(diff) when is_zero(diff), do: ""

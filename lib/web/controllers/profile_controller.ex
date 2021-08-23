@@ -48,7 +48,7 @@ defmodule Librecov.ProfileController do
 
     conn
     |> put_flash(:info, "An email has been sent to reset your password.")
-    |> redirect(to: auth_path(conn, :login))
+    |> redirect(to: Routes.auth_path(conn, :login))
   end
 
   def reset_password(conn, %{"token" => token}) do
@@ -88,6 +88,6 @@ defmodule Librecov.ProfileController do
       :error,
       "Could not reset your password. Check your email or try the process again."
     )
-    |> redirect(to: auth_path(conn, :login))
+    |> redirect(to: Routes.auth_path(conn, :login))
   end
 end

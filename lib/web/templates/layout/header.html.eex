@@ -10,7 +10,7 @@
       <ul class="nav navbar-nav navbar-right">
         <%= if current_user(@conn).admin do %>
           <li>
-            <%= link to: admin_dashboard_path(@conn, :index) do %>
+            <%= link to: Routes.admin_dashboard_path(@conn, :index) do %>
               <i class="fa fa-wrench"></i>
               Admin
             <% end %>
@@ -23,20 +23,20 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <%= link to: profile_path(@conn, :show) do %>
+              <%= link to: Routes.profile_path(@conn, :show) do %>
                 <i class="fa fa-user"></i>
                 Profile
               <% end %>
             </li>
             <li>
-              <%= link to: profile_path(@conn, :edit_password) do %>
+              <%= link to: Routes.profile_path(@conn, :edit_password) do %>
                 <i class="fa fa-lock"></i>
                 Change password
               <% end %>
             </li>
             <li role="separator" class="divider"></li>
             <li>
-              <%= link to: auth_path(@conn, :logout), method: :delete do %>
+              <%= link to: Routes.auth_path(@conn, :logout), method: :delete do %>
                 <i class="fa fa-sign-out"></i>
                 Logout
               <% end %>

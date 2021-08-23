@@ -7,41 +7,41 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           Recent projects
-          <%= link "Create project", to: project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+          <%= link "Create project", to: Routes.project_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
         </h3>
       </div>
       <div class="panel-body">
         <ul>
           <%= for project <- @projects do %>
-            <li><%= link project.name, to: admin_project_path(@conn, :show, project) %></li>
+            <li><%= link project.name, to: Routes.admin_project_path(@conn, :show, project) %></li>
           <% end %>
         </ul>
       </div>
-      <%= link "View all >>", to: admin_project_path(@conn, :index), class: "view-all" %>
+      <%= link "View all >>", to: Routes.admin_project_path(@conn, :index), class: "view-all" %>
     </div>
 
     <div class="panel panel-default col-sm-5 col-sm-offset-1 col-xs-12">
       <div class="panel-heading clearfix">
         <h3 class="panel-title">
           Recent users
-          <%= link "Create user", to: admin_user_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
+          <%= link "Create user", to: Routes.admin_user_path(@conn, :new), class: "btn btn-primary btn-sm pull-right" %>
         </h3>
       </div>
       <div class="panel-body">
         <ul>
           <%= for user <- @users do %>
-            <li><%= link user.name, to: admin_user_path(@conn, :show, user) %></li>
+            <li><%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %></li>
           <% end %>
         </ul>
       </div>
-      <%= link "View all >>", to: admin_user_path(@conn, :index), class: "view-all" %>
+      <%= link "View all >>", to: Routes.admin_user_path(@conn, :index), class: "view-all" %>
     </div>
 
     <div class="panel panel-default col-sm-5 col-xs-12">
       <div class="panel-heading clearfix">
         <h3 class="panel-title">
           Settings
-          <%= link "Edit settings", to: admin_settings_path(@conn, :edit), class: "btn btn-primary btn-sm pull-right" %>
+          <%= link "Edit settings", to: Routes.admin_settings_path(@conn, :edit), class: "btn btn-primary btn-sm pull-right" %>
         </h3>
       </div>
       <div class="panel-body">

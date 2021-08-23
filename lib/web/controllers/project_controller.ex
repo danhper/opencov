@@ -26,7 +26,7 @@ defmodule Librecov.ProjectController do
       {:ok, project} ->
         conn
         |> put_flash(:info, "Project created successfully.")
-        |> redirect(to: project_path(conn, :show, project))
+        |> redirect(to: Routes.project_path(conn, :show, project))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -52,7 +52,7 @@ defmodule Librecov.ProjectController do
       {:ok, project} ->
         conn
         |> put_flash(:error, "Project updated successfully.")
-        |> redirect(to: project_path(conn, :show, project))
+        |> redirect(to: Routes.project_path(conn, :show, project))
 
       {:error, changeset} ->
         render(conn, "edit.html", project: project, changeset: changeset)
@@ -65,7 +65,7 @@ defmodule Librecov.ProjectController do
 
     conn
     |> put_flash(:info, "Project deleted successfully.")
-    |> redirect(to: project_path(conn, :index))
+    |> redirect(to: Routes.project_path(conn, :index))
   end
 
   def badge(conn, %{"project_id" => id, "format" => format}) do
