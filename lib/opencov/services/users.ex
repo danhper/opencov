@@ -62,9 +62,10 @@ defmodule Librecov.Services.Users do
   end
 
   def get_or_register(%Ueberauth.Auth{info: %{email: email}} = auth) do
-    with {:ok, authorization} <- Authorizations.find_or_update_by(auth) do
-      {:ok, authorization |> Repo.preload([:user]) |> Map.get(:user)}
-    else
+    case Authorizations.find_or_update_by(auth) do
+      {:ok, authorization} ->
+        {:ok, authorization |> Repo.preload([:user]) |> Map.get(:user)}
+
       _ ->
         if account = get_by_email(email) do
           with {:ok, _} <-

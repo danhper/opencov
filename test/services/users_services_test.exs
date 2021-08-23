@@ -4,7 +4,7 @@ defmodule Librecov.UsersServicesTest do
 
   @new_user_auth %Ueberauth.Auth{
     provider: :github,
-    uid: 12345,
+    uid: 12_345,
     info: %Ueberauth.Auth.Info{
       name: "Ale Ornelas",
       email: "ale@test.com"

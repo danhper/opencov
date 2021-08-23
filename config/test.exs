@@ -43,3 +43,7 @@ config :joken,
   ]
 
 config :tesla, adapter: Tesla.Mock
+
+config :argon2_elixir,
+  t_cost: 1,
+  m_cost: 8
