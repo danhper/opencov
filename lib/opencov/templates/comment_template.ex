@@ -6,6 +6,7 @@ defmodule Librecov.Templates.CommentTemplate do
   alias Librecov.File
   import Librecov.Router.Helpers
   import Librecov.Helpers.Coverage
+  import Librecov.Helpers.Number
   alias Librecov.Repo
   alias Librecov.Queries.BuildQueries
 
@@ -62,7 +63,7 @@ defmodule Librecov.Templates.CommentTemplate do
       both_files =
         files
         |> Enum.map(fn f -> {f, base_files |> Enum.find(&(&1.name == f.name))} end)
-        |> Enum.filter(fn {f1, f2} -> is_nil(f2) || f1.coverage != f2.coverage end)
+        |> Enum.filter(fn {f1, f2} -> is_nil(f2) || is_different(f1.coverage, f2.coverage) end)
 
       """
       #{header}
@@ -81,12 +82,7 @@ defmodule Librecov.Templates.CommentTemplate do
   def get_jobs_files(jobs) do
     jobs
     |> JobManager.preload_files()
-    |> Enum.flat_map(fn job ->
-      job.files
-      |> Enum.filter(fn %File{coverage: coverage, previous_coverage: previous_coverage} ->
-        coverage_diff(coverage, previous_coverage) != 0
-      end)
-    end)
+    |> Enum.flat_map(& &1.files)
   end
 
   defp merge_message(_, nil, _, _), do: ""
@@ -134,11 +130,11 @@ defmodule Librecov.Templates.CommentTemplate do
     "| [#{filename}](#{file_url(Endpoint, :show, file_id)}) | `#{coverage |> format_coverage()} <#{cov_diff |> format_coverage()}> (#{cov_diff |> file_icon()})` | #{cov_diff |> diff_emoji()} |"
   end
 
-  defp diff_emoji(diff) when diff == 0, do: ""
+  defp diff_emoji(diff) when is_zero(diff), do: ""
   defp diff_emoji(diff) when diff < 0, do: "⬇️"
   defp diff_emoji(diff) when diff > 0, do: "⬆️"
 
-  defp file_icon(diff) when diff >= 0.0 and diff <= 0.01, do: "ø"
+  defp file_icon(diff) when is_zero(diff), do: "ø"
   defp file_icon(_diff), do: "Δ"
 
   defp format_commit(commit), do: String.slice(commit, 0, 7)
@@ -148,7 +144,7 @@ defmodule Librecov.Templates.CommentTemplate do
   defp format_branch("refs/heads/" <> branch), do: branch
   defp format_branch(branch), do: branch
 
-  defp diff_verb(diff) when diff == 0, do: "mantain"
+  defp diff_verb(diff) when is_zero(diff), do: "mantain"
   defp diff_verb(diff) when diff < 0, do: "decrease"
   defp diff_verb(diff) when diff > 0, do: "increase"
 end
