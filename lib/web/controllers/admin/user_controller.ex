@@ -1,8 +1,6 @@
 defmodule Librecov.Admin.UserController do
   use Librecov.Web, :controller
 
-  import Librecov.Helpers.Authentication
-
   alias Librecov.UserService
   alias Librecov.User
   alias Librecov.UserManager
@@ -64,7 +62,7 @@ defmodule Librecov.Admin.UserController do
   def delete(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
 
-    if current_user(conn).id == user.id do
+    if Librecov.Authentication.get_current_account(conn).id == user.id do
       conn
       |> put_flash(:error, "You cannot delete yourself.")
       |> redirect(

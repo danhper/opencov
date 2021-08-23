@@ -31,7 +31,7 @@ defmodule Librecov.User do
     |> cast(params, [:email, :password])
     |> validate_required([:email, :password])
     |> validate_confirmation(:password, required: true)
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, name: "users_email_index")
     |> put_encrypted_password()
   end
 

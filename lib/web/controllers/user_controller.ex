@@ -3,7 +3,6 @@ defmodule Librecov.UserController do
 
   alias Librecov.User
   alias Librecov.UserManager
-  import Librecov.Helpers.Authentication
 
   alias Librecov.UserService
 
@@ -53,7 +52,11 @@ defmodule Librecov.UserController do
   end
 
   defp redirect_to_top_with_error(conn, err) do
-    redirect_path = if user_signed_in?(conn), do: "/", else: Routes.auth_path(conn, :login)
+    redirect_path =
+      if Librecov.Authentication.authenticated?(conn),
+        do: "/",
+        else: Routes.auth_path(conn, :login)
+
     conn |> put_flash(:error, err) |> redirect(to: redirect_path)
   end
 

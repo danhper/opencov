@@ -6,6 +6,10 @@ defmodule Librecov.Authentication do
   alias Librecov.Services.Users
   alias Librecov.User
 
+  def authenticated?(conn, opts \\ []) do
+    __MODULE__.Plug.authenticated?(conn, opts)
+  end
+
   def log_in(conn, account) do
     __MODULE__.Plug.sign_in(conn, account)
   end

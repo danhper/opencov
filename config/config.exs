@@ -64,7 +64,9 @@ config :event_bus,
 
 config :ueberauth, Ueberauth,
   providers: [
-    github: {Ueberauth.Strategy.Github, []},
+    github:
+      {Ueberauth.Strategy.Github,
+       [default_scope: "repo,read:org,read:public_key,read:user", send_redirect_uri: false]},
     identity:
       {Ueberauth.Strategy.Identity,
        [

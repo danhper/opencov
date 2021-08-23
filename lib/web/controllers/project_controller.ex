@@ -1,8 +1,6 @@
 defmodule Librecov.ProjectController do
   use Librecov.Web, :controller
 
-  import Librecov.Helpers.Authentication
-
   alias Librecov.Project
   alias Librecov.ProjectManager
 
@@ -19,7 +17,7 @@ defmodule Librecov.ProjectController do
   end
 
   def create(conn, %{"project" => project_params}) do
-    project = Ecto.build_assoc(current_user(conn), :projects)
+    project = Ecto.build_assoc(Librecov.Authentication.get_current_account(conn), :projects)
     changeset = ProjectManager.changeset(project, project_params)
 
     case Repo.insert(changeset) do

@@ -56,6 +56,7 @@ defmodule Librecov.Router do
     get "/register", RegistrationController, :new
     post "/register", RegistrationController, :create
     get "/login", SessionController, :new
+    post "/login", SessionController, :create
     delete "/logout", SessionController, :delete
   end
 

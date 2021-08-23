@@ -5,12 +5,15 @@ defmodule Librecov.ProfileController do
   alias Librecov.UserManager
 
   def show(conn, _params) do
-    user = current_user(conn)
+    user = Librecov.Authentication.get_current_account(conn)
     render(conn, "edit.html", user: user, changeset: UserManager.changeset(user))
   end
 
   def update(conn, params) do
-    case Librecov.UserService.update_user(params, current_user(conn)) do
+    case Librecov.UserService.update_user(
+           params,
+           Librecov.Authentication.get_current_account(conn)
+         ) do
       {:ok, _user, redirect_path, flash_message} ->
         conn
         |> put_flash(:info, flash_message)
@@ -22,12 +25,12 @@ defmodule Librecov.ProfileController do
   end
 
   def edit_password(conn, _params) do
-    user = current_user(conn)
+    user = Librecov.Authentication.get_current_account(conn)
     render(conn, "edit_password.html", user: user, changeset: UserManager.changeset(user))
   end
 
   def update_password(conn, %{"user" => user_params}) do
-    user = current_user(conn)
+    user = Librecov.Authentication.get_current_account(conn)
     changeset = UserManager.password_update_changeset(user, user_params)
 
     case Repo.update(changeset) do

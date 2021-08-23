@@ -6,9 +6,9 @@
         LibreCov
       </a>
     </div>
-    <%= if user_signed_in?(@conn) do %>
+    <%= if Librecov.Authentication.authenticated?(@conn) do %>
       <ul class="nav navbar-nav navbar-right">
-        <%= if current_user(@conn).admin do %>
+        <%= if Librecov.Authentication.get_current_account(@conn).admin do %>
           <li>
             <%= link to: Routes.admin_dashboard_path(@conn, :index) do %>
               <i class="fa fa-wrench"></i>
@@ -18,8 +18,8 @@
         <% end %>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <img class="avatar" src="<%= gravatar_url(current_user(@conn).email, s: 24) %>" alt="Avatar">
-            <%= current_user(@conn).name %>
+            <img class="avatar" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 24) %>" alt="Avatar">
+            <%= Librecov.Authentication.get_current_account(@conn).name %>
           </a>
           <ul class="dropdown-menu">
             <li>
@@ -36,7 +36,7 @@
             </li>
             <li role="separator" class="divider"></li>
             <li>
-              <%= link to: Routes.auth_path(@conn, :logout), method: :delete do %>
+              <%= link to: Routes.session_path(@conn, :delete), method: :delete do %>
                 <i class="fa fa-sign-out"></i>
                 Logout
               <% end %>

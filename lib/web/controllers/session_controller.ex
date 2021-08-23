@@ -3,6 +3,7 @@ defmodule Librecov.SessionController do
 
   alias Librecov.Services.Users
   alias Librecov.Authentication
+  alias Ueberauth.Strategy.Helpers, as: Uauth
 
   def new(conn, _params) do
     if Authentication.get_current_account(conn) do
@@ -11,7 +12,7 @@ defmodule Librecov.SessionController do
       render(
         conn,
         :new,
-        changeset: Accounts.change_account(),
+        changeset: Users.change_account(),
         action: Routes.session_path(conn, :create)
       )
     end

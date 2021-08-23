@@ -23,7 +23,10 @@ defmodule Librecov.AuthController do
     end
   end
 
-  def callback(%{assigns: %{ueberauth_failure: _}} = conn, _params) do
+  def callback(%{assigns: %{ueberauth_failure: _}} = conn, params) do
+    IO.inspect(conn)
+    IO.inspect(params)
+
     conn
     |> put_flash(:error, "Authentication failed.")
     |> redirect(to: Routes.registration_path(conn, :new))

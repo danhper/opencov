@@ -1,5 +1,6 @@
 defmodule Librecov.Services.Users do
   alias Librecov.User
+  alias Librecov.Repo
 
   use EctoResource
 

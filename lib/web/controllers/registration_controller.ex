@@ -11,7 +11,7 @@ defmodule Librecov.RegistrationController do
       render(
         conn,
         :new,
-        changeset: Accounts.change_account(),
+        changeset: Users.change_account(),
         action: Routes.registration_path(conn, :create)
       )
     end

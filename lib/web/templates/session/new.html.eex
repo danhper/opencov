@@ -24,6 +24,6 @@
 </div>
 <div class="row">
   <div class="column column-50 column-offset-25">
-    <%= render(YauthWeb.SessionView, "social_links.html", assigns) %>
+    <%= render(Librecov.SessionView, "social_links.html", assigns) %>
   </div>
 </div>
