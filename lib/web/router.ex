@@ -5,6 +5,7 @@ defmodule Librecov.Router do
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug :fetch_live_flash
+    plug :fetch_flash
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
     plug :put_root_layout, {Librecov.LayoutView, :root}
@@ -74,6 +75,13 @@ defmodule Librecov.Router do
 
   scope "/", Librecov do
     pipe_through [:browser, :guardian, :browser_auth]
+
+    live "/repositories", RepositoryLive.Index, :index
+    live "/repositories/new", RepositoryLive.Index, :new
+    live "/repositories/:id/edit", RepositoryLive.Index, :edit
+
+    live "/repositories/:owner/:repo", RepositoryLive.Show, :show
+    live "/repositories/:id/show/edit", RepositoryLive.Show, :edit
 
     get("/profile", ProfileController, :show)
     put("/profile", ProfileController, :update)

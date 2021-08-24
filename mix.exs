@@ -88,7 +88,8 @@ defmodule Librecov.Mixfile do
       {:argon2_elixir, "~> 2.0"},
       {:ecto_resource, "~> 1.1.0"},
       {:phoenix_live_view, "~> 0.16.0"},
-      {:floki, ">= 0.30.0", only: :test}
+      {:floki, ">= 0.30.0", only: :test},
+      {:surface, "~> 0.5.0"}
     ]
   end
 

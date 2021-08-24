@@ -1,0 +1,33 @@
+<h1>Listing Repositories</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, Librecov.RepositoryLive.FormComponent,
+    id: @repository.id || :new,
+    title: @page_title,
+    action: @live_action,
+    repository: @repository,
+    return_to: Routes.repository_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="repositories">
+    <%= for repository <- @repositories do %>
+      <tr id="repository-<%= repository.id %>">
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.repository_show_path(@socket, :show, repository.owner.login, repository.name) %></span>
+          <span><%= live_patch "Edit", to: Routes.repository_index_path(@socket, :edit, repository) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: repository.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Repository", to: Routes.repository_index_path(@socket, :new) %></span>

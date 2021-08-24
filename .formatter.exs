@@ -1,5 +1,6 @@
 [
-  import_deps: [:ecto, :phoenix],
+  import_deps: [:ecto, :phoenix, :surface],
+  surface_inputs: ["{lib,test}/**/*.{ex,exs,sface}"],
   inputs: [
     "mix.exs",
     "{config,lib,test,priv,web}/**/*.{ex,exs}"

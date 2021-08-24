@@ -17,6 +17,12 @@
             <% end %>
           </li>
         <% end %>
+        <li class="nav-item">
+            <%= link to: Routes.repository_index_path(@conn, :index), class: "nav-link" do %>
+              <i class="fas fa-code"></i>
+              Repos
+            <% end %>
+          </li>
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img class="avatar" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 24) %>" alt="Avatar">

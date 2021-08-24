@@ -1,0 +1,17 @@
+<h1>Show Repository</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, Librecov.RepositoryLive.FormComponent,
+    id: @repository.id,
+    title: @page_title,
+    action: @live_action,
+    repository: @repository,
+    return_to: Routes.repository_show_path(@socket, :show, @repository) %>
+<% end %>
+
+<ul>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.repository_show_path(@socket, :edit, @repository), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.repository_index_path(@socket, :index) %></span>

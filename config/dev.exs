@@ -29,9 +29,15 @@ config :librecov, Librecov.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{web/views/.*(ex)$},
-      ~r{web/templates/.*(eex)$}
+      ~r{web/templates/.*(eex)$},
+      ~r"lib/my_app_web/live/.*(sface)$"
     ]
   ]
+
+config :surface, :components, [
+  {Surface.Components.Form.ErrorTag,
+   default_translator: {MyAppWeb.ErrorHelpers, :translate_error}}
+]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
