@@ -1,56 +1,52 @@
 
-<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">
-        <i class="fa fa-check"></i>
-        LibreCov
-      </a>
-    </div>
-    <%= if Librecov.Authentication.authenticated?(@conn) do %>
-      <ul class="nav navbar-nav navbar-right">
-        <%= if Librecov.Authentication.get_current_account(@conn).admin do %>
-          <li>
-            <%= link to: Routes.admin_dashboard_path(@conn, :index) do %>
-              <i class="fa fa-wrench"></i>
-              Admin
-            <% end %>
-          </li>
-        <% end %>
-        <li class="nav-item">
-            <%= link to: Routes.repository_index_path(@conn, :index), class: "nav-link" do %>
-              <i class="fas fa-code"></i>
-              Repos
-            <% end %>
-          </li>
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="avatar" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 24) %>" alt="Avatar">
-            <%= Librecov.Authentication.get_current_account(@conn).name %>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none navbar-brand">
+          <img class="bi me-2" width="32" height="32" role="img" src="<%= Routes.static_path(@conn, "/images/logo.svg") %>" >
+          LibreCov
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        </ul>
+
+
+
+        <%= if Librecov.Authentication.authenticated?(@conn) do %>
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img alt="mdo" width="32" height="32" class="rounded-circle" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 24) %>">
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-              <%= link to: Routes.profile_path(@conn, :show), class: "dropdown-item" do %>
-                <i class="fa fa-user"></i>
-                Profile
-              <% end %>
-            </li>
-            <li>
-              <%= link to: Routes.profile_path(@conn, :edit_password), class: "dropdown-item" do %>
-                <i class="fa fa-lock"></i>
-                Change password
-              <% end %>
-            </li>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+            <li><span class="dropdown-header"><%= Librecov.Authentication.get_current_account(@conn).name %></a></li>
+            <%= if Librecov.Authentication.get_current_account(@conn).admin do %>
+              <li><%= link to: Routes.admin_dashboard_path(@conn, :index), class: "dropdown-item" do %>
+                  <i class="fas fa-tools"></i> Admin</a>
+                <% end %></li>
             <li><hr class="dropdown-divider"></li>
-            <li>
-              <%= link to: Routes.session_path(@conn, :delete), method: :delete, class: "dropdown-item" do %>
-                <i class="fa fa-sign-out"></i>
-                Logout
-              <% end %>
-            </li>
+            <% end %>
+            <li><%= link to: Routes.repository_index_path(@conn, :index), class: "dropdown-item" do %>
+                <i class="fas fa-file-code"></i> Repositories</a>
+              <% end %></li>
+              <li><%= link to: Routes.profile_path(@conn, :show), class: "dropdown-item" do %>
+                <i class="fas fa-user-alt"></i> Profile</a>
+              <% end %></li>
+              <li><%= link to: Routes.profile_path(@conn, :edit_password), class: "dropdown-item" do %>
+                <i class="fas fa-lock"></i> Change Password</a>
+              <% end %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link to: Routes.session_path(@conn, :delete), method: :delete, class: "dropdown-item" do %>
+                <i class="fas fa-sign-out-alt"></i> Sign out</a>
+              <% end %></li>
           </ul>
-        </li>
-      </ul>
-    <% end %>
-  </div>
-</nav>
+        </div>
+        <% else %>
+        <div class="text-end">
+          <%= link "Login", to: Routes.session_path(@conn, :new), class: "btn btn-outline-light me-2" %>
+          <%= link "Sign-up", to: Routes.registration_path(@conn, :new), class: "btn btn-warning" %>
+        </div>
+        <% end %>
+
+      </div>
+    </div>
+  </header>
