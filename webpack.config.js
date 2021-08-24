@@ -10,7 +10,7 @@ module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry: {
     app: ["./lib/web/static/js/app.js", "./frontend/js/index.ts"],
-    theme: "./lib/web/static/css/theme.scss",
+    theme: ["./frontend/css/theme.scss", "./lib/web/static/css/theme.scss"],
     vendor: [
       "jquery",
       "lodash",

@@ -103,9 +103,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - name: Install NPM Packages (Global)
-        run: yarn install
-
       - uses: c-hive/gha-yarn-cache@v2
       - name: Sets up an Erlang/OTP environment
         uses: erlef/setup-beam@v1
@@ -121,6 +118,8 @@ jobs:
             _build
             priv/plts
           key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}-v2
+      - name: Install NPM Packages (Global)
+        run: yarn install
       - run: mix coveralls.json --trace --slowest 10
       - uses: codecov/codecov-action@v2
         with:

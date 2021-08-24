@@ -34,7 +34,7 @@ defmodule Librecov.RepositoryLive.ElementComponent do
       </div>
     </main>
     <%= if latest_build && latest_build.commit_message do %>
-      <%= link latest_build.commit_message, to: Routes.build_path(@conn, :show, latest_build) %>
+      <%= link latest_build.commit_message, to: Routes.build_path(@socket, :show, latest_build) %>
       <%= if latest_build.branch do %>
         on branch <%= latest_build.branch %>
       <% end %>
