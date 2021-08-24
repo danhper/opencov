@@ -89,7 +89,6 @@ defmodule Librecov.Router do
     get("/profile/password/edit", ProfileController, :edit_password)
     put("/profile/password", ProfileController, :update_password)
 
-    resources("/projects", ProjectController)
     resources("/builds", BuildController, only: [:show])
     resources("/files", FileController, only: [:show])
 

@@ -100,6 +100,7 @@ defmodule Librecov.Web do
       import Librecov.Gettext
       alias Librecov.Router.Helpers, as: Routes
       alias Librecov.Authentication
+      alias Librecov.Views.Helper, as: ViewHelper
     end
   end
 

@@ -1,6 +1,6 @@
 <h2 class="row breadcrumb">
   <span class="media-body">
-    <%= link @file.job.build.project.name, to: Routes.project_path(@conn, :show, @file.job.build.project) %>
+    <%= link @file.job.build.project.name, to: ViewHelper.project_path(@conn, :show, @file.job.build.project) %>
     <span class="separator">></span>
     <span class="build-number">
       <%= link "#{@file.job.build.build_number}", to: Routes.build_path(@conn, :show, @file.job.build) %>
