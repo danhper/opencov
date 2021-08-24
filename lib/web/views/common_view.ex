@@ -1,7 +1,10 @@
 defmodule Librecov.CommonView do
   import Librecov.Helpers.Number
+  def format_coverage(%{current_coverage: coverage}), do: format_coverage(coverage)
   def format_coverage(num) when is_float(num), do: "#{Float.round(num, 1)}%"
   def format_coverage(_), do: "NA"
+
+  def coverage_color(%{current_coverage: coverage}), do: coverage_color(coverage)
 
   def coverage_color(coverage) do
     cond do

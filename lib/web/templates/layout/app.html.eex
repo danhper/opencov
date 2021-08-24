@@ -1,18 +1,7 @@
 
 
-  <div class="container-fluid body-wrapper">
-    <%= render "header.html", conn: @conn %>
 
-  <div class="container">
-    <%= if get_flash(@conn, :info) do %>
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-    <% end %>
-    <%= if get_flash(@conn, :error) do %>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-    <% end %>
-  </div>
 
     <main class="container">
       <%= @inner_content %>
     </main>
-  </div>
