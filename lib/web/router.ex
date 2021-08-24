@@ -97,4 +97,13 @@ defmodule Librecov.Router do
     get("/settings", SettingsController, :edit)
     put("/settings", SettingsController, :update)
   end
+
+  if Mix.env() in [:dev, :test] do
+    import Phoenix.LiveDashboard.Router
+
+    scope "/" do
+      pipe_through :browser
+      live_dashboard "/dashboard", metrics: ReferencePhxWeb.Telemetry
+    end
+  end
 end

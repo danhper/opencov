@@ -11,7 +11,7 @@ defmodule Librecov.Endpoint do
     from: :librecov,
     gzip: true,
     brotli: true,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: ~w(css fonts images webfonts js favicon.ico robots.txt)
   )
 
   if code_reloading? do
@@ -47,13 +47,4 @@ defmodule Librecov.Endpoint do
   )
 
   plug(Librecov.Router)
-
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: ReferencePhxWeb.Telemetry
-    end
-  end
 end

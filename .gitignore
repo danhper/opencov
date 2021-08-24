@@ -15,5 +15,5 @@ config/local.exs
 cover
 .elixir_ls
 
-priv/static/**/*.gz
-priv/static/**/*.br
+priv/static
+priv/static

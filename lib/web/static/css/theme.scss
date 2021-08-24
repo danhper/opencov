@@ -1,13 +1,16 @@
 @import "~bootstrap/scss/bootstrap";
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts" !default;
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/v4-shims";
 
+$body-bg: #fafafa;
 
-$body-bg:               #fafafa;
+$brand-primary: darken(#a9c696, 20%);
 
-$brand-primary:          darken(#A9C696, 20%);
-
-
-$navbar-inverse-link-color:                 #fff;
-$navbar-inverse-link-hover-color:           #eee;
-$navbar-inverse-brand-hover-color:          $navbar-inverse-link-hover-color;
-$navbar-inverse-bg:                         #A9C696;
-$navbar-inverse-border:                     darken($navbar-inverse-bg, 10%);
+$navbar-inverse-link-color: #fff;
+$navbar-inverse-link-hover-color: #eee;
+$navbar-inverse-brand-hover-color: $navbar-inverse-link-hover-color;
+$navbar-inverse-bg: #a9c696;
+$navbar-inverse-border: darken($navbar-inverse-bg, 10%);

@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const nib = require("nib");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const phoenixHTMLPath = "./deps/phoenix_html/priv/static/phoenix_html.js";
 
@@ -16,7 +17,6 @@ module.exports = {
       "riot",
       "highlight.js",
       "bootstrap",
-      "font-awesome/css/font-awesome.css",
       "highlight.js/styles/solarized-light.css",
     ],
   },
@@ -53,6 +53,7 @@ module.exports = {
       },
       {
         test: /\.styl$/,
+        sideEffects: true,
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
@@ -64,6 +65,7 @@ module.exports = {
       },
       {
         test: /\.scss$/i,
+        sideEffects: true,
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
@@ -73,6 +75,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        sideEffects: true,
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
       {
@@ -95,7 +98,10 @@ module.exports = {
     },
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({ filename: "./priv/static/css/[name].css" }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: "./frontend/static", to: "./priv/static" }],
+    }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
