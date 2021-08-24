@@ -7,14 +7,13 @@
     return_to: Routes.repository_index_path(@socket, :index) %>
 <% end %>
 
-<div class="projects-list">
+<div class="container">
   <h2 class="row">
-    <span class="media-body">Projects</span>
+    <span>Repos</span>
   </h2>
-
-  <ul class="projects">
-    <%= for repository <- @repositories do %>
-      <%= live_component Librecov.RepositoryLive.ElementComponent, repository: repository, projects: @projects %>
-    <% end %>
-  </ul>
+  <div class="row">
+      <%= for repository <- @repositories do %>
+        <%= live_component Librecov.RepositoryLive.RepositoryCard, repository: repository, projects: @projects %>
+      <% end %>
+  </div>
 </div>
