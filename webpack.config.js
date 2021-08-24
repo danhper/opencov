@@ -9,7 +9,7 @@ module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry: {
     app: ["./lib/web/static/js/app.js", "./frontend/js/index.ts"],
-    theme: "./lib/web/static/css/theme.less",
+    theme: "./lib/web/static/css/theme.scss",
     vendor: [
       "jquery",
       "lodash",
@@ -63,12 +63,17 @@ module.exports = {
         ],
       },
       {
-        test: /\.less$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+        test: /\.scss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader",
+          "postcss-loader",
+        ],
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg|gif)/,

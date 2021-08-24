@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/bootstrap";
+
+
+$body-bg:               #fafafa;
+
+$brand-primary:          darken(#A9C696, 20%);
+
+
+$navbar-inverse-link-color:                 #fff;
+$navbar-inverse-link-hover-color:           #eee;
+$navbar-inverse-brand-hover-color:          $navbar-inverse-link-hover-color;
+$navbar-inverse-bg:                         #A9C696;
+$navbar-inverse-border:                     darken($navbar-inverse-bg, 10%);

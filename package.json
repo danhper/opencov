@@ -15,6 +15,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
+    "autoprefixer": "^10.3.2",
     "babel-core": "^6.21.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-runtime": "^6.15.0",
@@ -25,10 +26,13 @@
     "file-loader": "^6.2.0",
     "husky": ">=6",
     "less": "^4.1.1",
-    "less-loader": "^10.0.1",
     "lint-staged": ">=10",
+    "postcss": "^8.3.6",
+    "postcss-loader": "^6.1.1",
     "prettier": "^2.3.2",
     "pug": "^2.0.0-rc.4",
+    "sass": "^1.38.1",
+    "sass-loader": "^12.1.0",
     "simple-pug-loader": "^0.2.0",
     "standard": "^16.0.3",
     "stylus": "^0.54.8",
@@ -40,7 +44,8 @@
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
-    "bootstrap": "^3.3.5",
+    "@popperjs/core": "^2.9.3",
+    "bootstrap": "^5.1.0",
     "font-awesome": "^4.4.0",
     "highlight.js": "^9.12.0",
     "jquery": "^3.6.0",
