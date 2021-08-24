@@ -1,6 +1,6 @@
-var webpack = require("webpack");
-var path = require("path");
-var nib = require("nib");
+const webpack = require("webpack");
+const path = require("path");
+const nib = require("nib");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const phoenixHTMLPath = "./deps/phoenix_html/priv/static/phoenix_html.js";
@@ -8,7 +8,7 @@ const phoenixHTMLPath = "./deps/phoenix_html/priv/static/phoenix_html.js";
 module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry: {
-    app: "./lib/web/static/js/app.js",
+    app: ["./lib/web/static/js/app.js", "./frontend/js/index.ts"],
     theme: "./lib/web/static/css/theme.less",
     vendor: [
       "jquery",
@@ -27,6 +27,11 @@ module.exports = {
   devtool: "source-map",
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
       {
         test: /\.m?js$/,
         include: /web\/static\/js/,
@@ -79,6 +84,7 @@ module.exports = {
     ],
   },
   resolve: {
+    extensions: [".tsx", ".ts", ".js", "jsx"],
     alias: {
       phoenix_html: path.join(__dirname, phoenixHTMLPath),
     },
