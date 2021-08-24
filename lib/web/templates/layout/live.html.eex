@@ -1,0 +1,18 @@
+
+
+  <div class="container-fluid body-wrapper">
+    <%= render "header.html", conn: @socket %>
+
+  <div class="container">
+    <%= if get_flash(@socket, :info) do %>
+      <p class="alert alert-info" role="alert"><%= get_flash(@socket, :info) %></p>
+    <% end %>
+    <%= if get_flash(@socket, :error) do %>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@socket, :error) %></p>
+    <% end %>
+  </div>
+
+    <main class="container">
+      <%= @inner_content %>
+    </main>
+  </div>
