@@ -43,9 +43,6 @@ defmodule Librecov.Authentication do
   end
 
   def authenticate(%User{} = account, password) do
-    IO.inspect(account)
-    IO.inspect(password)
-
     authenticate(
       account,
       password,
