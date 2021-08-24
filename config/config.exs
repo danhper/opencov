@@ -5,7 +5,8 @@ config :librecov, Librecov.Endpoint,
   root: Path.dirname(__DIR__),
   secret_key_base: "tfYGCfFfu10pV8G5gtUJ1do3LDwnu+eWBfL1sNtK8+bEwo6gNzFQZtWkdNQVlt+V",
   render_errors: [accepts: ~w(html json)],
-  pubsub_server: Librecov.PubSub
+  pubsub_server: Librecov.PubSub,
+  live_view: [signing_salt: "jolPkvu/uoF0Knlwhb+eZXtDpvCSCLGc"]
 
 config :librecov,
   badge_format: "svg",

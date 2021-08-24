@@ -1,38 +1,13 @@
-<section class="phx-hero">
-  <h1>Phoenix</h1>
-  <p>Peace of mind from prototype to production</p>
-</section>
+<div class="jumbotron">
+  <h1 class="display-4">Librecov</h1>
+  <p class="lead">Finding a code coverage tool that’s easy to use and free?
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-    </ul>
-  </article>
-</section>
+Well, it doesn’t exist. Not just yet, anyway.
+
+</p>
+  <hr class="my-4">
+  <p>LibreCov was built to help developers by providing excellent code coverage data, effortless installation and configuration. Just try it!</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="<%= Routes.session_path(@conn, :new) %>" role="button">Sign In</a>
+  </p>
+</div>

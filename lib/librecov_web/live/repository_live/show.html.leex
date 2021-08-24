@@ -1,0 +1,90 @@
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, Librecov.RepositoryLive.FormComponent,
+    id: @repository.id,
+    title: @page_title,
+    action: @live_action,
+    repository: @repository,
+    return_to: Routes.repository_show_path(@socket, :show, @repository) %>
+<% end %>
+
+<div class="single-project">
+  <h2 class="row breadcrumb">
+    <span class="media-body">
+      <%= @repository.full_name %>
+    </span>
+    <span class="coverage media-right <%= coverage_color(@project.current_coverage) %>">
+      <%= format_coverage(@project.current_coverage) %>
+    </span>
+  </h2>
+
+  <div class="row">
+    <div class="btn-group offset-6 col-6">
+      <div class="dropdown btn-group">
+        <a class="btn btn-primary" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          Show Token
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li><h6 class="dropdown-header">Token</h6></li>
+          <li><pre class="dropdown-item"><code><%= @project.token %></code></pre></li>
+        </ul>
+      </div>
+      <div class="dropdown btn-group">
+        <a class="btn btn-primary" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          Get Badge
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li><img class="dropdown-header" src="<%=Routes.project_badge_path(@socket, :badge, @project, "svg") %>" /></li>
+          <li><h6 class="dropdown-header">Markdown</h6></li>
+          <li><pre class="dropdown-item"><code class="language-markdown">
+            [![Coverage Status](<%=Routes.project_badge_url(@socket, :badge, @project, "svg") %>)](<%=Routes.repository_show_url(@socket, :show, @repository.owner.login, @repository.name) %>)
+          </code></pre></li>
+          <li class="dropdown-item"></li>
+          <li class="dropdown-item"></li>
+        </ul>
+      </div>
+      <%= link to: @repository.html_url, target: "_blank", class: "btn btn-primary active" do %>
+        <i class="fab fa-github-alt"></i> View
+      <% end %>
+  </div>
+  </div>
+
+  <h2>Recent builds</h2>
+
+  <table class="table builds">
+    <thead>
+      <tr>
+        <th>Build</th>
+        <th>Branch</th>
+        <th>Coverage</th>
+        <th>Diff</th>
+        <th>Commit</th>
+        <th>Committer</th>
+        <th>Time</th>
+        <th>Via</th>
+      </tr>
+    </thead>
+    <tbody>
+  <%= for build <- @project.builds do %>
+      <tr>
+        <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
+        <td><%= build.branch %></td>
+        <td>
+          <%= format_coverage(build.coverage) %>
+        </td>
+        <td>
+          <%= if build.previous_coverage do %>
+            <%= render Librecov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
+          <% end %>
+        </td>
+        <td><%= render Librecov.BuildView, "commit.html", build: %{build|project: @project} %></td>
+        <td><%= build.committer_name %></td>
+        <td><%= human_time_ago(build.inserted_at) %></td>
+        <td><%= build.service_name %></td>
+      </tr>
+  <% end %>
+    </tbody>
+  </table>
+</div>

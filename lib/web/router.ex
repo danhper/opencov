@@ -4,9 +4,11 @@ defmodule Librecov.Router do
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
-    plug(:fetch_flash)
+    plug :fetch_live_flash
+    plug :fetch_flash
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug :put_root_layout, {Librecov.LayoutView, :root}
 
     plug(NavigationHistory.Tracker, excluded_paths: ~w(/login /users/new))
   end
@@ -58,6 +60,7 @@ defmodule Librecov.Router do
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     delete "/logout", SessionController, :delete
+    get "/logout", SessionController, :delete
   end
 
   scope "/", Librecov do
@@ -73,6 +76,13 @@ defmodule Librecov.Router do
 
   scope "/", Librecov do
     pipe_through [:browser, :guardian, :browser_auth]
+
+    live "/repositories", RepositoryLive.Index, :index
+    live "/repositories/new", RepositoryLive.Index, :new
+    live "/repositories/:id/edit", RepositoryLive.Index, :edit
+
+    live "/repositories/:owner/:repo", RepositoryLive.Show, :show
+    live "/repositories/:id/show/edit", RepositoryLive.Show, :edit
 
     get("/profile", ProfileController, :show)
     put("/profile", ProfileController, :update)
@@ -95,5 +105,14 @@ defmodule Librecov.Router do
     resources("/projects", ProjectController, only: [:index, :show])
     get("/settings", SettingsController, :edit)
     put("/settings", SettingsController, :update)
+  end
+
+  if Mix.env() in [:dev, :test] do
+    import Phoenix.LiveDashboard.Router
+
+    scope "/" do
+      pipe_through :browser
+      live_dashboard "/dashboard", metrics: ReferencePhxWeb.Telemetry
+    end
   end
 end

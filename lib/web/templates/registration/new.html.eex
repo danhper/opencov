@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="column column-50 column-offset-25">
+  <div class="col-md-6 col-md-offset-3">
     <h1>Register</h1>
     <%= form_for @changeset, @action, [as: :account], fn f -> %>
       <%= label f, :email, "Email address" %>
@@ -19,7 +19,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="column column-50 column-offset-25">
+  <div class="col-md-6 col-md-offset-3">
     <p>
       Already have an account?
       <%= link("Log in here", to: Routes.session_path(@conn, :new)) %>
@@ -27,7 +27,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="column column-50 column-offset-25">
+  <div class="col-md-6 col-md-offset-3">
     <%= render(Librecov.SessionView, "social_links.html", assigns) %>
   </div>
 </div>

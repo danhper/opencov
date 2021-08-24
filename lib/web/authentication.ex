@@ -5,6 +5,7 @@ defmodule Librecov.Authentication do
   use Guardian, otp_app: :librecov
   alias Librecov.Services.Users
   alias Librecov.User
+  alias Librecov.Repo
 
   def authenticated?(conn, opts \\ []) do
     __MODULE__.Plug.authenticated?(conn, opts)
@@ -22,15 +23,19 @@ defmodule Librecov.Authentication do
     __MODULE__.Plug.sign_out(conn)
   end
 
-  def subject_for_token(resource, _claims) do
+  def subject_for_token(resource, claims) do
     {:ok, to_string(resource.id)}
   end
 
-  def resource_from_claims(%{"sub" => id}) do
+  def resource_from_claims(%{"sub" => id} = claims) do
     case Users.get_user(id) do
       nil -> {:error, :resource_not_found}
-      account -> {:ok, account}
+      account -> {:ok, account |> Repo.preload([:authorizations])}
     end
+  end
+
+  def resource_from_session(%{"guardian_default_token" => token}) do
+    __MODULE__.resource_from_token(token)
   end
 
   def authenticate(%User{} = account, password) do

@@ -86,7 +86,10 @@ defmodule Librecov.Mixfile do
       {:guardian_db, "~> 2.1"},
       {:guardian_phoenix, "~> 2.0"},
       {:argon2_elixir, "~> 2.0"},
-      {:ecto_resource, "~> 1.1.0"}
+      {:ecto_resource, "~> 1.1.0"},
+      {:phoenix_live_view, "~> 0.16.0"},
+      {:floki, ">= 0.30.0", only: :test},
+      {:surface, "~> 0.5.0"}
     ]
   end
 
@@ -100,7 +103,7 @@ defmodule Librecov.Mixfile do
   end
 
   defp compile_assets(_) do
-    System.cmd(Path.expand("node_modules/.bin/webpack", __DIR__), ["-p"],
+    System.cmd(Path.expand("node_modules/.bin/webpack-cli", __DIR__), ["build"],
       into: IO.stream(:stdio, :line)
     )
   end

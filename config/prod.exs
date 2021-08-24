@@ -15,7 +15,8 @@ config :librecov, Librecov.Endpoint,
     port: System.get_env("LIBRECOV_PORT") || 443
   ],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
-  check_origin: false
+  check_origin: false,
+  live_view: [signing_salt: System.get_env("LIBRECOV_LIVEVIEW_SALT")]
 
 config :librecov, Librecov.Repo,
   adapter: Ecto.Adapters.Postgres,
