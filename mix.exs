@@ -102,7 +102,7 @@ defmodule Librecov.Mixfile do
   end
 
   defp compile_assets(_) do
-    System.cmd(Path.expand("node_modules/.bin/webpack", __DIR__), ["-p"],
+    System.cmd(Path.expand("node_modules/.bin/webpack-cli", __DIR__), ["build"],
       into: IO.stream(:stdio, :line)
     )
   end

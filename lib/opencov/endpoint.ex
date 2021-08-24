@@ -9,7 +9,8 @@ defmodule Librecov.Endpoint do
   plug(Plug.Static,
     at: "/",
     from: :librecov,
-    gzip: false,
+    gzip: true,
+    brotli: true,
     only: ~w(css fonts images js favicon.ico robots.txt)
   )
 
@@ -46,4 +47,13 @@ defmodule Librecov.Endpoint do
   )
 
   plug(Librecov.Router)
+
+  if Mix.env() in [:dev, :test] do
+    import Phoenix.LiveDashboard.Router
+
+    scope "/" do
+      pipe_through :browser
+      live_dashboard "/dashboard", metrics: ReferencePhxWeb.Telemetry
+    end
+  end
 end

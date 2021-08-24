@@ -14,3 +14,6 @@ config/local.exs
 *.pem
 cover
 .elixir_ls
+
+priv/static/**/*.gz
+priv/static/**/*.br
