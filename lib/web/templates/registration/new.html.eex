@@ -1,33 +1,46 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <h1>Register</h1>
-    <%= form_for @changeset, @action, [as: :account], fn f -> %>
-      <%= label f, :email, "Email address" %>
-      <%= email_input f, :email %>
-      <%= error_tag f, :email %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-1 rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+                <%= form_for @changeset, @action, [as: :account], fn f -> %>
+                  <%= content_tag :div, class: "form-floating mb-3" do %>
+                    <%= label f, :email, "Email address" %>
+                    <%= email_input f, :email, class: "form-control" %>
+                    <%= error_tag f, :email %>
+                  <% end %>
 
-      <%= label f, :password, "Password" %>
-      <%= password_input f, :password %>
-      <%= error_tag f, :password %>
+                  <%= content_tag :div, class: "form-floating mb-3" do %>
 
-      <%= label f, :password_confirmation, "Password Confirmation" %>
-      <%= password_input f, :password_confirmation %>
-      <%= error_tag f, :password_confirmation %>
+                  <%= label f, :password, "Password" %>
+                  <%= password_input f, :password, class: "form-control" %>
+                  <%= error_tag f, :password %>
+                  <% end %>
 
-      <%= submit "Register", class: "button button-primary" %>
-    <% end %>
+                                    <%= content_tag :div, class: "form-floating mb-3" do %>
+
+                  <%= label f, :password_confirmation, "Password Confirmation" %>
+                  <%= password_input f, :password_confirmation, class: "form-control" %>
+                  <%= error_tag f, :password_confirmation %>
+                  <% end %>
+
+                  <%= content_tag :div, class: "d-grid" do %>
+                  <%= submit "Register", class: "btn btn-primary btn-login text-uppercase" %>
+                              <div class="d-grid">
+
+              </div>
+
+              <hr class="my-4">
+              <div class="d-grid mb-2">
+               <%= link "Log in here", to: Routes.session_path(@conn, :new), class: "btn btn-sm text-uppercase fw-bold btn-light" %>
+              </div>
+              <%= render(Librecov.SessionView, "social_links.html", assigns) %>
+                  <% end %>
+                <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <p>
-      Already have an account?
-      <%= link("Log in here", to: Routes.session_path(@conn, :new)) %>
-    </p>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= render(Librecov.SessionView, "social_links.html", assigns) %>
-  </div>
-</div>
