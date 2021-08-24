@@ -18,7 +18,7 @@ defmodule Librecov.SessionController do
     end
   end
 
-  def create(conn, %{"account" => %{"email" => email, "password" => password}}) do
+  def create(conn, %{"account" => %{"email" => email, "password" => password} = params}) do
     case email |> Users.get_by_email() |> Authentication.authenticate(password) do
       {:ok, account} ->
         conn
@@ -28,6 +28,11 @@ defmodule Librecov.SessionController do
       {:error, :invalid_credentials} ->
         conn
         |> put_flash(:error, "Incorrect email or password")
+        |> new(%{})
+
+      {:error, :dont_have_password} ->
+        conn
+        |> put_flash(:error, "Please login with your provider")
         |> new(%{})
     end
   end
