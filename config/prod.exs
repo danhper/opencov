@@ -63,6 +63,12 @@ config :event_bus_logger,
 config :event_bus,
   error_handler: {Librecov.Helpers.SentryErrorLogger, :log}
 
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+
+config :librecov, Librecov.Authentication, secret_key: System.get_env("LIBRECOV_LIVEVIEW_SALT")
+
 if File.exists?(Path.join(__DIR__, "prod.secret.exs")) do
   import_config "prod.secret.exs"
 end
