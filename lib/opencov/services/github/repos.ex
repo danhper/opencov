@@ -14,6 +14,6 @@ defmodule Librecov.Services.Github.Repos do
   def repo(%AuthData{token: token, owner: owner, repo: repo}) do
     token
     |> Connection.new()
-    |> Repos.repos_list_for_authenticated_user(owner, repo)
+    |> Repos.repos_get(owner, repo)
   end
 end

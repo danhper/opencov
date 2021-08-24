@@ -8,21 +8,21 @@
     </span>
   </h2>
 
-  <div class="info row">
+  <div class="row">
     <%= if @project.base_url do %>
-      <div class="col-xs-3">
-        <%= link to: @project.base_url, class: "inline-block" do %>
-          <i class="fa <%= repository_class(@project) %>"></i>
+      <div class="col-sm-3">
+        <%= link to: @project.base_url, class: "inline-block", target: "_blank" do %>
+          <i class="fab <%= repository_class(@project) %>"></i>
           View repository
         <% end %>
       </div>
     <% end %>
 
-    <div class="token-wrapper col-xs-3">
+    <div class="token-wrapper col-sm-3">
       <project-token token="<%= @project.token %>"></project-token>
     </div>
 
-    <div class="col-xs-4 dropdown">
+    <div class="col-sm-4 dropdown">
       <a id="badge-trigger" href="javascript:void(0)" data-toggle="dropdown">
         <img src="<%=Routes.project_badge_path(@conn, :badge, @project, "svg") %>" />
         Get badge

@@ -20,7 +20,14 @@ defmodule Librecov.RepositoryLive.ElementComponent do
     <li class="project">
     <main class="clearfix">
       <div class="content">
-        <h3><%= link @repository.full_name , to: Routes.repository_show_path(@socket, :show, @repository.owner.login, @repository.name) %></h3>
+        <h3>
+        <%= if !is_nil(project.id) do %>
+        <%= link @repository.full_name , to: Routes.repository_show_path(@socket, :show, @repository.owner.login, @repository.name) %>
+        <% else %>
+        <%= @repository.full_name %>
+        <small><%= link "Setup", to: "#{@repository.html_url}/settings/installations", target: "_blank" %></small>
+        <% end %>
+        </h3>
       </div>
       <div class="coverage <%= coverage_color(project.current_coverage) %>">
         <%= format_coverage(project.current_coverage) %>

@@ -22,4 +22,8 @@ defmodule Librecov.Services.Projects do
   end
 
   def all(q), do: Repo.all(q)
+
+  def get_project_by(opts) do
+    Repo.get_by(Project, opts)
+  end
 end

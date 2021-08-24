@@ -1,6 +1,5 @@
 defmodule Librecov.RepositoryLive.Index do
   use Librecov.Web, :live_view
-  import Librecov.CommonView
 
   alias Librecov.Data
   alias Librecov.Services.Projects

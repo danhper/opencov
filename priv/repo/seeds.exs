@@ -18,15 +18,15 @@ Repo.insert!(%Librecov.Settings{
   default_project_visibility: "internal"
 })
 
-Repo.insert!(%Librecov.User{
-  id: 1,
-  email: "admin@test.com",
-  password_digest: "$2b$12$hlXtMVOFfd2PxsmyDCEmwuPlHk8M1kOpOBozLSj5GO1Tn6COpHKG.",
-  password_initialized: true,
-  confirmed_at: Timex.now(),
-  name: "Admin",
-  admin: true
-})
+# Repo.insert!(%Librecov.User{
+#   id: 1,
+#   email: "admin@test.com",
+#   password_digest: "$2b$12$hlXtMVOFfd2PxsmyDCEmwuPlHk8M1kOpOBozLSj5GO1Tn6COpHKG.",
+#   password_initialized: true,
+#   confirmed_at: Timex.now(),
+#   name: "Admin",
+#   admin: true
+# })
 
 Repo.insert!(%Librecov.Project{
   id: 1,

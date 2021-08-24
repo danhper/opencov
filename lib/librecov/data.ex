@@ -9,6 +9,7 @@ defmodule Librecov.Data do
   alias Librecov.Data.Repository
   alias Librecov.User.Authorization
   alias Librecov.Services.Github.Repos
+  alias Librecov.Services.Github.AuthData
 
   @doc """
   Returns the list of repositories.
@@ -20,7 +21,7 @@ defmodule Librecov.Data do
 
   """
   def list_repositories(%{provider: "github", token: token, refresh_token: _refresh_token}) do
-    {:ok, repos} = Repos.available_repos(token, sort: "pushed", per_page: 10, page: 1)
+    {:ok, repos} = Repos.available_repos(token, sort: "pushed")
     repos
   end
 
@@ -35,7 +36,13 @@ defmodule Librecov.Data do
       %Repository{}
 
   """
-  def get_repository!(id) do
+  def get_repository!(
+        %{provider: "github", token: token, refresh_token: _refresh_token},
+        owner,
+        repo
+      ) do
+    {:ok, repo} = Repos.repo(%AuthData{token: token, owner: owner, repo: repo})
+    repo
   end
 
   @doc """

@@ -1,10 +1,10 @@
 defmodule Librecov.DataTest do
-  use Librecov.DataCase
+  use Librecov.ModelCase
 
   alias Librecov.Data
 
   describe "repositories" do
-    alias Librecov.Data.Repository
+    alias ExOctocat.Model.FullRepository, as: Repository
 
     @valid_attrs %{}
     @update_attrs %{}
