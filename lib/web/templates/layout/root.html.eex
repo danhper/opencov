@@ -8,11 +8,11 @@
     <meta name="author" content="">
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "LibreCov" %>
-    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/js/vendor.css") %>" />
-    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/js/theme.css") %>" />
-    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/js/app.css") %>" />
-    <script phx-track-static defer type="text/javascript" src="<%=Routes.static_path(@conn, "/js/vendor.js") %>"></script>
-    <script phx-track-static defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js")%>"></script>
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/vendor.css") %>" />
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/theme.css") %>" />
+    <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/app.css") %>" />
+    <script phx-track-static defer type="text/javascript" src="<%=Routes.static_path(@conn, "/vendor.js") %>"></script>
+    <script phx-track-static defer type="text/javascript" src="<%= Routes.static_path(@conn, "/app.js")%>"></script>
   </head>
   <body class="librecov">
     <%= @inner_content %>

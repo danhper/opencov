@@ -10,8 +10,7 @@ defmodule Librecov.Endpoint do
     at: "/",
     from: :librecov,
     gzip: true,
-    brotli: true,
-    only: ~w(css fonts images webfonts js favicon.ico robots.txt)
+    brotli: true
   )
 
   if code_reloading? do

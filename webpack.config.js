@@ -16,13 +16,13 @@ module.exports = {
       "lodash",
       "riot",
       "highlight.js",
-      "bootstrap",
       "highlight.js/styles/solarized-light.css",
     ],
   },
   output: {
-    path: path.join(__dirname, "./priv/static/js"),
+    path: path.join(__dirname, "./priv/static/"),
     filename: "[name].js",
+    clean: true,
   },
   devtool: "source-map",
   module: {
@@ -79,7 +79,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
       {
-        test: /\.(png|woff|woff2|eot|ttf|svg|gif)/,
+        test: /\.(png|gif|jpeg|jpg|woff|woff2|eot|ttf|svg)/,
         loader: "url-loader",
         options: {
           limit: 8192,
@@ -98,9 +98,9 @@ module.exports = {
     },
   },
   plugins: [
-    new MiniCssExtractPlugin({ filename: "./priv/static/css/[name].css" }),
+    new MiniCssExtractPlugin({ filename: "./[name].css" }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./frontend/static", to: "./priv/static" }],
+      patterns: [{ from: "./frontend/static", to: "./" }],
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
