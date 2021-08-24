@@ -3,6 +3,6 @@
   <%= link(
     "Github",
     to: Routes.auth_path(@conn, :request, "github"),
-    class: "button button-outline"
+    class: "btn btn-primary btn-lg"
   ) %>
 </div>

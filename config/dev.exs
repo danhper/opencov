@@ -13,10 +13,10 @@ config :librecov, Librecov.Endpoint,
   cache_static_lookup: false,
   check_origin: false,
   watchers: [
-    {Path.expand("node_modules/webpack/bin/webpack.js"),
+    {Path.expand("node_modules/.bin/webpack-cli"),
      [
-       "--watch",
-       "--colors",
+       "watch",
+       "--color",
        "--progress",
        cd: Path.expand("../", __DIR__)
      ]}

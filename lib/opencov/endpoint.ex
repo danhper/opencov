@@ -2,6 +2,8 @@ defmodule Librecov.Endpoint do
   use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :librecov
 
+  @session_options [store: :cookie, key: "_librecov_key", signing_salt: "DBdPx/m/"]
+
   plug(Plug.CloudFlare)
 
   plug(Plug.Static,
@@ -16,6 +18,8 @@ defmodule Librecov.Endpoint do
     plug(Phoenix.LiveReloader)
     plug(Phoenix.CodeReloader)
   end
+
+  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   unless Mix.env() == :test do
     plug(Plug.RequestId)
@@ -36,10 +40,9 @@ defmodule Librecov.Endpoint do
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 
-  plug(Plug.Session,
-    store: :cookie,
-    key: "_librecov_key",
-    signing_salt: "DBdPx/m/"
+  plug(
+    Plug.Session,
+    @session_options
   )
 
   plug(Librecov.Router)
