@@ -1,13 +1,13 @@
-<div class="jumbotron">
-  <h1 class="display-4">Librecov</h1>
-  <p class="lead">Finding a code coverage tool that’s easy to use and free?
+
+<main role="main" class="inner cover">
+  <h1 class="cover-heading">Open Source Code Coverage tracking</h1>
+    <p class="lead">Finding a code coverage tool that’s easy to use and free?
 
 Well, it doesn’t exist. Not just yet, anyway.
 
 </p>
-  <hr class="my-4">
-  <p>LibreCov was built to help developers by providing excellent code coverage data, effortless installation and configuration. Just try it!</p>
+  <p class="lead">LibreCov was built to help developers by providing excellent code coverage data, effortless installation and configuration. Just try it!</p>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="<%= Routes.session_path(@conn, :new) %>" role="button">Sign In</a>
+    <a href="<%= Routes.session_path(@conn, :new) %>" class="btn btn-lg btn-secondary">Just try it!</a>
   </p>
-</div>
+</main>
