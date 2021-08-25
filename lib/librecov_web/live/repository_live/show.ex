@@ -4,6 +4,7 @@ defmodule Librecov.RepositoryLive.Show do
   import Librecov.CommonView
   alias Librecov.Data
   alias Librecov.Services.Projects
+  alias Librecov.Services.Authorizations
 
   @impl true
   def mount(_params, session, socket) do
@@ -27,7 +28,8 @@ defmodule Librecov.RepositoryLive.Show do
   end
 
   defp get_repository(user, repo, owner) do
-    Data.get_repository!(user.authorizations |> List.first(), owner, repo)
+    {:ok, auth} = user.authorizations |> List.first() |> Authorizations.ensure_fresh()
+    Data.get_repository!(auth, owner, repo)
   end
 
   defp page_title(:show), do: "Show Repository"

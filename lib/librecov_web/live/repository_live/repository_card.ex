@@ -59,7 +59,9 @@ defmodule Librecov.RepositoryLive.RepositoryCard do
           {format_coverage(project.current_coverage)}
         </div>
         {/if}
+        {#if !is_nil(@repository.description) }
         <p>{@repository.description}</p>
+        {/if}
         {#if !is_nil(latest_build) && !is_nil(latest_build.commit_message) }
         <p class="card-text text-muted">
 
