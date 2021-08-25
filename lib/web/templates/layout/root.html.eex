@@ -17,19 +17,17 @@
   </head>
   <body class="librecov">
     <div id="page-container" class="page-header-dark main-content-narrow">
-    <%= render "header.html", conn: @conn %>
-
-  <div class="container">
-    <%= if get_flash(@conn, :info) do %>
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-    <% end %>
-    <%= if get_flash(@conn, :error) do %>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-    <% end %>
-  </div>
-    <%= @inner_content %>
-  </div>
-
+      <%= render "header.html", conn: @conn %>
+      <main id="main-container">
+        <%= if get_flash(@conn, :info) do %>
+          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <% end %>
+        <%= if get_flash(@conn, :error) do %>
+          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <% end %>
+        <%= @inner_content %>
+      </main>
+    </div>
   <script phx-track-static defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/oneui.app.min.js")%>"></script>
   </body>
 </html>

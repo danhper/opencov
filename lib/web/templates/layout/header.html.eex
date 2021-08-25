@@ -64,8 +64,8 @@
               <% end %>
           </div>
         </div>
-            <% end %>
       </div>
+            <% end %>
       <!-- END User Dropdown -->
 
       <!-- Notifications Dropdown -->
