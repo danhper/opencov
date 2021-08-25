@@ -8,7 +8,7 @@ defmodule Librecov.Templates.CommentTemplate do
   import Librecov.Helpers.Coverage
   import Librecov.Helpers.Number
   alias Librecov.Repo
-  alias Librecov.Queries.BuildQueriesa
+  alias Librecov.Queries.BuildQueries
 
   def coverage_message(
         %Build{

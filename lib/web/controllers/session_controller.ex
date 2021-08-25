@@ -3,7 +3,6 @@ defmodule Librecov.SessionController do
 
   alias Librecov.Services.Users
   alias Librecov.Authentication
-  alias Ueberauth.Strategy.Helpers, as: Uauth
 
   def new(conn, _params) do
     if Authentication.get_current_account(conn) do
@@ -18,7 +17,7 @@ defmodule Librecov.SessionController do
     end
   end
 
-  def create(conn, %{"account" => %{"email" => email, "password" => password} = params}) do
+  def create(conn, %{"account" => %{"email" => email, "password" => password} = _params}) do
     case email |> Users.get_by_email() |> Authentication.authenticate(password) do
       {:ok, account} ->
         conn
