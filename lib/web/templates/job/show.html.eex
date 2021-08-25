@@ -1,3 +1,4 @@
+<div class="content">
 <h2 class="row breadcrumb">
   <span class="media-body">
     <%= link @job.build.project.name, to: ViewHelper.project_path(@conn, :show, @job.build.project) %>
@@ -15,7 +16,7 @@
     <%= format_coverage(@job.coverage) %>
   </span>
 </h2>
-
+</div>
 <%= render Librecov.FileView,
            "list.html",
            conn: @conn,

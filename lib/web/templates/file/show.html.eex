@@ -1,3 +1,4 @@
+<div class="content">
 <h2 class="row breadcrumb">
   <span class="media-body">
     <%= link @file.job.build.project.name, to: ViewHelper.project_path(@conn, :show, @file.job.build.project) %>
@@ -19,7 +20,7 @@
     <%= format_coverage(@file.coverage) %>
   </span>
 </h2>
-
+</div>
 <script>
   window.file = <%= raw @file_json %>;
 </script>
