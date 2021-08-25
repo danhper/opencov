@@ -3,6 +3,7 @@ defmodule Librecov.RepositoryLive.Index do
 
   alias Librecov.Data
   alias Librecov.Services.Projects
+  alias Librecov.Services.Authorizations
 
   @impl true
   def mount(_params, session, socket) do
@@ -46,7 +47,8 @@ defmodule Librecov.RepositoryLive.Index do
   end
 
   defp list_repositories(user) do
-    Data.list_repositories(user.authorizations |> List.first())
+    {:ok, auth} = user.authorizations |> List.first() |> Authorizations.ensure_fresh()
+    Data.list_repositories(auth)
   end
 
   defp list_projects(repos) do

@@ -37,6 +37,7 @@ defmodule Librecov.Mixfile do
 
   defp deps do
     [
+      {:oauth2, "~> 2.0"},
       {:sobelow, "~> 0.8", only: :dev},
       {:event_bus_logger, "~> 0.1.6"},
       {:elixir_uuid, "~> 1.2"},
