@@ -30,7 +30,7 @@ defmodule Librecov.Services.Github.Auth do
       %{}
       |> Joken.Config.add_claim("iat", fn -> now() - 60 end)
       |> Joken.Config.add_claim("exp", fn -> now() + 60 end)
-      |> Joken.Config.add_claim("iss", &github_client_id/0)
+      |> Joken.Config.add_claim("iss", &github_app_id/0)
 
     {:ok, jwt, _} = Joken.generate_and_sign(token_config, %{}, signer)
     jwt
@@ -52,9 +52,24 @@ defmodule Librecov.Services.Github.Auth do
     end
   end
 
+  def github_client(strategy \\ OAuth2.Strategy.Refresh) do
+    OAuth2.Client.new(
+      strategy: strategy,
+      client_id: github_client_id(),
+      client_secret: github_client_secret(),
+      redirect_uri: "http://myapp.com/auth/callback",
+      site: "https://api.github.com",
+      authorize_url: "https://github.com/login/oauth/authorize",
+      token_url: "https://github.com/login/oauth/access_token"
+    )
+    |> OAuth2.Client.put_serializer("application/json", Jason)
+  end
+
   defp config do
     Application.get_env(:librecov, :github, [])
   end
 
+  defp github_app_id, do: config() |> Keyword.get(:app_id, "")
   defp github_client_id, do: config() |> Keyword.get(:client_id, "")
+  defp github_client_secret, do: config() |> Keyword.get(:client_secret, "")
 end

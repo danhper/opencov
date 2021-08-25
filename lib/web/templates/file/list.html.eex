@@ -1,4 +1,4 @@
-<div class="files">
+<div class="content">
   <h3>Files <span class="small">(<%= @paginator.total_entries %>)</span></h3>
   <ul class="nav nav-pills">
     <%= for {k, v} <- filters() do %>

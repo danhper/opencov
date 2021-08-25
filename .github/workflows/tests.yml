@@ -141,12 +141,19 @@ jobs:
           --message "$(git log -1 $SHA --pretty=format:'%s')" \
           --branch "$BRANCH" \
           --token "$TOKEN"
-      - name: Codecov Staging
+      - name: LibreCov Staging
         continue-on-error: true
         env:
-          CODECOV_URL: https://librecov-staging.herokuapp.com/
-          CODECOV_TOKEN: ${{ secrets.LIBRECOV_TOKEN }}
-          GITHUB_RUN_ID: "1${{ github.run_id }}"
+          SHA: ${{github.sha}}
+          BRANCH: ${{ steps.branch-name.outputs.current_branch }}
+          TOKEN: ${{ secrets.OPENCOV_TOKEN }}
+          COVERALLS_ENDPOINT: https://librecov-staging.herokuapp.com
         run: |
-          yarn add codecov
-          npx codecov --disable=s3
+          MIX_ENV=test mix coveralls.post \
+          --name github \
+          --build "$GITHUB_RUN_ID" \
+          --sha "$SHA" \
+          --committer "$(git log -1 $SHA --pretty=format:'%cN')" \
+          --message "$(git log -1 $SHA --pretty=format:'%s')" \
+          --branch "$BRANCH" \
+          --token "$TOKEN"

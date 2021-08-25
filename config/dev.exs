@@ -30,6 +30,8 @@ config :librecov, Librecov.Endpoint,
       ~r{priv/gettext/.*(po)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$},
+      ~r{web/templates/.*(leex)$},
+      ~r{web/templates/.*(heex)$},
       ~r"lib/my_app_web/live/.*(sface)$"
     ]
   ]

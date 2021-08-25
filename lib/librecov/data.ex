@@ -4,10 +4,7 @@ defmodule Librecov.Data do
   """
 
   import Ecto.Query, warn: false
-  alias Librecov.Repo
 
-  alias Librecov.Data.Repository
-  alias Librecov.User.Authorization
   alias Librecov.Services.Github.Repos
   alias Librecov.Services.Github.AuthData
 
@@ -46,54 +43,6 @@ defmodule Librecov.Data do
   end
 
   @doc """
-  Creates a repository.
-
-  ## Examples
-
-      iex> create_repository(%{field: value})
-      {:ok, %Repository{}}
-
-      iex> create_repository(%{field: bad_value})
-      {:error, ...}
-
-  """
-  def create_repository(attrs \\ %{}) do
-    raise "TODO"
-  end
-
-  @doc """
-  Updates a repository.
-
-  ## Examples
-
-      iex> update_repository(repository, %{field: new_value})
-      {:ok, %Repository{}}
-
-      iex> update_repository(repository, %{field: bad_value})
-      {:error, ...}
-
-  """
-  def update_repository(repository, attrs) do
-    raise "TODO"
-  end
-
-  @doc """
-  Deletes a Repository.
-
-  ## Examples
-
-      iex> delete_repository(repository)
-      {:ok, %Repository{}}
-
-      iex> delete_repository(repository)
-      {:error, ...}
-
-  """
-  def delete_repository(repository) do
-    raise "TODO"
-  end
-
-  @doc """
   Returns a data structure for tracking repository changes.
 
   ## Examples
@@ -102,7 +51,7 @@ defmodule Librecov.Data do
       %Todo{...}
 
   """
-  def change_repository(repository, _attrs \\ %{}) do
+  def change_repository(_repository, _attrs \\ %{}) do
     raise "TODO"
   end
 end

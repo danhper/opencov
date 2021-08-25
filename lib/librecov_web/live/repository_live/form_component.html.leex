@@ -1,6 +1,6 @@
 <h2><%= @title %></h2>
 
-<%= f = form_for @changeset, "#",
+<%= form_for @changeset, "#",
   id: "repository-form",
   phx_target: @myself,
   phx_change: "validate",

@@ -17,6 +17,17 @@ defmodule Librecov.CommonView do
     end
   end
 
+  def coverage_badge(coverage) do
+    cond do
+      is_nil(coverage) -> "info"
+      is_zero(coverage) -> "info"
+      coverage < 80 -> "danger"
+      coverage < 90 -> "warning"
+      coverage < 100 -> "success"
+      true -> "success"
+    end
+  end
+
   def human_time_ago(datetime) do
     "about " <> Timex.from_now(datetime)
   end

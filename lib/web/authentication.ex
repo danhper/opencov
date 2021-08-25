@@ -23,11 +23,11 @@ defmodule Librecov.Authentication do
     __MODULE__.Plug.sign_out(conn)
   end
 
-  def subject_for_token(resource, claims) do
+  def subject_for_token(resource, _claims) do
     {:ok, to_string(resource.id)}
   end
 
-  def resource_from_claims(%{"sub" => id} = claims) do
+  def resource_from_claims(%{"sub" => id}) do
     case Users.get_user(id) do
       nil -> {:error, :resource_not_found}
       account -> {:ok, account |> Repo.preload([:authorizations])}
@@ -36,6 +36,10 @@ defmodule Librecov.Authentication do
 
   def resource_from_session(%{"guardian_default_token" => token}) do
     __MODULE__.resource_from_token(token)
+  end
+
+  def authenticate(%User{password_digest: nil}, _) do
+    {:error, :dont_have_password}
   end
 
   def authenticate(%User{} = account, password) do

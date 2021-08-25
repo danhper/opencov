@@ -1,8 +1,8 @@
-<div class="social-log-in">
-  <p>Or log in with</p>
-  <%= link(
-    "Github",
+<div class="d-grid">
+<%= link(
     to: Routes.auth_path(@conn, :request, "github"),
-    class: "btn btn-primary btn-lg"
-  ) %>
+    class: "btn btn-secondary btn-h text-uppercase"
+  )  do%>
+    <i class="fab fa-github me-2"></i> Sign in with Github
+  <% end %>
 </div>
