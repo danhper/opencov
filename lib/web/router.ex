@@ -106,6 +106,8 @@ defmodule Librecov.Router do
     put("/settings", SettingsController, :update)
   end
 
+  use Kaffy.Routes, scope: "/admin", pipe_through: [:guardian, :browser_auth]
+
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 

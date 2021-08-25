@@ -90,7 +90,8 @@ defmodule Librecov.Mixfile do
       {:ecto_resource, "~> 1.1.0"},
       {:phoenix_live_view, "~> 0.16.0"},
       {:floki, ">= 0.30.0", only: :test},
-      {:surface, "~> 0.5.0"}
+      {:surface, "~> 0.5.0"},
+      {:kaffy, "~> 0.9.0"}
     ]
   end
 

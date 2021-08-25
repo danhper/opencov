@@ -82,6 +82,11 @@ config :librecov, Librecov.Authentication,
   issuer: "librecov",
   secret_key: System.get_env("GUARDIAN_SECRET_KEY")
 
+config :kaffy,
+  otp_app: :librecov,
+  ecto_repo: Librecov.Repo,
+  router: Librecov.Router
+
 import_config "#{Mix.env()}.exs"
 
 local_config_path = Path.expand("local.exs", __DIR__)
