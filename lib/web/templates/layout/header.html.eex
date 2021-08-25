@@ -16,42 +16,51 @@
       <div class="dropdown d-inline-block ms-2">
         <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img class="rounded-circle" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 24) %>" alt="Header Avatar" style="width: 21px;">
-          <span class="d-none d-sm-inline-block ms-2">Ale</span>
+          <span class="d-none d-sm-inline-block ms-2"><%= Librecov.Authentication.get_current_account(@conn).name |> String.split(" ") |> List.first() %></span>
           <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block ms-1 mt-1"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0" aria-labelledby="page-header-user-dropdown">
           <div class="p-3 text-center bg-body-light border-bottom rounded-top">
             <img class="img-avatar img-avatar48 img-avatar-thumb" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 48) %>" alt="">
-            <p class="mt-2 mb-0 fw-medium">Ale Ornelas</p>
-            <p class="mb-0 text-muted fs-sm fw-medium">Web Developer</p>
+            <p class="mt-2 mb-0 fw-medium"><%= Librecov.Authentication.get_current_account(@conn).name %></p>
+            <p class="mb-0 text-muted fs-sm fw-medium"><%= Librecov.Authentication.get_current_account(@conn).email %></p>
           </div>
           <div class="p-2">
+            <%= if false do %>
             <a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_inbox.html">
               <span class="fs-sm fw-medium">Inbox</span>
               <span class="badge rounded-pill bg-primary ms-2">3</span>
             </a>
-            <a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_profile.html">
-              <span class="fs-sm fw-medium">Profile</span>
-              <span class="badge rounded-pill bg-primary ms-2">1</span>
-            </a>
-            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-              <span class="fs-sm fw-medium">Settings</span>
-            </a>
+            <% end %>
+             <%= if Librecov.Authentication.get_current_account(@conn).admin do %>
+              <%= link to: Routes.admin_dashboard_path(@conn, :index), class: "dropdown-item d-flex align-items-center justify-content-between" do %>
+                  <i class="fas fa-tools"></i> Admin</a>
+                <% end %>
+            <div role="separator" class="dropdown-divider m-0"></div>
+            <% end %>
+            <%= link to: Routes.repository_index_path(@conn, :index), class: "dropdown-item d-flex align-items-center justify-content-between" do %>
+                <span class="fs-sm fw-medium">Repositories</span>
+              <% end %>
+              <%= link to: Routes.profile_path(@conn, :show), class: "dropdown-item d-flex align-items-center justify-content-between" do %>
+                <span class="fs-sm fw-medium">Profile</span>
+              <% end %>
+
           </div>
           <div role="separator" class="dropdown-divider m-0"></div>
           <div class="p-2">
-            <a class="dropdown-item d-flex align-items-center justify-content-between" href="op_auth_lock.html">
-              <span class="fs-sm fw-medium">Lock Account</span>
-            </a>
-            <a class="dropdown-item d-flex align-items-center justify-content-between" href="op_auth_signin.html">
-              <span class="fs-sm fw-medium">Log Out</span>
-            </a>
+              <%= link to: Routes.profile_path(@conn, :edit_password), class: "dropdown-item d-flex align-items-center justify-content-between" do %>
+                <span class="fs-sm fw-medium">Change Password</span>
+              <% end %>
+            <%= link to: Routes.session_path(@conn, :delete), method: :delete, class: "dropdown-item d-flex align-items-center justify-content-between" do %>
+                <span class="fs-sm fw-medium">Log Out</span>
+              <% end %>
           </div>
         </div>
       </div>
       <!-- END User Dropdown -->
 
       <!-- Notifications Dropdown -->
+      <%= if false do %>
       <div class="dropdown d-inline-block ms-2">
         <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-fw fa-bell"></i>
@@ -137,26 +146,12 @@
         </div>
       </div>
       <!-- END Notifications Dropdown -->
+      <% end %>
     </div>
     <!-- END Right Section -->
   </div>
   <!-- END Header Content -->
 
-  <!-- Header Search -->
-  <div id="page-header-search" class="overlay-header bg-body-extra-light">
-    <div class="content-header">
-      <form class="w-100" action="be_pages_generic_search.html" method="POST">
-        <div class="input-group">
-          <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-          <button type="button" class="btn btn-alt-danger" data-toggle="layout" data-action="header_search_off">
-            <i class="fa fa-fw fa-times-circle"></i>
-          </button>
-          <input type="text" class="form-control" placeholder="Search or hit ESC.." id="page-header-search-input" name="page-header-search-input">
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- END Header Search -->
 
   <!-- Header Loader -->
   <!-- Please check out the Loaders page under Components category to see examples of showing/hiding it -->
@@ -169,54 +164,3 @@
   </div>
   <!-- END Header Loader -->
 </header>
-<header class="p-3 bg-dark text-white">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none navbar-brand">
-          <img class="bi me-2" width="32" height="32" role="img" src="<%= Routes.static_path(@conn, "/images/logo.svg") %>" >
-          LibreCov
-        </a>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        </ul>
-
-
-
-        <%= if Librecov.Authentication.authenticated?(@conn) do %>
-        <div class="dropdown text-end">
-          <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img alt="mdo" width="32" height="32" class="rounded-circle" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 24) %>">
-          </a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><span class="dropdown-header"><%= Librecov.Authentication.get_current_account(@conn).name %></a></li>
-            <%= if Librecov.Authentication.get_current_account(@conn).admin do %>
-              <li><%= link to: Routes.admin_dashboard_path(@conn, :index), class: "dropdown-item" do %>
-                  <i class="fas fa-tools"></i> Admin</a>
-                <% end %></li>
-            <li><hr class="dropdown-divider"></li>
-            <% end %>
-            <li><%= link to: Routes.repository_index_path(@conn, :index), class: "dropdown-item" do %>
-                <i class="fas fa-file-code"></i> Repositories</a>
-              <% end %></li>
-              <li><%= link to: Routes.profile_path(@conn, :show), class: "dropdown-item" do %>
-                <i class="fas fa-user-alt"></i> Profile</a>
-              <% end %></li>
-              <li><%= link to: Routes.profile_path(@conn, :edit_password), class: "dropdown-item" do %>
-                <i class="fas fa-lock"></i> Change Password</a>
-              <% end %></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><%= link to: Routes.session_path(@conn, :delete), method: :delete, class: "dropdown-item" do %>
-                <i class="fas fa-sign-out-alt"></i> Sign out</a>
-              <% end %></li>
-          </ul>
-        </div>
-        <% else %>
-        <div class="text-end">
-          <%= link "Login", to: Routes.session_path(@conn, :new), class: "btn btn-outline-light me-2" %>
-          <%= link "Sign-up", to: Routes.registration_path(@conn, :new), class: "btn btn-warning" %>
-        </div>
-        <% end %>
-
-      </div>
-    </div>
-  </header>

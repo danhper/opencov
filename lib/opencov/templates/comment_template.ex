@@ -8,7 +8,7 @@ defmodule Librecov.Templates.CommentTemplate do
   import Librecov.Helpers.Coverage
   import Librecov.Helpers.Number
   alias Librecov.Repo
-  alias Librecov.Queries.BuildQueries
+  alias Librecov.Queries.BuildQueriesa
 
   def coverage_message(
         %Build{
@@ -73,7 +73,7 @@ defmodule Librecov.Templates.CommentTemplate do
       [Continue to review full report at Librecov](#{report_url}).
       > **Legend**
       > `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
-      > Powered by [Librecov](#{Routes.project_url(Endpoint, :index)}).
+      > Powered by [Librecov](#{Routes.repository_index_url(Endpoint, :index)}).
       """
     end
   end
