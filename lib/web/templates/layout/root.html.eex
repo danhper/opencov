@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <%= csrf_meta_tag() %>
@@ -15,8 +15,8 @@
     <link phx-track-static rel="stylesheet" id="css-theme" href="<%= Routes.static_path(@conn, "/css/themes/flat.min.css") %>" />
     <script phx-track-static defer type="text/javascript" src="<%=Routes.static_path(@conn, "/vendor.js") %>"></script>
   </head>
-  <body class="librecov">
-    <div id="page-container" class="page-header-dark main-content-narrow">
+  <body>
+    <div id="page-container" class="side-scroll page-header-dark main-content-narrow">
       <%= render "header.html", conn: @conn %>
       <main id="main-container">
         <%= if get_flash(@conn, :info) do %>

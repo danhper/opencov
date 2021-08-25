@@ -31,27 +31,35 @@ defmodule Librecov.RepositoryLive.RepositoryCard do
     topics = repo.topics || []
 
     ~F"""
-    <div class="card m-2 p-0 col-5">
-      <div class="card-body">
-        <h5 class="card-title font-weight-bold">
+    <div class="block block-rounded block-bordered block-fx-pop">
+      <div class="block-header block-header-default">
+        <h3 class="block-title">
           {#if !is_nil(project.id) }
           <Link
-            class="text-dark"
             label={@repository.full_name}
             to={Routes.repository_show_path(@socket, :show, @repository.owner.login, @repository.name)}
           />
-          <span class={"badge bg-#{coverage_badge(project.current_coverage)} badge-pill"}>{format_coverage(project.current_coverage)}</span>
           {#else}
           {@repository.full_name}
+          {/if}
+        </h3>
+        <div class="block-options">
+          {#if is_nil(project.id) }
           <Link
-            label="Setup"
-            class="btn btn-sm btn-info font-weight-light"
+            class="btn-block-option"
             to={"#{@repository.html_url}/settings/installations"}
             opts={target: "_blank"}
-          />
+          ><i class="si si-settings"></i></Link>
           {/if}
-        </h5>
-        <p class="card-text">{@repository.description}</p>
+        </div>
+      </div>
+      <div class={"block-content block-content-full ribbon ribbon-#{coverage_badge(project.current_coverage)} ribbon-bookmark"}>
+        {#if !is_nil(project.id) }
+        <div class="ribbon-box">
+          {format_coverage(project.current_coverage)}
+        </div>
+        {/if}
+        <p>{@repository.description}</p>
         {#if !is_nil(latest_build) && !is_nil(latest_build.commit_message) }
         <p class="card-text text-muted">
 
@@ -69,13 +77,15 @@ defmodule Librecov.RepositoryLive.RepositoryCard do
           <Link
             label={item}
             to={"https://github.com/topics/#{item}"}
-            class="card-link btn btn-sml"
+            class="badge rounded-pill bg-secondary"
             opts={target: "_blank"}
           />
         {/for}
       </div>
-      <div class="card-footer">
-        <small class="text-muted"><i class="fas fa-code"></i> {repo.language} </small>
+      <div class="block-content bg-light px-4 py-2 m-0">
+        {#if !is_nil(repo.language) }
+        <small class="text-muted pe-2"><i class="fas fa-code"></i> {repo.language} </small>
+        {/if}
         <small class="text-muted"><i class="fas fa-history"></i> Updated {latest_update |> Timex.from_now()}</small>
       </div>
     </div>

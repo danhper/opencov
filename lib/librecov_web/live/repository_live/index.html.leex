@@ -1,19 +1,21 @@
-<%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, Librecov.RepositoryLive.FormComponent,
-    id: @repository.id || :new,
-    title: @page_title,
-    action: @live_action,
-    repository: @repository,
-    return_to: Routes.repository_index_path(@socket, :index) %>
-<% end %>
+<div class="content">
+  <%= if @live_action in [:new, :edit] do %>
+    <%= live_modal @socket, Librecov.RepositoryLive.FormComponent,
+      id: @repository.id || :new,
+      title: @page_title,
+      action: @live_action,
+      repository: @repository,
+      return_to: Routes.repository_index_path(@socket, :index) %>
+  <% end %>
 
-<div class="container">
-  <h2 class="row">
-    <span>Repos</span>
+  <h2 class="content-heading">
+    Repos
   </h2>
   <div class="row">
+    <div class="col-md-6">
       <%= for repository <- @repositories do %>
         <%= live_component Librecov.RepositoryLive.RepositoryCard, repository: repository, projects: @projects %>
       <% end %>
+    </div>
   </div>
 </div>
