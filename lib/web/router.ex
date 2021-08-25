@@ -21,6 +21,10 @@ defmodule Librecov.Router do
     plug Guardian.Plug.EnsureAuthenticated
   end
 
+  pipeline :admin do
+    plug Librecov.Plug.OnlyAdmin
+  end
+
   pipeline :api do
     plug(:accepts, ["json", "txt"])
     plug(OpenApiSpex.Plug.PutApiSpec, module: Librecov.Web.ApiSpec)
@@ -95,8 +99,8 @@ defmodule Librecov.Router do
     resources("/jobs", JobController, only: [:show])
   end
 
-  scope "/admin", Librecov.Admin, as: :admin do
-    pipe_through [:browser, :guardian, :browser_auth]
+  scope "/old_admin", Librecov.Admin, as: :admin do
+    pipe_through [:browser, :guardian, :browser_auth, :admin]
 
     get("/dashboard", DashboardController, :index)
 
@@ -106,7 +110,7 @@ defmodule Librecov.Router do
     put("/settings", SettingsController, :update)
   end
 
-  use Kaffy.Routes, scope: "/admin", pipe_through: [:guardian, :browser_auth]
+  use Kaffy.Routes, scope: "/admin", pipe_through: [:guardian, :browser_auth, :admin]
 
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router

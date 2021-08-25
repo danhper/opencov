@@ -85,7 +85,10 @@ config :librecov, Librecov.Authentication,
 config :kaffy,
   otp_app: :librecov,
   ecto_repo: Librecov.Repo,
-  router: Librecov.Router
+  router: Librecov.Router,
+  admin_title: "Librecov: Code Coverage",
+  admin_logo: "/images/logo.png",
+  admin_logo_mini: "/images/logo.png"
 
 import_config "#{Mix.env()}.exs"
 
