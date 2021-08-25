@@ -13,6 +13,14 @@
     <!-- Right Section -->
     <div class="d-flex align-items-center">
       <!-- User Dropdown -->
+      <%= if is_nil(Librecov.Authentication.get_current_account(@conn)) do %>
+      <div class="d-inline-block ms-2">
+        <%= link to: Routes.session_path(@conn, :new), class: "btn btn-sm btn-alt-secondary d-flex align-items-center" do %>
+          <i class="fas fa-sign-in-alt d-none d-sm-inline-block ms-1 mt-1"></i>
+          <span class="d-none d-sm-inline-block ms-2">Sign In</span>
+        <% end %>
+      </div>
+            <% else %>
       <div class="dropdown d-inline-block ms-2">
         <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img class="rounded-circle" src="<%= gravatar_url(Librecov.Authentication.get_current_account(@conn).email, s: 24) %>" alt="Header Avatar" style="width: 21px;">
@@ -56,6 +64,7 @@
               <% end %>
           </div>
         </div>
+            <% end %>
       </div>
       <!-- END User Dropdown -->
 
