@@ -1,32 +1,81 @@
-<%= form_for @changeset, @action, [class: "full-page"], fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Could not save user, please check the errors below</p>
-    </div>
-  <% end %>
-
-  <%= input(f, :name) %>
-  <%= input(f, :email, attrs: [value: @changeset.data.email || @changeset.data.unconfirmed_email]) %>
-
-  <%= if @show_password do %>
-    <%= input(f, :password, type: :password_input) %>
-    <%= input(f, :password_confirmation, type: :password_input) %>
-  <% end %>
-
-  <%= if @is_admin do %>
-    <%= unless @show_password do %>
-      <div class="password-generated">
-        An email will be sent and the user will enter his password on his first login.
-      </div>
-    <% end %>
-    <div class="form-group checkbox admin">
-      <%= label f, :admin, class: "control-label"  do %>
-        <%= checkbox f, :admin %> Admin
-      <% end %>
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= submit "Save", class: "btn btn-primary" %>
+<div class="block block-rounded">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">User Profile</h3>
   </div>
+  <div class="block-content">
+
+    <%= form_for @changeset, @action, fn f -> %>
+      <%= content_tag :div, class: "row push" do %>
+        <%= if @changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Could not save user, please check the errors below</p>
+          </div>
+        <% end %>
+
+        <div class="col-lg-4">
+          <p class="fs-sm text-muted">
+            Your account’s vital info. Your username will be publicly visible.
+          </p>
+        </div>
+        <div class="col-lg-8 col-xl-5">
+          <div class="mb-4">
+            <%= input f, :name, class: "form-control", placeholder: "Enter your name..", attrs: [value: @changeset.data.name || @changeset.data.name] %>
+            <%= error_tag f, :name %>
+          </div>
+
+          <div class="mb-4">
+            <%= input f, :email, class: "form-control", attrs: [value: @changeset.data.email || @changeset.data.unconfirmed_email] %>
+            <%= error_tag f, :email %>
+          </div>
+
+          <div class="mb-4">
+            <%= submit "Save", class: "btn btn-alt-primary" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<!-- END User Profile -->
+
+<!-- Change Password -->
+<%= if @show_password do %>
+<div class="block block-rounded">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">Change Password</h3>
+  </div>
+  <div class="block-content">
+    <%= form_for @changeset, @action, fn f -> %>
+      <%= content_tag :div, class: "row push" do %>
+        <%= if @changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Could not save user, please check the errors below</p>
+          </div>
+        <% end %>
+
+        <div class="col-lg-4">
+          <p class="fs-sm text-muted">
+            Changing your sign in password is an easy way to keep your account secure.
+          </p>
+        </div>
+        <div class="col-lg-8 col-xl-5">
+          <div class="mb-4">
+            <%= label f, :password, "New Password", class: "form-label" %>
+            <%= password_input f, :password, class: "form-control" %>
+          </div>
+          <div class="row mb-4">
+            <div class="col-12">
+              <%= label f, :password_confirmation, "Confirm New Password", class: "form-label" %>
+              <%= password_input f, :password_confirmation, class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <%= submit "Save", class: "btn btn-alt-primary" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
 <% end %>

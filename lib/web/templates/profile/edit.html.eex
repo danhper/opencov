@@ -1,12 +1,68 @@
-<div class="edit-user">
-  <h2 class="breadcrumb row">
-    <span class="media-body">
-      Profile
-    </span>
-  </h2>
+ <div class="bg-image">
+          <div class="bg-primary-dark-op">
+            <div class="content content-full text-center">
+              <div class="my-3">
+                <img class="img-avatar img-avatar-thumb" src="<%= gravatar_url(@changeset.data.email || @changeset.data.unconfirmed_email, s: 48) %>" alt="">
+              </div>
+              <h1 class="h2 text-white mb-0">Edit Account</h1>
+              <h2 class="h4 fw-normal text-white-75">
+                <%= @changeset.data.name || @changeset.data.name %>
+              </h2>
+              <%= link to: Routes.repository_index_path(@conn, :index), class: "btn btn-alt-secondary" do %>
+                <i class="fa fa-fw fa-arrow-left text-danger"></i> Back to Repositores
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <!-- END Hero -->
 
-  <%= render Librecov.UserView, "form.html", changeset: @changeset,
-                                            action: Routes.profile_path(@conn, :update),
-                                            show_password: false,
-                                            is_admin: false %>
-</div>
+        <!-- Page Content -->
+        <div class="content content-boxed">
+
+
+        <%= render Librecov.UserView, "form.html", changeset: @changeset,
+                                                  action: Routes.profile_path(@conn, :update),
+                                                  show_password: false,
+                                                  is_admin: false %>
+
+          <!-- Connections -->
+          <div class="block block-rounded">
+            <div class="block-header block-header-default">
+              <h3 class="block-title">Connections (Coming Soon)</h3>
+            </div>
+            <div class="block-content">
+              <div class="row push">
+                <div class="col-lg-4">
+                  <p class="fs-sm text-muted">
+                    You can connect your account to third party networks to get extra features.
+                  </p>
+                </div>
+                <div class="col-lg-8 col-xl-7">
+                  <div class="row mb-4">
+                    <div class="col-sm-10 col-md-8 col-xl-6">
+                      <a class="btn w-100 btn-alt-danger text-start" href="javascript:void(0)">
+                        <i class="fab fa-fw fa-gitlab opacity-50 me-1"></i> Connect to Gitlab
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col-sm-10 col-md-8 col-xl-6">
+                      <a class="btn w-100 btn-alt-primary bg-white d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                        <span>
+                          <i class="fab fa-fw fa-github me-1"></i> Luke Skywalker
+                        </span>
+                        <i class="fa fa-fw fa-check me-1"></i>
+                      </a>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-xl-6 mt-1 d-md-flex align-items-md-center fs-sm">
+                      <a class="btn btn-sm btn-alt-secondary rounded-pill" href="javascript:void(0)">
+                        <i class="fa fa-fw fa-pencil-alt me-1"></i> Edit Github Connection
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END Connections -->
+        </div>
