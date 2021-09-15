@@ -9,7 +9,9 @@
   </h2>
 
   <div class="info row">
-    <%= if @project.base_url do %>
+    <%= if @project.base_url &&
+        (String.starts_with?(@project.base_url, "http://") ||
+         String.starts_with?(@project.base_url, "https://")) do %>
       <div class="col-xs-3">
         <%= link to: @project.base_url, class: "inline-block" do %>
           <i class="fa <%= repository_class(@project) %>"></i>
