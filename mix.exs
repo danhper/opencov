@@ -16,7 +16,7 @@ defmodule Opencov.Mixfile do
 
   def application do
     [mod: {Opencov, []},
-     extra_applications: [:logger]]
+     extra_applications: [:logger, :eex]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -25,10 +25,12 @@ defmodule Opencov.Mixfile do
   defp deps do
     [{:phoenix, "~> 1.2"},
      {:phoenix_ecto, "~> 3.2"},
+     {:gen_smtp, "~> 1.1"},
      {:postgrex, "~> 0.13"},
      {:phoenix_html, "~> 2.6"},
      {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"},
+     {:cowboy, "~> 2.7"},
+     {:plug_cowboy, "~> 2.0"},
      {:exgravatar, "~> 2.0"},
      {:secure_random, "~> 0.2"},
      {:temp, "~> 0.4"},
@@ -38,11 +40,11 @@ defmodule Opencov.Mixfile do
      {:basic_auth, "~> 2.0"},
      {:navigation_history, "~> 0.2"},
      {:ex_machina, "~> 2.0"},
-     {:mailman, "~> 0.3"},
-     {:eiconv, github: "zotonic/eiconv"},
+     {:mailman, github: "mailman-elixir/mailman"},
      {:scrivener_html, "~> 1.3"},
      {:secure_password, "~> 0.4"},
      {:seedex, "~> 0.1.3"},
+     {:jason, "~> 1.2"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:excoveralls, "~> 0.6", only: :test},

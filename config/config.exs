@@ -4,9 +4,7 @@ config :opencov, Opencov.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "tfYGCfFfu10pV8G5gtUJ1do3LDwnu+eWBfL1sNtK8+bEwo6gNzFQZtWkdNQVlt+V",
-  render_errors: [accepts: ~w(html json)],
-  pubsub: [name: Opencov.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  render_errors: [accepts: ~w(html json)]
 
 config :opencov,
   badge_format: "svg",
@@ -20,6 +18,8 @@ config :logger, :console,
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+config :phoenix, :json_library, Jason
 
 config :scrivener_html,
   routes_helper: Opencov.Router.Helpers

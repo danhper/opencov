@@ -1,6 +1,6 @@
 defmodule Opencov.Fixtures do
   @coverages_path Path.join(__DIR__, "../fixtures/dummy-coverages.json")
-  @coverages @coverages_path |> File.read! |> Poison.decode!
+  @coverages @coverages_path |> File.read! |> Jason.decode!
 
   def dummy_coverages do
     @coverages
