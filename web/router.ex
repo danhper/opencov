@@ -67,8 +67,11 @@ defmodule Opencov.Router do
 
     get "/profile", ProfileController, :show
     put "/profile", ProfileController, :update
-    get "/profile/password/edit", ProfileController, :edit_password
-    put "/profile/password", ProfileController, :update_password
+
+    if not Opencov.Helpers.Authentication.demo?() do
+      get "/profile/password/edit", ProfileController, :edit_password
+      put "/profile/password", ProfileController, :update_password
+    end
 
     resources "/projects", ProjectController
     resources "/builds", BuildController, only: [:show]

@@ -4,7 +4,8 @@ config :opencov, Opencov.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "tfYGCfFfu10pV8G5gtUJ1do3LDwnu+eWBfL1sNtK8+bEwo6gNzFQZtWkdNQVlt+V",
-  render_errors: [accepts: ~w(html json)]
+  render_errors: [accepts: ~w(html json)],
+  pubsub_server: Opencov.PubSub
 
 config :opencov,
   badge_format: "svg",

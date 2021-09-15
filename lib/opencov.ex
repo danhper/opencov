@@ -11,9 +11,8 @@ defmodule Opencov do
       {Opencov.Endpoint, []},
       # Start the Ecto repository
       {Opencov.Repo, []},
+
       {Phoenix.PubSub, [name: Opencov.PubSub, adapter: Phoenix.PubSub.PG2]}
-      # Here you could define other workers and supervisors as children
-      # worker(Opencov.Worker, [arg1, arg2, arg3]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
