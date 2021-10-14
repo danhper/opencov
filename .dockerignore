@@ -3,4 +3,5 @@ deps
 node_modules
 .git
 .tags
+postgresql-data
 priv/static/js
