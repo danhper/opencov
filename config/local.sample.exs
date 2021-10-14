@@ -7,7 +7,7 @@ config :opencov, Opencov.Endpoint,
 
 config :opencov, Opencov.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url: "postgres://postgres:112233@postgres/opencov_prod",
+  url: "postgres://postgres:112233@postgres/opencov_prod?ssl=false",
   pool_size: 20
 
 config :opencov, :email,
