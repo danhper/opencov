@@ -9,10 +9,13 @@ defmodule Opencov.ProjectManager do
   @optional_fields ~w(token current_coverage)a
 
   def changeset(model, params \\ :invalid) do
+    model |> edit_changeset(params) |> generate_token
+  end
+
+  def edit_changeset(model, params \\ :invalid) do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> generate_token
   end
 
   def generate_token(changeset) do

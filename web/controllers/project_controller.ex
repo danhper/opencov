@@ -39,13 +39,13 @@ defmodule Opencov.ProjectController do
 
   def edit(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
-    changeset = ProjectManager.changeset(project)
+    changeset = ProjectManager.edit_changeset(project)
     render(conn, "edit.html", project: project, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "project" => project_params}) do
     project = Repo.get!(Project, id)
-    changeset = ProjectManager.changeset(project, project_params)
+    changeset = ProjectManager.edit_changeset(project, project_params)
 
     case Repo.update(changeset) do
       {:ok, project} ->
