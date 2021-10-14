@@ -1,4 +1,4 @@
-FROM elixir:1.5-alpine
+FROM elixir:1.12-alpine
 
 RUN apk add --update-cache build-base git postgresql-client nodejs yarn
 

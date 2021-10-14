@@ -57,6 +57,7 @@ defmodule Opencov.JobManager do
   def create_from_json!(build, params) do
     {source_files, params} = Map.pop(params, "source_files", [])
     params = Map.put(params, "files_count", Enum.count(source_files))
+    params = Map.update(params, "run_at", nil, fn time -> String.replace(time, " +", "+") end)
     job = Ecto.build_assoc(build, :jobs) |> changeset(params) |> Repo.insert!
     Enum.each source_files, fn file_params ->
       Ecto.build_assoc(job, :files) |> FileManager.changeset(file_params) |> Repo.insert!
