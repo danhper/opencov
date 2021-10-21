@@ -1,14 +1,12 @@
 <div class="single-build">
   <h2 class="row breadcrumb">
-    <span class="media-body">
-      <%= link @build.project.name, to: project_path(@conn, :show, @build.project) %>
-      <span class="separator">></span>
-      <span class="build-number">
-        #<%= @build.build_number %>
-      </span>
-    </span>
-    <span class="coverage media-right <%= coverage_color(@build.coverage) %>">
+    <div class="coverage pull-right <%= coverage_color(@build.coverage) %>">
       <%= format_coverage(@build.coverage) %>
+    </div>
+    <%= link @build.project.name, to: project_path(@conn, :show, @build.project) %>
+    <span class="separator">></span>
+    <span class="build-number">
+      #<%= @build.build_number %>
     </span>
   </h2>
 

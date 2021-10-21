@@ -1,11 +1,9 @@
 <div class="single-project">
   <h2 class="row  breadcrumb">
-    <span class="media-body">
-      <%= @project.name %>
-    </span>
-    <span class="coverage media-right <%= coverage_color(@project.current_coverage) %>">
+    <div class="coverage pull-right <%= coverage_color(@project.current_coverage) %>">
       <%= format_coverage(@project.current_coverage) %>
-    </span>
+    </div>
+    <%= @project.name %>
   </h2>
 
   <div class="info row">
@@ -37,7 +35,7 @@
     </div>
   </div>
 
-  <h2>Recent builds</h2>
+  <h3>Recent builds</h3>
 
   <table class="table builds">
     <thead>
