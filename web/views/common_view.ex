@@ -1,5 +1,5 @@
 defmodule Opencov.CommonView do
-  def format_coverage(num) when is_float(num), do: "#{Float.round(num, 1)}%"
+  def format_coverage(num) when is_float(num), do: "#{Decimal.round(Decimal.from_float(num), 2)}%"
   def format_coverage(_), do: "NA"
 
   def coverage_color(coverage) do
