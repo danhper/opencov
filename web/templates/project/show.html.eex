@@ -40,10 +40,10 @@
   <table class="table builds">
     <thead>
       <tr>
-        <th>Build</th>
+        <th class="text-right">Build</th>
         <th>Branch</th>
-        <th>Coverage</th>
-        <th>Diff</th>
+        <th class="text-right">Coverage</th>
+        <th class="text-right">Diff</th>
         <th>Commit</th>
         <th>Committer</th>
         <th>Time</th>
@@ -53,12 +53,12 @@
     <tbody>
   <%= for build <- @project.builds do %>
       <tr>
-        <td><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
+        <td class="text-right"><a href="/builds/<%= build.id %>">#<%= build.build_number %></a></td>
         <td><%= build.branch %></td>
-        <td>
+        <td class="text-right">
           <%= format_coverage(build.coverage) %>
         </td>
-        <td>
+        <td class="text-right">
           <%= if build.previous_coverage do %>
             <%= render Opencov.SharedView, "coverage_diff.html", diff: build.coverage - build.previous_coverage %>
           <% end %>

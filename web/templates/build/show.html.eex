@@ -31,27 +31,27 @@
     <table class="table jobs">
       <thead>
         <tr>
-          <th>Number</th>
-          <th>Coverage</th>
-          <th>Diff</th>
+          <th class="text-right">Number</th>
+          <th class="text-right">Coverage</th>
+          <th class="text-right">Diff</th>
           <th>Run time</th>
-          <th>Files count</th>
+          <th class="text-right">Files count</th>
         </tr>
       </thead>
       <tbody>
         <%= for job <- @build.jobs do %>
         <tr>
-          <td><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
-          <td>
+          <td class="text-right"><%= link "##{job.job_number}", to: job_path(@conn, :show, job) %></td>
+          <td class="text-right">
             <%= format_coverage(job.coverage) %>
           </td>
-          <td>
+          <td class="text-right">
             <%= if job.previous_coverage do %>
               <%= render Opencov.SharedView, "coverage_diff.html", diff: job.coverage - job.previous_coverage %>
             <% end %>
           </td>
           <td><%= job |> Opencov.JobView.job_time |> human_time_ago %></td>
-          <td><%= job.files_count %></td>
+          <td class="text-right"><%= job.files_count %></td>
         </tr>
         <% end %>
       </tbody>
