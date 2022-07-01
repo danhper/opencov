@@ -24,6 +24,7 @@ defmodule Opencov.Mixfile do
 
   defp deps do
     [{:phoenix, "~> 1.2"},
+     {:phoenix_pubsub, "~> 2.1"},
      {:phoenix_ecto, "~> 3.2"},
      {:gen_smtp, "~> 1.1"},
      {:postgrex, "~> 0.13"},

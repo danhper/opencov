@@ -10,7 +10,7 @@ defmodule Opencov do
       # Start the endpoint when the application starts
       {Opencov.Endpoint, []},
       # Start the Ecto repository
-      {OpenIDConnect.Worker, [Application.get_env(:opencov, :openid_connect_providers)]},
+      worker(OpenIDConnect.Worker, [Application.get_env(:opencov, :openid_connect_providers)]),
       {Opencov.Repo, []},
 
       {Phoenix.PubSub, [name: Opencov.PubSub, adapter: Phoenix.PubSub.PG2]}

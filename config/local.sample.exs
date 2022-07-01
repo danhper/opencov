@@ -28,7 +28,7 @@ config :phoenix, :json_library, Poison
 
 config :opencov, :openid_connect_providers,
   keycloak: [
-    discovery_document_uri: "https://access.thon.org/realms/THON/.well-known/openid-configuration",
+    discovery_document_uri: "https://access.thon.org/auth/realms/THON/.well-known/openid-configuration",
     client_id: "opencov",
     client_secret: "KEYCLOAK_SECRET",
     redirect_uri: "SCHEME://URLHOST/login/callback",
@@ -47,11 +47,11 @@ config :opencov,
     "tech.all"
   ]
 
-config :phoenix_live_reload,
-  dirs: [
-    "lib/opencov",
-  ],
-  backend: :fs_poll,
-  backend_opts: [
-    interval: 500
-  ]
+# config :phoenix_live_reload,
+#   dirs: [
+#     "lib/opencov",
+#   ],
+#   backend: :fs_poll,
+#   backend_opts: [
+#     interval: 500
+#   ]
