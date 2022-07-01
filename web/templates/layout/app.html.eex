@@ -28,10 +28,10 @@
   </div>
 
     <main class="container">
-      <%= render @view_module, @view_template, assigns %>
+      <%= @inner_content %>
     </main>
   </div>
-
+  
   <div class="footer">
     Powered by a fork of <a href="https://github.com/danhper/opencov">OpenCov</a>. © THON Technology
   </div>

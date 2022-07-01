@@ -34,10 +34,10 @@
     <tbody>
   <%= for file <- @files do %>
       <tr>
-        <td>
+        <td class="text-right">
           <%= format_coverage(file.coverage) %>
         </td>
-        <td>
+        <td class="text-right">
           <%= if file.previous_coverage do %>
             <%= render Opencov.SharedView, "coverage_diff.html", diff: file.coverage - file.previous_coverage %>
           <% end %>

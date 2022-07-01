@@ -3,6 +3,7 @@ deps
 node_modules
 .git
 .tags
+postgresql-data
 priv/static/js
 mix.lock
 config/local.exs

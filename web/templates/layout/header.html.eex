@@ -28,12 +28,14 @@
                 Profile
               <% end %>
             </li>
-            <li>
-              <%= link to: profile_path(@conn, :edit_password) do %>
-                <i class="fa fa-lock"></i>
-                Change password
-              <% end %>
-            </li>
+            <%= if not demo?() do %>
+              <li>
+                <%= link to: profile_path(@conn, :edit_password) do %>
+                  <i class="fa fa-lock"></i>
+                  Change password
+                <% end %>
+              </li>
+            <% end %>
             <li role="separator" class="divider"></li>
             <li>
               <%= link to: auth_path(@conn, :logout), method: :delete do %>

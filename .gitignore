@@ -11,6 +11,5 @@ config/local.exs
 *.coverdata
 
 *.dump
-sp.crt
-sp.key
-keycloak.xml
+
+postgresql-data

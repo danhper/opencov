@@ -3,12 +3,12 @@ defmodule Opencov.File do
 
   import Ecto.Query
 
-  defimpl Poison.Encoder, for: Opencov.File do
+  defimpl Jason.Encoder, for: Opencov.File do
     def encode(model, opts) do
       model
         |> Map.take([:name, :source])
         |> Map.put(:coverage, model.coverage_lines)
-        |> Poison.Encoder.encode(opts)
+        |> Jason.Encoder.encode(opts)
     end
   end
 

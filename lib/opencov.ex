@@ -8,12 +8,12 @@ defmodule Opencov do
 
     children = [
       # Start the endpoint when the application starts
-      supervisor(Opencov.Endpoint, []),
+      {Opencov.Endpoint, []},
       # Start the Ecto repository
-      worker(Opencov.Repo, []),
-      # Here you could define other workers and supervisors as children
-      # worker(Opencov.Worker, [arg1, arg2, arg3]),
-      worker(OpenIDConnect.Worker, [Application.get_env(:opencov, :openid_connect_providers)]),
+      {OpenIDConnect.Worker, [Application.get_env(:opencov, :openid_connect_providers)]},
+      {Opencov.Repo, []},
+
+      {Phoenix.PubSub, [name: Opencov.PubSub, adapter: Phoenix.PubSub.PG2]}
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

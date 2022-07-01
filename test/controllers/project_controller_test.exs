@@ -54,9 +54,11 @@ defmodule Opencov.ProjectControllerTest do
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     project = insert(:project)
+    previous_token = project.token
     conn = put conn, project_path(conn, :update, project), project: @valid_attrs
     assert redirected_to(conn) == project_path(conn, :show, project)
-    assert Repo.get_by(Project, @valid_attrs)
+    project = Repo.get_by(Project, @valid_attrs)
+    assert project.token == previous_token
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
