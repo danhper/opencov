@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -7,14 +7,19 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :opencov, Opencov.Endpoint,
-  http: [port: System.get_env("PORT") || 4000],
+  http: [port: String.to_integer(System.get_env("PORT", "4000"))],
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
   check_origin: false,
   watchers: [
-    {Path.expand("node_modules/webpack/bin/webpack.js"), [
-      "--watch", "--colors", "--progress", cd: Path.expand("../", __DIR__)]}
+    {Path.expand("node_modules/webpack/bin/webpack.js"),
+     [
+       "--watch",
+       "--colors",
+       "--progress",
+       cd: Path.expand("../", __DIR__)
+     ]}
   ]
 
 # Watch static and templates for browser reloading.
@@ -42,9 +47,9 @@ config :opencov, Opencov.Repo,
   username: "postgres",
   password: "postgres",
   database: "opencov_dev",
-  hostname: "localhost",
+  hostname: System.get_env("PGHOST", "localhost"),
+  port: String.to_integer(System.get_env("PGPORT", "5432")),
   pool_size: 10
-
 
 config :opencov, :email,
   sender: "OpenCov <info@opencov.com>",

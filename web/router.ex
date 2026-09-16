@@ -10,9 +10,7 @@ defmodule Opencov.Router do
     plug Opencov.Plug.FetchUser
     plug Opencov.Plug.ForcePasswordInitialize
     plug NavigationHistory.Tracker, excluded_paths: ~w(/login /users/new)
-    if Application.get_env(:opencov, :auth)[:enable] do
-      plug BasicAuth, use_config: {:opencov, :auth}
-    end
+    plug Opencov.Plug.BasicAuth
   end
 
   pipeline :anonymous_only do

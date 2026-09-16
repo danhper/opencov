@@ -4,15 +4,10 @@ defmodule Opencov do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
     children = [
-      # Start the endpoint when the application starts
-      {Opencov.Endpoint, []},
-      # Start the Ecto repository
       {Opencov.Repo, []},
-
-      {Phoenix.PubSub, [name: Opencov.PubSub, adapter: Phoenix.PubSub.PG2]}
+      {Phoenix.PubSub, name: Opencov.PubSub},
+      {Opencov.Endpoint, []}
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

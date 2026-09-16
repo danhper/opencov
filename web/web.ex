@@ -19,7 +19,7 @@ defmodule Opencov.Web do
   def model do
     quote do
       use Ecto.Schema
-      use Timex.Ecto.Timestamps
+      @timestamps_opts [type: :utc_datetime]
       use Opencov.Core
 
       import Ecto.Changeset
@@ -44,7 +44,7 @@ defmodule Opencov.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller
+      use Phoenix.Controller, formats: [html: "View", json: "View"], layouts: [html: Opencov.LayoutView]
 
       alias Opencov.Repo
       import Ecto.Query, only: [from: 1, from: 2]
@@ -61,7 +61,8 @@ defmodule Opencov.Web do
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
 
       # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
+      use PhoenixHTMLHelpers
+      import Phoenix.HTML
 
       import Opencov.Router.Helpers
       import Opencov.ErrorHelpers

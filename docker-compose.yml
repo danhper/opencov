@@ -1,16 +1,21 @@
-version: '2'
-
 services:
   postgres:
-    image: postgres:9.5
+    image: postgres:17
     volumes:
-      - ./postgresql-data:/var/lib/postgresql/data/pgdata
+      - ./postgresql-data/17:/var/lib/postgresql/data
     environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: 112233
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   opencov:
-    image: danhper/opencov:latest
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
       - "4000:4000"
     volumes:

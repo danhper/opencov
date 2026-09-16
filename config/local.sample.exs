@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :opencov, Opencov.Endpoint,
   http: [port: 4000],

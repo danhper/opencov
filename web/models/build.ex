@@ -12,7 +12,7 @@ defmodule Opencov.Build do
     field :coverage, :float, default: 0.0
     field :completed, :boolean, default: true
     field :previous_coverage, :float
-    field :build_started_at, :utc_datetime
+    field :build_started_at, :utc_datetime_usec
 
     field :commit_sha, :string
     field :committer_name, :string

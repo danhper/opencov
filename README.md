@@ -67,14 +67,21 @@ This will start the server on the port you set in `local.exs`.
 
 If you do not have a database, you can start one with `docker` and `docker-compose`. See [docker-compose.yml](https://github.com/danhper/opencov/blob/master/docker-compose.yml) for a sample `docker-compose.yml` file.
 
+The sample builds OpenCov locally and uses PostgreSQL 17. Existing PostgreSQL 9.5
+data needs a dump/restore into the new database; the sample uses a separate data directory.
+
 Once you have your `docker-compose.yml` and `local.exs` ready, you can run
 
 ```
-$ docker-compose run opencov mix ecto.setup
-$ docker-compose up
+$ docker compose run --rm opencov mix ecto.setup
+$ docker compose up --build
 ```
 
 ### Manually
+
+Use Elixir 1.20 and Erlang/OTP 29 (pinned in `.tool-versions`), Node.js,
+and PostgreSQL 17 or newer. With [mise](https://mise.jdx.dev/), run `mise install`
+and prefix the commands below with `mise exec --` if mise is not activated in your shell.
 
 ```
 $ git clone https://github.com/danhper/opencov.git
@@ -84,7 +91,7 @@ $ cp /path/to/local.exs config/local.exs # local.exs must be in the `config` dir
 $ npm install # (or yarn install)
 $ mix deps.get
 $ mix ecto.setup
-$ mix phoenix.server
+$ mix phx.server
 ```
 
 This should start OpenCov at port 4000.
@@ -97,6 +104,18 @@ $ mix assets.compile
 ```
 
 before starting the server.
+
+### Running tests
+
+The suite creates and migrates `opencov_test`, then loads the seed data.
+Start PostgreSQL with username/password `postgres`/`postgres`, then run:
+
+```sh
+mise exec -- mix deps.get
+mise exec -- mix test
+```
+
+For a database on a different host or port, set `PGHOST` and `PGPORT`.
 
 ### Deploying to Heroku
 

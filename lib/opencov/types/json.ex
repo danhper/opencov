@@ -1,5 +1,5 @@
 defmodule Opencov.Types.JSON do
-  @behaviour Ecto.Type
+  use Ecto.Type
 
   def type, do: :json
 

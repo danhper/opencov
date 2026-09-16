@@ -39,12 +39,12 @@ defmodule Opencov.File do
   def sort_by(query, param, order) do
     order = if __schema__(:type, param) == :string,
       do: order,
-      else: reverse_order(order)
+      else: reverse_direction(order)
     query |> order_by([f], [{^order, field(f, ^param)}])
   end
 
-  defp reverse_order(:asc), do: :desc
-  defp reverse_order(:desc), do: :asc
+  defp reverse_direction(:asc), do: :desc
+  defp reverse_direction(:desc), do: :asc
 
   def for_job(query \\ Opencov.File, job)
 

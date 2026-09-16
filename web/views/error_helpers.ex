@@ -2,7 +2,7 @@ defmodule Opencov.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
-  use Phoenix.HTML
+  use PhoenixHTMLHelpers
 
   @doc """
   Generates tag for inlined form input errors.

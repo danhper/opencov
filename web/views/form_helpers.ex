@@ -1,7 +1,7 @@
 defmodule Opencov.FormHelpers do
   import Opencov.ErrorHelpers
-  import Phoenix.HTML.Tag
-  import Phoenix.HTML.Form
+  import PhoenixHTMLHelpers.Tag
+  import PhoenixHTMLHelpers.Form
 
   @input_default_opts [label: [], type: :text_input, attrs: [], args: []]
 
@@ -27,7 +27,7 @@ defmodule Opencov.FormHelpers do
   defp make_input_tag(form, field, opts) do
     {mod, fun} = case opts[:type] do
       {_mod, _fun} = type -> type
-      fun -> {Phoenix.HTML.Form, fun}
+      fun -> {PhoenixHTMLHelpers.Form, fun}
     end
     args = [form, field] ++ opts[:args] ++ [add_class(opts[:attrs], "form-control")]
     apply(mod, fun, args)

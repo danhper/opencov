@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
@@ -7,13 +7,11 @@ config :opencov, Opencov.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :warning
 
 config :excoveralls, :endpoint, System.get_env("COVERALLS_ENDPOINT") || "http://demo.opencov.com"
 
-config :comeonin,
-  bcrypt_log_rounds: 4,
-  pbkdf2_rounds: 1
+config :bcrypt_elixir, log_rounds: 4
 
 # Configure your database
 config :opencov, Opencov.Repo,
@@ -21,5 +19,6 @@ config :opencov, Opencov.Repo,
   username: "postgres",
   password: "postgres",
   database: "opencov_test",
-  hostname: "localhost",
+  hostname: System.get_env("PGHOST", "localhost"),
+  port: String.to_integer(System.get_env("PGPORT", "5432")),
   pool: Ecto.Adapters.SQL.Sandbox
