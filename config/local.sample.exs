@@ -20,4 +20,7 @@ config :opencov, :email,
     ssl: false,
     tls: :always,
     auth: :always
+    # When TLS/SSL is used, the server certificate is verified against the
+    # system CA store. Extra Erlang `:ssl` options can be given with e.g.
+    # tls_options: [verify: :verify_none]
   ]
