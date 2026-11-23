@@ -49,7 +49,17 @@ defmodule Opencov.ProjectControllerTest do
   test "renders form for editing chosen resource", %{conn: conn} do
     project = insert(:project)
     conn = get conn, project_path(conn, :edit, project)
-    assert html_response(conn, 200) =~ project.name
+    html = html_response(conn, 200)
+    assert html =~ project.name
+    assert html =~ "Commit URL template"
+  end
+
+  test "updates the commit URL template", %{conn: conn} do
+    project = insert(:project)
+    template = "https://git.example.com/repo/commits/{sha}"
+    conn = put conn, project_path(conn, :update, project), project: %{commit_url_template: template}
+    assert redirected_to(conn) == project_path(conn, :show, project)
+    assert Repo.get!(Project, project.id).commit_url_template == template
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do

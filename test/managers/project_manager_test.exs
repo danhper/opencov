@@ -43,4 +43,16 @@ defmodule Opencov.ProjectManagerTest do
     assert Repo.get!(Opencov.Build, build.id).coverage == job.coverage
     assert Repo.get!(Opencov.Project, project.id).current_coverage == job.coverage
   end
+
+  test "accepts a commit URL template containing {sha}" do
+    params = %{name: "p", base_url: "https://git.example.com/p", commit_url_template: "https://git.example.com/p/commits/{sha}"}
+    assert ProjectManager.changeset(%Opencov.Project{}, params).valid?
+  end
+
+  test "rejects a commit URL template without {sha}" do
+    params = %{name: "p", base_url: "https://git.example.com/p", commit_url_template: "https://git.example.com/p/commits/"}
+    changeset = ProjectManager.changeset(%Opencov.Project{}, params)
+    refute changeset.valid?
+    assert changeset.errors[:commit_url_template]
+  end
 end

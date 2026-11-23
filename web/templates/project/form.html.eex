@@ -7,6 +7,12 @@
 
   <%= input(f, :name) %>
   <%= input(f, :base_url) %>
+  <%= input(f, :commit_url_template, attrs: [placeholder: "https://git.example.com/project/repo/commits/{sha}"]) %>
+  <p class="help-block">
+    Optional. Only needed when commit links are wrong for your git host
+    (GitHub, GitLab and bitbucket.org are detected automatically).
+    <code>{sha}</code> is replaced with the commit hash.
+  </p>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>

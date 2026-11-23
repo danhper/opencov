@@ -3,3 +3,6 @@ msgstr "Name"
 
 msgid "base_url"
 msgstr "URL"
+
+msgid "commit_url_template"
+msgstr "Commit URL template"

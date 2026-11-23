@@ -32,15 +32,31 @@ defmodule Opencov.CommonViewTest do
   test "repository_class" do
     assert repository_class(build(:project, base_url: "https://github.com/tuvistavie/opencov")) == "fa-github"
     assert repository_class(build(:project, base_url: "https://bitbucket.org/tuvistavie/opencov")) == "fa-bitbucket"
-    assert repository_class(build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")) == "fa-database"
+    assert repository_class(build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")) == "fa-gitlab"
+    assert repository_class(build(:project, base_url: "https://gitlab.example.com/group/opencov")) == "fa-gitlab"
+    assert repository_class(build(:project, base_url: "https://git.example.com/opencov")) == "fa-database"
   end
 
   test "commit_link" do
     project = build(:project, base_url: "https://github.com/tuvistavie/opencov")
     assert commit_link(project, "foobar") == "https://github.com/tuvistavie/opencov/commit/foobar"
     project = build(:project, base_url: "https://gitlab.com/tuvistavie/opencov")
-    assert commit_link(project, "foobar") == "https://gitlab.com/tuvistavie/opencov/commit/foobar"
+    assert commit_link(project, "foobar") == "https://gitlab.com/tuvistavie/opencov/-/commit/foobar"
+    project = build(:project, base_url: "https://gitlab.example.com/group/opencov/")
+    assert commit_link(project, "foobar") == "https://gitlab.example.com/group/opencov/-/commit/foobar"
     project = build(:project, base_url: "https://bitbucket.org/tuvistavie/opencov")
     assert commit_link(project, "foobar") == "https://bitbucket.org/tuvistavie/opencov/commits/foobar"
+  end
+
+  test "commit_link uses the commit URL template when set" do
+    project = build(:project,
+      base_url: "https://bitbucket.example.com/projects/P/repos/opencov/browse",
+      commit_url_template: "https://bitbucket.example.com/projects/P/repos/opencov/commits/{sha}")
+    assert commit_link(project, "foobar") == "https://bitbucket.example.com/projects/P/repos/opencov/commits/foobar"
+  end
+
+  test "commit_link ignores a blank commit URL template" do
+    project = build(:project, base_url: "https://github.com/tuvistavie/opencov", commit_url_template: "")
+    assert commit_link(project, "foobar") == "https://github.com/tuvistavie/opencov/commit/foobar"
   end
 end

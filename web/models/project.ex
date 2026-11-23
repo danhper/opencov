@@ -8,6 +8,7 @@ defmodule Opencov.Project do
     field :token, :string
     field :current_coverage, :float
     field :base_url, :string
+    field :commit_url_template, :string
 
     belongs_to :user, Opencov.User
     has_many :builds, Opencov.Build

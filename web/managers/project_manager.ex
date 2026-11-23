@@ -6,7 +6,7 @@ defmodule Opencov.ProjectManager do
   import Ecto.Query
 
   @required_fields ~w(name base_url)a
-  @optional_fields ~w(token current_coverage)a
+  @optional_fields ~w(token current_coverage commit_url_template)a
 
   def changeset(model, params \\ :invalid) do
     model |> edit_changeset(params) |> generate_token
@@ -16,6 +16,15 @@ defmodule Opencov.ProjectManager do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> validate_commit_url_template
+  end
+
+  defp validate_commit_url_template(changeset) do
+    validate_change changeset, :commit_url_template, fn _, template ->
+      if String.contains?(template, "{sha}"),
+        do: [],
+        else: [commit_url_template: "must contain {sha}, e.g. https://git.example.com/repo/commits/{sha}"]
+    end
   end
 
   def generate_token(changeset) do
