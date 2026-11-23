@@ -34,4 +34,17 @@ defmodule Opencov.FileTest do
     refute file.id in Enum.map(cov_changed, &(&1.id))
     assert file.id in Enum.map(changed, &(&1.id))
   end
+
+  test "changed filter compares source digests" do
+    project = insert(:project)
+    previous_job = insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 1))
+    job = insert(:job, job_number: 1, build: insert(:build, project: project, build_number: 2))
+    insert(:file, job: previous_job, name: "same", source: "", source_digest: "abc")
+    insert(:file, job: previous_job, name: "other", source: "", source_digest: "abc")
+    same = insert(:file, job: job, name: "same", source: "", source_digest: "abc")
+    other = insert(:file, job: job, name: "other", source: "", source_digest: "def")
+    changed = File |> File.with_filters(["changed"]) |> Opencov.Repo.all |> Enum.map(&(&1.id))
+    refute same.id in changed
+    assert other.id in changed
+  end
 end

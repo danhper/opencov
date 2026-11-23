@@ -17,6 +17,7 @@ defmodule Opencov.File do
   schema "files" do
     field :name, :string
     field :source, :string
+    field :source_digest, :string
     field :coverage, :float
     field :previous_coverage, :float
     field :coverage_lines, Opencov.Types.JSON
@@ -61,7 +62,7 @@ defmodule Opencov.File do
   def with_filter(query, "changed") do
     query
     |> join(:left, [f], of in assoc(f, :previous_file))
-    |> where([f, of], f.source != of.source or is_nil(of.source))
+    |> where([f, of], f.source_digest != of.source_digest or is_nil(of.source_digest))
   end
   def with_filter(query, "covered"), do: query |> where([f], f.coverage > 0.0)
   def with_filter(query, "unperfect"), do: query |> where([f], f.coverage < 100.0)

@@ -3,13 +3,18 @@ defmodule Opencov.FileManager do
   import Opencov.File
   alias Opencov.File
 
-  @required_fields ~w(name source coverage_lines)a
-  @optional_fields ~w(job_id)a
+  @required_fields ~w(name coverage_lines)a
+  # `source` may be empty (e.g. an empty Python `__init__.py`) or missing
+  # entirely when the client only sends `source_digest`, as newer coveralls
+  # clients do.
+  @optional_fields ~w(job_id source source_digest)a
 
   def changeset(model, params \\ :invalid) do
     model
-    |> cast(normalize_params(params), @required_fields ++ @optional_fields)
+    |> cast(normalize_params(params), @required_fields ++ @optional_fields, empty_values: [nil])
     |> validate_required(@required_fields)
+    |> put_default_source
+    |> put_source_digest
     |> generate_coverage
     |> prepare_changes(&set_previous_file/1)
   end
@@ -19,6 +24,20 @@ defmodule Opencov.FileManager do
     Map.put(params, "coverage_lines", lines)
   end
   defp normalize_params(params), do: params
+
+  defp put_default_source(changeset) do
+    if is_nil(get_field(changeset, :source)),
+      do: put_change(changeset, :source, ""),
+      else: changeset
+  end
+
+  defp put_source_digest(changeset) do
+    case {get_change(changeset, :source), get_change(changeset, :source_digest)} do
+      {source, nil} when is_binary(source) ->
+        put_change(changeset, :source_digest, Base.encode16(:crypto.hash(:md5, source), case: :lower))
+      _ -> changeset
+    end
+  end
 
   defp generate_coverage(changeset) do
     case get_change(changeset, :coverage_lines) do
