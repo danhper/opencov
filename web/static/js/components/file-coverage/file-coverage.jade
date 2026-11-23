@@ -1,5 +1,7 @@
 table.table.source
-  caption { file.name }
+  caption
+    | { file.name }
+    small.text-muted(if="{ !hasSource }")  (source not uploaded)
   tbody
     tr(
       each="{ line, i in coverageInfo }"

@@ -49,4 +49,18 @@ defmodule Opencov.Api.V1.JobControllerTest do
     assert Opencov.Build.for_commit(project, data["git"]) |> Opencov.Repo.first
     File.rm! file_path
   end
+
+  test "accepts files without source (#10, #13)", %{conn: conn} do
+    project = insert(:project)
+    source_files = [
+      %{"name" => "lib/example.rb", "source_digest" => "1eb14b3a053f951ca925f2fd4d633eeb", "coverage" => [nil, 1, 1, 0]},
+      %{"name" => "pkg/__init__.py", "source" => "", "coverage" => [nil]}
+    ]
+    data = Opencov.Fixtures.dummy_coverage
+      |> Map.put("repo_token", project.token)
+      |> Map.put("source_files", source_files)
+    payload = Jason.encode!(%{json: Jason.encode!(data)})
+    conn = post conn, api_v1_job_path(conn, :create), payload
+    assert json_response(conn, 200)
+  end
 end

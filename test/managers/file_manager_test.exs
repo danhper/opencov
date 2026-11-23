@@ -16,6 +16,26 @@ defmodule Opencov.FileManagerTest do
     refute changeset.valid?
   end
 
+  test "changeset accepts an empty source (#13)" do
+    params = %{"name" => "pkg/__init__.py", "source" => "", "coverage" => [nil], "job_id" => 1}
+    assert FileManager.changeset(%File{}, params).valid?
+  end
+
+  test "changeset accepts source_digest instead of source (#10)" do
+    params = %{"name" => "lib/example.rb", "source_digest" => "1eb14b3a053f951ca925f2fd4d633eeb",
+               "coverage" => [nil, 1, 1, 0], "job_id" => 1}
+    changeset = FileManager.changeset(%File{}, params)
+    assert changeset.valid?
+    assert Ecto.Changeset.get_field(changeset, :source_digest) == "1eb14b3a053f951ca925f2fd4d633eeb"
+  end
+
+  test "changeset computes source_digest from source" do
+    params = %{"name" => "a.rb", "source" => "return 0", "coverage" => [1], "job_id" => 1}
+    changeset = FileManager.changeset(%File{}, params)
+    assert Ecto.Changeset.get_field(changeset, :source_digest) ==
+      Base.encode16(:crypto.hash(:md5, "return 0"), case: :lower)
+  end
+
   test "empty coverage" do
     file = insert(:file, coverage_lines: [])
     assert file.coverage == 0
